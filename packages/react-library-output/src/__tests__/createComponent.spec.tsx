@@ -1,7 +1,7 @@
 import React from 'react';
 import { Components } from '@ionic/core';
-import { createReactComponent } from '../createComponent';
-import { render, fireEvent, cleanup } from 'react-testing-library';
+import { createReactComponent } from '../resources/createComponent';
+import { cleanup, fireEvent, render } from 'react-testing-library';
 
 afterEach(cleanup);
 
