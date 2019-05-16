@@ -9,7 +9,7 @@
     "dist/"
   ],
   "scripts": {
-    "prebuild": "rimraf ./dist && npm run test && npm run lint",
+    "prebuild": "rimraf ./dist && npm run lint",
     "build": "tsc && npm run rollup",
     "watch": "tsc --watch",
     "rollup": "rollup -c",
