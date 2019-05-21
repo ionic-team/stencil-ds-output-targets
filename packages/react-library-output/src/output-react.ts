@@ -27,8 +27,8 @@ async function generateProxies(compilerCtx: CompilerCtx, components: ComponentCo
 import { createReactComponent } from './createComponent';\n`;
 
   const typeImports = !outputTarget.componentCorePackage ?
-    `import { Components } from '${componentsTypeFile}';\n` :
-    `import { Components } from '${outputTarget.componentCorePackage}';\n`;
+    `import { JSX } from '${componentsTypeFile}';\n` :
+    `import { JSX } from '${outputTarget.componentCorePackage}';\n`;
 
   const importList = components.map(cmpMeta => {
     const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
