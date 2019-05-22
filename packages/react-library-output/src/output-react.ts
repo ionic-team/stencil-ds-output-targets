@@ -27,8 +27,8 @@ async function generateProxies(compilerCtx: CompilerCtx, components: ComponentCo
 import { createReactComponent } from './createComponent';\n`;
 
   const typeImports = !outputTarget.componentCorePackage ?
-    `import { JSX } from '${componentsTypeFile}';\n` :
-    `import { JSX } from '${outputTarget.componentCorePackage}';\n`;
+    `import { ${IMPORT_TYPES} } from '${componentsTypeFile}';\n` :
+    `import { ${IMPORT_TYPES} } from '${outputTarget.componentCorePackage}';\n`;
 
   const importList = components.map(cmpMeta => {
     const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
@@ -53,7 +53,7 @@ function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
   return [
-    `export const ${tagNameAsPascal} = /* #__PURE__ */createReactComponent<Components.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>(window, '${cmpMeta.tagName}', Import${tagNameAsPascal});`
+    `export const ${tagNameAsPascal} = /* #__PURE__ */createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>(window, '${cmpMeta.tagName}', Import${tagNameAsPascal});`
   ];
 }
 
@@ -77,3 +77,4 @@ function copyResources(config: Config, outputTarget: OutputTargetReact) {
 }
 
 export const GENERATED_DTS = 'components.d.ts';
+const IMPORT_TYPES = 'JSX';
