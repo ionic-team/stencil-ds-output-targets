@@ -16,7 +16,6 @@ import { ValueAccessor } from './value-accessor';
   ]
 })
 export class TextValueAccessor extends ValueAccessor {
-
   constructor(el: ElementRef) {
     super(el);
   }
