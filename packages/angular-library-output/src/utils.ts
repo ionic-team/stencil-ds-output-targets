@@ -86,3 +86,5 @@ export async function readPackageJson(rootDir: string) {
 const EXTENDED_PATH_REGEX = /^\\\\\?\\/;
 const NON_ASCII_REGEX = /[^\x00-\x80]+/;
 const SLASH_REGEX = /\\/g;
+
+export const GENERATED_DTS = 'components.d.ts';
