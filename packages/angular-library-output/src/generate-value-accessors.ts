@@ -33,7 +33,7 @@ export default async function generateValueAccessors(compilerCtx: CompilerCtx, c
       ...allAccessors,
       [type]: {
         elementSelectors: allElementSelectors.concat(elementSelectors),
-        eventTargets: allEventTargets.concat([va.event, va.targetAttr])
+        eventTargets: allEventTargets.concat([[va.event, va.targetAttr]])
       }
     };
   }, {} as NormalizedValueAccessors);
@@ -54,10 +54,11 @@ async function writeValueAccessor(type: ValueAccessorTypes, valueAccessor: Value
 
   const srcFileContents = await compilerCtx.fs.readFile(srcFilePath);
 
-  const hostContents = valueAccessor.eventTargets.map(([event, targetAttr]) =>
+  console.log(type, valueAccessor.eventTargets);
+  const hostContents = valueAccessor.eventTargets.map((listItem) =>
     VALUE_ACCESSOR_EVENTTARGETS
-      .replace(VALUE_ACCESSOR_EVENT, event)
-      .replace(VALUE_ACCESSOR_TARGETATTR, targetAttr)
+      .replace(VALUE_ACCESSOR_EVENT, listItem[0])
+      .replace(VALUE_ACCESSOR_TARGETATTR, listItem[1])
   );
 
   const finalText = srcFileContents

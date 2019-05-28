@@ -3,13 +3,13 @@ export interface OutputTargetAngular {
   directivesProxyFile: string;
   directivesArrayFile?: string;
   directivesUtilsFile?: string;
-  valueAccessorConfigs?: AngularModelConfig[];
+  valueAccessorConfigs?: ValueAccesorConfig[];
   excludeComponents?: string[];
 }
 
 export type ValueAccessorTypes = 'text' | 'radio' | 'select' | 'number' | 'boolean';
 
-export interface AngularModelConfig {
+export interface ValueAccesorConfig {
   elementSelectors: string | string[];
   event: string;
   targetAttr: string;
