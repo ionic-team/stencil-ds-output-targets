@@ -12,7 +12,7 @@ type NormalizedValueAccessors = {
   [T in ValueAccessorTypes]: ValueAccessor
 };
 
-export default async function generateValueAccessors(compilerCtx: CompilerCtx, components: ComponentCompilerMeta[], outputTarget: OutputTargetAngular, config: Config, rootDir: string) {
+export default async function generateValueAccessors(compilerCtx: CompilerCtx, components: ComponentCompilerMeta[], outputTarget: OutputTargetAngular, config: Config) {
   if (!Array.isArray(outputTarget.valueAccessorConfigs) || outputTarget.valueAccessorConfigs.length === 0) {
     return;
   }

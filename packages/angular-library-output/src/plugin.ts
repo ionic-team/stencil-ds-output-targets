@@ -13,7 +13,7 @@ export const angularOutputPlugin = (outputTarget: OutputTargetAngular): OutputTa
   async generator(config, compilerCtx, buildCtx) {
     const timespan = buildCtx.createTimeSpan(`generate angular proxies started`, true);
 
-    await angularDirectiveProxyOutput(compilerCtx, outputTarget, buildCtx.components, config.rootDir as string);
+    await angularDirectiveProxyOutput(compilerCtx, outputTarget, buildCtx.components, config);
 
     timespan.finish(`generate angular proxies finished`);
   }

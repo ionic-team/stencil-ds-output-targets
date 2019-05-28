@@ -5,17 +5,17 @@ import generateAngularArray from './generate-angular-array';
 import generateAngularUtils from './generate-angular-utils';
 import generateValueAccessors from './generate-value-accessors';
 
-import { CompilerCtx, ComponentCompilerMeta } from '@stencil/core/internal';
+import { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
 
 
-export function angularDirectiveProxyOutput(compilerCtx: CompilerCtx, outputTarget: OutputTargetAngular, components: ComponentCompilerMeta[], rootDir: string) {
+export function angularDirectiveProxyOutput(compilerCtx: CompilerCtx, outputTarget: OutputTargetAngular, components: ComponentCompilerMeta[], config: Config) {
   const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, components);
 
   return Promise.all([
-    generateProxies(compilerCtx, filteredComponents, outputTarget, rootDir),
+    generateProxies(compilerCtx, filteredComponents, outputTarget, config.rootDir as string),
     generateAngularArray(compilerCtx, filteredComponents, outputTarget),
     generateAngularUtils(compilerCtx, outputTarget),
-    generateValueAccessors(compilerCtx, filteredComponents, outputTarget, rootDir),
+    generateValueAccessors(compilerCtx, filteredComponents, outputTarget, config),
   ]);
 }
 
