@@ -54,7 +54,6 @@ async function writeValueAccessor(type: ValueAccessorTypes, valueAccessor: Value
 
   const srcFileContents = await compilerCtx.fs.readFile(srcFilePath);
 
-  console.log(type, valueAccessor.eventTargets);
   const hostContents = valueAccessor.eventTargets.map((listItem) =>
     VALUE_ACCESSOR_EVENTTARGETS
       .replace(VALUE_ACCESSOR_EVENT, listItem[0])
