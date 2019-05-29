@@ -22,13 +22,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ionic-team/stencil-react-plugin.git"
+    "url": "git+https://github.com/ionic-team/stencil-ds-plugins.git"
   },
   "author": "Ionic Team",
   "homepage": "https://stenciljs.com/",
   "license": "Commercial",
   "bugs": {
-    "url": "https://github.com/ionic-team/stencil-react-plugin/issues"
+    "url": "https://github.com/ionic-team/stencil-ds-plugins/issues"
   },
   "devDependencies": {
     "@types/jest": "^24.0.11",

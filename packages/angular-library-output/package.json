@@ -22,13 +22,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ionic-team/stencil-angular-plugin.git"
+    "url": "git+https://github.com/ionic-team/stencil-ds-plugins.git"
   },
   "author": "Ionic Team",
   "homepage": "https://stenciljs.com/",
   "license": "Commercial",
   "bugs": {
-    "url": "https://github.com/ionic-team/stencil-angular-plugin/issues"
+    "url": "https://github.com/ionic-team/stencil-ds-plugins/issues"
   },
   "devDependencies": {
     "@angular/core": "^7.2.15",
