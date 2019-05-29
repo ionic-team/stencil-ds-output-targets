@@ -16,7 +16,7 @@
     "version": "npm run build",
     "release": "np",
     "lint": "tslint --project tsconfig.json",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test.watch": "jest --watch"
   },
   "repository": {
