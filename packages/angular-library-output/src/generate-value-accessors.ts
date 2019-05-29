@@ -74,7 +74,7 @@ function copyResources(config: Config, resourcesFilesToCopy: string[], directory
 
   return config.sys.copy(
     resourcesFilesToCopy.map(rf => ({
-      src: path.join(__dirname, '../src/resources/control-value-accessors/', rf),
+      src: path.join(__dirname, '../resources/control-value-accessors/', rf),
       dest: path.join(directory, rf),
       warn: false
     }))

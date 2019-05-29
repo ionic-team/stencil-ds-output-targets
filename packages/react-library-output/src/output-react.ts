@@ -69,7 +69,7 @@ function copyResources(config: Config, outputTarget: OutputTargetReact) {
 
   return config.sys.copy(
     resourcesFilesToCopy.map(rf => ({
-      src: path.join(__dirname, '../src/resources/', rf),
+      src: path.join(__dirname, '../resources/', rf),
       dest: path.join(directory, rf),
       warn: false
     }))

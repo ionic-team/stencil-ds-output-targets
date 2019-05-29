@@ -6,7 +6,8 @@
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist/"
+    "dist/",
+    "resources/"
   ],
   "scripts": {
     "prebuild": "rimraf ./dist && npm run test && npm run lint",
