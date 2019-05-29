@@ -49,7 +49,7 @@ export default async function generateValueAccessors(compilerCtx: CompilerCtx, c
 
 async function writeValueAccessor(type: ValueAccessorTypes, valueAccessor: ValueAccessor, compilerCtx: CompilerCtx, targetDir: string) {
   const targetFileName = `${type}-value-accessor.ts`;
-  const srcFilePath = path.join(__dirname, '../src/resources/control-value-accessors/', targetFileName);
+  const srcFilePath = path.join(__dirname, '../resources/control-value-accessors/', targetFileName);
   const targetFilePath = path.join(targetDir, `${type}-value-accessor.ts`);
 
   const srcFileContents = await compilerCtx.fs.readFile(srcFilePath);
