@@ -12,9 +12,8 @@ interface ReactInternalProps<ElementType> {
 }
 type InternalProps<AttributeProps, ElementType> = AttributeProps & ReactInternalProps<ElementType>;
 
-export function createReactComponent<T extends object, E>(win: Window, tagName: string, component: any) {
+export function createReactComponent<T extends object, E>(tagName: string) {
   const displayName = dashToPascalCase(tagName);
-  win.customElements.define(tagName, component);
 
   class ReactComponent extends React.Component<InternalProps<T, E>> {
     componentRef: React.RefObject<E>;

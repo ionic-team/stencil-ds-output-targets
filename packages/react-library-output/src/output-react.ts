@@ -30,17 +30,15 @@ import { createReactComponent } from './createComponent';\n`;
     `import { ${IMPORT_TYPES} } from '${componentsTypeFile}';\n` :
     `import { ${IMPORT_TYPES} } from '${outputTarget.componentCorePackage}';\n`;
 
-  const importList = components.map(cmpMeta => {
-    const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
-    return `  ${tagNameAsPascal} as Import${tagNameAsPascal}`;
-  }).join(',\n');
+  const sourceImports = `import { ${REGISTER_CUSTOM_ELEMENTS} } from '${path.join(outputTarget.componentCorePackage || '', outputTarget.loaderDir || DEFAULT_LOADER_DIR)}';\n`;
 
-  const sourceImports = `import {\n${importList}\n// @ts-ignore\n} from '${path.join(outputTarget.componentCorePackage || '', outputTarget.modulesDir || '')}';\n`;
+  const registerCustomElements = `${REGISTER_CUSTOM_ELEMENTS}(window);`;
 
   const final: string[] = [
     imports,
     typeImports,
     sourceImports,
+    registerCustomElements,
     components.map(createComponentDefinition).join('\n')
   ];
 
@@ -53,7 +51,7 @@ function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
   return [
-    `export const ${tagNameAsPascal} = /* #__PURE__ */createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>(window, '${cmpMeta.tagName}', Import${tagNameAsPascal});`
+    `export const ${tagNameAsPascal} = createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}');`
   ];
 }
 
@@ -78,3 +76,5 @@ function copyResources(config: Config, outputTarget: OutputTargetReact) {
 
 export const GENERATED_DTS = 'components.d.ts';
 const IMPORT_TYPES = 'JSX';
+const REGISTER_CUSTOM_ELEMENTS = 'defineCustomElements';
+const DEFAULT_LOADER_DIR = '/loader';
