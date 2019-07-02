@@ -4,7 +4,7 @@ import { angularDirectiveProxyOutput } from './output-angular';
 import { OutputTargetAngular } from './types';
 import path from 'path';
 
-export const angularOutputPlugin = (outputTarget: OutputTargetAngular): OutputTargetCustom => ({
+export const angularOutputTarget = (outputTarget: OutputTargetAngular): OutputTargetCustom => ({
   type: 'custom',
   name: 'angular-library',
   validate(config) {

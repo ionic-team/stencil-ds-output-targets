@@ -4,7 +4,7 @@ import { OutputTargetReact } from './types';
 import { reactProxyOutput } from './output-react';
 import path from 'path';
 
-export const reactOutputPlugin = (outputTarget: OutputTargetReact): OutputTargetCustom => ({
+export const reactOutputTarget = (outputTarget: OutputTargetReact): OutputTargetCustom => ({
   type: 'custom',
   name: 'react-library',
   validate(config) {
