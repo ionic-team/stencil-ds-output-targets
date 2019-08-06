@@ -8,7 +8,6 @@ export async function reactProxyOutput(compilerCtx: CompilerCtx, outputTarget: O
   const rootDir = config.rootDir as string;
 
   await generateProxies(compilerCtx, filteredComponents, outputTarget, rootDir);
-  await copyResources(config, outputTarget);
 }
 
 function getFilteredComponents(excludeComponents: string[] = [], cmps: ComponentCompilerMeta[]) {
@@ -24,7 +23,7 @@ async function generateProxies(compilerCtx: CompilerCtx, components: ComponentCo
 
   const imports = `/* tslint:disable */
 /* auto-generated react proxies */
-import { createReactComponent } from './createComponent';\n`;
+import { createReactComponent } from '@ionic-enterprise/react-component-lib';\n`;
 
   const typeImports = !outputTarget.componentCorePackage ?
     `import { ${IMPORT_TYPES} } from '${componentsTypeFile}';\n` :
@@ -50,28 +49,13 @@ import { createReactComponent } from './createComponent';\n`;
 function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
+  cmpMeta.properties.forEach(prop => {
+    console.log(JSON.stringify(prop, null, 2));
+  });
+
   return [
     `export const ${tagNameAsPascal} = createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}');`
   ];
-}
-
-function copyResources(config: Config, outputTarget: OutputTargetReact) {
-  const directory = path.dirname(outputTarget.proxiesFile);
-  const resourcesFilesToCopy = [
-    'utils.ts',
-    'createComponent.tsx'
-  ];
-  if (!config.sys || !config.sys.copy) {
-    throw new Error('stencil is not properly intialized at this step. Notify the developer');
-  }
-
-  return config.sys.copy(
-    resourcesFilesToCopy.map(rf => ({
-      src: path.join(__dirname, '../resources/', rf),
-      dest: path.join(directory, rf),
-      warn: false
-    }))
-  );
 }
 
 export const GENERATED_DTS = 'components.d.ts';
