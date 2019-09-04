@@ -1,68 +1,66 @@
 import React from 'react';
-import * as ReactDom from 'react-dom';
-import { dashToPascalCase } from './utils';
-import { attachEventProps } from './attachEventProps';
+import ReactDom from 'react-dom';
 
-export function createReactComponent<PropType, ElementType>(
-  tagName: string,
-  attributeValues: string[] = [],
-) {
+import { ReactProps } from './ReactProps';
+import {
+  attachEventProps,
+  createForwardRef,
+  dashToPascalCase,
+  isCoveredByReact,
+} from './utils/index';
+
+interface IonicReactInternalProps<ElementType> {
+  forwardedRef?: React.Ref<ElementType>;
+  children?: React.ReactNode;
+  href?: string;
+  target?: string;
+  style?: string;
+  ref?: React.Ref<any>;
+  className?: string;
+}
+
+export const createReactComponent = <PropType, ElementType>(tagName: string) => {
   const displayName = dashToPascalCase(tagName);
-
-  type IonicReactInternalProps = {
-    forwardedRef?: React.RefObject<ElementType>;
-    children?: React.ReactNode;
-  };
-  type InternalProps = PropType & IonicReactInternalProps;
-
-  type IonicReactExternalProps = {
-    ref?: React.RefObject<ElementType>;
-    children?: React.ReactNode;
-  };
-
-  class ReactComponent extends React.Component<InternalProps> {
-    constructor(props: PropType & IonicReactInternalProps) {
+  const ReactComponent = class extends React.Component<IonicReactInternalProps<ElementType>> {
+    constructor(props: IonicReactInternalProps<ElementType>) {
       super(props);
+    }
+
+    componentDidMount() {
+      this.componentDidUpdate(this.props);
+    }
+
+    componentDidUpdate(prevProps: IonicReactInternalProps<ElementType>) {
+      const node = ReactDom.findDOMNode(this) as HTMLElement;
+      attachEventProps(node, this.props, prevProps);
+    }
+
+    render() {
+      const { children, forwardedRef, style, className, ref, ...cProps } = this.props;
+
+      const propsToPass = Object.keys(cProps).reduce((acc, name) => {
+        if (name.indexOf('on') === 0 && name[2] === name[2].toUpperCase()) {
+          const eventName = name.substring(2).toLowerCase();
+          if (isCoveredByReact(eventName)) {
+            (acc as any)[name] = (cProps as any)[name];
+          }
+        }
+        return acc;
+      }, {});
+
+      const newProps: any = {
+        ...propsToPass,
+        ref: forwardedRef,
+        style,
+        className,
+      };
+
+      return React.createElement(tagName, newProps, children);
     }
 
     static get displayName() {
       return displayName;
     }
-
-    componentDidMount() {
-      this.componentWillReceiveProps(this.props);
-    }
-
-    componentWillReceiveProps(props: InternalProps) {
-      const node = ReactDom.findDOMNode(this) as HTMLElement;
-      attachEventProps(node, props, this.props);
-    }
-
-    render() {
-      const { children, forwardedRef, ...cProps } = this.props;
-
-      const propsWithoutAttributeValues = Object.keys(cProps).reduce((oldValue, key) => {
-        if (attributeValues.indexOf(key) === -1) {
-          (oldValue as any)[key] = (cProps as any)[key];
-        }
-        return oldValue;
-      }, {});
-
-      return React.createElement(
-        tagName,
-        {
-          ...propsWithoutAttributeValues,
-          ref: forwardedRef,
-        },
-        children,
-      );
-    }
-  }
-
-  function forwardRef(props: InternalProps, ref: React.RefObject<ElementType>) {
-    return <ReactComponent {...props} forwardedRef={ref} />;
-  }
-  forwardRef.displayName = displayName;
-
-  return React.forwardRef<ElementType, PropType & IonicReactExternalProps>(forwardRef);
-}
+  };
+  return createForwardRef<PropType & ReactProps, ElementType>(ReactComponent, displayName);
+};

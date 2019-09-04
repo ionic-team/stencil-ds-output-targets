@@ -1,6 +1,6 @@
 import React from 'react';
-import { generateUniqueId } from './utils';
-import { attachEventProps } from './attachEventProps';
+import { generateUniqueId } from './utils/index';
+import { attachEventProps } from './utils/attachEventProps';
 
 interface LoadingElement {
   present: () => any;

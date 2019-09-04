@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { attachEventProps } from './attachEventProps';
+import { attachEventProps } from './utils/attachEventProps';
 
 interface LoadingElement {
   present: () => any;

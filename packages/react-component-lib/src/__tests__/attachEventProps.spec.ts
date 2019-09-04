@@ -1,4 +1,4 @@
-import * as utils from '../attachEventProps';
+import * as utils from '../utils/attachEventProps';
 import '@testing-library/jest-dom/extend-expect';
 
 describe('attachEventProps', () => {
