@@ -40,7 +40,7 @@ import { createReactComponent } from '@ionic-enterprise/react-component-lib';\n`
     ? `import { ${IMPORT_TYPES} } from '${componentsTypeFile}';\n`
     : `import { ${IMPORT_TYPES} } from '${outputTarget.componentCorePackage}';\n`;
 
-  const sourceImports = `import { ${REGISTER_CUSTOM_ELEMENTS} } from '${path.join(
+  const sourceImports = `import { ${REGISTER_CUSTOM_ELEMENTS}, ${APPLY_POLYFILLS} } from '${path.join(
     outputTarget.componentCorePackage || '',
     outputTarget.loaderDir || DEFAULT_LOADER_DIR,
   )}';\n`;
