@@ -13,6 +13,7 @@ export async function reactProxyOutput(
   const rootDir = config.rootDir as string;
 
   await generateProxies(compilerCtx, filteredComponents, outputTarget, rootDir);
+  await copyResources(config, outputTarget);
 }
 
 function getFilteredComponents(excludeComponents: string[] = [], cmps: ComponentCompilerMeta[]) {
@@ -63,13 +64,26 @@ import { createReactComponent } from './react-component-lib';\n`;
 function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
-  cmpMeta.properties.forEach(prop => {
-    console.log(JSON.stringify(prop, null, 2));
-  });
-
   return [
     `export const ${tagNameAsPascal} = createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}');`,
   ];
+}
+
+async function copyResources(config: Config, outputTarget: OutputTargetReact) {
+  if (!config.sys || !config.sys.copy || !config.sys.glob) {
+    throw new Error('stencil is not properly intialized at this step. Notify the developer');
+  }
+  const srcDirectory = path.join(__dirname, '..', 'react-component-lib');
+  const destDirectory = path.join(path.dirname(outputTarget.proxiesFile), 'react-component-lib');
+  const resourcesFilesToCopy = await config.sys.glob('**/*.*', { cwd: srcDirectory });
+
+  return config.sys.copy(
+    resourcesFilesToCopy.map(rf => ({
+      src: path.join(srcDirectory, '../react-component-lib/', rf),
+      dest: path.join(destDirectory, rf),
+      warn: false,
+    })),
+  );
 }
 
 export const GENERATED_DTS = 'components.d.ts';
