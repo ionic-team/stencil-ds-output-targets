@@ -34,7 +34,7 @@ async function generateProxies(
 
   const imports = `/* tslint:disable */
 /* auto-generated react proxies */
-import { createReactComponent } from '@ionic-enterprise/react-component-lib';\n`;
+import { createReactComponent } from './react-component-lib';\n`;
 
   const typeImports = !outputTarget.componentCorePackage
     ? `import { ${IMPORT_TYPES} } from '${componentsTypeFile}';\n`
