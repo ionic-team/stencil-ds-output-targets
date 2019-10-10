@@ -1,6 +1,6 @@
 {
   "name": "@ionic-enterprise/react-output-plugin",
-  "version": "0.0.9-0",
+  "version": "0.0.9",
   "description": "This is an output plugin for stencil.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
