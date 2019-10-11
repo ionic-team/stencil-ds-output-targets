@@ -9,6 +9,9 @@
     "dist/",
     "react-component-lib/"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "prebuild": "rimraf ./dist && npm run lint",
     "build": "tsc && npm run rollup",
@@ -59,5 +62,5 @@
     ],
     "testURL": "http://localhost"
   },
-  "gitHead": "bbdf59a588a3afd0e75c24081aa3d9030be49a62"
+  "gitHead": "a3588e905186a0e86e7f88418fd5b2f9531b55e0"
 }
