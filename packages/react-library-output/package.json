@@ -26,7 +26,7 @@
   },
   "author": "Ionic Team",
   "homepage": "https://stenciljs.com/",
-  "license": "Commercial",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ionic-team/stencil-ds-plugins/issues"
   },
@@ -58,5 +58,6 @@
       "jsx"
     ],
     "testURL": "http://localhost"
-  }
+  },
+  "gitHead": "bbdf59a588a3afd0e75c24081aa3d9030be49a62"
 }
