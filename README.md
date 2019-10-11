@@ -118,6 +118,6 @@ import { DemoComponent } from 'component-library-react';
 [npm-badge-angular]: https://img.shields.io/npm/v/@stencil/angular-output-target.svg
 [npm-badge-angular-url]: https://www.npmjs.com/package/@stencil/angular-output-target
 [npm-license-react ]: https://img.shields.io/npm/l/@stencil/react-output-target.svg
-[npm-license-react-url]: https://github.com/ionic-team/stencil-ds-plugins/blob/master/packages/react-output-target/LICENSE
+[npm-license-react-url]: https://github.com/ionic-team/stencil-ds-plugins/blob/master/packages/react-output-target/LICENSE.md
 [npm-license-angular ]: https://img.shields.io/npm/l/@stencil/angular-output-target.svg
-[npm-license-angular-url]: https://github.com/ionic-team/stencil-ds-plugins/blob/master/packages/angular-output-target/LICENSE
+[npm-license-angular-url]: https://github.com/ionic-team/stencil-ds-plugins/blob/master/packages/angular-output-target/LICENSE.md
