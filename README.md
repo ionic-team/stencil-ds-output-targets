@@ -21,7 +21,7 @@ To make use of the AngularOutputPlugin first import it into your stencil.config.
 
 ```ts
 import { Config } from '@stencil/core';
-import { angularOutputTarget, ValueAccessorConfig } from '@ionic-enterprise/angular-output-plugin';
+import { angularOutputTarget, ValueAccessorConfig } from '@stencil/angular-output-target';
 
 export const config: Config = {
   namespace: 'demo',
@@ -79,7 +79,7 @@ With bindings the web components get wrapped in a React component and then immed
 
 ```ts
 import { Config } from '@stencil/core';
-import { reactOutputTarget } from '@ionic-enterprise/react-output-plugin';
+import { reactOutputTarget } from '@stencil/react-output-target';
 
 export const config: Config = {
   namespace: 'demo',
