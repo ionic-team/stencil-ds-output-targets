@@ -9,6 +9,8 @@ Unfortunately the experience of integrating web components into existing applica
 
 The plugins add additional output targets for each framework binding that is included.
 
+Here is an example project repo using the plugins for reference: https://github.com/ionic-team/stencil-ds-plugins-demo
+
 ## Angular
 
 Angular has a pretty good story for integration with web components but there are a few issues with the developer experience. If you want to know what the story is without the bindings go here: https://stenciljs.com/docs/angular.
