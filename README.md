@@ -2,6 +2,7 @@
 | --------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------- | ---------------------------------------------------------- |
 | React Output Target   | [`@stencil/react-output-target`](https://www.npmjs.com/package/@stencil/react-output-target)     | [![npm][npm-badge-react]][npm-badge-react-url]     | [![license][npm-license-react]][npm-license-react-url]     |
 | Angular Output Target | [`@stencil/angular-output-target`](https://www.npmjs.com/package/@stencil/angular-output-target) | [![npm][npm-badge-angular]][npm-badge-angular-url] | [![license][npm-license-angular]][npm-license-angular-url] |
+| Vue Output Target | PRs Welcome 😀| |
 
 # Introduction
 
