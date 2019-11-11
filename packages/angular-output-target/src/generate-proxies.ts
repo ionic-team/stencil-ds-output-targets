@@ -60,14 +60,14 @@ function getProxy(cmpMeta: ComponentCompilerMeta) {
   }
 
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
-  const lines = [`export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {}`];
+  const lines = [`
+export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {}`];
 
   if (hasInputs) {
     lines.push(`@ProxyInputs(['${inputs.join(`', '`)}'])`);
   }
 
-  lines.push(`
-@Component({ ${directiveOpts.join(', ')} })
+  lines.push(`@Component({ ${directiveOpts.join(', ')} })
 export class ${tagNameAsPascal} {`);
 
   // Generate outputs
