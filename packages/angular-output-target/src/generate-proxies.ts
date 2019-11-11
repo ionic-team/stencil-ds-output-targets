@@ -60,10 +60,15 @@ function getProxy(cmpMeta: ComponentCompilerMeta) {
   }
 
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
-  const lines = [`
-export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {}
+  const lines = [`export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {}`];
+
+  if (hasInputs) {
+    lines.push(`@ProxyInputs(['${inputs.join(`', '`)}'])`);
+  }
+
+  lines.push(`
 @Component({ ${directiveOpts.join(', ')} })
-export class ${tagNameAsPascal} {`];
+export class ${tagNameAsPascal} {`);
 
   // Generate outputs
   outputs.forEach(output => {
@@ -82,9 +87,6 @@ export class ${tagNameAsPascal} {`];
 
   if (hasMethods) {
     lines.push(`proxyMethods(${tagNameAsPascal}, ['${methods.join(`', '`)}']);`);
-  }
-  if (hasInputs) {
-    lines.push(`proxyInputs(${tagNameAsPascal}, ['${inputs.join(`', '`)}']);`);
   }
 
   return lines.join('\n');
@@ -107,23 +109,27 @@ function getMethods(cmpMeta: ComponentCompilerMeta): string[] {
 
 function getProxyUtils(outputTarget: OutputTargetAngular) {
   if (!outputTarget.directivesUtilsFile) {
-    return PROXY_UTILS.replace(/export function/g, 'function');
+    return PROXY_UTILS.replace(/export function(?! ProxyInputs)/g, 'function');
   } else {
     const utilsPath = relativeImport(outputTarget.directivesProxyFile, outputTarget.directivesUtilsFile, '.ts');
-    return `import { proxyInputs, proxyMethods, proxyOutputs } from '${utilsPath}';\n`;
+    return `import { ProxyInputs, proxyMethods, proxyOutputs } from '${utilsPath}';\n`;
   }
 }
 
 const PROXY_UTILS = `import { fromEvent } from 'rxjs';
 
-export function proxyInputs(Cmp: any, inputs: string[]) {
-  const Prototype = Cmp.prototype;
-  inputs.forEach(item => {
-    Object.defineProperty(Prototype, item, {
-      get() { return this.el[item]; },
-      set(val: any) { this.el[item] = val; },
+export function ProxyInputs(inputs: string[]) {
+  const decorator = function <T extends {new(...args:any[])}>(constructor:T) {
+    const Prototype = constructor.prototype;
+    inputs.forEach((item) => {
+      Object.defineProperty(Prototype, item, {
+        get() { return this.el[item]; },
+        set(val: any) { this.el[item] = val; },
+      });
     });
-  });
+    return constructor;
+  };
+  return decorator;
 }
 
 export function proxyMethods(Cmp: any, methods: string[]) {

@@ -11,14 +11,18 @@ export default async function generateAngularUtils(compilerCtx: CompilerCtx, out
 
 const PROXY_UTILS = `import { fromEvent } from 'rxjs';
 
-export function proxyInputs(Cmp: any, inputs: string[]) {
-  const Prototype = Cmp.prototype;
-  inputs.forEach(item => {
-    Object.defineProperty(Prototype, item, {
-      get() { return this.el[item]; },
-      set(val: any) { this.el[item] = val; },
+export function ProxyInputs(inputs: string[]) {
+  const decorator = function <T extends {new(...args:any[])}>(constructor:T) {
+    const Prototype = constructor.prototype;
+    inputs.forEach((item) => {
+      Object.defineProperty(Prototype, item, {
+        get() { return this.el[item]; },
+        set(val: any) { this.el[item] = val; },
+      });
     });
-  });
+    return constructor;
+  };
+  return decorator;
 }
 
 export function proxyMethods(Cmp: any, methods: string[]) {
