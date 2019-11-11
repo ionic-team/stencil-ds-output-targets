@@ -1,7 +1,6 @@
 import path from 'path';
-import slash from 'slash';
 import { OutputTargetReact } from './types';
-import { dashToPascalCase, readPackageJson, relativeImport, sortBy } from './utils';
+import { dashToPascalCase, readPackageJson, relativeImport, sortBy, normalizePath } from './utils';
 import { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
 
 export async function reactProxyOutput(
@@ -39,10 +38,10 @@ async function generateProxies(
 import { createReactComponent } from './react-component-lib';\n`;
 
   const typeImports = !outputTarget.componentCorePackage
-    ? `import { ${IMPORT_TYPES} } from '${slash(componentsTypeFile)}';\n`
-    : `import { ${IMPORT_TYPES} } from '${slash(outputTarget.componentCorePackage)}';\n`;
+    ? `import { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`
+    : `import { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}';\n`;
 
-  const sourceImports = `import { ${REGISTER_CUSTOM_ELEMENTS}, ${APPLY_POLYFILLS} } from '${slash(
+  const sourceImports = `import { ${REGISTER_CUSTOM_ELEMENTS}, ${APPLY_POLYFILLS} } from '${normalizePath(
     path.join(
       outputTarget.componentCorePackage || '',
       outputTarget.loaderDir || DEFAULT_LOADER_DIR,
