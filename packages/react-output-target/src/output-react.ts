@@ -1,6 +1,6 @@
 import path from 'path';
 import { OutputTargetReact } from './types';
-import { dashToPascalCase, readPackageJson, relativeImport, sortBy, normalizePath } from './utils';
+import { dashToPascalCase, normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
 import { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
 
 export async function reactProxyOutput(
@@ -32,6 +32,7 @@ async function generateProxies(
   const distTypesDir = path.dirname(pkgData.types);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.proxiesFile, dtsFilePath, '.d.ts');
+  const { noAutoPolyfills, noAutoRegister } = outputTarget;
 
   const imports = `/* tslint:disable */
 /* auto-generated react proxies */
@@ -41,14 +42,23 @@ import { createReactComponent } from './react-component-lib';\n`;
     ? `import { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`
     : `import { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}';\n`;
 
-  const sourceImports = `import { ${REGISTER_CUSTOM_ELEMENTS}, ${APPLY_POLYFILLS} } from '${normalizePath(
-    path.join(
-      outputTarget.componentCorePackage || '',
-      outputTarget.loaderDir || DEFAULT_LOADER_DIR,
-    ),
-  )}';\n`;
+  const sourceImports = !(noAutoPolyfills && noAutoRegister)
+    ? `import { ${[!noAutoRegister && REGISTER_CUSTOM_ELEMENTS, !noAutoPolyfills && APPLY_POLYFILLS]
+        .filter(Boolean)
+        .join(', ')} } from '${normalizePath(
+        path.join(
+          outputTarget.componentCorePackage || '',
+          outputTarget.loaderDir || DEFAULT_LOADER_DIR,
+        ),
+      )}';\n`
+    : '';
 
-  const registerCustomElements = `${APPLY_POLYFILLS}().then(() => { ${REGISTER_CUSTOM_ELEMENTS}(window); });`;
+  const registerCustomElements = [
+    '',
+    `${APPLY_POLYFILLS}();`,
+    `${REGISTER_CUSTOM_ELEMENTS}(window);`,
+    `${APPLY_POLYFILLS}().then(() => { ${REGISTER_CUSTOM_ELEMENTS}(window); });`,
+  ][(+!noAutoRegister << 1) | +!noAutoPolyfills];
 
   const final: string[] = [
     imports,
@@ -86,7 +96,9 @@ async function copyResources(config: Config, outputTarget: OutputTargetReact) {
       src: path.join(srcDirectory, '../react-component-lib/', rf),
       dest: path.join(destDirectory, rf),
       warn: false,
+      keepDirStructure: true,
     })),
+    config.srcDir || '',
   );
 }
 
