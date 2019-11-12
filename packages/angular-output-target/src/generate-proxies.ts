@@ -1,7 +1,7 @@
 import path from 'path';
 
 import { OutputTargetAngular } from './types';
-import { GENERATED_DTS, dashToPascalCase, readPackageJson, relativeImport } from './utils';
+import { GENERATED_DTS, dashToPascalCase, readPackageJson, relativeImport, normalizePath } from './utils';
 
 import { CompilerCtx, ComponentCompilerMeta } from '@stencil/core/internal';
 
@@ -17,8 +17,8 @@ export default async function generateProxies(compilerCtx: CompilerCtx, componen
 import { Component, ElementRef, ChangeDetectorRef, EventEmitter } from '@angular/core';`;
 
   const sourceImports = !outputTarget.componentCorePackage ?
-    `import { Components } from '${componentsTypeFile}';` :
-    `import { Components } from '${outputTarget.componentCorePackage}'`;
+    `import { Components } from '${normalizePath(componentsTypeFile)}';` :
+    `import { Components } from '${normalizePath(outputTarget.componentCorePackage)}'`;
 
   const final: string[] = [
     imports,
@@ -112,7 +112,7 @@ function getProxyUtils(outputTarget: OutputTargetAngular) {
     return PROXY_UTILS.replace(/export function(?! ProxyInputs)/g, 'function');
   } else {
     const utilsPath = relativeImport(outputTarget.directivesProxyFile, outputTarget.directivesUtilsFile, '.ts');
-    return `import { ProxyInputs, proxyMethods, proxyOutputs } from '${utilsPath}';\n`;
+    return `import { ProxyInputs, proxyMethods, proxyOutputs } from '${normalizePath(utilsPath)}';\n`;
   }
 }
 

@@ -1,6 +1,6 @@
 import path from 'path';
 import { OutputTargetReact } from './types';
-import { dashToPascalCase, readPackageJson, relativeImport, sortBy } from './utils';
+import { dashToPascalCase, readPackageJson, relativeImport, sortBy, normalizePath } from './utils';
 import { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
 
 export async function reactProxyOutput(
@@ -38,12 +38,14 @@ async function generateProxies(
 import { createReactComponent } from './react-component-lib';\n`;
 
   const typeImports = !outputTarget.componentCorePackage
-    ? `import { ${IMPORT_TYPES} } from '${componentsTypeFile}';\n`
-    : `import { ${IMPORT_TYPES} } from '${outputTarget.componentCorePackage}';\n`;
+    ? `import { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`
+    : `import { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}';\n`;
 
-  const sourceImports = `import { ${REGISTER_CUSTOM_ELEMENTS}, ${APPLY_POLYFILLS} } from '${path.join(
-    outputTarget.componentCorePackage || '',
-    outputTarget.loaderDir || DEFAULT_LOADER_DIR,
+  const sourceImports = `import { ${REGISTER_CUSTOM_ELEMENTS}, ${APPLY_POLYFILLS} } from '${normalizePath(
+    path.join(
+      outputTarget.componentCorePackage || '',
+      outputTarget.loaderDir || DEFAULT_LOADER_DIR,
+    ),
   )}';\n`;
 
   const registerCustomElements = `${APPLY_POLYFILLS}().then(() => { ${REGISTER_CUSTOM_ELEMENTS}(window); });`;
@@ -65,7 +67,9 @@ function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
   return [
-    `export const ${tagNameAsPascal} = createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}');`,
+    `export const ${tagNameAsPascal} = createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${
+      cmpMeta.tagName
+    }');`,
   ];
 }
 
