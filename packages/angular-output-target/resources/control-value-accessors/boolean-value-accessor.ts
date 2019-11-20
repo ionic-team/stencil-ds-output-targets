@@ -22,6 +22,6 @@ export class BooleanValueAccessor extends ValueAccessor {
     super(el);
   }
   writeValue(value: any) {
-    this.el.nativeElement.<VALUE_ACCESSOR_SELECTORS> = this.lastValue = value == null ? false : value;
+    this.el.nativeElement.<VALUE_ACCESSOR_TARGETATTR> = this.lastValue = value == null ? false : value;
   }
 }

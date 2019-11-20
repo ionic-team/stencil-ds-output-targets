@@ -1,6 +1,6 @@
 import path from 'path';
 import { OutputTargetReact } from './types';
-import { dashToPascalCase, readPackageJson, relativeImport, sortBy, normalizePath } from './utils';
+import { dashToPascalCase, normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
 import { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
 
 export async function reactProxyOutput(
@@ -67,27 +67,22 @@ function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
   return [
-    `export const ${tagNameAsPascal} = createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${
-      cmpMeta.tagName
-    }');`,
+    `export const ${tagNameAsPascal} = createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}');`,
   ];
 }
 
 async function copyResources(config: Config, outputTarget: OutputTargetReact) {
   if (!config.sys || !config.sys.copy || !config.sys.glob) {
-    throw new Error('stencil is not properly intialized at this step. Notify the developer');
+    throw new Error('stencil is not properly initialized at this step. Notify the developer');
   }
   const srcDirectory = path.join(__dirname, '..', 'react-component-lib');
   const destDirectory = path.join(path.dirname(outputTarget.proxiesFile), 'react-component-lib');
-  const resourcesFilesToCopy = await config.sys.glob('**/*.*', { cwd: srcDirectory });
-
-  return config.sys.copy(
-    resourcesFilesToCopy.map(rf => ({
-      src: path.join(srcDirectory, '../react-component-lib/', rf),
-      dest: path.join(destDirectory, rf),
-      warn: false,
-    })),
-  );
+  return config.sys.copy([{
+    src: srcDirectory,
+    dest: destDirectory,
+    keepDirStructure: true,
+    warn: false,
+  }], '');
 }
 
 export const GENERATED_DTS = 'components.d.ts';

@@ -2,10 +2,11 @@
   "name": "root",
   "private": true,
   "scripts": {
+    "postinstall": "lerna bootstrap",
     "build": "lerna run build"
   },
   "devDependencies": {
-    "@stencil/core": "^1.0.0-beta.5",
+    "@stencil/core": "^1.8.1",
     "lerna": "^3.13.1"
   }
 }
