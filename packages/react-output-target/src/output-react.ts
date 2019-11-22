@@ -75,7 +75,7 @@ function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
 
 async function copyResources(config: Config, outputTarget: OutputTargetReact) {
   if (!config.sys || !config.sys.copy || !config.sys.glob) {
-    throw new Error('stencil is not properly intialized at this step. Notify the developer');
+    throw new Error('stencil is not properly initialized at this step. Notify the developer');
   }
   const srcDirectory = path.join(__dirname, '..', 'react-component-lib');
   const destDirectory = path.join(path.dirname(outputTarget.proxiesFile), 'react-component-lib');
