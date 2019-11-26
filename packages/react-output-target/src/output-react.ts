@@ -1,6 +1,6 @@
 import path from 'path';
 import { OutputTargetReact } from './types';
-import { dashToPascalCase, readPackageJson, relativeImport, sortBy, normalizePath } from './utils';
+import { dashToPascalCase, normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
 import { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
 
 export async function reactProxyOutput(
@@ -33,7 +33,8 @@ async function generateProxies(
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.proxiesFile, dtsFilePath, '.d.ts');
 
-  const imports = `/* tslint:disable */
+  const imports = `/* eslint-disable */
+/* tslint:disable */
 /* auto-generated react proxies */
 import { createReactComponent } from './react-component-lib';\n`;
 
@@ -67,7 +68,7 @@ function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
   return [
-    `export const ${tagNameAsPascal} = createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${
+    `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${
       cmpMeta.tagName
     }');`,
   ];
@@ -79,15 +80,13 @@ async function copyResources(config: Config, outputTarget: OutputTargetReact) {
   }
   const srcDirectory = path.join(__dirname, '..', 'react-component-lib');
   const destDirectory = path.join(path.dirname(outputTarget.proxiesFile), 'react-component-lib');
-  const resourcesFilesToCopy = await config.sys.glob('**/*.*', { cwd: srcDirectory });
 
-  return config.sys.copy(
-    resourcesFilesToCopy.map(rf => ({
-      src: path.join(srcDirectory, '../react-component-lib/', rf),
-      dest: path.join(destDirectory, rf),
-      warn: false,
-    })),
-  );
+  return config.sys.copy([{
+    src: srcDirectory,
+    dest: destDirectory,
+    keepDirStructure: false,
+    warn: false,
+  }], srcDirectory);
 }
 
 export const GENERATED_DTS = 'components.d.ts';
