@@ -6,11 +6,12 @@ import { GENERATED_DTS, dashToPascalCase, readPackageJson, relativeImport, norma
 import { CompilerCtx, ComponentCompilerMeta } from '@stencil/core/internal';
 
 export default async function generateProxies(compilerCtx: CompilerCtx, components: ComponentCompilerMeta[], outputTarget: OutputTargetAngular, rootDir: string) {
-  const proxies = getProxies(components);
+  const proxies = getProxies(components.filter(m => !m.isCollectionDependency));
   const pkgData = await readPackageJson(rootDir);
   const distTypesDir = path.dirname(pkgData.types);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.directivesProxyFile, dtsFilePath, '.d.ts');
+  const hasTunnel = components.filter((m => m.componentClassName === 'ContextConsumer'));
 
   const imports = `/* tslint:disable */
 /* auto-generated angular directive proxies */
@@ -20,10 +21,24 @@ import { Component, ElementRef, ChangeDetectorRef, EventEmitter } from '@angular
     `import { Components } from '${normalizePath(componentsTypeFile)}';` :
     `import { Components } from '${normalizePath(outputTarget.componentCorePackage)}'`;
 
+  const tunnelImports = hasTunnel ? `import { Components as TunnelComponenents } from '@stencil/state-tunnel';
+
+export declare interface ContextConsumer extends TunnelComponenents.ContextConsumer {}
+@Component({ selector: 'context-consumer', changeDetection: 0, template: '<ng-content></ng-content>', inputs: ['context', 'renderer', 'subscribe'] })
+export class ContextConsumer {
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+proxyInputs(ContextConsumer, ['context', 'renderer', 'subscribe']);` : '';
+
   const final: string[] = [
     imports,
     getProxyUtils(outputTarget),
     sourceImports,
+    tunnelImports,
     proxies,
   ];
 

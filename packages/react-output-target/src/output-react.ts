@@ -9,7 +9,7 @@ export async function reactProxyOutput(
   components: ComponentCompilerMeta[],
   config: Config,
 ) {
-  const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, components);
+  const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, components.filter(m => !m.isCollectionDependency));
   const rootDir = config.rootDir as string;
 
   await generateProxies(compilerCtx, filteredComponents, outputTarget, rootDir);
@@ -32,6 +32,7 @@ async function generateProxies(
   const distTypesDir = path.dirname(pkgData.types);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.proxiesFile, dtsFilePath, '.d.ts');
+  const hasTunnel = components.filter((m => m.componentClassName === 'ContextConsumer'));
 
   const imports = `/* tslint:disable */
 /* auto-generated react proxies */
@@ -48,12 +49,16 @@ import { createReactComponent } from './react-component-lib';\n`;
     ),
   )}';\n`;
 
+  const tunnelImports = hasTunnel ? `import { Components } from '@stencil/state-tunnel';
+export const ContextConsumer = createReactComponent<Components.ContextConsumer, HTMLContextConsumerElement>('context-consumer');` : '';
+
   const registerCustomElements = `${APPLY_POLYFILLS}().then(() => { ${REGISTER_CUSTOM_ELEMENTS}(window); });`;
 
   const final: string[] = [
     imports,
     typeImports,
     sourceImports,
+    tunnelImports,
     registerCustomElements,
     components.map(createComponentDefinition).join('\n'),
   ];
