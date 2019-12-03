@@ -26,6 +26,49 @@ To make use of the AngularOutputPlugin first import it into your stencil.config.
 import { Config } from '@stencil/core';
 import { angularOutputTarget, ValueAccessorConfig } from '@stencil/angular-output-target';
 
+const EVENTS = {
+  'Select': 'ionSelect',
+  'Change': 'ionChange'
+};
+
+const ATTRS = {
+  'Checked': 'checked',
+  'Value': 'value'
+};
+
+const angularValueAccessorBindings: ValueAccessorConfig[] = [
+  {
+    elementSelectors: [ 'ion-checkbox', 'ion-toggle' ],
+    event: EVENTS.Change,
+    targetAttr: ATTRS.Checked,
+    type: 'boolean'
+  },
+  {
+    elementSelectors: [ 'ion-input[type=number]' ],
+    event: EVENTS.Change,
+    targetAttr: ATTRS.Value,
+    type: 'number'
+  },
+  {
+    elementSelectors: [ 'ion-radio' ],
+    event: EVENTS.Select,
+    targetAttr: ATTRS.Checked,
+    type: 'radio'
+  },
+  {
+    elementSelectors: [ 'ion-range', 'ion-select', 'ion-radio-group', 'ion-segment', 'ion-datetime' ],
+    event: EVENTS.Change,
+    targetAttr: ATTRS.Value,
+    type: 'select'
+  },
+  {
+    elementSelectors: ['ion-input:not([type=number])', 'ion-textarea', 'ion-searchbar'],
+    event: EVENTS.Change,
+    targetAttr: ATTRS.Value,
+    type: 'text'
+  },
+];
+
 export const config: Config = {
   namespace: 'demo',
   outputTargets: [

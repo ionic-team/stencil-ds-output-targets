@@ -62,22 +62,25 @@ async function writeValueAccessor(type: ValueAccessorTypes, valueAccessor: Value
 
   const finalText = srcFileContents
     .replace(VALUE_ACCESSOR_SELECTORS, valueAccessor.elementSelectors.join(', '))
-    .replace(VALUE_ACCESSOR_EVENTTARGETS, hostContents.join('\n'));
+    .replace(VALUE_ACCESSOR_EVENTTARGETS, hostContents.join(',\n'))
+    .replace(VALUE_ACCESSOR_TARGETATTR, valueAccessor.eventTargets[0][1])
 
   await compilerCtx.fs.writeFile(targetFilePath, finalText);
 }
 
 function copyResources(config: Config, resourcesFilesToCopy: string[], directory: string) {
   if (!config.sys || !config.sys.copy) {
-    throw new Error('stencil is not properly intialized at this step. Notify the developer');
+    throw new Error('stencil is not properly initialized at this step. Notify the developer');
   }
 
   return config.sys.copy(
     resourcesFilesToCopy.map(rf => ({
       src: path.join(__dirname, '../resources/control-value-accessors/', rf),
       dest: path.join(directory, rf),
+      keepDirStructure: true,
       warn: false
-    }))
+    })),
+    ''
   );
 }
 
