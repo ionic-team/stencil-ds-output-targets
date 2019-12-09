@@ -38,6 +38,20 @@ function getProxies(components: ComponentCompilerMeta[]) {
     .join('\n');
 }
 
+function getProxyCmp(inputs: string[],methods: string[]): string {
+
+  const hasInputs = inputs.length > 0;
+  const hasMethods = methods.length > 0;
+  const proxMeta: string[] = [];
+
+  if (!hasInputs && !hasMethods) { return''; }
+
+  if (hasInputs) proxMeta.push(`inputs: ['${inputs.join(`', '`)}']`);
+  if (hasMethods) proxMeta.push(`'methods': ['${methods.join(`', '`)}']`);
+
+  return `@ProxyCmp({${proxMeta.join(', ')}})`;
+}
+
 function getProxy(cmpMeta: ComponentCompilerMeta) {
   // Collect component meta
   const inputs = getInputs(cmpMeta);
@@ -45,9 +59,7 @@ function getProxy(cmpMeta: ComponentCompilerMeta) {
   const methods = getMethods(cmpMeta);
 
   // Process meta
-  const hasInputs = inputs.length > 0;
   const hasOutputs = outputs.length > 0;
-  const hasMethods = methods.length > 0;
 
   // Generate Angular @Directive
   const directiveOpts = [
@@ -62,6 +74,7 @@ function getProxy(cmpMeta: ComponentCompilerMeta) {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
   const lines = [`
 export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {}
+${getProxyCmp(inputs, methods)}
 @Component({ ${directiveOpts.join(', ')} })
 export class ${tagNameAsPascal} {`];
 
@@ -79,13 +92,6 @@ export class ${tagNameAsPascal} {`];
   }
   lines.push(`  }`);
   lines.push(`}`);
-
-  if (hasMethods) {
-    lines.push(`proxyMethods(${tagNameAsPascal}, ['${methods.join(`', '`)}']);`);
-  }
-  if (hasInputs) {
-    lines.push(`proxyInputs(${tagNameAsPascal}, ['${inputs.join(`', '`)}']);`);
-  }
 
   return lines.join('\n');
 }
@@ -110,7 +116,7 @@ function getProxyUtils(outputTarget: OutputTargetAngular) {
     return PROXY_UTILS.replace(/export function/g, 'function');
   } else {
     const utilsPath = relativeImport(outputTarget.directivesProxyFile, outputTarget.directivesUtilsFile, '.ts');
-    return `import { proxyInputs, proxyMethods, proxyOutputs } from '${normalizePath(utilsPath)}';\n`;
+    return `import { ProxyCmp, proxyOutputs } from '${normalizePath(utilsPath)}';\n`;
   }
 }
 
@@ -124,7 +130,7 @@ export function proxyInputs(Cmp: any, inputs: string[]) {
       set(val: any) { this.el[item] = val; },
     });
   });
-}
+};
 
 export function proxyMethods(Cmp: any, methods: string[]) {
   const Prototype = Cmp.prototype;
@@ -134,9 +140,22 @@ export function proxyMethods(Cmp: any, methods: string[]) {
       return this.el.componentOnReady().then((el: any) => el[methodName].apply(el, args));
     };
   });
-}
+};
 
 export function proxyOutputs(instance: any, el: any, events: string[]) {
   events.forEach(eventName => instance[eventName] = fromEvent(el, eventName));
+};
+
+// tslint:disable-next-line: only-arrow-functions
+export function ProxyCmp(opts: { inputs?: any; methods?: any }) {
+  return (cls: any) => {
+    if (opts.inputs) {
+      proxyInputs(cls, opts.inputs);
+    }
+    if (opts.methods) {
+      proxyMethods(cls, opts.methods);
+    }
+    return cls;
+  };
 }
 `;

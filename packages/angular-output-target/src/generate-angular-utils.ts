@@ -19,7 +19,7 @@ export function proxyInputs(Cmp: any, inputs: string[]) {
       set(val: any) { this.el[item] = val; },
     });
   });
-}
+}:
 
 export function proxyMethods(Cmp: any, methods: string[]) {
   const Prototype = Cmp.prototype;
@@ -29,10 +29,22 @@ export function proxyMethods(Cmp: any, methods: string[]) {
       return this.el.componentOnReady().then((el: any) => el[methodName].apply(el, args));
     };
   });
-}
+};
 
 export function proxyOutputs(instance: any, el: any, events: string[]) {
   events.forEach(eventName => instance[eventName] = fromEvent(el, eventName));
-}
-`;
+};
 
+// tslint:disable-next-line: only-arrow-functions
+export function ProxyCmp(opts: { inputs?: any; methods?: any }) {
+  return (cls: any) => {
+    if (opts.inputs) {
+      proxyInputs(cls, opts.inputs);
+    }
+    if (opts.methods) {
+      proxyMethods(cls, opts.methods);
+    }
+    return cls;
+  };
+};
+`;
