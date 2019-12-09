@@ -34,7 +34,8 @@ async function generateProxies(
   const componentsTypeFile = relativeImport(outputTarget.proxiesFile, dtsFilePath, '.d.ts');
   const { noAutoPolyfills, noAutoRegister } = outputTarget;
 
-  const imports = `/* tslint:disable */
+  const imports = `/* eslint-disable */
+/* tslint:disable */
 /* auto-generated react proxies */
 import { createReactComponent } from './react-component-lib';\n`;
 
@@ -77,7 +78,7 @@ function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
   return [
-    `export const ${tagNameAsPascal} = createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${
+    `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${
       cmpMeta.tagName
     }');`,
   ];
@@ -85,21 +86,17 @@ function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
 
 async function copyResources(config: Config, outputTarget: OutputTargetReact) {
   if (!config.sys || !config.sys.copy || !config.sys.glob) {
-    throw new Error('stencil is not properly intialized at this step. Notify the developer');
+    throw new Error('stencil is not properly initialized at this step. Notify the developer');
   }
   const srcDirectory = path.join(__dirname, '..', 'react-component-lib');
   const destDirectory = path.join(path.dirname(outputTarget.proxiesFile), 'react-component-lib');
-  const resourcesFilesToCopy = await config.sys.glob('**/*.*', { cwd: srcDirectory });
 
-  return config.sys.copy(
-    resourcesFilesToCopy.map(rf => ({
-      src: path.join(srcDirectory, '../react-component-lib/', rf),
-      dest: path.join(destDirectory, rf),
-      warn: false,
-      keepDirStructure: true,
-    })),
-    config.srcDir || '',
-  );
+  return config.sys.copy([{
+    src: srcDirectory,
+    dest: destDirectory,
+    keepDirStructure: false,
+    warn: false,
+  }], srcDirectory);
 }
 
 export const GENERATED_DTS = 'components.d.ts';

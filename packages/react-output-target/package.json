@@ -1,6 +1,6 @@
 {
   "name": "@stencil/react-output-target",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "This is an output plugin for stencil.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -32,6 +32,9 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ionic-team/stencil-ds-plugins/issues"
+  },
+  "peerDependencies": {
+    "@stencil/core": ">=1.8.0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.22",
