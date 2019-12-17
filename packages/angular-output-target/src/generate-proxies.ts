@@ -14,7 +14,7 @@ export default async function generateProxies(compilerCtx: CompilerCtx, componen
 
   const imports = `/* tslint:disable */
 /* auto-generated angular directive proxies */
-import { Component, ElementRef, ChangeDetectorRef, EventEmitter } from '@angular/core';`;
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, NgZone } from '@angular/core';`;
 
   const sourceImports = !outputTarget.componentCorePackage ?
     `import { Components } from '${normalizePath(componentsTypeFile)}';` :
@@ -64,7 +64,7 @@ function getProxy(cmpMeta: ComponentCompilerMeta) {
   // Generate Angular @Directive
   const directiveOpts = [
     `selector: \'${cmpMeta.tagName}\'`,
-    `changeDetection: 0`,
+    `changeDetection: ChangeDetectionStrategy.OnPush`,
     `template: '<ng-content></ng-content>'`
   ];
   if (inputs.length > 0) {
@@ -84,7 +84,7 @@ export class ${tagNameAsPascal} {`];
   });
 
   lines.push('  protected el: HTMLElement;');
-  lines.push(`  constructor(c: ChangeDetectorRef, r: ElementRef) {
+  lines.push(`  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;`);
   if (hasOutputs) {
@@ -113,42 +113,41 @@ function getMethods(cmpMeta: ComponentCompilerMeta): string[] {
 
 function getProxyUtils(outputTarget: OutputTargetAngular) {
   if (!outputTarget.directivesUtilsFile) {
-    return PROXY_UTILS.replace(/export function/g, 'function');
+    return PROXY_UTILS;
   } else {
     const utilsPath = relativeImport(outputTarget.directivesProxyFile, outputTarget.directivesUtilsFile, '.ts');
     return `import { ProxyCmp, proxyOutputs } from '${normalizePath(utilsPath)}';\n`;
   }
 }
-
 const PROXY_UTILS = `import { fromEvent } from 'rxjs';
 
-export function proxyInputs(Cmp: any, inputs: string[]) {
+export const proxyInputs = (Cmp: any, inputs: string[]) => {
   const Prototype = Cmp.prototype;
   inputs.forEach(item => {
     Object.defineProperty(Prototype, item, {
       get() { return this.el[item]; },
-      set(val: any) { this.el[item] = val; },
+      set(val: any) { this.z.runOutsideAngular(() => (this.el[item] = val)); }
     });
   });
 };
 
-export function proxyMethods(Cmp: any, methods: string[]) {
+export const proxyMethods = (Cmp: any, methods: string[]) => {
   const Prototype = Cmp.prototype;
   methods.forEach(methodName => {
-    Prototype[methodName] = function() {
+    Prototype[methodName] = function () {
       const args = arguments;
-      return this.el.componentOnReady().then((el: any) => el[methodName].apply(el, args));
+      return this.z.runOutsideAngular(() => this.el[methodName].apply(this.el, args));
     };
   });
 };
 
-export function proxyOutputs(instance: any, el: any, events: string[]) {
+export const proxyOutputs = (instance: any, el: any, events: string[]) => {
   events.forEach(eventName => instance[eventName] = fromEvent(el, eventName));
-};
+}
 
 // tslint:disable-next-line: only-arrow-functions
 export function ProxyCmp(opts: { inputs?: any; methods?: any }) {
-  return (cls: any) => {
+  const decorator =  function(cls: any){
     if (opts.inputs) {
       proxyInputs(cls, opts.inputs);
     }
@@ -157,5 +156,6 @@ export function ProxyCmp(opts: { inputs?: any; methods?: any }) {
     }
     return cls;
   };
+  return decorator;
 }
 `;

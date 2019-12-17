@@ -71,14 +71,15 @@ function copyResources(config: Config, resourcesFilesToCopy: string[], directory
   if (!config.sys || !config.sys.copy) {
     throw new Error('stencil is not properly intialized at this step. Notify the developer');
   }
-
-  return config.sys.copy(
-    resourcesFilesToCopy.map(rf => ({
+  const copyTasks = resourcesFilesToCopy.map(rf => {
+    return {
       src: path.join(__dirname, '../resources/control-value-accessors/', rf),
       dest: path.join(directory, rf),
+      keepDirStructure: false,
       warn: false
-    }))
-  );
+    }
+  });
+  return config.sys.copy(copyTasks, path.join(directory));
 }
 
 
