@@ -49,7 +49,7 @@ import { createReactComponent } from './react-component-lib';\n`;
     ),
   )}';\n`;
 
-  const registerCustomElements = `${APPLY_POLYFILLS}().then(() => { ${REGISTER_CUSTOM_ELEMENTS}(window); });`;
+  const registerCustomElements = `${APPLY_POLYFILLS}().then(() => ${REGISTER_CUSTOM_ELEMENTS}());`;
 
   const final: string[] = [
     imports,
@@ -68,9 +68,7 @@ function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
   return [
-    `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${
-      cmpMeta.tagName
-    }');`,
+    `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}');`,
   ];
 }
 
@@ -81,12 +79,17 @@ async function copyResources(config: Config, outputTarget: OutputTargetReact) {
   const srcDirectory = path.join(__dirname, '..', 'react-component-lib');
   const destDirectory = path.join(path.dirname(outputTarget.proxiesFile), 'react-component-lib');
 
-  return config.sys.copy([{
-    src: srcDirectory,
-    dest: destDirectory,
-    keepDirStructure: false,
-    warn: false,
-  }], srcDirectory);
+  return config.sys.copy(
+    [
+      {
+        src: srcDirectory,
+        dest: destDirectory,
+        keepDirStructure: false,
+        warn: false,
+      },
+    ],
+    srcDirectory,
+  );
 }
 
 export const GENERATED_DTS = 'components.d.ts';
