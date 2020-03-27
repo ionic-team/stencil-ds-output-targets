@@ -62,7 +62,7 @@ async function writeValueAccessor(type: ValueAccessorTypes, valueAccessor: Value
 
   const finalText = srcFileContents
     .replace(VALUE_ACCESSOR_SELECTORS, valueAccessor.elementSelectors.join(', '))
-    .replace(VALUE_ACCESSOR_EVENTTARGETS, hostContents.join('\n'));
+    .replace(VALUE_ACCESSOR_EVENTTARGETS, hostContents.join(',\n'));
 
   await compilerCtx.fs.writeFile(targetFilePath, finalText);
 }
