@@ -39,7 +39,7 @@ export const createReactComponent = <PropType, ElementType>(tagName: string) => 
 
         if (isEventProp) {
           const eventName = name.substring(2).toLowerCase();
-          if (isCoveredByReact(eventName)) {
+          if (typeof document !== "undefined" && isCoveredByReact(eventName)) {
             (acc as any)[name] = (cProps as any)[name];
           }
         } else if (isDataProp || isAriaProp) {
