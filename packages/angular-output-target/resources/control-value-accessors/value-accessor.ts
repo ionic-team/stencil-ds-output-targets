@@ -2,9 +2,8 @@ import { ElementRef, HostListener } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 
 export class ValueAccessor implements ControlValueAccessor {
-
-  private onChange: (value: any) => void = () => {/**/};
-  private onTouched: () => void = () => {/**/};
+  private onChange: (value: any) => void = () => {};
+  private onTouched: () => void = () => {};
   protected lastValue: any;
 
   constructor(protected el: ElementRef) {}
@@ -30,5 +29,9 @@ export class ValueAccessor implements ControlValueAccessor {
   }
   registerOnTouched(fn: () => void) {
     this.onTouched = fn;
+  }
+
+  setDisabledState(disabled: boolean) {
+    this.el.nativeElement.disabled = disabled;
   }
 }
