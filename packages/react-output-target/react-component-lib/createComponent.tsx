@@ -29,7 +29,7 @@ export const createReactComponent = <PropType, ElementType>(tagName: string) => 
 
     componentDidUpdate(prevProps: IonicReactInternalProps<ElementType>) {
       const node = this.ref.current;
-      attachEventProps(node, this.props, prevProps);
+      node && attachEventProps(node, this.props, prevProps);
     }
 
     render() {
