@@ -35,8 +35,6 @@
   "devDependencies": {
     "@angular/core": "8.2.14",
     "@angular/forms": "8.2.14",
-    "@types/jest": "^25.2.3",
-    "jest": "^26.0.1",
     "np": "^4.0.2",
     "rimraf": "^2.6.3",
     "rollup": "^1.6.0",
