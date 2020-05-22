@@ -40,7 +40,7 @@
     "np": "^4.0.2",
     "rimraf": "^2.6.3",
     "rollup": "^1.6.0",
-    "typescript": "^3.3.3333"
+    "typescript": "^3.9.3"
   },
   "jest": {
     "transform": {
