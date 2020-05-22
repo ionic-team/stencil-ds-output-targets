@@ -5,7 +5,10 @@
     "build": "lerna run build"
   },
   "devDependencies": {
-    "@stencil/core": "^1.8.1",
+    "@stencil/core": "^1.13.0",
     "lerna": "^3.13.1"
+  },
+  "dependencies": {
+    "prettier": "^2.0.5"
   }
 }
