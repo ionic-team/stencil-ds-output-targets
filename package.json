@@ -2,7 +2,8 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "build": "lerna run build"
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna build"
   },
   "devDependencies": {
     "@stencil/core": "^1.13.0",
