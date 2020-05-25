@@ -3,6 +3,7 @@ export interface OutputTargetReact {
   proxiesFile: string;
   excludeComponents?: string[];
   loaderDir?: string;
+  skipRegister?: boolean;
 }
 
 export interface PackageJSON {

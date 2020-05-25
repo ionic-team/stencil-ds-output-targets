@@ -17,8 +17,8 @@ export async function reactProxyOutput(
 }
 
 function getFilteredComponents(excludeComponents: string[] = [], cmps: ComponentCompilerMeta[]) {
-  return sortBy(cmps, cmp => cmp.tagName).filter(
-    c => !excludeComponents.includes(c.tagName) && !c.internal,
+  return sortBy(cmps, (cmp) => cmp.tagName).filter(
+    (c) => !excludeComponents.includes(c.tagName) && !c.internal,
   );
 }
 
@@ -54,8 +54,7 @@ import { createReactComponent } from './react-component-lib';\n`;
   const final: string[] = [
     imports,
     typeImports,
-    sourceImports,
-    registerCustomElements,
+    ...(outputTarget.skipRegister ? '' : [sourceImports, registerCustomElements]),
     components.map(createComponentDefinition).join('\n'),
   ];
 
