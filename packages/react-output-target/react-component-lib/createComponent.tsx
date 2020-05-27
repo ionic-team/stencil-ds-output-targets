@@ -15,9 +15,9 @@ interface IonicReactInternalProps<ElementType> extends React.HTMLAttributes<Elem
 export const createReactComponent = <PropType, ElementType>(tagName: string) => {
   const displayName = dashToPascalCase(tagName);
   const ReactComponent = class extends React.Component<IonicReactInternalProps<ElementType>> {
-    
+
     private ref: React.RefObject<HTMLElement>;
-    
+
     constructor(props: IonicReactInternalProps<ElementType>) {
       super(props);
       this.ref = React.createRef<HTMLElement>();
@@ -28,7 +28,7 @@ export const createReactComponent = <PropType, ElementType>(tagName: string) => 
     }
 
     componentDidUpdate(prevProps: IonicReactInternalProps<ElementType>) {
-      const node = this.ref.current;
+      const node = this.ref.current as HTMLElement;
       attachEventProps(node, this.props, prevProps);
     }
 
