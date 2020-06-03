@@ -31,7 +31,7 @@ export class Popover implements ComponentInterface, OverlayInterface {
 
   overlayIndex = 0;
 
-  @Element() el: HTMLIonPopoverElement;
+  @Element() el: HTMLMyPopoverElement;
 
   /**
    * The component to display inside of the popover.
