@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, waitForElement } from '@testing-library/react';
+import { MyPopover } from '../src';
 import '@testing-library/jest-dom';
 
 describe('createOverlayComponent - events', () => {
@@ -7,9 +8,9 @@ describe('createOverlayComponent - events', () => {
     const onDismiss = jest.fn();
     const { baseElement, container } = render(
       <>
-        <IonActionSheet isOpen={false} onDidDismiss={onDismiss} buttons={[]}>
+        <MyPopover isOpen={false} onDidDismiss={onDismiss} buttons={[]}>
           ButtonNameA
-        </IonActionSheet>
+        </MyPopover>
         <span>ButtonNameA</span>
       </>,
     );
@@ -20,9 +21,9 @@ describe('createOverlayComponent - events', () => {
   test('should create component and attach props on opening', async () => {
     const onDidDismiss = jest.fn();
     const { baseElement, rerender, container } = render(
-      <IonActionSheet isOpen={false} onDidDismiss={onDidDismiss} buttons={[]}>
+      <MyPopover isOpen={false} onDidDismiss={onDidDismiss} buttons={[]}>
         ButtonNameA
-      </IonActionSheet>,
+      </MyPopover>,
     );
 
     const [element, presentFunction] = createControllerElement();
@@ -31,9 +32,9 @@ describe('createOverlayComponent - events', () => {
     const attachEventPropsSpy = jest.spyOn(utils, 'attachEventProps');
 
     rerender(
-      <IonActionSheet isOpen={true} onDidDismiss={onDidDismiss} buttons={[]}>
+      <MyPopover isOpen={true} onDidDismiss={onDidDismiss} buttons={[]}>
         ButtonNameA
-      </IonActionSheet>,
+      </MyPopover>,
     );
 
     await waitForElement(() => container.querySelector('ion-action-sheet'));
@@ -42,7 +43,7 @@ describe('createOverlayComponent - events', () => {
     expect(presentFunction).toHaveBeenCalled();
     expect(attachEventPropsSpy).toHaveBeenCalledWith(element, {
       buttons: [],
-      onIonActionSheetDidDismiss: onDidDismiss,
+      onMyPopover: onDidDismiss,
     });
   });
 
@@ -50,25 +51,25 @@ describe('createOverlayComponent - events', () => {
     const [element, , dismissFunction] = createControllerElement();
 
     const { baseElement, rerender, container } = render(
-      <IonActionSheet isOpen={false} onDidDismiss={jest.fn()} buttons={[]}>
+      <MyPopover isOpen={false} onDidDismiss={jest.fn()} buttons={[]}>
         ButtonNameA
-      </IonActionSheet>,
+      </MyPopover>,
     );
 
     augmentController(baseElement, container, element);
 
     rerender(
-      <IonActionSheet isOpen={true} onDidDismiss={jest.fn()} buttons={[]}>
+      <MyPopover isOpen={true} onDidDismiss={jest.fn()} buttons={[]}>
         ButtonNameA
-      </IonActionSheet>,
+      </MyPopover>,
     );
 
     await waitForElement(() => container.querySelector('ion-action-sheet'));
 
     rerender(
-      <IonActionSheet isOpen={false} onDidDismiss={jest.fn()} buttons={[]}>
+      <MyPopover isOpen={false} onDidDismiss={jest.fn()} buttons={[]}>
         ButtonNameA
-      </IonActionSheet>,
+      </MyPopover>,
     );
 
     expect(dismissFunction).toHaveBeenCalled();
