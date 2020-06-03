@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@stencil/angular-output-target": "0.0.2",
-    "@stencil/react-output-target": "0.0.2",
+    "@stencil/react-output-target": "0.0.6",
     "@stencil/core": "^1.13.0"
   },
   "license": "MIT"

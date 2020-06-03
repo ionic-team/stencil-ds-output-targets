@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AutocompleteTypes, Color, ComponentProps, ComponentRef, OverlayEventDetail, StyleEventDetail, TextFieldTypes, } from "./interfaces";
-import { InputChangeEventDetail, } from "./components/my-input/my-input";
+import { AutocompleteTypes, Color, ComponentProps, ComponentRef, OverlayEventDetail, StyleEventDetail, TextFieldTypes } from "./interfaces";
+import { InputChangeEventDetail } from "./components/my-input/my-input";
 export namespace Components {
     interface MyButton {
         /**
@@ -28,11 +28,11 @@ export namespace Components {
         /**
           * Set to `"block"` for a full-width button or to `"full"` for a full-width button without left and right borders.
          */
-        "expand"?: "full" | "block";
+        "expand"?: 'full' | 'block';
         /**
           * Set to `"clear"` for a transparent button, to `"outline"` for a transparent button with a border, or to `"solid"`. The default style is `"solid"` except inside of a toolbar, where the default is `"clear"`.
          */
-        "fill"?: "clear" | "outline" | "solid" | "default";
+        "fill"?: 'clear' | 'outline' | 'solid' | 'default';
         /**
           * Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered.
          */
@@ -48,11 +48,11 @@ export namespace Components {
         /**
           * The button shape.
          */
-        "shape"?: "round";
+        "shape"?: 'round';
         /**
           * The button size.
          */
-        "size"?: "small" | "default" | "large";
+        "size"?: 'small' | 'default' | 'large';
         /**
           * If `true`, activates a button with a heavier font weight.
          */
@@ -64,7 +64,7 @@ export namespace Components {
         /**
           * The type of the button.
          */
-        "type": "submit" | "reset" | "button";
+        "type": 'submit' | 'reset' | 'button';
     }
     interface MyComponent {
         /**
@@ -96,7 +96,7 @@ export namespace Components {
         /**
           * Whether auto correction should be enabled when the user is entering/editing the text value.
          */
-        "autocorrect": "on" | "off";
+        "autocorrect": 'on' | 'off';
         /**
           * This Boolean attribute lets you specify that a form control should have input focus when the page loads.
          */
@@ -120,7 +120,7 @@ export namespace Components {
         /**
           * A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
          */
-        "enterkeyhint"?: "enter" | "done" | "go" | "next" | "previous" | "search" | "send";
+        "enterkeyhint"?: 'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send';
         /**
           * Returns the native `<input>` element used under the hood.
          */
@@ -128,7 +128,7 @@ export namespace Components {
         /**
           * A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
          */
-        "inputmode"?: "none" | "text" | "tel" | "url" | "email" | "numeric" | "decimal" | "search";
+        "inputmode"?: 'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search';
         /**
           * The maximum value, which must not be less than its minimum (min attribute) value.
          */
@@ -240,11 +240,11 @@ export namespace Components {
         /**
           * Returns a promise that resolves when the popover did dismiss.
          */
-        "onDidDismiss": () => Promise<OverlayEventDetail<any>>;
+        "onDidDismiss": () => Promise<OverlayEventDetail>;
         /**
           * Returns a promise that resolves when the popover will dismiss.
          */
-        "onWillDismiss": () => Promise<OverlayEventDetail<any>>;
+        "onWillDismiss": () => Promise<OverlayEventDetail>;
         /**
           * Present the popover overlay after it has been created.
          */
@@ -312,11 +312,11 @@ declare namespace LocalJSX {
         /**
           * Set to `"block"` for a full-width button or to `"full"` for a full-width button without left and right borders.
          */
-        "expand"?: "full" | "block";
+        "expand"?: 'full' | 'block';
         /**
           * Set to `"clear"` for a transparent button, to `"outline"` for a transparent button with a border, or to `"solid"`. The default style is `"solid"` except inside of a toolbar, where the default is `"clear"`.
          */
-        "fill"?: "clear" | "outline" | "solid" | "default";
+        "fill"?: 'clear' | 'outline' | 'solid' | 'default';
         /**
           * Contains a URL or a URL fragment that the hyperlink points to. If this property is set, an anchor tag will be rendered.
          */
@@ -340,11 +340,11 @@ declare namespace LocalJSX {
         /**
           * The button shape.
          */
-        "shape"?: "round";
+        "shape"?: 'round';
         /**
           * The button size.
          */
-        "size"?: "small" | "default" | "large";
+        "size"?: 'small' | 'default' | 'large';
         /**
           * If `true`, activates a button with a heavier font weight.
          */
@@ -356,7 +356,7 @@ declare namespace LocalJSX {
         /**
           * The type of the button.
          */
-        "type"?: "submit" | "reset" | "button";
+        "type"?: 'submit' | 'reset' | 'button';
     }
     interface MyComponent {
         /**
@@ -388,7 +388,7 @@ declare namespace LocalJSX {
         /**
           * Whether auto correction should be enabled when the user is entering/editing the text value.
          */
-        "autocorrect"?: "on" | "off";
+        "autocorrect"?: 'on' | 'off';
         /**
           * This Boolean attribute lets you specify that a form control should have input focus when the page loads.
          */
@@ -412,11 +412,11 @@ declare namespace LocalJSX {
         /**
           * A hint to the browser for which enter key to display. Possible values: `"enter"`, `"done"`, `"go"`, `"next"`, `"previous"`, `"search"`, and `"send"`.
          */
-        "enterkeyhint"?: "enter" | "done" | "go" | "next" | "previous" | "search" | "send";
+        "enterkeyhint"?: 'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send';
         /**
           * A hint to the browser for which keyboard to display. Possible values: `"none"`, `"text"`, `"tel"`, `"url"`, `"email"`, `"numeric"`, `"decimal"`, and `"search"`.
          */
-        "inputmode"?: "none" | "text" | "tel" | "url" | "email" | "numeric" | "decimal" | "search";
+        "inputmode"?: 'none' | 'text' | 'tel' | 'url' | 'email' | 'numeric' | 'decimal' | 'search';
         /**
           * The maximum value, which must not be less than its minimum (min attribute) value.
          */
@@ -461,6 +461,10 @@ declare namespace LocalJSX {
           * Emitted when a keyboard input occurred.
          */
         "onIonInput"?: (event: CustomEvent<KeyboardEvent>) => void;
+        /**
+          * Emitted when the styles change.
+         */
+        "onIonStyle"?: (event: CustomEvent<StyleEventDetail>) => void;
         /**
           * A regular expression that the value is checked against. The pattern must match the entire value, not just some subset. Use the title attribute to describe the pattern to help the user. This attribute applies when the value of the type attribute is `"text"`, `"search"`, `"tel"`, `"url"`, `"email"`, `"date"`, or `"password"`, otherwise it is ignored. When the type attribute is `"date"`, `pattern` will only be used in browsers that do not support the `"date"` input type natively. See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date for more information.
          */

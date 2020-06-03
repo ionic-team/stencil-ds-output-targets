@@ -9,9 +9,14 @@ interface StencilReactInternalProps<ElementType> extends React.HTMLAttributes<El
 }
 export const NavContext = React.createContext<{}>({});
 
-export const createReactComponent = <PropType, ElementType, ContextStateType, ExpandedPropsTypes>(
+export const createReactComponent = <
+  PropType,
+  ElementType,
+  ContextStateType = {},
+  ExpandedPropsTypes = {}
+>(
   tagName: string,
-  reactComponentContext: React.Context<ContextStateType>,
+  reactComponentContext?: React.Context<ContextStateType>,
   manipulatePropsFunction: (
     originalProps: StencilReactInternalProps<PropType>,
     propsToPass: any,
