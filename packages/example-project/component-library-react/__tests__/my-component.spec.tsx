@@ -1,7 +1,8 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, RenderResult } from '@testing-library/react';
 import { MyComponent, MyButton, MyInput } from '../src';
 import '@testing-library/jest-dom';
+import { HTMLStencilElement } from 'component-library/dist/types/stencil-public-runtime';
 
 describe('MyComponent', () => {
   it('should be rendered by React', () => {
@@ -11,9 +12,34 @@ describe('MyComponent', () => {
   });
 
   it('should get strings as props', () => {
-    const { container } = render(<MyComponent first="blue" />);
-    const component = container.getElementsByTagName('my-component')[0];
-    expect(component.first).toEqual('blue');
+    const { webcomponent: myComponent } = includeWebComponent<HTMLMyComponentElement>(
+      render(<MyComponent first="blue" />),
+    );
+    expect(myComponent.first).toEqual('blue');
+  });
+
+  it('should get numbers as props', () => {
+    const { webcomponent: myComponent } = includeWebComponent<HTMLMyComponentElement>(
+      render(<MyComponent age={39} />),
+    );
+    expect(myComponent.age).toEqual(39);
+  });
+
+  it('should get arrays as props', () => {
+    const { webcomponent: myComponent } = includeWebComponent<HTMLMyComponentElement>(
+      render(<MyComponent kidsNames={['billy', 'jane']} />),
+    );
+    expect(myComponent.kidsNames).toEqual(['billy', 'jane']);
+  });
+});
+
+describe('createComponent - ref', () => {
+  test('should pass ref on to web component instance', () => {
+    const myButtonRef: React.RefObject<any> = React.createRef();
+    const { webcomponent: myButtonItem } = includeWebComponent<HTMLMyButtonElement>(
+      render(<MyButton ref={myButtonRef}>ButtonNameA</MyButton>),
+    );
+    expect(myButtonRef.current).toEqual(myButtonItem);
   });
 });
 
@@ -21,26 +47,29 @@ describe('createComponent - events', () => {
   test('should set events on handler', () => {
     const FakeOnClick = jest.fn((e) => e);
 
-    const { getByText } = render(<MyButton onClick={FakeOnClick}>ButtonNameA</MyButton>);
-    fireEvent.click(getByText('ButtonNameA'));
+    const { webcomponent } = includeWebComponent<HTMLMyButtonElement>(
+      render(<MyButton onClick={FakeOnClick}>ButtonNameA</MyButton>),
+    );
+    fireEvent.click(webcomponent);
     expect(FakeOnClick).toBeCalledTimes(1);
   });
 
   test('should add custom events', () => {
-    const FakeIonFocus = jest.fn((e) => e);
+    const myInputRef: React.RefObject<any> = React.createRef();
+    const FakeFocus = jest.fn();
 
-    const { getByText } = render(<MyInput onFocus={FakeIonFocus}>ButtonNameA</MyInput>);
-    const ionInputItem = getByText('ButtonNameA');
-    expect(Object.keys((ionInputItem as any).__events)).toEqual(['ionFocus']);
+    const { webcomponent } = includeWebComponent<HTMLMyInputElement>(
+      render(<MyInput ref={myInputRef} onIonFocus={FakeFocus} />),
+    );
+    const attachedEvents = (webcomponent as any).__events;
+    expect(Object.keys(attachedEvents)).toContain('ionFocus');
   });
 });
 
-describe('createComponent - ref', () => {
-  test('should pass ref on to web component instance', () => {
-    const ionButtonRef: React.RefObject<any> = React.createRef();
-
-    const { getByText } = render(<MyButton ref={ionButtonRef}>ButtonNameA</MyButton>);
-    const ionButtonItem = getByText('ButtonNameA');
-    expect(ionButtonRef.current).toEqual(ionButtonItem);
-  });
-});
+function includeWebComponent<T extends HTMLStencilElement>(results: RenderResult) {
+  const webcomponent = results.container.children[0] as T;
+  return {
+    ...results,
+    webcomponent,
+  };
+}

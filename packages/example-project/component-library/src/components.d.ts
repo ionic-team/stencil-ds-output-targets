@@ -5,7 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AutocompleteTypes, Color, ComponentProps, ComponentRef, OverlayEventDetail, StyleEventDetail, TextFieldTypes } from "./interfaces";
+import { AutocompleteTypes, Color, ComponentProps, ComponentRef, OverlayEventDetail, TextFieldTypes } from "./interfaces";
 import { InputChangeEventDetail } from "./components/my-input/my-input";
 export namespace Components {
     interface MyButton {
@@ -68,9 +68,17 @@ export namespace Components {
     }
     interface MyComponent {
         /**
+          * The age
+         */
+        "age": number;
+        /**
           * The first name
          */
         "first": string;
+        /**
+          * The array of child names
+         */
+        "kidsNames": string[];
         /**
           * The last name
          */
@@ -360,9 +368,17 @@ declare namespace LocalJSX {
     }
     interface MyComponent {
         /**
+          * The age
+         */
+        "age"?: number;
+        /**
           * The first name
          */
         "first"?: string;
+        /**
+          * The array of child names
+         */
+        "kidsNames"?: string[];
         /**
           * The last name
          */
@@ -461,10 +477,6 @@ declare namespace LocalJSX {
           * Emitted when a keyboard input occurred.
          */
         "onIonInput"?: (event: CustomEvent<KeyboardEvent>) => void;
-        /**
-          * Emitted when the styles change.
-         */
-        "onIonStyle"?: (event: CustomEvent<StyleEventDetail>) => void;
         /**
           * A regular expression that the value is checked against. The pattern must match the entire value, not just some subset. Use the title attribute to describe the pattern to help the user. This attribute applies when the value of the type attribute is `"text"`, `"search"`, `"tel"`, `"url"`, `"email"`, `"date"`, or `"password"`, otherwise it is ignored. When the type attribute is `"date"`, `pattern` will only be used in browsers that do not support the `"date"` input type natively. See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date for more information.
          */

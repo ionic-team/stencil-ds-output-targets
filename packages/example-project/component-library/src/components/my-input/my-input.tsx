@@ -13,7 +13,7 @@ import {
   h,
 } from '@stencil/core';
 
-import { AutocompleteTypes, Color, StyleEventDetail, TextFieldTypes } from '../../interfaces';
+import { AutocompleteTypes, Color, TextFieldTypes } from '../../interfaces';
 
 export interface InputChangeEventDetail {
   value: string | number | undefined | null;
@@ -82,11 +82,6 @@ export class Input implements ComponentInterface {
    * If `true`, the user cannot interact with the input.
    */
   @Prop() disabled = false;
-
-  @Watch('disabled')
-  protected disabledChanged() {
-    this.emitStyle();
-  }
 
   /**
    * A hint to the browser for which enter key to display.
@@ -183,7 +178,6 @@ export class Input implements ComponentInterface {
    */
   @Watch('value')
   protected valueChanged() {
-    this.emitStyle();
     this.ionChange.emit({ value: this.value == null ? this.value : this.value.toString() });
   }
 
@@ -207,12 +201,6 @@ export class Input implements ComponentInterface {
    */
   @Event() ionFocus!: EventEmitter<void>;
 
-  /**
-   * Emitted when the styles change.
-   * @internal
-   */
-  @Event() ionStyle!: EventEmitter<StyleEventDetail>;
-
   componentWillLoad() {
     // If the ion-input has a tabindex attribute we get the value
     // and pass it down to the native input, then remove it from the
@@ -225,7 +213,6 @@ export class Input implements ComponentInterface {
   }
 
   connectedCallback() {
-    this.emitStyle();
     if (Build.isBrowser) {
       document.dispatchEvent(
         new CustomEvent('ionInputDidLoad', {
@@ -273,17 +260,6 @@ export class Input implements ComponentInterface {
     return typeof this.value === 'number' ? this.value.toString() : (this.value || '').toString();
   }
 
-  private emitStyle() {
-    this.ionStyle.emit({
-      interactive: true,
-      input: true,
-      'has-placeholder': this.placeholder != null,
-      'has-value': this.hasValue(),
-      'has-focus': this.hasFocus,
-      'interactive-disabled': this.disabled,
-    });
-  }
-
   private onInput = (ev: Event) => {
     const input = ev.target as HTMLInputElement | null;
     if (input) {
@@ -295,7 +271,6 @@ export class Input implements ComponentInterface {
   private onBlur = () => {
     this.hasFocus = false;
     this.focusChanged();
-    this.emitStyle();
 
     this.ionBlur.emit();
   };
@@ -303,7 +278,6 @@ export class Input implements ComponentInterface {
   private onFocus = () => {
     this.hasFocus = true;
     this.focusChanged();
-    this.emitStyle();
 
     this.ionFocus.emit();
   };

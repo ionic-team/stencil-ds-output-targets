@@ -16,16 +16,15 @@ export const createReactComponent = <
   ExpandedPropsTypes = {}
 >(
   tagName: string,
-  reactComponentContext?: React.Context<ContextStateType>,
+  ReactComponentContext?: React.Context<ContextStateType>,
   manipulatePropsFunction: (
     originalProps: StencilReactInternalProps<PropType>,
     propsToPass: any,
   ) => ExpandedPropsTypes = undefined,
 ) => {
   const displayName = dashToPascalCase(tagName);
-  const ReactComponent = class extends React.Component<StencilReactInternalProps<PropType>> {
-    context!: React.Context<typeof reactComponentContext>;
 
+  const ReactComponent = class extends React.Component<StencilReactInternalProps<PropType>> {
     constructor(props: StencilReactInternalProps<PropType>) {
       super(props);
     }
@@ -68,10 +67,12 @@ export const createReactComponent = <
     static get displayName() {
       return displayName;
     }
-
-    static get contextType() {
-      return reactComponentContext;
-    }
   };
+
+  // If context was passed to createReactComponent then conditionally add it to the Component Class
+  if (ReactComponentContext) {
+    ReactComponent.contextType = ReactComponentContext;
+  }
+
   return createForwardRef<PropType, ElementType>(ReactComponent, displayName);
 };

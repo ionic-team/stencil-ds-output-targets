@@ -4,7 +4,7 @@ import { format } from '../../utils/utils';
 @Component({
   tag: 'my-component',
   styleUrl: 'my-component.css',
-  shadow: true
+  shadow: true,
 })
 export class MyComponent {
   /**
@@ -21,6 +21,16 @@ export class MyComponent {
    * The last name
    */
   @Prop() last: string;
+
+  /**
+   * The age
+   */
+  @Prop() age: number;
+
+  /**
+   * The array of child names
+   */
+  @Prop() kidsNames: string[];
 
   private getText(): string {
     return format(this.first, this.middle, this.last);
