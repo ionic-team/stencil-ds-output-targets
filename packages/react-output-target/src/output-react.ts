@@ -96,4 +96,4 @@ export const GENERATED_DTS = 'components.d.ts';
 const IMPORT_TYPES = 'JSX';
 const REGISTER_CUSTOM_ELEMENTS = 'defineCustomElements';
 const APPLY_POLYFILLS = 'applyPolyfills';
-const DEFAULT_LOADER_DIR = '/loader';
+const DEFAULT_LOADER_DIR = '/dist/loader';
