@@ -17,7 +17,7 @@
     "lint.ts": "tslint --project .",
     "lint.fix": "tslint --project . --fix",
     "prerelease": "npm run validate && np prerelease --yolo --any-branch --tag next",
-    "test": "echo 'angular no tests yet'",
+    "test": "jest",
     "tsc": "tsc -p .",
     "validate": "npm i && npm run lint && npm run test && npm run build"
   },
