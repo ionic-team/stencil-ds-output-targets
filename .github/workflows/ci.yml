@@ -20,7 +20,7 @@ jobs:
           key: ${{ runner.OS }}-dependency-cache-${{ hashFiles('package-lock.json') }}
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       - name: Setup Testing Environment
         run: npm run bootstrap
