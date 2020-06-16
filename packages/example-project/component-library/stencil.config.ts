@@ -4,10 +4,10 @@ import { reactOutputTarget } from '@stencil/react-output-target';
 
 const angularValueAccessorBindings: ValueAccessorConfig[] = [
   {
-    elementSelectors: ['demo-component'],
-    event: 'slideChanged',
+    elementSelectors: ['my-input'],
+    event: 'ionChange',
     targetAttr: 'value',
-    type: 'number',
+    type: 'text',
   },
 ];
 

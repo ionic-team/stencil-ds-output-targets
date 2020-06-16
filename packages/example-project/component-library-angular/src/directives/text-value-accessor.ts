@@ -5,25 +5,20 @@ import { ValueAccessor } from './value-accessor';
 
 @Directive({
   /* tslint:disable-next-line:directive-selector */
-  selector: 'demo-component',
+  selector: 'my-input',
   host: {
-    '(slideChanged)': 'handleChangeEvent($event.target.value)'
+    '(ionChange)': 'handleChangeEvent($event.target.value)'
   },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: NumericValueAccessor,
+      useExisting: TextValueAccessor,
       multi: true
     }
   ]
 })
-export class NumericValueAccessor extends ValueAccessor {
+export class TextValueAccessor extends ValueAccessor {
   constructor(el: ElementRef) {
     super(el);
-  }
-  registerOnChange(fn: (_: number | null) => void) {
-    super.registerOnChange(value => {
-      fn(value === '' ? null : parseFloat(value));
-    });
   }
 }

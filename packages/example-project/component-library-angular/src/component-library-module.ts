@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { defineCustomElements } from 'component-library/loader';
 
-import { NumericValueAccessor } from './directives/number-value-accessor';
+import { TextValueAccessor } from './directives/text-value-accessor';
 import { MyComponent } from './directives/proxies';
 
 defineCustomElements(window);
@@ -11,7 +11,7 @@ const DECLARATIONS = [
   MyComponent,
 
   // Value Accessors
-  NumericValueAccessor,
+  TextValueAccessor,
 ];
 
 @NgModule({
