@@ -1,4 +1,10 @@
 {
-  "packages": ["packages/*"],
+  "packages": [
+    "packages/angular-output-target",
+    "packages/react-output-target",
+    "packages/example-project/component-library",
+    "packages/example-project/component-library-angular",
+    "packages/example-project/component-library-react"
+  ],
   "version": "independent"
 }

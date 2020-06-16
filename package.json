@@ -2,10 +2,18 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "build": "lerna run build"
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna run build",
+    "test": "lerna run test"
   },
   "devDependencies": {
-    "@stencil/core": "^1.8.1",
-    "lerna": "^3.13.1"
+    "@stencil/core": "^1.13.0",
+    "@types/jest": "^25.2.3",
+    "jest": "^26.0.1",
+    "lerna": "^3.21.0"
+  },
+  "dependencies": {
+    "prettier": "^2.0.5",
+    "ts-jest": "^26.0.0"
   }
 }

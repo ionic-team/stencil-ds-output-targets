@@ -13,13 +13,12 @@
     "access": "public"
   },
   "scripts": {
-    "prebuild": "rimraf ./dist && npm run test && npm run lint",
+    "prebuild": "rimraf ./dist && npm run test",
     "build": "tsc && npm run rollup",
     "watch": "tsc --watch",
     "rollup": "rollup -c",
     "version": "npm run build",
     "release": "np",
-    "lint": "tslint --project tsconfig.json",
     "test": "jest",
     "test.watch": "jest --watch"
   },
@@ -36,14 +35,10 @@
   "devDependencies": {
     "@angular/core": "8.2.14",
     "@angular/forms": "8.2.14",
-    "@types/jest": "^24.0.11",
-    "jest": "^24.5.0",
     "np": "^4.0.2",
     "rimraf": "^2.6.3",
     "rollup": "^1.6.0",
-    "tslint": "^5.14.0",
-    "tslint-ionic-rules": "0.0.21",
-    "typescript": "^3.3.3333"
+    "typescript": "^3.9.3"
   },
   "jest": {
     "transform": {
