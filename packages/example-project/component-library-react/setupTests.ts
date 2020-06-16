@@ -13,3 +13,9 @@ window.matchMedia =
     throw Error();
   }
 } as any;
+
+let error = console.error;
+console.error = function (message: any) {
+  error.apply(console, arguments); // keep default behaviour
+  throw message instanceof Error ? message : new Error(message);
+};
