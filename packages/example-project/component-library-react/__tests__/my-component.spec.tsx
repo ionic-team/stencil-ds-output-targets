@@ -62,7 +62,7 @@ describe('createComponent - events', () => {
       renderWithStrictMode(<MyInput ref={myInputRef} onMyFocus={FakeFocus} />),
     );
     const attachedEvents = (webcomponent as any).__events;
-    expect(Object.keys(attachedEvents)).toContain('ionFocus');
+    expect(Object.keys(attachedEvents)).toContain('myFocus');
   });
 });
 

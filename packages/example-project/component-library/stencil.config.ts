@@ -28,8 +28,8 @@ const angularValueAccessorBindings: ValueAccessorConfig[] = [
     type: 'radio',
   },
   {
-    elementSelectors: ['my-range'],
-    event: 'mySelect',
+    elementSelectors: ['my-range', 'my-radio-group'],
+    event: 'myChange',
     targetAttr: 'value',
     type: 'select',
   },
