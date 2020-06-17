@@ -4,10 +4,34 @@ import { reactOutputTarget } from '@stencil/react-output-target';
 
 const angularValueAccessorBindings: ValueAccessorConfig[] = [
   {
-    elementSelectors: ['my-input'],
-    event: 'ionChange',
+    elementSelectors: ['my-input[type=text]'],
+    event: 'myChange',
     targetAttr: 'value',
     type: 'text',
+  },
+  {
+    elementSelectors: ['my-input[type=number]'],
+    event: 'myChange',
+    targetAttr: 'value',
+    type: 'number',
+  },
+  {
+    elementSelectors: ['my-checkbox'],
+    event: 'myChange',
+    targetAttr: 'checked',
+    type: 'boolean',
+  },
+  {
+    elementSelectors: ['my-radio'],
+    event: 'mySelect',
+    targetAttr: 'checked',
+    type: 'radio',
+  },
+  {
+    elementSelectors: ['my-range'],
+    event: 'mySelect',
+    targetAttr: 'value',
+    type: 'select',
   },
 ];
 

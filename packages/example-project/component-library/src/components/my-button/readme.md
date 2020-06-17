@@ -27,10 +27,10 @@
 
 ## Events
 
-| Event      | Description                          | Type                |
-| ---------- | ------------------------------------ | ------------------- |
-| `ionBlur`  | Emitted when the button loses focus. | `CustomEvent<void>` |
-| `ionFocus` | Emitted when the button has focus.   | `CustomEvent<void>` |
+| Event     | Description                          | Type                |
+| --------- | ------------------------------------ | ------------------- |
+| `myBlur`  | Emitted when the button loses focus. | `CustomEvent<void>` |
+| `myFocus` | Emitted when the button has focus.   | `CustomEvent<void>` |
 
 
 ## Slots

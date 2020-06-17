@@ -34,7 +34,7 @@ describe('MyInput', () => {
     });
   }));
 
-  it('should create', () => {
+  it('on ionChange type="text" the bound component attribute should update', () => {
     const { componentInstance: myAngularComponent } = fixture;
     myInputEl.triggerEventHandler('ionChange', { target: { value: 'text' } });
     expect(myAngularComponent.testText).toEqual('text');

@@ -23,12 +23,12 @@
 
 ## Events
 
-| Event                   | Description                               | Type                                   |
-| ----------------------- | ----------------------------------------- | -------------------------------------- |
-| `ionPopoverDidDismiss`  | Emitted after the popover has dismissed.  | `CustomEvent<OverlayEventDetail<any>>` |
-| `ionPopoverDidPresent`  | Emitted after the popover has presented.  | `CustomEvent<void>`                    |
-| `ionPopoverWillDismiss` | Emitted before the popover has dismissed. | `CustomEvent<OverlayEventDetail<any>>` |
-| `ionPopoverWillPresent` | Emitted before the popover has presented. | `CustomEvent<void>`                    |
+| Event                  | Description                               | Type                                   |
+| ---------------------- | ----------------------------------------- | -------------------------------------- |
+| `myPopoverDidDismiss`  | Emitted after the popover has dismissed.  | `CustomEvent<OverlayEventDetail<any>>` |
+| `myPopoverDidPresent`  | Emitted after the popover has presented.  | `CustomEvent<void>`                    |
+| `myPopoverWillDismiss` | Emitted before the popover has dismissed. | `CustomEvent<OverlayEventDetail<any>>` |
+| `myPopoverWillPresent` | Emitted before the popover has presented. | `CustomEvent<void>`                    |
 
 
 ## Methods

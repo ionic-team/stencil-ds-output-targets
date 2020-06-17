@@ -5,19 +5,19 @@ import { ValueAccessor } from './value-accessor';
 
 @Directive({
   /* tslint:disable-next-line:directive-selector */
-  selector: 'my-input[type=text]',
+  selector: 'my-radio',
   host: {
-    '(myChange)': 'handleChangeEvent($event.target.value)'
+    '(mySelect)': 'handleChangeEvent($event.target.checked)'
   },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: TextValueAccessor,
+      useExisting: RadioValueAccessor,
       multi: true
     }
   ]
 })
-export class TextValueAccessor extends ValueAccessor {
+export class RadioValueAccessor extends ValueAccessor {
   constructor(el: ElementRef) {
     super(el);
   }

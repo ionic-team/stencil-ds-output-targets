@@ -28,7 +28,7 @@ export interface InputChangeEventDetail {
 })
 export class Input implements ComponentInterface {
   private nativeInput?: HTMLInputElement;
-  private inputId = `ion-input-${inputIds++}`;
+  private inputId = `my-input-${inputIds++}`;
   private didBlurAfterEdit = false;
   private tabindex?: string | number;
 
@@ -178,33 +178,33 @@ export class Input implements ComponentInterface {
    */
   @Watch('value')
   protected valueChanged() {
-    this.ionChange.emit({ value: this.value == null ? this.value : this.value.toString() });
+    this.myChange.emit({ value: this.value == null ? this.value : this.value.toString() });
   }
 
   /**
    * Emitted when a keyboard input occurred.
    */
-  @Event() ionInput!: EventEmitter<KeyboardEvent>;
+  @Event() myInput!: EventEmitter<KeyboardEvent>;
 
   /**
    * Emitted when the value has changed.
    */
-  @Event() ionChange!: EventEmitter<InputChangeEventDetail>;
+  @Event() myChange!: EventEmitter<InputChangeEventDetail>;
 
   /**
    * Emitted when the input loses focus.
    */
-  @Event() ionBlur!: EventEmitter<void>;
+  @Event() myBlur!: EventEmitter<void>;
 
   /**
    * Emitted when the input has focus.
    */
-  @Event() ionFocus!: EventEmitter<void>;
+  @Event() myFocus!: EventEmitter<void>;
 
   componentWillLoad() {
-    // If the ion-input has a tabindex attribute we get the value
+    // If the my-input has a tabindex attribute we get the value
     // and pass it down to the native input, then remove it from the
-    // ion-input to avoid causing tabbing twice on the same element
+    // my-input to avoid causing tabbing twice on the same element
     if (this.el.hasAttribute('tabindex')) {
       const tabindex = this.el.getAttribute('tabindex');
       this.tabindex = tabindex !== null ? tabindex : undefined;
@@ -215,7 +215,7 @@ export class Input implements ComponentInterface {
   connectedCallback() {
     if (Build.isBrowser) {
       document.dispatchEvent(
-        new CustomEvent('ionInputDidLoad', {
+        new CustomEvent('myInputDidLoad', {
           detail: this.el,
         }),
       );
@@ -225,7 +225,7 @@ export class Input implements ComponentInterface {
   disconnectedCallback() {
     if (Build.isBrowser) {
       document.dispatchEvent(
-        new CustomEvent('ionInputDidUnload', {
+        new CustomEvent('myInputDidUnload', {
           detail: this.el,
         }),
       );
@@ -233,7 +233,7 @@ export class Input implements ComponentInterface {
   }
 
   /**
-   * Sets focus on the specified `ion-input`. Use this method instead of the global
+   * Sets focus on the specified `my-input`. Use this method instead of the global
    * `input.focus()`.
    */
   @Method()
@@ -265,21 +265,21 @@ export class Input implements ComponentInterface {
     if (input) {
       this.value = input.value || '';
     }
-    this.ionInput.emit(ev as KeyboardEvent);
+    this.myInput.emit(ev as KeyboardEvent);
   };
 
   private onBlur = () => {
     this.hasFocus = false;
     this.focusChanged();
 
-    this.ionBlur.emit();
+    this.myBlur.emit();
   };
 
   private onFocus = () => {
     this.hasFocus = true;
     this.focusChanged();
 
-    this.ionFocus.emit();
+    this.myFocus.emit();
   };
 
   private onKeydown = (ev: KeyboardEvent) => {
