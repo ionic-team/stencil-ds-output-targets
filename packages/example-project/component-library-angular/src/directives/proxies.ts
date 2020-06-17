@@ -41,12 +41,16 @@ export function ProxyCmp(opts: { inputs?: any; methods?: any }) {
   return decorator;
 }
 
-import { Components, JSX } from 'component-library'
-export declare interface MyButton extends Required<Pick<JSX.MyButton, 'onIonFocus' | 'onIonBlur'>> {}
+import { Components } from 'component-library'
+import { Button as IButton } from 'component-library/dist/types/components/my-button/my-button';
 export declare interface MyButton extends Components.MyButton {}
 @ProxyCmp({inputs: ['buttonType', 'color', 'disabled', 'download', 'expand', 'fill', 'href', 'mode', 'rel', 'shape', 'size', 'strong', 'target', 'type']})
 @Component({ selector: 'my-button', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['buttonType', 'color', 'disabled', 'download', 'expand', 'fill', 'href', 'mode', 'rel', 'shape', 'size', 'strong', 'target', 'type'], outputs: ['ionFocus', 'ionBlur'] })
 export class MyButton {
+  /** Emitted when the button has focus. */
+  ionFocus!: IButton['ionFocus'];
+  /** Emitted when the button loses focus. */
+  ionBlur!: IButton['ionBlur'];
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -65,11 +69,19 @@ export class MyComponent {
     this.el = r.nativeElement;
   }
 }
-export declare interface MyInput extends Required<Pick<JSX.MyInput, 'onIonInput' | 'onIonChange' | 'onIonBlur' | 'onIonFocus'>> {}
+import { Input as IInput } from 'component-library/dist/types/components/my-input/my-input';
 export declare interface MyInput extends Components.MyInput {}
 @ProxyCmp({inputs: ['accept', 'autocapitalize', 'autocomplete', 'autocorrect', 'autofocus', 'clearInput', 'clearOnEdit', 'color', 'disabled', 'enterkeyhint', 'inputmode', 'max', 'maxlength', 'min', 'minlength', 'mode', 'multiple', 'name', 'pattern', 'placeholder', 'readonly', 'required', 'size', 'spellcheck', 'step', 'type', 'value'], 'methods': ['setFocus', 'getInputElement']})
 @Component({ selector: 'my-input', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['accept', 'autocapitalize', 'autocomplete', 'autocorrect', 'autofocus', 'clearInput', 'clearOnEdit', 'color', 'disabled', 'enterkeyhint', 'inputmode', 'max', 'maxlength', 'min', 'minlength', 'mode', 'multiple', 'name', 'pattern', 'placeholder', 'readonly', 'required', 'size', 'spellcheck', 'step', 'type', 'value'], outputs: ['ionInput', 'ionChange', 'ionBlur', 'ionFocus'] })
 export class MyInput {
+  /** Emitted when a keyboard input occurred. */
+  ionInput!: IInput['ionInput'];
+  /** Emitted when the value has changed. */
+  ionChange!: IInput['ionChange'];
+  /** Emitted when the input loses focus. */
+  ionBlur!: IInput['ionBlur'];
+  /** Emitted when the input has focus. */
+  ionFocus!: IInput['ionFocus'];
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -77,11 +89,19 @@ export class MyInput {
     proxyOutputs(this, this.el, ['ionInput', 'ionChange', 'ionBlur', 'ionFocus']);
   }
 }
-export declare interface MyPopover extends Required<Pick<JSX.MyPopover, 'onIonPopoverDidPresent' | 'onIonPopoverWillPresent' | 'onIonPopoverWillDismiss' | 'onIonPopoverDidDismiss'>> {}
+import { Popover as IPopover } from 'component-library/dist/types/components/my-dialog/my-dialog';
 export declare interface MyPopover extends Components.MyPopover {}
 @ProxyCmp({inputs: ['animated', 'backdropDismiss', 'component', 'componentProps', 'cssClass', 'event', 'keyboardClose', 'mode', 'showBackdrop', 'translucent'], 'methods': ['present', 'dismiss', 'onDidDismiss', 'onWillDismiss']})
 @Component({ selector: 'my-popover', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['animated', 'backdropDismiss', 'component', 'componentProps', 'cssClass', 'event', 'keyboardClose', 'mode', 'showBackdrop', 'translucent'], outputs: ['ionPopoverDidPresent', 'ionPopoverWillPresent', 'ionPopoverWillDismiss', 'ionPopoverDidDismiss'] })
 export class MyPopover {
+  /** Emitted after the popover has presented. */
+  ionPopoverDidPresent!: IPopover['didPresent'];
+  /** Emitted before the popover has presented. */
+  ionPopoverWillPresent!: IPopover['willPresent'];
+  /** Emitted before the popover has dismissed. */
+  ionPopoverWillDismiss!: IPopover['willDismiss'];
+  /** Emitted after the popover has dismissed. */
+  ionPopoverDidDismiss!: IPopover['didDismiss'];
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();

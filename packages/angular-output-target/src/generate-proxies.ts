@@ -6,9 +6,9 @@ import { GENERATED_DTS, dashToPascalCase, readPackageJson, relativeImport, norma
 import { CompilerCtx, ComponentCompilerMeta } from '@stencil/core/internal';
 
 export default async function generateProxies(compilerCtx: CompilerCtx, components: ComponentCompilerMeta[], outputTarget: OutputTargetAngular, rootDir: string) {
-  const proxies = getProxies(components);
   const pkgData = await readPackageJson(rootDir);
   const distTypesDir = path.dirname(pkgData.types);
+  const proxies = getProxies(components, outputTarget.componentCorePackage!, distTypesDir);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.directivesProxyFile, dtsFilePath, '.d.ts');
 
@@ -17,8 +17,8 @@ export default async function generateProxies(compilerCtx: CompilerCtx, componen
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, NgZone } from '@angular/core';`;
 
   const sourceImports = !outputTarget.componentCorePackage ?
-    `import { Components, JSX } from '${normalizePath(componentsTypeFile)}';` :
-    `import { Components, JSX } from '${normalizePath(outputTarget.componentCorePackage)}'`;
+    `import { Components } from '${normalizePath(componentsTypeFile)}';` :
+    `import { Components } from '${normalizePath(outputTarget.componentCorePackage)}'`;
 
   const final: string[] = [
     imports,
@@ -32,9 +32,9 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Even
   return compilerCtx.fs.writeFile(outputTarget.directivesProxyFile, finalText);
 }
 
-function getProxies(components: ComponentCompilerMeta[]) {
+function getProxies(components: ComponentCompilerMeta[], componentCorePackage: string, distTypesDir: string) {
   return components
-    .map(getProxy)
+    .map((cmpMeta) => getProxy(cmpMeta, componentCorePackage, distTypesDir))
     .join('\n');
 }
 
@@ -52,7 +52,7 @@ function getProxyCmp(inputs: string[],methods: string[]): string {
   return `@ProxyCmp({${proxMeta.join(', ')}})`;
 }
 
-function getProxy(cmpMeta: ComponentCompilerMeta) {
+function getProxy(cmpMeta: ComponentCompilerMeta, componentCorePackage: string, distTypesDir: string) {
   // Collect component meta
   const inputs = getInputs(cmpMeta);
   const outputs = getOutputs(cmpMeta);
@@ -71,14 +71,15 @@ function getProxy(cmpMeta: ComponentCompilerMeta) {
     directiveOpts.push(`inputs: ['${inputs.join(`', '`)}']`);
   }
   if (outputs.length > 0) {
-    directiveOpts.push(`outputs: ['${outputs.join(`', '`)}']`)
+    directiveOpts.push(`outputs: ['${outputs.map(output => output.name).join(`', '`)}']`)
   }
 
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
+  const typePath = path.relative(componentCorePackage, cmpMeta.sourceFilePath).replace('../src', path.join(componentCorePackage, distTypesDir)).replace('.tsx', '');
   const outputsInterface =
   outputs.length > 0
-    ? `export declare interface ${tagNameAsPascal} extends Required<Pick<JSX.${tagNameAsPascal}, '${outputs.map(o => 'on' + o.replace(/^./, match => match.toUpperCase())).join(`' | '`).replace(/\| $/g, '')}'>> {}`
+    ? `import { ${cmpMeta.componentClassName} as I${cmpMeta.componentClassName} } from '${typePath}';`
     : '';
 
   const lines = [`${outputsInterface}
@@ -87,12 +88,18 @@ ${getProxyCmp(inputs, methods)}
 @Component({ ${directiveOpts.join(', ')} })
 export class ${tagNameAsPascal} {`];
 
+  // Generate outputs	
+  outputs.forEach(output => {
+    lines.push(`  /** ${output.docs.text} ${output.docs.tags.map(tag => `@${tag.name} ${tag.text}`)}*/`)
+    lines.push(`  ${output.name}!: I${cmpMeta.componentClassName}['${output.method}'];`);	
+  });
+
   lines.push('  protected el: HTMLElement;');
   lines.push(`  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;`);
   if (hasOutputs) {
-    lines.push(`    proxyOutputs(this, this.el, ['${outputs.join(`', '`)}']);`);
+    lines.push(`    proxyOutputs(this, this.el, ['${outputs.map(output => output.name).join(`', '`)}']);`);
   }
   lines.push(`  }`);
   lines.push(`}`);
@@ -107,8 +114,8 @@ function getInputs(cmpMeta: ComponentCompilerMeta): string[] {
   ].sort();
 }
 
-function getOutputs(cmpMeta: ComponentCompilerMeta): string[] {
-  return cmpMeta.events.filter(ev => !ev.internal).map(prop => prop.name);
+function getOutputs(cmpMeta: ComponentCompilerMeta) {
+  return cmpMeta.events.filter(ev => !ev.internal).map(prop => prop);
 }
 
 function getMethods(cmpMeta: ComponentCompilerMeta): string[] {
