@@ -39,12 +39,6 @@ describe('MyInput - Text Value', () => {
     myInputEl.triggerEventHandler('myChange', { target: { value: 'text' } });
     expect(myAngularComponent.testText).toEqual('text');
   });
-
-  it('on myChange type="number" the bound component attribute should update', () => {
-    const { componentInstance: myAngularComponent } = fixture;
-    myInputEl.triggerEventHandler('myChange', { target: { value: 'text' } });
-    expect(myAngularComponent.testText).toEqual('text');
-  });
 });
 
 @Component({

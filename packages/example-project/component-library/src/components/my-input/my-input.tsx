@@ -1,5 +1,4 @@
 import {
-  Build,
   Component,
   ComponentInterface,
   Element,
@@ -209,26 +208,6 @@ export class Input implements ComponentInterface {
       const tabindex = this.el.getAttribute('tabindex');
       this.tabindex = tabindex !== null ? tabindex : undefined;
       this.el.removeAttribute('tabindex');
-    }
-  }
-
-  connectedCallback() {
-    if (Build.isBrowser) {
-      document.dispatchEvent(
-        new CustomEvent('myInputDidLoad', {
-          detail: this.el,
-        }),
-      );
-    }
-  }
-
-  disconnectedCallback() {
-    if (Build.isBrowser) {
-      document.dispatchEvent(
-        new CustomEvent('myInputDidUnload', {
-          detail: this.el,
-        }),
-      );
     }
   }
 
