@@ -17,8 +17,8 @@ export default async function generateProxies(compilerCtx: CompilerCtx, componen
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, NgZone } from '@angular/core';`;
 
   const sourceImports = !outputTarget.componentCorePackage ?
-    `import { Components } from '${normalizePath(componentsTypeFile)}';` :
-    `import { Components } from '${normalizePath(outputTarget.componentCorePackage)}'`;
+    `import { Components, JSX } from '${normalizePath(componentsTypeFile)}';` :
+    `import { Components, JSX } from '${normalizePath(outputTarget.componentCorePackage)}'`;
 
   const final: string[] = [
     imports,
@@ -70,18 +70,22 @@ function getProxy(cmpMeta: ComponentCompilerMeta) {
   if (inputs.length > 0) {
     directiveOpts.push(`inputs: ['${inputs.join(`', '`)}']`);
   }
+  if (outputs.length > 0) {
+    directiveOpts.push(`outputs: ['${outputs.join(`', '`)}']`)
+  }
 
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
-  const lines = [`
+
+  const outputsInterface =
+  outputs.length > 0
+    ? `export declare interface ${tagNameAsPascal} extends Required<Pick<JSX.${tagNameAsPascal}, '${outputs.map(o => 'on' + o.replace(/^./, match => match.toUpperCase())).join(`' | '`).replace(/\| $/g, '')}'>> {}`
+    : '';
+
+  const lines = [`${outputsInterface}
 export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {}
 ${getProxyCmp(inputs, methods)}
 @Component({ ${directiveOpts.join(', ')} })
 export class ${tagNameAsPascal} {`];
-
-  // Generate outputs
-  outputs.forEach(output => {
-    lines.push(`  ${output}!: EventEmitter<CustomEvent>;`);
-  });
 
   lines.push('  protected el: HTMLElement;');
   lines.push(`  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
