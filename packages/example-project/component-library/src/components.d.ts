@@ -6,7 +6,10 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { AutocompleteTypes, Color, ComponentProps, ComponentRef, OverlayEventDetail, TextFieldTypes } from "./interfaces";
+import { CheckboxChangeEventDetail, Color as Color1, StyleEventDetail } from "./components/element-interface";
 import { InputChangeEventDetail } from "./components/my-input/my-input";
+import { RadioGroupChangeEventDetail } from "./components/my-radio-group/my-radio-group";
+import { RangeChangeEventDetail, RangeValue } from "./components/my-range/my-range";
 export namespace Components {
     interface MyButton {
         /**
@@ -65,6 +68,36 @@ export namespace Components {
           * The type of the button.
          */
         "type": 'submit' | 'reset' | 'button';
+    }
+    interface MyCheckbox {
+        /**
+          * If `true`, the checkbox is selected.
+         */
+        "checked": boolean;
+        /**
+          * The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+         */
+        "color"?: Color;
+        /**
+          * If `true`, the user cannot interact with the checkbox.
+         */
+        "disabled": boolean;
+        /**
+          * If `true`, the checkbox will visually appear as indeterminate.
+         */
+        "indeterminate": boolean;
+        /**
+          * The mode determines which platform styles to use.
+         */
+        "mode"?: "ios" | "md";
+        /**
+          * The name of the control, which is submitted with the form data.
+         */
+        "name": string;
+        /**
+          * The value of the toggle does not mean if it's checked or not, use the `checked` property for that.  The value of a toggle is analogous to the value of a `<input type="checkbox">`, it's only used when the toggle participates in a native `<form>`.
+         */
+        "value": string;
     }
     interface MyComponent {
         /**
@@ -182,7 +215,7 @@ export namespace Components {
          */
         "required": boolean;
         /**
-          * Sets focus on the specified `ion-input`. Use this method instead of the global `input.focus()`.
+          * Sets focus on the specified `my-input`. Use this method instead of the global `input.focus()`.
          */
         "setFocus": () => Promise<void>;
         /**
@@ -266,6 +299,96 @@ export namespace Components {
          */
         "translucent": boolean;
     }
+    interface MyRadio {
+        /**
+          * The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+         */
+        "color"?: Color;
+        /**
+          * If `true`, the user cannot interact with the radio.
+         */
+        "disabled": boolean;
+        /**
+          * The mode determines which platform styles to use.
+         */
+        "mode"?: "ios" | "md";
+        /**
+          * The name of the control, which is submitted with the form data.
+         */
+        "name": string;
+        /**
+          * the value of the radio.
+         */
+        "value"?: any | null;
+    }
+    interface MyRadioGroup {
+        /**
+          * If `true`, the radios can be deselected.
+         */
+        "allowEmptySelection": boolean;
+        /**
+          * The name of the control, which is submitted with the form data.
+         */
+        "name": string;
+        /**
+          * the value of the radio group.
+         */
+        "value"?: any | null;
+    }
+    interface MyRange {
+        /**
+          * The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+         */
+        "color"?: Color;
+        /**
+          * How long, in milliseconds, to wait to trigger the `myChange` event after each change in the range value.
+         */
+        "debounce": number;
+        /**
+          * If `true`, the user cannot interact with the range.
+         */
+        "disabled": boolean;
+        /**
+          * Show two knobs.
+         */
+        "dualKnobs": boolean;
+        /**
+          * Maximum integer value of the range.
+         */
+        "max": number;
+        /**
+          * Minimum integer value of the range.
+         */
+        "min": number;
+        /**
+          * The mode determines which platform styles to use.
+         */
+        "mode"?: "ios" | "md";
+        /**
+          * The name of the control, which is submitted with the form data.
+         */
+        "name": string;
+        /**
+          * If `true`, a pin with integer value is shown when the knob is pressed.
+         */
+        "pin": boolean;
+        /**
+          * If `true`, the knob snaps to tick marks evenly spaced based on the step property value.
+         */
+        "snaps": boolean;
+        /**
+          * Specifies the value granularity.
+         */
+        "step": number;
+        /**
+          * If `true`, tick marks are displayed based on the step value. Only applies when `snaps` is `true`.
+         */
+        "ticks": boolean;
+        /**
+          * the value of the range.
+         */
+        "value": RangeValue;
+    }
 }
 declare global {
     interface HTMLMyButtonElement extends Components.MyButton, HTMLStencilElement {
@@ -273,6 +396,12 @@ declare global {
     var HTMLMyButtonElement: {
         prototype: HTMLMyButtonElement;
         new (): HTMLMyButtonElement;
+    };
+    interface HTMLMyCheckboxElement extends Components.MyCheckbox, HTMLStencilElement {
+    }
+    var HTMLMyCheckboxElement: {
+        prototype: HTMLMyCheckboxElement;
+        new (): HTMLMyCheckboxElement;
     };
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
     }
@@ -292,11 +421,33 @@ declare global {
         prototype: HTMLMyPopoverElement;
         new (): HTMLMyPopoverElement;
     };
+    interface HTMLMyRadioElement extends Components.MyRadio, HTMLStencilElement {
+    }
+    var HTMLMyRadioElement: {
+        prototype: HTMLMyRadioElement;
+        new (): HTMLMyRadioElement;
+    };
+    interface HTMLMyRadioGroupElement extends Components.MyRadioGroup, HTMLStencilElement {
+    }
+    var HTMLMyRadioGroupElement: {
+        prototype: HTMLMyRadioGroupElement;
+        new (): HTMLMyRadioGroupElement;
+    };
+    interface HTMLMyRangeElement extends Components.MyRange, HTMLStencilElement {
+    }
+    var HTMLMyRangeElement: {
+        prototype: HTMLMyRangeElement;
+        new (): HTMLMyRangeElement;
+    };
     interface HTMLElementTagNameMap {
         "my-button": HTMLMyButtonElement;
+        "my-checkbox": HTMLMyCheckboxElement;
         "my-component": HTMLMyComponentElement;
         "my-input": HTMLMyInputElement;
         "my-popover": HTMLMyPopoverElement;
+        "my-radio": HTMLMyRadioElement;
+        "my-radio-group": HTMLMyRadioGroupElement;
+        "my-range": HTMLMyRangeElement;
     }
 }
 declare namespace LocalJSX {
@@ -336,11 +487,11 @@ declare namespace LocalJSX {
         /**
           * Emitted when the button loses focus.
          */
-        "onIonBlur"?: (event: CustomEvent<void>) => void;
+        "onMyBlur"?: (event: CustomEvent<void>) => void;
         /**
           * Emitted when the button has focus.
          */
-        "onIonFocus"?: (event: CustomEvent<void>) => void;
+        "onMyFocus"?: (event: CustomEvent<void>) => void;
         /**
           * Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types).
          */
@@ -365,6 +516,52 @@ declare namespace LocalJSX {
           * The type of the button.
          */
         "type"?: 'submit' | 'reset' | 'button';
+    }
+    interface MyCheckbox {
+        /**
+          * If `true`, the checkbox is selected.
+         */
+        "checked"?: boolean;
+        /**
+          * The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+         */
+        "color"?: Color;
+        /**
+          * If `true`, the user cannot interact with the checkbox.
+         */
+        "disabled"?: boolean;
+        /**
+          * If `true`, the checkbox will visually appear as indeterminate.
+         */
+        "indeterminate"?: boolean;
+        /**
+          * The mode determines which platform styles to use.
+         */
+        "mode"?: "ios" | "md";
+        /**
+          * The name of the control, which is submitted with the form data.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the toggle loses focus.
+         */
+        "onMyBlur"?: (event: CustomEvent<void>) => void;
+        /**
+          * Emitted when the checked property has changed.
+         */
+        "onMyChange"?: (event: CustomEvent<CheckboxChangeEventDetail>) => void;
+        /**
+          * Emitted when the toggle has focus.
+         */
+        "onMyFocus"?: (event: CustomEvent<void>) => void;
+        /**
+          * Emitted when the styles change.
+         */
+        "onMyStyle"?: (event: CustomEvent<StyleEventDetail>) => void;
+        /**
+          * The value of the toggle does not mean if it's checked or not, use the `checked` property for that.  The value of a toggle is analogous to the value of a `<input type="checkbox">`, it's only used when the toggle participates in a native `<form>`.
+         */
+        "value"?: string;
     }
     interface MyComponent {
         /**
@@ -464,19 +661,19 @@ declare namespace LocalJSX {
         /**
           * Emitted when the input loses focus.
          */
-        "onIonBlur"?: (event: CustomEvent<void>) => void;
+        "onMyBlur"?: (event: CustomEvent<void>) => void;
         /**
           * Emitted when the value has changed.
          */
-        "onIonChange"?: (event: CustomEvent<InputChangeEventDetail>) => void;
+        "onMyChange"?: (event: CustomEvent<InputChangeEventDetail>) => void;
         /**
           * Emitted when the input has focus.
          */
-        "onIonFocus"?: (event: CustomEvent<void>) => void;
+        "onMyFocus"?: (event: CustomEvent<void>) => void;
         /**
           * Emitted when a keyboard input occurred.
          */
-        "onIonInput"?: (event: CustomEvent<KeyboardEvent>) => void;
+        "onMyInput"?: (event: CustomEvent<KeyboardEvent>) => void;
         /**
           * A regular expression that the value is checked against. The pattern must match the entire value, not just some subset. Use the title attribute to describe the pattern to help the user. This attribute applies when the value of the type attribute is `"text"`, `"search"`, `"tel"`, `"url"`, `"email"`, `"date"`, or `"password"`, otherwise it is ignored. When the type attribute is `"date"`, `pattern` will only be used in browsers that do not support the `"date"` input type natively. See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date for more information.
          */
@@ -550,19 +747,19 @@ declare namespace LocalJSX {
         /**
           * Emitted after the popover has dismissed.
          */
-        "onIonPopoverDidDismiss"?: (event: CustomEvent<OverlayEventDetail>) => void;
+        "onMyPopoverDidDismiss"?: (event: CustomEvent<OverlayEventDetail>) => void;
         /**
           * Emitted after the popover has presented.
          */
-        "onIonPopoverDidPresent"?: (event: CustomEvent<void>) => void;
+        "onMyPopoverDidPresent"?: (event: CustomEvent<void>) => void;
         /**
           * Emitted before the popover has dismissed.
          */
-        "onIonPopoverWillDismiss"?: (event: CustomEvent<OverlayEventDetail>) => void;
+        "onMyPopoverWillDismiss"?: (event: CustomEvent<OverlayEventDetail>) => void;
         /**
           * Emitted before the popover has presented.
          */
-        "onIonPopoverWillPresent"?: (event: CustomEvent<void>) => void;
+        "onMyPopoverWillPresent"?: (event: CustomEvent<void>) => void;
         /**
           * If `true`, a backdrop will be displayed behind the popover.
          */
@@ -572,11 +769,137 @@ declare namespace LocalJSX {
          */
         "translucent"?: boolean;
     }
+    interface MyRadio {
+        /**
+          * The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+         */
+        "color"?: Color;
+        /**
+          * If `true`, the user cannot interact with the radio.
+         */
+        "disabled"?: boolean;
+        /**
+          * The mode determines which platform styles to use.
+         */
+        "mode"?: "ios" | "md";
+        /**
+          * The name of the control, which is submitted with the form data.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the radio button loses focus.
+         */
+        "onMyBlur"?: (event: CustomEvent<void>) => void;
+        /**
+          * Emitted when the radio button has focus.
+         */
+        "onMyFocus"?: (event: CustomEvent<void>) => void;
+        /**
+          * Emitted when the styles change.
+         */
+        "onMyStyle"?: (event: CustomEvent<StyleEventDetail>) => void;
+        /**
+          * the value of the radio.
+         */
+        "value"?: any | null;
+    }
+    interface MyRadioGroup {
+        /**
+          * If `true`, the radios can be deselected.
+         */
+        "allowEmptySelection"?: boolean;
+        /**
+          * The name of the control, which is submitted with the form data.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the value has changed.
+         */
+        "onMyChange"?: (event: CustomEvent<RadioGroupChangeEventDetail>) => void;
+        /**
+          * the value of the radio group.
+         */
+        "value"?: any | null;
+    }
+    interface MyRange {
+        /**
+          * The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
+         */
+        "color"?: Color;
+        /**
+          * How long, in milliseconds, to wait to trigger the `myChange` event after each change in the range value.
+         */
+        "debounce"?: number;
+        /**
+          * If `true`, the user cannot interact with the range.
+         */
+        "disabled"?: boolean;
+        /**
+          * Show two knobs.
+         */
+        "dualKnobs"?: boolean;
+        /**
+          * Maximum integer value of the range.
+         */
+        "max"?: number;
+        /**
+          * Minimum integer value of the range.
+         */
+        "min"?: number;
+        /**
+          * The mode determines which platform styles to use.
+         */
+        "mode"?: "ios" | "md";
+        /**
+          * The name of the control, which is submitted with the form data.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the range loses focus.
+         */
+        "onMyBlur"?: (event: CustomEvent<void>) => void;
+        /**
+          * Emitted when the value property has changed.
+         */
+        "onMyChange"?: (event: CustomEvent<RangeChangeEventDetail>) => void;
+        /**
+          * Emitted when the range has focus.
+         */
+        "onMyFocus"?: (event: CustomEvent<void>) => void;
+        /**
+          * Emitted when the styles change.
+         */
+        "onMyStyle"?: (event: CustomEvent<StyleEventDetail>) => void;
+        /**
+          * If `true`, a pin with integer value is shown when the knob is pressed.
+         */
+        "pin"?: boolean;
+        /**
+          * If `true`, the knob snaps to tick marks evenly spaced based on the step property value.
+         */
+        "snaps"?: boolean;
+        /**
+          * Specifies the value granularity.
+         */
+        "step"?: number;
+        /**
+          * If `true`, tick marks are displayed based on the step value. Only applies when `snaps` is `true`.
+         */
+        "ticks"?: boolean;
+        /**
+          * the value of the range.
+         */
+        "value"?: RangeValue;
+    }
     interface IntrinsicElements {
         "my-button": MyButton;
+        "my-checkbox": MyCheckbox;
         "my-component": MyComponent;
         "my-input": MyInput;
         "my-popover": MyPopover;
+        "my-radio": MyRadio;
+        "my-radio-group": MyRadioGroup;
+        "my-range": MyRange;
     }
 }
 export { LocalJSX as JSX };
@@ -584,9 +907,13 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "my-button": LocalJSX.MyButton & JSXBase.HTMLAttributes<HTMLMyButtonElement>;
+            "my-checkbox": LocalJSX.MyCheckbox & JSXBase.HTMLAttributes<HTMLMyCheckboxElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
             "my-input": LocalJSX.MyInput & JSXBase.HTMLAttributes<HTMLMyInputElement>;
             "my-popover": LocalJSX.MyPopover & JSXBase.HTMLAttributes<HTMLMyPopoverElement>;
+            "my-radio": LocalJSX.MyRadio & JSXBase.HTMLAttributes<HTMLMyRadioElement>;
+            "my-radio-group": LocalJSX.MyRadioGroup & JSXBase.HTMLAttributes<HTMLMyRadioGroupElement>;
+            "my-range": LocalJSX.MyRange & JSXBase.HTMLAttributes<HTMLMyRangeElement>;
         }
     }
 }

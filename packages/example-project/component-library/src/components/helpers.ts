@@ -37,9 +37,9 @@ export const hasShadowDom = (el: HTMLElement) => {
 };
 
 export const findItemLabel = (componentEl: HTMLElement) => {
-  const itemEl = componentEl.closest('ion-item');
+  const itemEl = componentEl.closest('my-item');
   if (itemEl) {
-    return itemEl.querySelector('ion-label');
+    return itemEl.querySelector('my-label');
   }
   return null;
 };

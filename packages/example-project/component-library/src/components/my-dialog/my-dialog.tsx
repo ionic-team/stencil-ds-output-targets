@@ -84,22 +84,22 @@ export class Popover implements ComponentInterface, OverlayInterface {
   /**
    * Emitted after the popover has presented.
    */
-  @Event({ eventName: 'ionPopoverDidPresent' }) didPresent!: EventEmitter<void>;
+  @Event({ eventName: 'myPopoverDidPresent' }) didPresent!: EventEmitter<void>;
 
   /**
    * Emitted before the popover has presented.
    */
-  @Event({ eventName: 'ionPopoverWillPresent' }) willPresent!: EventEmitter<void>;
+  @Event({ eventName: 'myPopoverWillPresent' }) willPresent!: EventEmitter<void>;
 
   /**
    * Emitted before the popover has dismissed.
    */
-  @Event({ eventName: 'ionPopoverWillDismiss' }) willDismiss!: EventEmitter<OverlayEventDetail>;
+  @Event({ eventName: 'myPopoverWillDismiss' }) willDismiss!: EventEmitter<OverlayEventDetail>;
 
   /**
    * Emitted after the popover has dismissed.
    */
-  @Event({ eventName: 'ionPopoverDidDismiss' }) didDismiss!: EventEmitter<OverlayEventDetail>;
+  @Event({ eventName: 'myPopoverDidDismiss' }) didDismiss!: EventEmitter<OverlayEventDetail>;
 
   /**
    * Present the popover overlay after it has been created.
@@ -125,7 +125,7 @@ export class Popover implements ComponentInterface, OverlayInterface {
    */
   @Method()
   onDidDismiss(): Promise<OverlayEventDetail> {
-    return eventMethod(this.el, 'ionPopoverDidDismiss');
+    return eventMethod(this.el, 'myPopoverDidDismiss');
   }
 
   /**
@@ -133,7 +133,7 @@ export class Popover implements ComponentInterface, OverlayInterface {
    */
   @Method()
   onWillDismiss(): Promise<OverlayEventDetail> {
-    return eventMethod(this.el, 'ionPopoverWillDismiss');
+    return eventMethod(this.el, 'myPopoverWillDismiss');
   }
 
   private onDismiss = (ev: UIEvent) => {
@@ -161,7 +161,7 @@ export class Popover implements ComponentInterface, OverlayInterface {
         }}
         onIonDismiss={this.onDismiss}
         onIonBackdropTap={this.onBackdropTap}>
-        <ion-backdrop tappable={this.backdropDismiss} visible={this.showBackdrop} />
+        <my-backdrop tappable={this.backdropDismiss} visible={this.showBackdrop} />
         <div class="popover-wrapper">
           <div class="popover-arrow"></div>
           <div class="popover-content"></div>
