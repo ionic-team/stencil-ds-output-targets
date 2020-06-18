@@ -28,8 +28,11 @@
     "typescript": "^3.3.4000"
   },
   "dependencies": {
+    "@vue/test-utils": "^1.0.3",
     "component-library": "^0.0.1",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-jest": "^3.0.5",
+    "vue-template-compiler": "^2.6.11"
   },
   "jest": {
     "preset": "ts-jest",

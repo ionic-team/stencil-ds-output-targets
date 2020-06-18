@@ -1,8 +1,9 @@
 import Vue, { PropType, VNode } from 'vue';
 import { JSX } from 'component-library';
 
+Vue.config.ignoredElements.push('my-component');
+
 export const MyComponent = Vue.extend({
-  name: 'my-component',
   props: {
     age: {
       type: Object as PropType<JSX.MyComponent['age']>,
@@ -32,7 +33,7 @@ export const MyComponent = Vue.extend({
         ref: 'wc',
         ...this.props,
       },
-      this.$slots.default,
+      [this.$slots.default],
     );
   },
 });
