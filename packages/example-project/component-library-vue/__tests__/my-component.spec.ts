@@ -7,6 +7,15 @@ describe('MyComponent', () => {
     expect(wrapper.element.tagName.toLowerCase()).toEqual('my-component');
   });
 
+  it('should get attributes assigned to the component', () => {
+    const wrapper = mount(MyComponent, {
+      attrs: {
+        id: 'one',
+      },
+    });
+    expect((wrapper.element as HTMLMyComponentElement).getAttribute('id')).toEqual('one');
+  });
+
   it('should get strings as props', () => {
     const wrapper = mount(MyComponent, {
       propsData: {
