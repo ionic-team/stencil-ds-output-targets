@@ -1,37 +1,24 @@
-import Vue, { PropType, VNode } from 'vue';
+import Vue, { VNode, PropOptions } from 'vue';
 import { JSX } from 'component-library';
 
-Vue.config.ignoredElements.push('my-component');
+const customElementTags = ['my-component'];
+
+Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTags];
 
 export const MyComponent = Vue.extend({
   props: {
-    age: {
-      type: Object as PropType<JSX.MyComponent['age']>,
-      required: false,
-    },
-    first: {
-      type: Object as PropType<JSX.MyComponent['first']>,
-      required: false,
-    },
-    kidsNames: {
-      type: Object as PropType<JSX.MyComponent['kidsNames']>,
-      required: false,
-    },
-    last: {
-      type: Object as PropType<JSX.MyComponent['last']>,
-      required: false,
-    },
-    middle: {
-      type: Object as PropType<JSX.MyComponent['middle']>,
-      required: false,
-    },
+    age: {} as PropOptions<JSX.MyComponent['age']>,
+    first: {} as PropOptions<JSX.MyComponent['first']>,
+    kidsNames: {} as PropOptions<JSX.MyComponent['kidsNames']>,
+    last: {} as PropOptions<JSX.MyComponent['last']>,
+    middle: {} as PropOptions<JSX.MyComponent['middle']>,
   },
   render(createElement): VNode {
     return createElement(
       'my-component',
       {
         ref: 'wc',
-        ...this.props,
+        domProps: this.$props,
       },
       [this.$slots.default],
     );

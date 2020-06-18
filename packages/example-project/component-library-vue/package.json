@@ -31,6 +31,7 @@
     "@vue/test-utils": "^1.0.3",
     "component-library": "^0.0.1",
     "vue": "^2.6.11",
+    "vue-class-component": "^7.2.3",
     "vue-jest": "^3.0.5",
     "vue-template-compiler": "^2.6.11"
   },
