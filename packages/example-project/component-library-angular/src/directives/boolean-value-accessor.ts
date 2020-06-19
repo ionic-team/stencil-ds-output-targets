@@ -5,25 +5,23 @@ import { ValueAccessor } from './value-accessor';
 
 @Directive({
   /* tslint:disable-next-line:directive-selector */
-  selector: 'my-input[type=number]',
+  selector: 'my-checkbox',
   host: {
-    '(myChange)': 'handleChangeEvent($event.target.value)'
+    '(myChange)': 'handleChangeEvent($event.target.checked)'
   },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: NumericValueAccessor,
+      useExisting: BooleanValueAccessor,
       multi: true
     }
   ]
 })
-export class NumericValueAccessor extends ValueAccessor {
+export class BooleanValueAccessor extends ValueAccessor {
   constructor(el: ElementRef) {
     super(el);
   }
-  registerOnChange(fn: (_: number | null) => void) {
-    super.registerOnChange(value => {
-      fn(value === '' ? null : parseFloat(value));
-    });
+  writeValue(value: any) {
+    this.el.nativeElement.checked = this.lastValue = value == null ? false : value;
   }
 }

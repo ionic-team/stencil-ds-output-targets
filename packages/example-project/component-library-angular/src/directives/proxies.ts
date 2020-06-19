@@ -47,13 +47,28 @@ export declare interface MyButton extends Components.MyButton {}
 @ProxyCmp({inputs: ['buttonType', 'color', 'disabled', 'download', 'expand', 'fill', 'href', 'mode', 'rel', 'shape', 'size', 'strong', 'target', 'type']})
 @Component({ selector: 'my-button', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['buttonType', 'color', 'disabled', 'download', 'expand', 'fill', 'href', 'mode', 'rel', 'shape', 'size', 'strong', 'target', 'type'] })
 export class MyButton {
-  ionFocus!: EventEmitter<CustomEvent>;
-  ionBlur!: EventEmitter<CustomEvent>;
+  myFocus!: EventEmitter<CustomEvent>;
+  myBlur!: EventEmitter<CustomEvent>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['ionFocus', 'ionBlur']);
+    proxyOutputs(this, this.el, ['myFocus', 'myBlur']);
+  }
+}
+
+export declare interface MyCheckbox extends Components.MyCheckbox {}
+@ProxyCmp({inputs: ['checked', 'color', 'disabled', 'indeterminate', 'mode', 'name', 'value']})
+@Component({ selector: 'my-checkbox', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['checked', 'color', 'disabled', 'indeterminate', 'mode', 'name', 'value'] })
+export class MyCheckbox {
+  myChange!: EventEmitter<CustomEvent>;
+  myFocus!: EventEmitter<CustomEvent>;
+  myBlur!: EventEmitter<CustomEvent>;
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+    proxyOutputs(this, this.el, ['myChange', 'myFocus', 'myBlur']);
   }
 }
 
@@ -72,15 +87,15 @@ export declare interface MyInput extends Components.MyInput {}
 @ProxyCmp({inputs: ['accept', 'autocapitalize', 'autocomplete', 'autocorrect', 'autofocus', 'clearInput', 'clearOnEdit', 'color', 'disabled', 'enterkeyhint', 'inputmode', 'max', 'maxlength', 'min', 'minlength', 'mode', 'multiple', 'name', 'pattern', 'placeholder', 'readonly', 'required', 'size', 'spellcheck', 'step', 'type', 'value'], 'methods': ['setFocus', 'getInputElement']})
 @Component({ selector: 'my-input', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['accept', 'autocapitalize', 'autocomplete', 'autocorrect', 'autofocus', 'clearInput', 'clearOnEdit', 'color', 'disabled', 'enterkeyhint', 'inputmode', 'max', 'maxlength', 'min', 'minlength', 'mode', 'multiple', 'name', 'pattern', 'placeholder', 'readonly', 'required', 'size', 'spellcheck', 'step', 'type', 'value'] })
 export class MyInput {
-  ionInput!: EventEmitter<CustomEvent>;
-  ionChange!: EventEmitter<CustomEvent>;
-  ionBlur!: EventEmitter<CustomEvent>;
-  ionFocus!: EventEmitter<CustomEvent>;
+  myInput!: EventEmitter<CustomEvent>;
+  myChange!: EventEmitter<CustomEvent>;
+  myBlur!: EventEmitter<CustomEvent>;
+  myFocus!: EventEmitter<CustomEvent>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['ionInput', 'ionChange', 'ionBlur', 'ionFocus']);
+    proxyOutputs(this, this.el, ['myInput', 'myChange', 'myBlur', 'myFocus']);
   }
 }
 
@@ -88,14 +103,56 @@ export declare interface MyPopover extends Components.MyPopover {}
 @ProxyCmp({inputs: ['animated', 'backdropDismiss', 'component', 'componentProps', 'cssClass', 'event', 'keyboardClose', 'mode', 'showBackdrop', 'translucent'], 'methods': ['present', 'dismiss', 'onDidDismiss', 'onWillDismiss']})
 @Component({ selector: 'my-popover', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['animated', 'backdropDismiss', 'component', 'componentProps', 'cssClass', 'event', 'keyboardClose', 'mode', 'showBackdrop', 'translucent'] })
 export class MyPopover {
-  ionPopoverDidPresent!: EventEmitter<CustomEvent>;
-  ionPopoverWillPresent!: EventEmitter<CustomEvent>;
-  ionPopoverWillDismiss!: EventEmitter<CustomEvent>;
-  ionPopoverDidDismiss!: EventEmitter<CustomEvent>;
+  myPopoverDidPresent!: EventEmitter<CustomEvent>;
+  myPopoverWillPresent!: EventEmitter<CustomEvent>;
+  myPopoverWillDismiss!: EventEmitter<CustomEvent>;
+  myPopoverDidDismiss!: EventEmitter<CustomEvent>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['ionPopoverDidPresent', 'ionPopoverWillPresent', 'ionPopoverWillDismiss', 'ionPopoverDidDismiss']);
+    proxyOutputs(this, this.el, ['myPopoverDidPresent', 'myPopoverWillPresent', 'myPopoverWillDismiss', 'myPopoverDidDismiss']);
+  }
+}
+
+export declare interface MyRadio extends Components.MyRadio {}
+@ProxyCmp({inputs: ['color', 'disabled', 'mode', 'name', 'value']})
+@Component({ selector: 'my-radio', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['color', 'disabled', 'mode', 'name', 'value'] })
+export class MyRadio {
+  myFocus!: EventEmitter<CustomEvent>;
+  myBlur!: EventEmitter<CustomEvent>;
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+    proxyOutputs(this, this.el, ['myFocus', 'myBlur']);
+  }
+}
+
+export declare interface MyRadioGroup extends Components.MyRadioGroup {}
+@ProxyCmp({inputs: ['allowEmptySelection', 'name', 'value']})
+@Component({ selector: 'my-radio-group', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['allowEmptySelection', 'name', 'value'] })
+export class MyRadioGroup {
+  myChange!: EventEmitter<CustomEvent>;
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+    proxyOutputs(this, this.el, ['myChange']);
+  }
+}
+
+export declare interface MyRange extends Components.MyRange {}
+@ProxyCmp({inputs: ['color', 'debounce', 'disabled', 'dualKnobs', 'max', 'min', 'mode', 'name', 'pin', 'snaps', 'step', 'ticks', 'value']})
+@Component({ selector: 'my-range', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['color', 'debounce', 'disabled', 'dualKnobs', 'max', 'min', 'mode', 'name', 'pin', 'snaps', 'step', 'ticks', 'value'] })
+export class MyRange {
+  myChange!: EventEmitter<CustomEvent>;
+  myFocus!: EventEmitter<CustomEvent>;
+  myBlur!: EventEmitter<CustomEvent>;
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+    proxyOutputs(this, this.el, ['myChange', 'myFocus', 'myBlur']);
   }
 }

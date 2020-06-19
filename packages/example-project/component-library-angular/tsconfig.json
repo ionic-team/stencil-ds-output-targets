@@ -29,7 +29,8 @@
     "importHelpers": true,
     "rootDir": "src",
     "strictPropertyInitialization": false,
-    "target": "es2015"
+    "target": "es2015",
+    "skipLibCheck": true
   },
   "exclude": ["node_modules"],
   "files": ["src/index.ts"]
