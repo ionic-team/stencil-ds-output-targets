@@ -4,7 +4,14 @@ import { Components } from 'component-library';
 /**
  * Ensure the web components that we are wrappering are ignored by Vue
  */
-const customElementTags = ['my-component', 'my-input'];
+const customElementTags = [
+  'my-component',
+  'my-input',
+  'my-checkbox',
+  'my-radio',
+  'my-radio-group',
+  'my-range',
+];
 Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTags];
 
 export const MyComponent = Vue.extend({
@@ -58,6 +65,10 @@ export const MyInput = Vue.extend({
     type: {} as PropOptions<Components.MyInput['type']>,
     value: {} as PropOptions<Components.MyInput['value']>,
   },
+  model: {
+    prop: 'value',
+    event: 'myChange',
+  },
   methods: {
     focus(): void {
       this.$refs.wc.focus();
@@ -66,6 +77,114 @@ export const MyInput = Vue.extend({
   render(createElement): VNode {
     return createElement(
       'my-input',
+      {
+        ref: 'wc',
+        domProps: this.$props,
+        on: this.$listeners,
+      },
+      [this.$slots.default],
+    );
+  },
+});
+
+export const MyCheckbox = Vue.extend({
+  props: {
+    checked: {} as PropOptions<Components.MyCheckbox['checked']>,
+    color: {} as PropOptions<Components.MyCheckbox['color']>,
+    disabled: {} as PropOptions<Components.MyCheckbox['disabled']>,
+    indeterminate: {} as PropOptions<Components.MyCheckbox['indeterminate']>,
+    mode: {} as PropOptions<Components.MyCheckbox['mode']>,
+    name: {} as PropOptions<Components.MyCheckbox['name']>,
+    value: {} as PropOptions<Components.MyCheckbox['value']>,
+  },
+  model: {
+    prop: 'checked',
+    event: 'myChange',
+  },
+  render(createElement): VNode {
+    return createElement(
+      'my-checkbox',
+      {
+        ref: 'wc',
+        domProps: this.$props,
+        on: this.$listeners,
+      },
+      [this.$slots.default],
+    );
+  },
+});
+
+export const MyRadioGroup = Vue.extend({
+  props: {
+    allowEmptySelection: {} as PropOptions<Components.MyRadioGroup['allowEmptySelection']>,
+    name: {} as PropOptions<Components.MyRadioGroup['name']>,
+    value: {} as PropOptions<Components.MyRadioGroup['value']>,
+  },
+  model: {
+    prop: 'value',
+    event: 'myChange',
+  },
+  render(createElement): VNode {
+    return createElement(
+      'my-radio-group',
+      {
+        ref: 'wc',
+        domProps: this.$props,
+        on: this.$listeners,
+      },
+      [this.$slots.default],
+    );
+  },
+});
+
+export const MyRadio = Vue.extend({
+  props: {
+    color: {} as PropOptions<Components.MyRadio['color']>,
+    disabled: {} as PropOptions<Components.MyRadio['disabled']>,
+    mode: {} as PropOptions<Components.MyRadio['mode']>,
+    name: {} as PropOptions<Components.MyRadio['name']>,
+    value: {} as PropOptions<Components.MyRadio['value']>,
+  },
+  model: {
+    prop: 'checked',
+    event: 'myChange',
+  },
+  render(createElement): VNode {
+    return createElement(
+      'my-radio',
+      {
+        ref: 'wc',
+        domProps: this.$props,
+        on: this.$listeners,
+      },
+      [this.$slots.default],
+    );
+  },
+});
+
+export const MyRange = Vue.extend({
+  props: {
+    color: {} as PropOptions<Components.MyRange['color']>,
+    debounce: {} as PropOptions<Components.MyRange['debounce']>,
+    disabled: {} as PropOptions<Components.MyRange['disabled']>,
+    dualKnobs: {} as PropOptions<Components.MyRange['dualKnobs']>,
+    max: {} as PropOptions<Components.MyRange['max']>,
+    min: {} as PropOptions<Components.MyRange['min']>,
+    mode: {} as PropOptions<Components.MyRange['mode']>,
+    name: {} as PropOptions<Components.MyRange['name']>,
+    pin: {} as PropOptions<Components.MyRange['pin']>,
+    snaps: {} as PropOptions<Components.MyRange['snaps']>,
+    step: {} as PropOptions<Components.MyRange['step']>,
+    ticks: {} as PropOptions<Components.MyRange['ticks']>,
+    value: {} as PropOptions<Components.MyRange['value']>,
+  },
+  model: {
+    prop: 'value',
+    event: 'myChange',
+  },
+  render(createElement): VNode {
+    return createElement(
+      'my-range',
       {
         ref: 'wc',
         domProps: this.$props,
