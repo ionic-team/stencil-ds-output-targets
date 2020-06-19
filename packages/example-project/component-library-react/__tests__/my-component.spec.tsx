@@ -59,10 +59,10 @@ describe('createComponent - events', () => {
     const FakeFocus = jest.fn();
 
     const { webcomponent } = includeWebComponent<HTMLMyInputElement>(
-      renderWithStrictMode(<MyInput ref={myInputRef} onIonFocus={FakeFocus} />),
+      renderWithStrictMode(<MyInput ref={myInputRef} onMyFocus={FakeFocus} />),
     );
     const attachedEvents = (webcomponent as any).__events;
-    expect(Object.keys(attachedEvents)).toContain('ionFocus');
+    expect(Object.keys(attachedEvents)).toContain('myFocus');
   });
 });
 

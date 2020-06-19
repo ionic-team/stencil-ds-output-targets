@@ -40,12 +40,12 @@
 
 ## Events
 
-| Event       | Description                             | Type                                  |
-| ----------- | --------------------------------------- | ------------------------------------- |
-| `ionBlur`   | Emitted when the input loses focus.     | `CustomEvent<void>`                   |
-| `ionChange` | Emitted when the value has changed.     | `CustomEvent<InputChangeEventDetail>` |
-| `ionFocus`  | Emitted when the input has focus.       | `CustomEvent<void>`                   |
-| `ionInput`  | Emitted when a keyboard input occurred. | `CustomEvent<KeyboardEvent>`          |
+| Event      | Description                             | Type                                  |
+| ---------- | --------------------------------------- | ------------------------------------- |
+| `myBlur`   | Emitted when the input loses focus.     | `CustomEvent<void>`                   |
+| `myChange` | Emitted when the value has changed.     | `CustomEvent<InputChangeEventDetail>` |
+| `myFocus`  | Emitted when the input has focus.       | `CustomEvent<void>`                   |
+| `myInput`  | Emitted when a keyboard input occurred. | `CustomEvent<KeyboardEvent>`          |
 
 
 ## Methods
@@ -62,7 +62,7 @@ Type: `Promise<HTMLInputElement>`
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the specified `ion-input`. Use this method instead of the global
+Sets focus on the specified `my-input`. Use this method instead of the global
 `input.focus()`.
 
 #### Returns

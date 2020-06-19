@@ -5,25 +5,20 @@ import { ValueAccessor } from './value-accessor';
 
 @Directive({
   /* tslint:disable-next-line:directive-selector */
-  selector: 'my-input[type=number]',
+  selector: 'my-range, my-radio-group',
   host: {
     '(myChange)': 'handleChangeEvent($event.target.value)'
   },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: NumericValueAccessor,
+      useExisting: SelectValueAccessor,
       multi: true
     }
   ]
 })
-export class NumericValueAccessor extends ValueAccessor {
+export class SelectValueAccessor extends ValueAccessor {
   constructor(el: ElementRef) {
     super(el);
-  }
-  registerOnChange(fn: (_: number | null) => void) {
-    super.registerOnChange(value => {
-      fn(value === '' ? null : parseFloat(value));
-    });
   }
 }

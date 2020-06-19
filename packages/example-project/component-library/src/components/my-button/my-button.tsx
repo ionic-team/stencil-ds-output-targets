@@ -112,15 +112,15 @@ export class Button implements ComponentInterface, AnchorInterface, ButtonInterf
   /**
    * Emitted when the button has focus.
    */
-  @Event() ionFocus!: EventEmitter<void>;
+  @Event() myFocus!: EventEmitter<void>;
 
   /**
    * Emitted when the button loses focus.
    */
-  @Event() ionBlur!: EventEmitter<void>;
+  @Event() myBlur!: EventEmitter<void>;
 
   private get hasIconOnly() {
-    return !!this.el.querySelector('ion-icon[slot="icon-only"]');
+    return !!this.el.querySelector('my-icon[slot="icon-only"]');
   }
 
   private handleClick = (ev: Event) => {
@@ -145,11 +145,11 @@ export class Button implements ComponentInterface, AnchorInterface, ButtonInterf
   };
 
   private onFocus = () => {
-    this.ionFocus.emit();
+    this.myFocus.emit();
   };
 
   private onBlur = () => {
-    this.ionBlur.emit();
+    this.myBlur.emit();
   };
 
   render() {
@@ -195,8 +195,8 @@ export class Button implements ComponentInterface, AnchorInterface, ButtonInterf
           [`${buttonType}-strong`]: strong,
           'button-has-icon-only': hasIconOnly,
           'button-disabled': disabled,
-          'ion-activatable': true,
-          'ion-focusable': true,
+          'my-activatable': true,
+          'my-focusable': true,
         }}>
         <TagType
           {...attrs}
