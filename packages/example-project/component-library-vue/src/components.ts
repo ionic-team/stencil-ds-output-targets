@@ -67,7 +67,7 @@ export const MyInput = Vue.extend({
   },
   model: {
     prop: 'value',
-    event: 'myChange',
+    event: 'my-change',
   },
   methods: {
     focus(): void {
@@ -99,7 +99,7 @@ export const MyCheckbox = Vue.extend({
   },
   model: {
     prop: 'checked',
-    event: 'myChange',
+    event: 'my-change',
   },
   render(createElement): VNode {
     return createElement(
@@ -122,7 +122,7 @@ export const MyRadioGroup = Vue.extend({
   },
   model: {
     prop: 'value',
-    event: 'myChange',
+    event: 'my-change',
   },
   render(createElement): VNode {
     return createElement(
@@ -147,7 +147,7 @@ export const MyRadio = Vue.extend({
   },
   model: {
     prop: 'checked',
-    event: 'myChange',
+    event: 'my-change',
   },
   render(createElement): VNode {
     return createElement(
@@ -180,7 +180,7 @@ export const MyRange = Vue.extend({
   },
   model: {
     prop: 'value',
-    event: 'myChange',
+    event: 'my-change',
   },
   render(createElement): VNode {
     return createElement(

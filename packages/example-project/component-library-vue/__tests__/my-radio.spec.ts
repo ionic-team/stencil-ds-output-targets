@@ -3,17 +3,19 @@ import { MyRadio } from '../src';
 
 describe('MyRadioGroup', () => {
   const Component = {
-    template: `<my-radio [(ngModel)]="isChecked"></my-radio>`,
+    template: `<my-radio v-model="isChecked"></my-radio>`,
+    data() {
+      return {
+        isChecked: '',
+      };
+    },
   };
   const wrapper = mount(Component, {
     components: { MyRadio },
-    data: {
-      testText: '',
-    },
   });
   it('on myChange value the bound component attribute should update', () => {
-    const myRangeEl = wrapper.find('my-range');
-    myRangeEl.trigger('mySelect', { target: { checked: true } });
+    const myRangeEl = wrapper.find('my-radio');
+    myRangeEl.trigger('mySelect', { checked: true });
     expect(wrapper.vm.$data.isChecked).toEqual(true);
   });
 });
