@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { MyCheckbox } from '../src';
 
-describe('MyRadioGroup', () => {
+describe('MyCheckbox', () => {
   const Component = {
     template: `<my-checkbox type="text" v-model="itemIsChecked"></my-checkbox>`,
     data() {
@@ -14,8 +14,9 @@ describe('MyRadioGroup', () => {
     components: { MyCheckbox },
   });
   it('on myChange value the bound component attribute should update', () => {
-    const myCheckboxEl = wrapper.find('my-checkbox');
-    myCheckboxEl.trigger('myChange', { checked: true });
+    const myCheckboxEl = wrapper.find('my-checkbox').element as HTMLMyCheckboxElement;
+    myCheckboxEl.dispatchEvent(new CustomEvent('myChange', { detail: { value: true } }));
+
     expect(wrapper.vm.$data.itemIsChecked).toEqual(true);
   });
 });

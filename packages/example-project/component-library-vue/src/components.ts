@@ -1,6 +1,10 @@
 import Vue, { VNode, PropOptions } from 'vue';
 import { Components } from 'component-library';
 
+const reEmit = (vueElement: any, eventName: string) => (event: any) => {
+  vueElement.$emit(eventName, (event as any).detail.value);
+};
+
 /**
  * Ensure the web components that we are wrappering are ignored by Vue
  */
@@ -99,15 +103,19 @@ export const MyCheckbox = Vue.extend({
   },
   model: {
     prop: 'checked',
-    event: 'my-change',
+    event: 'myChange',
   },
   render(createElement): VNode {
+    const listeners = {
+      ...this.$listeners,
+      myChange: reEmit(this, 'myChange'),
+    };
     return createElement(
       'my-checkbox',
       {
         ref: 'wc',
         domProps: this.$props,
-        on: this.$listeners,
+        on: listeners,
       },
       [this.$slots.default],
     );
@@ -122,15 +130,19 @@ export const MyRadioGroup = Vue.extend({
   },
   model: {
     prop: 'value',
-    event: 'my-change',
+    event: 'myChange',
   },
   render(createElement): VNode {
+    const listeners = {
+      ...this.$listeners,
+      myChange: reEmit(this, 'myChange'),
+    };
     return createElement(
       'my-radio-group',
       {
         ref: 'wc',
         domProps: this.$props,
-        on: this.$listeners,
+        on: listeners,
       },
       [this.$slots.default],
     );
@@ -147,15 +159,19 @@ export const MyRadio = Vue.extend({
   },
   model: {
     prop: 'checked',
-    event: 'my-change',
+    event: 'myChange',
   },
   render(createElement): VNode {
+    const listeners = {
+      ...this.$listeners,
+      myChange: reEmit(this, 'myChange'),
+    };
     return createElement(
       'my-radio',
       {
         ref: 'wc',
         domProps: this.$props,
-        on: this.$listeners,
+        on: listeners,
       },
       [this.$slots.default],
     );
@@ -180,15 +196,19 @@ export const MyRange = Vue.extend({
   },
   model: {
     prop: 'value',
-    event: 'my-change',
+    event: 'myChange',
   },
   render(createElement): VNode {
+    const listeners = {
+      ...this.$listeners,
+      myChange: reEmit(this, 'myChange'),
+    };
     return createElement(
       'my-range',
       {
         ref: 'wc',
         domProps: this.$props,
-        on: this.$listeners,
+        on: listeners,
       },
       [this.$slots.default],
     );

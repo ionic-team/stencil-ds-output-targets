@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { MyRange } from '../src';
 
-describe('MyRadioGroup', () => {
+describe('MyRange', () => {
   const Component = {
     template: `<my-range min="0" max="100" type="text" v-model="testText"></my-range>`,
     data() {
@@ -14,8 +14,9 @@ describe('MyRadioGroup', () => {
     components: { MyRange },
   });
   it('on myChange value the bound component attribute should update', () => {
-    const myRangeEl = wrapper.find('my-range');
-    myRangeEl.trigger('myChange', { value: '50' });
+    const myRangeEl = wrapper.find('my-range').element as HTMLMyRangeElement;
+    myRangeEl.dispatchEvent(new CustomEvent('myChange', { detail: { value: '50' } }));
+
     expect(wrapper.vm.$data.testText).toEqual('50');
   });
 });

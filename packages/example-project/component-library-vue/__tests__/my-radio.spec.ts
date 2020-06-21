@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { MyRadio } from '../src';
 
-describe('MyRadioGroup', () => {
+describe('MyRadio', () => {
   const Component = {
     template: `<my-radio v-model="isChecked"></my-radio>`,
     data() {
@@ -14,8 +14,9 @@ describe('MyRadioGroup', () => {
     components: { MyRadio },
   });
   it('on myChange value the bound component attribute should update', () => {
-    const myRangeEl = wrapper.find('my-radio');
-    myRangeEl.trigger('mySelect', { checked: true });
+    const myRangeEl = wrapper.find('my-radio').element as HTMLMyRadioElement;
+    myRangeEl.dispatchEvent(new CustomEvent('myChange', { detail: { value: true } }));
+
     expect(wrapper.vm.$data.isChecked).toEqual(true);
   });
 });

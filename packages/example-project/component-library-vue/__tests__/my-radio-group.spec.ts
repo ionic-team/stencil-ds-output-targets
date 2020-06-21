@@ -20,7 +20,8 @@ describe('MyRadioGroup', () => {
   });
   it('on myChange value the bound component attribute should update', async () => {
     const myRadioGroupEl = wrapper.find('my-radio-group').element as HTMLMyRadioElement;
-    myRadioGroupEl.dispatchEvent(new CustomEvent('my-change', { detail: { value: 'buford' } }));
+    myRadioGroupEl.dispatchEvent(new CustomEvent('myChange', { detail: { value: 'buford' } }));
+
     expect(wrapper.vm.$data.selectedName).toEqual('buford');
   });
 });
