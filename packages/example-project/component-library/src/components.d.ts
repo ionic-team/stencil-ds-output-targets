@@ -795,6 +795,10 @@ declare namespace LocalJSX {
          */
         "onMyFocus"?: (event: CustomEvent<void>) => void;
         /**
+          * Emitted when the radio button loses focus.
+         */
+        "onMySelect"?: (event: CustomEvent<void>) => void;
+        /**
           * Emitted when the styles change.
          */
         "onMyStyle"?: (event: CustomEvent<StyleEventDetail>) => void;

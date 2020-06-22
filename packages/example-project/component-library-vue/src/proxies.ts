@@ -57,6 +57,10 @@ export const MyCheckbox = Vue.extend({
     value: {} as PropOptions<Components.MyCheckbox['value']>,
   },
 
+  model: {
+    prop: 'checked',
+    event: 'myChange'
+  },
 
   render: createCommonRender('my-checkbox', ['myChange', 'myFocus', 'myBlur', 'myStyle']),
 });
@@ -155,8 +159,12 @@ export const MyRadio = Vue.extend({
     value: {} as PropOptions<Components.MyRadio['value']>,
   },
 
+  model: {
+    prop: 'checked',
+    event: 'mySelect'
+  },
 
-  render: createCommonRender('my-radio', ['myStyle', 'myFocus', 'myBlur']),
+  render: createCommonRender('my-radio', ['myStyle', 'myFocus', 'myBlur', 'mySelect']),
 });
   
 
@@ -168,6 +176,10 @@ export const MyRadioGroup = Vue.extend({
     value: {} as PropOptions<Components.MyRadioGroup['value']>,
   },
 
+  model: {
+    prop: 'value',
+    event: 'myChange'
+  },
 
   render: createCommonRender('my-radio-group', ['myChange']),
 });
@@ -190,6 +202,10 @@ export const MyRange = Vue.extend({
     value: {} as PropOptions<Components.MyRange['value']>,
   },
 
+  model: {
+    prop: 'value',
+    event: 'myChange'
+  },
 
   render: createCommonRender('my-range', ['myChange', 'myStyle', 'myFocus', 'myBlur']),
 });

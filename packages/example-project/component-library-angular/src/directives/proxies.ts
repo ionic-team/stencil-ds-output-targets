@@ -121,11 +121,12 @@ export declare interface MyRadio extends Components.MyRadio {}
 export class MyRadio {
   myFocus!: EventEmitter<CustomEvent>;
   myBlur!: EventEmitter<CustomEvent>;
+  mySelect!: EventEmitter<CustomEvent>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['myFocus', 'myBlur']);
+    proxyOutputs(this, this.el, ['myFocus', 'myBlur', 'mySelect']);
   }
 }
 
