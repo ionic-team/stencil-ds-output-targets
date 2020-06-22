@@ -1,7 +1,8 @@
 import path from 'path';
 import { OutputTargetVue } from './types';
-import { dashToPascalCase, normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
 import { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
+import { createComponentDefinition } from './generate-vue-component';
+import { normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
 
 export async function vueProxyOutput(
   compilerCtx: CompilerCtx,
@@ -58,7 +59,9 @@ import { createCommonRender } from './vue-componet-lib/utils';\n`;
     sourceImports,
     registerCustomElements,
     createIgnoredElementsString(components),
-    components.map(createComponentDefinition).join('\n'),
+    components
+      .map(createComponentDefinition(IMPORT_TYPES, outputTarget.componentModels))
+      .join('\n'),
   ];
 
   const finalText = final.join('\n') + '\n';
@@ -77,38 +80,6 @@ function createIgnoredElementsString(components: ComponentCompilerMeta[]) {
     ${ignoredElements}
   ];
   Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTags];
-  `;
-}
-
-function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
-  const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
-
-  const props = cmpMeta.properties
-    .map(
-      (prop) => `${prop.name} as PropOptions<${IMPORT_TYPES}.${tagNameAsPascal}['${prop.name}']>,`,
-    )
-    .join('\n');
-
-  const model = '';
-
-  const methods = cmpMeta.methods
-    .map(
-      (method) =>
-        `${method.name}(...args): ${method.complexType} { this.$refs.wc.${method.name}(...args)}`,
-    )
-    .join('\n');
-
-  return `
-  export const ${tagNameAsPascal} = Vue.extend({
-    props: {
-      ${props}
-    },
-    ${model}
-    methods: {
-      ${methods}
-    }
-    render: createCommonRender('${cmpMeta.tagName}'),
-  });
   `;
 }
 

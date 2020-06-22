@@ -23,6 +23,7 @@ function normalizeOutputTarget(config: Config, outputTarget: any) {
   const results: OutputTargetVue = {
     ...outputTarget,
     excludeComponents: outputTarget.excludeComponents || [],
+    componentModels: outputTarget.componentModels || [],
   };
 
   if (config.rootDir == null) {

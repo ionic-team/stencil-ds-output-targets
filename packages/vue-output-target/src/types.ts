@@ -7,7 +7,7 @@ export interface OutputTargetVue {
 }
 
 export interface ComponentModelConfig {
-  elementSelectors: string | string[];
+  elements: string | string[];
   event: string;
   targetAttr: string;
 }
