@@ -62,7 +62,9 @@ export const ${tagNameAsPascal} = Vue.extend({
 ${props}
 ${model}
 ${methods}
-  render: createCommonRender('${cmpMeta.tagName}'),
+  render: createCommonRender('${cmpMeta.tagName}', [${cmpMeta.events
+    .map((e) => `'${e.name}'`)
+    .join(', ')}]),
 });
   `;
 };

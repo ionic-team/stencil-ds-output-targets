@@ -1,6 +1,6 @@
 import Vue, { PropOptions } from 'vue';
 import { Components } from 'component-library';
-import { createCommonRender } from './vue-componet-lib/utils';
+import { createCommonRender } from './vue-component-lib/utils';
 
 /**
  * Ensure the web components that we are wrappering are ignored by Vue

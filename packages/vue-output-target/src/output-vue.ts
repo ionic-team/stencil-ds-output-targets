@@ -38,7 +38,7 @@ async function generateProxies(
 /* tslint:disable */
 /* auto-generated vue proxies */
 import Vue, { PropOptions } from 'vue';
-import { createCommonRender, createCommonMethod } from './vue-componet-lib/utils';\n`;
+import { createCommonRender, createCommonMethod } from './vue-component-lib/utils';\n`;
 
   const typeImports = !outputTarget.componentCorePackage
     ? `import { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`

@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* auto-generated vue proxies */
 import Vue, { PropOptions } from 'vue';
-import { createCommonRender, createCommonMethod } from './vue-componet-lib/utils';
+import { createCommonRender, createCommonMethod } from './vue-component-lib/utils';
 
 import { Components } from 'component-library';
 
@@ -42,7 +42,7 @@ export const MyButton = Vue.extend({
   },
 
 
-  render: createCommonRender('my-button'),
+  render: createCommonRender('my-button', ['myFocus', 'myBlur']),
 });
   
 
@@ -58,7 +58,7 @@ export const MyCheckbox = Vue.extend({
   },
 
 
-  render: createCommonRender('my-checkbox'),
+  render: createCommonRender('my-checkbox', ['myChange', 'myFocus', 'myBlur', 'myStyle']),
 });
   
 
@@ -73,7 +73,7 @@ export const MyComponent = Vue.extend({
   },
 
 
-  render: createCommonRender('my-component'),
+  render: createCommonRender('my-component', []),
 });
   
 
@@ -117,7 +117,7 @@ export const MyInput = Vue.extend({
     setFocus: <Components.MyInput['setFocus']>createCommonMethod('setFocus'),
     getInputElement: <Components.MyInput['getInputElement']>createCommonMethod('getInputElement'),
   },
-  render: createCommonRender('my-input'),
+  render: createCommonRender('my-input', ['myInput', 'myChange', 'myBlur', 'myFocus']),
 });
   
 
@@ -142,7 +142,7 @@ export const MyPopover = Vue.extend({
     onDidDismiss: <Components.MyPopover['onDidDismiss']>createCommonMethod('onDidDismiss'),
     onWillDismiss: <Components.MyPopover['onWillDismiss']>createCommonMethod('onWillDismiss'),
   },
-  render: createCommonRender('my-popover'),
+  render: createCommonRender('my-popover', ['myPopoverDidPresent', 'myPopoverWillPresent', 'myPopoverWillDismiss', 'myPopoverDidDismiss']),
 });
   
 
@@ -156,7 +156,7 @@ export const MyRadio = Vue.extend({
   },
 
 
-  render: createCommonRender('my-radio'),
+  render: createCommonRender('my-radio', ['myStyle', 'myFocus', 'myBlur']),
 });
   
 
@@ -169,7 +169,7 @@ export const MyRadioGroup = Vue.extend({
   },
 
 
-  render: createCommonRender('my-radio-group'),
+  render: createCommonRender('my-radio-group', ['myChange']),
 });
   
 
@@ -191,6 +191,6 @@ export const MyRange = Vue.extend({
   },
 
 
-  render: createCommonRender('my-range'),
+  render: createCommonRender('my-range', ['myChange', 'myStyle', 'myFocus', 'myBlur']),
 });
   

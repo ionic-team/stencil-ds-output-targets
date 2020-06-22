@@ -4,10 +4,11 @@ import { MyInput } from '../src';
 describe('MyInput', () => {
   it('should expose methods that map to wc', () => {
     const wrapper = mount(MyInput);
-    const wc = wrapper.find('my-input').element;
+    const wc = wrapper.find('my-input').element as HTMLMyInputElement;
     const fakeFocus = jest.fn();
-    wc.focus = fakeFocus;
-    wrapper.vm.focus();
+
+    wc.setFocus = fakeFocus;
+    wrapper.vm.setFocus();
     expect(fakeFocus).toBeCalledTimes(1);
   });
   it('should set events on handler', () => {
@@ -24,21 +25,5 @@ describe('MyInput', () => {
 
     wrapper.find('my-input').trigger('click');
     expect(onClick).toBeCalledTimes(1);
-  });
-
-  it('should add custom events', () => {
-    const Component = {
-      template: `<MyInput v-on:ion-focus="$emit('ion-focus')"></MyInput>`,
-    };
-    const onIonFocus = jest.fn();
-    const wrapper = mount(Component, {
-      components: { MyInput },
-      listeners: {
-        'ion-focus': onIonFocus,
-      },
-    });
-
-    wrapper.find('my-input').trigger('ion-focus');
-    expect(onIonFocus).toBeCalledTimes(1);
   });
 });
