@@ -22,3 +22,8 @@ export const createCommonRender = (tagName: string, eventNames: string[] = []) =
       [vueElement.$slots.default],
     );
   };
+
+export const createCommonMethod = <T extends Function>(methodName: string) =>
+  (function (...args: any[]) {
+    this.$refs.wc[methodName](...args);
+  } as unknown) as T;

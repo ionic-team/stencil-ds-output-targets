@@ -38,7 +38,7 @@ async function generateProxies(
 /* tslint:disable */
 /* auto-generated vue proxies */
 import Vue, { PropOptions } from 'vue';
-import { createCommonRender } from './vue-componet-lib/utils';\n`;
+import { createCommonRender, createCommonMethod } from './vue-componet-lib/utils';\n`;
 
   const typeImports = !outputTarget.componentCorePackage
     ? `import { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`
@@ -69,18 +69,13 @@ import { createCommonRender } from './vue-componet-lib/utils';\n`;
   return compilerCtx.fs.writeFile(outputTarget.proxiesFile, finalText);
 }
 function createIgnoredElementsString(components: ComponentCompilerMeta[]) {
-  const ignoredElements = components
-    .map((component) => {
-      `'${component.tagName}',`;
-    })
-    .join('\n');
+  const ignoredElements = components.map((component) => ` '${component.tagName}',`).join('\n');
 
   return `
-  const customElementTags = [
-    ${ignoredElements}
-  ];
-  Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTags];
-  `;
+const customElementTags: string[] = [
+${ignoredElements}
+];
+Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTags];\n`;
 }
 
 async function copyResources(config: Config, outputTarget: OutputTargetVue) {

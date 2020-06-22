@@ -7,13 +7,23 @@ export const createComponentDefinition = (
   componentModelConfigs: ComponentModelConfig[] | undefined,
 ) => (cmpMeta: ComponentCompilerMeta) => {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
+  let props = '';
   let model = '';
+  let methods = '';
 
-  const props = cmpMeta.properties
-    .map(
-      (prop) => `${prop.name} as PropOptions<${importTypes}.${tagNameAsPascal}['${prop.name}']>,`,
-    )
-    .join('\n');
+  if (Array.isArray(cmpMeta.properties) && cmpMeta.properties.length > 0) {
+    const relevantPropsConfig = cmpMeta.properties
+      .map(
+        (prop) =>
+          `    ${prop.name}: {} as PropOptions<${importTypes}.${tagNameAsPascal}['${prop.name}']>,`,
+      )
+      .join('\n');
+
+    props = `
+  props: {
+${relevantPropsConfig}
+  },`;
+  }
 
   if (Array.isArray(componentModelConfigs)) {
     const relevantModelConfig = componentModelConfigs.find((modelConfig) => {
@@ -26,31 +36,33 @@ export const createComponentDefinition = (
 
     if (relevantModelConfig) {
       model = `
-      model: {
-        prop: '${relevantModelConfig.targetAttr}',
-        event: '${relevantModelConfig.event}'
-      }
-      `;
+  model: {
+    prop: '${relevantModelConfig.targetAttr}',
+    event: '${relevantModelConfig.event}'
+  },`;
     }
   }
 
-  const methods = cmpMeta.methods
-    .map(
-      (method) =>
-        `${method.name}(...args): ${method.complexType} { this.$refs.wc.${method.name}(...args)}`,
-    )
-    .join('\n');
+  if (Array.isArray(cmpMeta.methods) && cmpMeta.methods.length > 0) {
+    const relevantMethodConfig = cmpMeta.methods
+      .map(
+        (method) =>
+          `    ${method.name}: <${importTypes}.${tagNameAsPascal}['${method.name}']>createCommonMethod('${method.name}'),`,
+      )
+      .join('\n');
+
+    methods = `
+  methods: {
+${relevantMethodConfig}
+  },`;
+  }
 
   return `
-  export const ${tagNameAsPascal} = Vue.extend({
-    props: {
-      ${props}
-    },
-    ${model}
-    methods: {
-      ${methods}
-    }
-    render: createCommonRender('${cmpMeta.tagName}'),
-  });
+export const ${tagNameAsPascal} = Vue.extend({
+${props}
+${model}
+${methods}
+  render: createCommonRender('${cmpMeta.tagName}'),
+});
   `;
 };
