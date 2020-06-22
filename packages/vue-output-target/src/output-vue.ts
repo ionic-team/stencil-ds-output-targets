@@ -36,7 +36,8 @@ async function generateProxies(
   const imports = `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated vue proxies */
-import Vue, { VNode, PropOptions } from 'vue';\n`;
+import Vue, { PropOptions } from 'vue';
+import { createCommonRender } from './vue-componet-lib/utils';\n`;
 
   const typeImports = !outputTarget.componentCorePackage
     ? `import { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`
@@ -82,14 +83,33 @@ function createIgnoredElementsString(components: ComponentCompilerMeta[]) {
 function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
+  const props = cmpMeta.properties
+    .map(
+      (prop) => `${prop.name} as PropOptions<${IMPORT_TYPES}.${tagNameAsPascal}['${prop.name}']>,`,
+    )
+    .join('\n');
+
+  const model = '';
+
+  const methods = cmpMeta.methods
+    .map(
+      (method) =>
+        `${method.name}(...args): ${method.complexType} { this.$refs.wc.${method.name}(...args)}`,
+    )
+    .join('\n');
+
   return `
   export const ${tagNameAsPascal} = Vue.extend({
-
+    props: {
+      ${props}
+    },
+    ${model}
+    methods: {
+      ${methods}
+    }
+    render: createCommonRender('${cmpMeta.tagName}'),
   });
   `;
-  return [
-    `export const ${tagNameAsPascal} = /*@__PURE__*/createVueComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}');`,
-  ];
 }
 
 async function copyResources(config: Config, outputTarget: OutputTargetVue) {

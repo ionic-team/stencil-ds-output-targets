@@ -61,8 +61,8 @@ export const MyInput = Vue.extend({
     event: 'my-change',
   },
   methods: {
-    focus(): void {
-      this.$refs.wc.focus();
+    focus(...args: any[]): void {
+      this.$refs.wc.focus(...args);
     },
   },
   render: createCommonRender('my-input'),
