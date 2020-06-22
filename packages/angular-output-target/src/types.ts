@@ -53,11 +53,10 @@ export type ValueAccessorTypes = 'text' | 'radio' | 'select' | 'number' | 'boole
     },
   ];
 */
-export interface ValueAccessorConfig {
+export interface ComponentModelConfig {
   elementSelectors: string | string[];
   event: string;
   targetAttr: string;
-  type: ValueAccessorTypes;
 }
 
 export interface PackageJSON {

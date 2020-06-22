@@ -36,7 +36,7 @@ async function generateProxies(
   const imports = `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated vue proxies */
-import { createVueComponent } from './vue-component-lib';\n`;
+import Vue, { VNode, PropOptions } from 'vue';\n`;
 
   const typeImports = !outputTarget.componentCorePackage
     ? `import { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`
@@ -56,6 +56,7 @@ import { createVueComponent } from './vue-component-lib';\n`;
     typeImports,
     sourceImports,
     registerCustomElements,
+    createIgnoredElementsString(components),
     components.map(createComponentDefinition).join('\n'),
   ];
 
@@ -63,10 +64,29 @@ import { createVueComponent } from './vue-component-lib';\n`;
 
   return compilerCtx.fs.writeFile(outputTarget.proxiesFile, finalText);
 }
+function createIgnoredElementsString(components: ComponentCompilerMeta[]) {
+  const ignoredElements = components
+    .map((component) => {
+      `'${component.tagName}',`;
+    })
+    .join('\n');
+
+  return `
+  const customElementTags = [
+    ${ignoredElements}
+  ];
+  Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTags];
+  `;
+}
 
 function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
+  return `
+  export const ${tagNameAsPascal} = Vue.extend({
+
+  });
+  `;
   return [
     `export const ${tagNameAsPascal} = /*@__PURE__*/createVueComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}');`,
   ];
@@ -93,7 +113,7 @@ async function copyResources(config: Config, outputTarget: OutputTargetVue) {
 }
 
 export const GENERATED_DTS = 'components.d.ts';
-const IMPORT_TYPES = 'JSX';
+const IMPORT_TYPES = 'Components';
 const REGISTER_CUSTOM_ELEMENTS = 'defineCustomElements';
 const APPLY_POLYFILLS = 'applyPolyfills';
 const DEFAULT_LOADER_DIR = '/loader';

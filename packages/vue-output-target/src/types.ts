@@ -2,7 +2,14 @@ export interface OutputTargetVue {
   componentCorePackage?: string;
   proxiesFile: string;
   excludeComponents?: string[];
+  componentModels?: ComponentModelConfig[];
   loaderDir?: string;
+}
+
+export interface ComponentModelConfig {
+  elementSelectors: string | string[];
+  event: string;
+  targetAttr: string;
 }
 
 export interface PackageJSON {
