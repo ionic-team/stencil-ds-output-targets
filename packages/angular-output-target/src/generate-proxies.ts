@@ -63,7 +63,7 @@ function getProxy(cmpMeta: ComponentCompilerMeta) {
 
   // Generate Angular @Directive
   const directiveOpts = [
-    `selector: \'${cmpMeta.tagName}\'`,
+    `selector: \'${cmpMeta.tagName}, [${cmpMeta.tagName}]\'`,
     `changeDetection: ChangeDetectionStrategy.OnPush`,
     `template: '<ng-content></ng-content>'`
   ];
