@@ -45,7 +45,7 @@ import { Components } from 'component-library'
 
 export declare interface MyButton extends Components.MyButton {}
 @ProxyCmp({inputs: ['buttonType', 'color', 'disabled', 'download', 'expand', 'fill', 'href', 'mode', 'rel', 'shape', 'size', 'strong', 'target', 'type']})
-@Component({ selector: 'my-button', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['buttonType', 'color', 'disabled', 'download', 'expand', 'fill', 'href', 'mode', 'rel', 'shape', 'size', 'strong', 'target', 'type'] })
+@Component({ selector: 'my-button, [my-button]', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['buttonType', 'color', 'disabled', 'download', 'expand', 'fill', 'href', 'mode', 'rel', 'shape', 'size', 'strong', 'target', 'type'] })
 export class MyButton {
   myFocus!: EventEmitter<CustomEvent>;
   myBlur!: EventEmitter<CustomEvent>;
@@ -59,7 +59,7 @@ export class MyButton {
 
 export declare interface MyCheckbox extends Components.MyCheckbox {}
 @ProxyCmp({inputs: ['checked', 'color', 'disabled', 'indeterminate', 'mode', 'name', 'value']})
-@Component({ selector: 'my-checkbox', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['checked', 'color', 'disabled', 'indeterminate', 'mode', 'name', 'value'] })
+@Component({ selector: 'my-checkbox, [my-checkbox]', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['checked', 'color', 'disabled', 'indeterminate', 'mode', 'name', 'value'] })
 export class MyCheckbox {
   myChange!: EventEmitter<CustomEvent>;
   myFocus!: EventEmitter<CustomEvent>;
@@ -74,7 +74,7 @@ export class MyCheckbox {
 
 export declare interface MyComponent extends Components.MyComponent {}
 @ProxyCmp({inputs: ['age', 'first', 'kidsNames', 'last', 'middle']})
-@Component({ selector: 'my-component', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['age', 'first', 'kidsNames', 'last', 'middle'] })
+@Component({ selector: 'my-component, [my-component]', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['age', 'first', 'kidsNames', 'last', 'middle'] })
 export class MyComponent {
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
@@ -85,7 +85,7 @@ export class MyComponent {
 
 export declare interface MyInput extends Components.MyInput {}
 @ProxyCmp({inputs: ['accept', 'autocapitalize', 'autocomplete', 'autocorrect', 'autofocus', 'clearInput', 'clearOnEdit', 'color', 'disabled', 'enterkeyhint', 'inputmode', 'max', 'maxlength', 'min', 'minlength', 'mode', 'multiple', 'name', 'pattern', 'placeholder', 'readonly', 'required', 'size', 'spellcheck', 'step', 'type', 'value'], 'methods': ['setFocus', 'getInputElement']})
-@Component({ selector: 'my-input', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['accept', 'autocapitalize', 'autocomplete', 'autocorrect', 'autofocus', 'clearInput', 'clearOnEdit', 'color', 'disabled', 'enterkeyhint', 'inputmode', 'max', 'maxlength', 'min', 'minlength', 'mode', 'multiple', 'name', 'pattern', 'placeholder', 'readonly', 'required', 'size', 'spellcheck', 'step', 'type', 'value'] })
+@Component({ selector: 'my-input, [my-input]', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['accept', 'autocapitalize', 'autocomplete', 'autocorrect', 'autofocus', 'clearInput', 'clearOnEdit', 'color', 'disabled', 'enterkeyhint', 'inputmode', 'max', 'maxlength', 'min', 'minlength', 'mode', 'multiple', 'name', 'pattern', 'placeholder', 'readonly', 'required', 'size', 'spellcheck', 'step', 'type', 'value'] })
 export class MyInput {
   myInput!: EventEmitter<CustomEvent>;
   myChange!: EventEmitter<CustomEvent>;
@@ -101,7 +101,7 @@ export class MyInput {
 
 export declare interface MyPopover extends Components.MyPopover {}
 @ProxyCmp({inputs: ['animated', 'backdropDismiss', 'component', 'componentProps', 'cssClass', 'event', 'keyboardClose', 'mode', 'showBackdrop', 'translucent'], 'methods': ['present', 'dismiss', 'onDidDismiss', 'onWillDismiss']})
-@Component({ selector: 'my-popover', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['animated', 'backdropDismiss', 'component', 'componentProps', 'cssClass', 'event', 'keyboardClose', 'mode', 'showBackdrop', 'translucent'] })
+@Component({ selector: 'my-popover, [my-popover]', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['animated', 'backdropDismiss', 'component', 'componentProps', 'cssClass', 'event', 'keyboardClose', 'mode', 'showBackdrop', 'translucent'] })
 export class MyPopover {
   myPopoverDidPresent!: EventEmitter<CustomEvent>;
   myPopoverWillPresent!: EventEmitter<CustomEvent>;
@@ -117,7 +117,7 @@ export class MyPopover {
 
 export declare interface MyRadio extends Components.MyRadio {}
 @ProxyCmp({inputs: ['color', 'disabled', 'mode', 'name', 'value']})
-@Component({ selector: 'my-radio', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['color', 'disabled', 'mode', 'name', 'value'] })
+@Component({ selector: 'my-radio, [my-radio]', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['color', 'disabled', 'mode', 'name', 'value'] })
 export class MyRadio {
   myFocus!: EventEmitter<CustomEvent>;
   myBlur!: EventEmitter<CustomEvent>;
@@ -131,7 +131,7 @@ export class MyRadio {
 
 export declare interface MyRadioGroup extends Components.MyRadioGroup {}
 @ProxyCmp({inputs: ['allowEmptySelection', 'name', 'value']})
-@Component({ selector: 'my-radio-group', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['allowEmptySelection', 'name', 'value'] })
+@Component({ selector: 'my-radio-group, [my-radio-group]', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['allowEmptySelection', 'name', 'value'] })
 export class MyRadioGroup {
   myChange!: EventEmitter<CustomEvent>;
   protected el: HTMLElement;
@@ -144,7 +144,7 @@ export class MyRadioGroup {
 
 export declare interface MyRange extends Components.MyRange {}
 @ProxyCmp({inputs: ['color', 'debounce', 'disabled', 'dualKnobs', 'max', 'min', 'mode', 'name', 'pin', 'snaps', 'step', 'ticks', 'value']})
-@Component({ selector: 'my-range', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['color', 'debounce', 'disabled', 'dualKnobs', 'max', 'min', 'mode', 'name', 'pin', 'snaps', 'step', 'ticks', 'value'] })
+@Component({ selector: 'my-range, [my-range]', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['color', 'debounce', 'disabled', 'dualKnobs', 'max', 'min', 'mode', 'name', 'pin', 'snaps', 'step', 'ticks', 'value'] })
 export class MyRange {
   myChange!: EventEmitter<CustomEvent>;
   myFocus!: EventEmitter<CustomEvent>;
