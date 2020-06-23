@@ -32,11 +32,16 @@ async function generateProxies(
   const distTypesDir = path.dirname(pkgData.types);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.proxiesFile, dtsFilePath, '.d.ts');
+  const proxiesFileExtname = path.extname(outputTarget.proxiesFile);
+  const proxiesFilesBaseNameWithoutExtension = path.basename(outputTarget.proxiesFile, proxiesFileExtname);
+  const providerFilePath = path.dirname(outputTarget.proxiesFile);
+  const providerFilenameWithoutExtension = `${proxiesFilesBaseNameWithoutExtension}-provider`;
+  const providerFile = path.resolve(providerFilePath, `${providerFilenameWithoutExtension}.ts`);
 
-  const imports = `/* eslint-disable */
+  const comments = `/* eslint-disable */
 /* tslint:disable */
-/* auto-generated react proxies */
-import { createReactComponent } from './react-component-lib';\n`;
+/* auto-generated react proxies */`;
+  const imports = `import { createReactComponent } from './react-component-lib';\n`;
 
   const typeImports = !outputTarget.componentCorePackage
     ? `import { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`
@@ -49,27 +54,50 @@ import { createReactComponent } from './react-component-lib';\n`;
     ),
   )}';\n`;
 
+  const providerReexport = `export * from './${providerFilenameWithoutExtension}';\n`;
+
   const registerCustomElements = `${APPLY_POLYFILLS}().then(() => ${REGISTER_CUSTOM_ELEMENTS}());`;
 
   const final: string[] = [
-    imports,
-    typeImports,
+    comments,
     sourceImports,
-    registerCustomElements,
-    components.map(createComponentDefinition).join('\n'),
+    providerReexport,
+    registerCustomElements
   ];
 
   const finalText = final.join('\n') + '\n';
 
-  return compilerCtx.fs.writeFile(outputTarget.proxiesFile, finalText);
+  const createComponentsFromFactory = `const components = componentsFactory();`;
+  const factoryFunction = `export function componentsFactory(transformTagName: (tagName: string) => string = tagName => tagName) {
+  return {
+${components.map(createComponentDefinition).join(',\n')}
+  };
+}\n`;
+
+  const provider: string[] = [
+    comments,
+    imports,
+    typeImports,
+    factoryFunction,
+    createComponentsFromFactory,
+    components.map(createComponentExport).join('\n')
+  ];
+  const providerText = provider.join('\n') + '\n';
+
+  await compilerCtx.fs.writeFile(providerFile, providerText);
+  await compilerCtx.fs.writeFile(outputTarget.proxiesFile, finalText);
+}
+
+function createComponentExport(cmpMeta: ComponentCompilerMeta) {
+  const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
+
+  return `export const ${tagNameAsPascal} = components.${tagNameAsPascal};`;
 }
 
 function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
-  return [
-    `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}');`,
-  ];
+  return `    ${tagNameAsPascal}: /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>(transformTagName('${cmpMeta.tagName}'))`;
 }
 
 async function copyResources(config: Config, outputTarget: OutputTargetReact) {
