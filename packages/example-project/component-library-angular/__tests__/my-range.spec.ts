@@ -36,7 +36,8 @@ describe('MyRange', () => {
 
   it('on myChange value the bound component attribute should update', () => {
     const { componentInstance: myAngularComponent } = fixture;
-    myRangeEl.triggerEventHandler('myChange', { target: { value: '50' } });
-    expect(myAngularComponent.testText).toEqual('50');
+    myRangeEl.nativeElement.value = 50;
+    myRangeEl.nativeElement.dispatchEvent(new CustomEvent('myChange', { detail: { value: 50 } }));
+    expect(myAngularComponent.testText).toEqual(50);
   });
 });

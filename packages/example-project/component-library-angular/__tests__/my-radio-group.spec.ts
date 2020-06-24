@@ -40,7 +40,10 @@ describe('MyRadioGroup', () => {
 
   it('on myChange value the bound component attribute should update', () => {
     const { componentInstance: myAngularComponent } = fixture;
-    myRadioGroupEl.triggerEventHandler('myChange', { target: { value: 'buford' } });
+    myRadioGroupEl.nativeElement.value = 'buford';
+    myRadioGroupEl.nativeElement.dispatchEvent(
+      new CustomEvent('myChange', { detail: { value: 'buford' } }),
+    );
     expect(myAngularComponent.selectedName).toEqual('buford');
   });
 });

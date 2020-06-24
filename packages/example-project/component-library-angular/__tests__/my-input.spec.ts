@@ -42,7 +42,10 @@ describe('MyInput - Text Value', () => {
 
   it('on myChange type="text" the bound component attribute should update', () => {
     const { componentInstance: myAngularComponent } = fixture;
-    myInputEl.triggerEventHandler('myChange', { target: { value: 'text' } });
+    myInputEl.nativeElement.value = 'text';
+    myInputEl.nativeElement.dispatchEvent(
+      new CustomEvent('myChange', { detail: { value: 'text' } }),
+    );
     expect(myAngularComponent.testText).toEqual('text');
   });
 
