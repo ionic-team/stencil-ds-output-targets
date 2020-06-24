@@ -1,4 +1,4 @@
-import { async, ComponentFixture } from '@angular/core/testing';
+import { async, ComponentFixture, tick, fakeAsync } from '@angular/core/testing';
 
 import { ConfigureFn, configureTests } from '../src/config.testing';
 import { DebugElement, Component } from '@angular/core';
@@ -36,7 +36,10 @@ describe('MyCheckbox', () => {
 
   it('myChange updates the bound component attribute should update', () => {
     const { componentInstance: myAngularComponent } = fixture;
-    myCheckboxEl.triggerEventHandler('myChange', { target: { checked: true } });
+    myCheckboxEl.nativeElement.checked = true;
+    myCheckboxEl.nativeElement.dispatchEvent(
+      new CustomEvent('myChange', { detail: { value: true } }),
+    );
     expect(myAngularComponent.itemIsChecked).toEqual(true);
   });
 });

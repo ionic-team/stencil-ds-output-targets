@@ -7,10 +7,16 @@ import { By } from '@angular/platform-browser';
 import { ComponentLibraryModule } from '../src/index';
 
 @Component({
-  template: `<my-input type="text" [(ngModel)]="testText"></my-input>`,
+  template: `<my-input
+    type="text"
+    [(ngModel)]="testText"
+    (myInput)="onInput($event.target.value)"
+  ></my-input>`,
 })
 class TestTextValueAccessorComponent {
   testText: string = '';
+
+  onInput() {}
 }
 
 describe('MyInput - Text Value', () => {
@@ -38,6 +44,16 @@ describe('MyInput - Text Value', () => {
     const { componentInstance: myAngularComponent } = fixture;
     myInputEl.triggerEventHandler('myChange', { target: { value: 'text' } });
     expect(myAngularComponent.testText).toEqual('text');
+  });
+
+  it('myInput event should call local method', () => {
+    const { componentInstance: myAngularComponent } = fixture;
+    const fakeOnInput = jest.fn();
+    myAngularComponent.onInput = fakeOnInput;
+    myInputEl.triggerEventHandler('myInput', { target: { value: 'fired' } });
+
+    expect(fakeOnInput).toHaveBeenCalledTimes(1);
+    expect(fakeOnInput).toHaveBeenCalledWith('fired');
   });
 });
 
@@ -68,10 +84,4 @@ describe('MyInput - Number Value', () => {
       myInputEl = fixture.debugElement.query(By.css('my-input'));
     });
   }));
-
-  it('on myChange type="number" the bound component attribute should update', () => {
-    const { componentInstance: myAngularComponent } = fixture;
-    myInputEl.triggerEventHandler('myChange', { target: { value: 42 } });
-    expect(myAngularComponent.testNumber).toEqual(42);
-  });
 });
