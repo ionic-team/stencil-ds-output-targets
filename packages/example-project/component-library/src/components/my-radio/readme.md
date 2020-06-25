@@ -18,10 +18,11 @@
 
 ## Events
 
-| Event     | Description                                | Type                |
-| --------- | ------------------------------------------ | ------------------- |
-| `myBlur`  | Emitted when the radio button loses focus. | `CustomEvent<void>` |
-| `myFocus` | Emitted when the radio button has focus.   | `CustomEvent<void>` |
+| Event      | Description                                | Type                |
+| ---------- | ------------------------------------------ | ------------------- |
+| `myBlur`   | Emitted when the radio button loses focus. | `CustomEvent<void>` |
+| `myFocus`  | Emitted when the radio button has focus.   | `CustomEvent<void>` |
+| `mySelect` | Emitted when the radio button loses focus. | `CustomEvent<void>` |
 
 
 ## Shadow Parts

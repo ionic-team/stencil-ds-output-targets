@@ -21,9 +21,10 @@
     "generate": "stencil generate"
   },
   "devDependencies": {
-    "@stencil/angular-output-target": "0.0.2",
     "@stencil/core": "^1.13.0",
+    "@stencil/angular-output-target": "0.0.2",
     "@stencil/react-output-target": "0.0.6",
+    "@stencil/vue-output-target": "0.0.1",
     "@types/puppeteer": "2.0.1",
     "jest-cli": "26.0.1",
     "puppeteer": "2.1.1"
