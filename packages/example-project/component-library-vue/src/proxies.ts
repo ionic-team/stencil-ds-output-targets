@@ -77,7 +77,7 @@ export const MyComponent = Vue.extend({
   },
 
 
-  render: createCommonRender('my-component', []),
+  render: createCommonRender('my-component', ['myCustomEvent']),
 });
   
 
@@ -118,8 +118,8 @@ export const MyInput = Vue.extend({
   },
 
   methods: {
-    setFocus: <Components.MyInput['setFocus']>createCommonMethod('setFocus'),
-    getInputElement: <Components.MyInput['getInputElement']>createCommonMethod('getInputElement'),
+    setFocus: createCommonMethod('setFocus') as Components.MyInput['setFocus'],
+    getInputElement: createCommonMethod('getInputElement') as Components.MyInput['getInputElement'],
   },
   render: createCommonRender('my-input', ['myInput', 'myChange', 'myBlur', 'myFocus']),
 });
@@ -141,10 +141,10 @@ export const MyPopover = Vue.extend({
 
 
   methods: {
-    present: <Components.MyPopover['present']>createCommonMethod('present'),
-    dismiss: <Components.MyPopover['dismiss']>createCommonMethod('dismiss'),
-    onDidDismiss: <Components.MyPopover['onDidDismiss']>createCommonMethod('onDidDismiss'),
-    onWillDismiss: <Components.MyPopover['onWillDismiss']>createCommonMethod('onWillDismiss'),
+    present: createCommonMethod('present') as Components.MyPopover['present'],
+    dismiss: createCommonMethod('dismiss') as Components.MyPopover['dismiss'],
+    onDidDismiss: createCommonMethod('onDidDismiss') as Components.MyPopover['onDidDismiss'],
+    onWillDismiss: createCommonMethod('onWillDismiss') as Components.MyPopover['onWillDismiss'],
   },
   render: createCommonRender('my-popover', ['myPopoverDidPresent', 'myPopoverWillPresent', 'myPopoverWillDismiss', 'myPopoverDidDismiss']),
 });

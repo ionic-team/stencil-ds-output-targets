@@ -6,8 +6,12 @@ export const createCommonRender = (tagName: string, eventNames: string[] = []) =
     const allListeners = eventNames.reduce((listeners, eventName) => {
       return {
         ...listeners,
-        [eventName]: (event: any) => {
-          vueElement.$emit(eventName, (event as any).detail.value);
+        [eventName]: (event: CustomEvent<any>) => {
+          let emittedValue = event.detail;
+          if (event.detail.value) {
+            emittedValue = event.detail.value;
+          }
+          vueElement.$emit(eventName, emittedValue);
         },
       };
     }, vueElement.$listeners);

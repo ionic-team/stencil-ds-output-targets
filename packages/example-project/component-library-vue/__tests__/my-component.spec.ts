@@ -45,4 +45,21 @@ describe('MyComponent', () => {
     expect(wrapper.props().kidsNames).toEqual(['billy', 'jane']);
     expect((wrapper.element as HTMLMyComponentElement).kidsNames).toEqual(['billy', 'jane']);
   });
+
+  it('on myChange value the bound component attribute should update', () => {
+    const onMyCustomEvent = jest.fn();
+    const Component = {
+      template: `<MyComponent type="text" v-on:myCustomEvent="customEventAction"></MyComponent>`,
+      components: { MyComponent },
+      methods: {
+        customEventAction: onMyCustomEvent,
+      },
+    };
+    const wrapper = mount(Component);
+    const myComponentEl = wrapper.find('my-component').element as HTMLMyCheckboxElement;
+    myComponentEl.dispatchEvent(new CustomEvent('myCustomEvent', { detail: 5 }));
+
+    expect(onMyCustomEvent).toBeCalledTimes(1);
+    expect(onMyCustomEvent).toBeCalledWith(5);
+  });
 });

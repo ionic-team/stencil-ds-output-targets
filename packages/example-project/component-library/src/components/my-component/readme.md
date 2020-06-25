@@ -16,6 +16,13 @@
 | `middle`    | `middle`  | The middle name          | `string`   | `undefined` |
 
 
+## Events
+
+| Event           | Description                    | Type                  |
+| --------------- | ------------------------------ | --------------------- |
+| `myCustomEvent` | Testing an event without value | `CustomEvent<number>` |
+
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

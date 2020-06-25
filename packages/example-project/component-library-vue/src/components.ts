@@ -1,6 +1,6 @@
 import Vue, { PropOptions } from 'vue';
 import { Components } from 'component-library';
-import { createCommonRender } from './vue-component-lib/utils';
+import { createCommonRender, createCommonMethod } from './vue-component-lib/utils';
 
 /**
  * Ensure the web components that we are wrappering are ignored by Vue
@@ -61,9 +61,7 @@ export const MyInput = Vue.extend({
     event: 'my-change',
   },
   methods: {
-    focus(...args: any[]): void {
-      this.$refs.wc.focus(...args);
-    },
+    setFocus: createCommonMethod('setFocus') as Components.MyInput['setFocus'],
   },
   render: createCommonRender('my-input'),
 });
