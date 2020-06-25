@@ -58,7 +58,7 @@ ${relevantMethodConfig}
   }
 
   return `
-export const ${tagNameAsPascal} = Vue.extend({
+export const ${tagNameAsPascal} = /*@__PURE__*/ Vue.extend({
 ${props}
 ${model}
 ${methods}
