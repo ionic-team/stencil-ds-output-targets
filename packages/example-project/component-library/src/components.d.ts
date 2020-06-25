@@ -584,6 +584,10 @@ declare namespace LocalJSX {
           * The middle name
          */
         "middle"?: string;
+        /**
+          * Testing an event without value
+         */
+        "onMyCustomEvent"?: (event: CustomEvent<number>) => void;
     }
     interface MyInput {
         /**

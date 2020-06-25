@@ -23,7 +23,7 @@ const customElementTags: string[] = [
 Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTags];
 
 
-export const MyButton = Vue.extend({
+export const MyButton = /*@__PURE__*/ Vue.extend({
 
   props: {
     color: {} as PropOptions<Components.MyButton['color']>,
@@ -46,7 +46,7 @@ export const MyButton = Vue.extend({
 });
   
 
-export const MyCheckbox = Vue.extend({
+export const MyCheckbox = /*@__PURE__*/ Vue.extend({
 
   props: {
     color: {} as PropOptions<Components.MyCheckbox['color']>,
@@ -66,7 +66,7 @@ export const MyCheckbox = Vue.extend({
 });
   
 
-export const MyComponent = Vue.extend({
+export const MyComponent = /*@__PURE__*/ Vue.extend({
 
   props: {
     first: {} as PropOptions<Components.MyComponent['first']>,
@@ -77,11 +77,11 @@ export const MyComponent = Vue.extend({
   },
 
 
-  render: createCommonRender('my-component', []),
+  render: createCommonRender('my-component', ['myCustomEvent']),
 });
   
 
-export const MyInput = Vue.extend({
+export const MyInput = /*@__PURE__*/ Vue.extend({
 
   props: {
     color: {} as PropOptions<Components.MyInput['color']>,
@@ -118,14 +118,14 @@ export const MyInput = Vue.extend({
   },
 
   methods: {
-    setFocus: <Components.MyInput['setFocus']>createCommonMethod('setFocus'),
-    getInputElement: <Components.MyInput['getInputElement']>createCommonMethod('getInputElement'),
+    setFocus: createCommonMethod('setFocus') as Components.MyInput['setFocus'],
+    getInputElement: createCommonMethod('getInputElement') as Components.MyInput['getInputElement'],
   },
   render: createCommonRender('my-input', ['myInput', 'myChange', 'myBlur', 'myFocus']),
 });
   
 
-export const MyPopover = Vue.extend({
+export const MyPopover = /*@__PURE__*/ Vue.extend({
 
   props: {
     component: {} as PropOptions<Components.MyPopover['component']>,
@@ -141,16 +141,16 @@ export const MyPopover = Vue.extend({
 
 
   methods: {
-    present: <Components.MyPopover['present']>createCommonMethod('present'),
-    dismiss: <Components.MyPopover['dismiss']>createCommonMethod('dismiss'),
-    onDidDismiss: <Components.MyPopover['onDidDismiss']>createCommonMethod('onDidDismiss'),
-    onWillDismiss: <Components.MyPopover['onWillDismiss']>createCommonMethod('onWillDismiss'),
+    present: createCommonMethod('present') as Components.MyPopover['present'],
+    dismiss: createCommonMethod('dismiss') as Components.MyPopover['dismiss'],
+    onDidDismiss: createCommonMethod('onDidDismiss') as Components.MyPopover['onDidDismiss'],
+    onWillDismiss: createCommonMethod('onWillDismiss') as Components.MyPopover['onWillDismiss'],
   },
   render: createCommonRender('my-popover', ['myPopoverDidPresent', 'myPopoverWillPresent', 'myPopoverWillDismiss', 'myPopoverDidDismiss']),
 });
   
 
-export const MyRadio = Vue.extend({
+export const MyRadio = /*@__PURE__*/ Vue.extend({
 
   props: {
     color: {} as PropOptions<Components.MyRadio['color']>,
@@ -168,7 +168,7 @@ export const MyRadio = Vue.extend({
 });
   
 
-export const MyRadioGroup = Vue.extend({
+export const MyRadioGroup = /*@__PURE__*/ Vue.extend({
 
   props: {
     allowEmptySelection: {} as PropOptions<Components.MyRadioGroup['allowEmptySelection']>,
@@ -185,7 +185,7 @@ export const MyRadioGroup = Vue.extend({
 });
   
 
-export const MyRange = Vue.extend({
+export const MyRange = /*@__PURE__*/ Vue.extend({
 
   props: {
     color: {} as PropOptions<Components.MyRange['color']>,
