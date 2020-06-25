@@ -20,7 +20,6 @@ class TestTextValueAccessorComponent {
 }
 
 describe('MyInput - Text Value', () => {
-  let component: TestTextValueAccessorComponent;
   let myInputEl: DebugElement;
   let fixture: ComponentFixture<TestTextValueAccessorComponent>;
 
@@ -34,7 +33,6 @@ describe('MyInput - Text Value', () => {
 
     configureTests(configure).then((testBed) => {
       fixture = testBed.createComponent(TestTextValueAccessorComponent);
-      component = fixture.componentInstance;
       fixture.detectChanges();
       myInputEl = fixture.debugElement.query(By.css('my-input'));
     });
@@ -68,7 +66,6 @@ class TestNumberValueAccessorComponent {
 }
 
 describe('MyInput - Number Value', () => {
-  let component: TestNumberValueAccessorComponent;
   let myInputEl: DebugElement;
   let fixture: ComponentFixture<TestNumberValueAccessorComponent>;
 
@@ -82,9 +79,15 @@ describe('MyInput - Number Value', () => {
 
     configureTests(configure).then((testBed) => {
       fixture = testBed.createComponent(TestNumberValueAccessorComponent);
-      component = fixture.componentInstance;
       fixture.detectChanges();
       myInputEl = fixture.debugElement.query(By.css('my-input'));
     });
   }));
+
+  it('should update value to number on myInputEvent', () => {
+    const { componentInstance: myAngularComponent } = fixture;
+    myInputEl.nativeElement.value = 50;
+    myInputEl.nativeElement.dispatchEvent(new CustomEvent('myInput', { detail: { value: 50 } }));
+    expect(myAngularComponent.testNumber).toEqual(50);
+  });
 });

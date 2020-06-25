@@ -18,7 +18,6 @@ class TestRadioValueAccessorComponent {
 }
 
 describe('MyRadioGroup', () => {
-  let component: TestRadioValueAccessorComponent;
   let myRadioGroupEl: DebugElement;
   let fixture: ComponentFixture<TestRadioValueAccessorComponent>;
 
@@ -32,7 +31,6 @@ describe('MyRadioGroup', () => {
 
     configureTests(configure).then((testBed) => {
       fixture = testBed.createComponent(TestRadioValueAccessorComponent);
-      component = fixture.componentInstance;
       fixture.detectChanges();
       myRadioGroupEl = fixture.debugElement.query(By.css('my-radio-group'));
     });

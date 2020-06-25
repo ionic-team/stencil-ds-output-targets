@@ -14,7 +14,6 @@ class TestSelectValueAccessorComponent {
 }
 
 describe('MyRange', () => {
-  let component: TestSelectValueAccessorComponent;
   let myRangeEl: DebugElement;
   let fixture: ComponentFixture<TestSelectValueAccessorComponent>;
 
@@ -28,7 +27,6 @@ describe('MyRange', () => {
 
     configureTests(configure).then((testBed) => {
       fixture = testBed.createComponent(TestSelectValueAccessorComponent);
-      component = fixture.componentInstance;
       fixture.detectChanges();
       myRangeEl = fixture.debugElement.query(By.css('my-range'));
     });

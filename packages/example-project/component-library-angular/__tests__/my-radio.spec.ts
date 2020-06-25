@@ -14,7 +14,6 @@ class TestRadioValueAccessorComponent {
 }
 
 describe('MyRadio', () => {
-  let component: TestRadioValueAccessorComponent;
   let myRadioEl: DebugElement;
   let fixture: ComponentFixture<TestRadioValueAccessorComponent>;
 
@@ -28,7 +27,6 @@ describe('MyRadio', () => {
 
     configureTests(configure).then((testBed) => {
       fixture = testBed.createComponent(TestRadioValueAccessorComponent);
-      component = fixture.componentInstance;
       fixture.detectChanges();
       myRadioEl = fixture.debugElement.query(By.css('my-radio'));
     });

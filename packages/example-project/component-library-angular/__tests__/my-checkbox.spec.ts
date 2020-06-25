@@ -1,4 +1,4 @@
-import { async, ComponentFixture, tick, fakeAsync } from '@angular/core/testing';
+import { async, ComponentFixture } from '@angular/core/testing';
 
 import { ConfigureFn, configureTests } from '../src/config.testing';
 import { DebugElement, Component } from '@angular/core';
@@ -14,7 +14,6 @@ class TestBooleanValueAccessorComponent {
 }
 
 describe('MyCheckbox', () => {
-  let component: TestBooleanValueAccessorComponent;
   let myCheckboxEl: DebugElement;
   let fixture: ComponentFixture<TestBooleanValueAccessorComponent>;
 
@@ -28,7 +27,6 @@ describe('MyCheckbox', () => {
 
     configureTests(configure).then((testBed) => {
       fixture = testBed.createComponent(TestBooleanValueAccessorComponent);
-      component = fixture.componentInstance;
       fixture.detectChanges();
       myCheckboxEl = fixture.debugElement.query(By.css('my-checkbox'));
     });
