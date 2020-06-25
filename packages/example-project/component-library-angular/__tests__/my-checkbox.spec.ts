@@ -14,7 +14,6 @@ class TestBooleanValueAccessorComponent {
 }
 
 describe('MyCheckbox', () => {
-  let component: TestBooleanValueAccessorComponent;
   let myCheckboxEl: DebugElement;
   let fixture: ComponentFixture<TestBooleanValueAccessorComponent>;
 
@@ -28,7 +27,6 @@ describe('MyCheckbox', () => {
 
     configureTests(configure).then((testBed) => {
       fixture = testBed.createComponent(TestBooleanValueAccessorComponent);
-      component = fixture.componentInstance;
       fixture.detectChanges();
       myCheckboxEl = fixture.debugElement.query(By.css('my-checkbox'));
     });
@@ -36,7 +34,10 @@ describe('MyCheckbox', () => {
 
   it('myChange updates the bound component attribute should update', () => {
     const { componentInstance: myAngularComponent } = fixture;
-    myCheckboxEl.triggerEventHandler('myChange', { target: { checked: true } });
+    myCheckboxEl.nativeElement.checked = true;
+    myCheckboxEl.nativeElement.dispatchEvent(
+      new CustomEvent('myChange', { detail: { value: true } }),
+    );
     expect(myAngularComponent.itemIsChecked).toEqual(true);
   });
 });

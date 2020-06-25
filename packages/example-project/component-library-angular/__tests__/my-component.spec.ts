@@ -4,7 +4,6 @@ import { ConfigureFn, configureTests } from '../src/config.testing';
 import { MyComponent } from './../src/index';
 
 describe('MyComponent', () => {
-  let component: MyComponent;
   let fixture: ComponentFixture<MyComponent>;
 
   beforeEach(async(() => {
@@ -16,7 +15,6 @@ describe('MyComponent', () => {
 
     configureTests(configure).then((testBed) => {
       fixture = testBed.createComponent(MyComponent);
-      component = fixture.componentInstance;
       fixture.detectChanges();
     });
   }));
