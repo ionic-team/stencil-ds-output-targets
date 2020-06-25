@@ -47,7 +47,7 @@ ${relevantPropsConfig}
     const relevantMethodConfig = cmpMeta.methods
       .map(
         (method) =>
-          `    ${method.name}: <${importTypes}.${tagNameAsPascal}['${method.name}']>createCommonMethod('${method.name}'),`,
+          `    ${method.name}: createCommonMethod('${method.name}') as ${importTypes}.${tagNameAsPascal}['${method.name}'],`,
       )
       .join('\n');
 
