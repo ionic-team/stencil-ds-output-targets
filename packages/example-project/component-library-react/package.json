@@ -4,9 +4,10 @@
   "version": "0.0.1",
   "private": true,
   "description": "React specific wrapper for component-library",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ionic-team/ionic.git"
+    "url": "https://github.com/ionic-team/stencil-ds-output-targets.git"
   },
   "scripts": {
     "test": "../../../node_modules/.bin/jest",
