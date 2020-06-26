@@ -6,9 +6,8 @@ import { createCommonRender, createCommonMethod } from './vue-component-lib/util
 
 import { Components } from 'component-library';
 
-import { defineCustomElements, applyPolyfills } from 'component-library/loader';
 
-applyPolyfills().then(() => defineCustomElements());
+
 
 const customElementTags: string[] = [
  'my-button',
