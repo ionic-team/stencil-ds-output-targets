@@ -2,7 +2,7 @@
 | --------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------- | ---------------------------------------------------------- |
 | React Output Target   | [`@stencil/react-output-target`](https://www.npmjs.com/package/@stencil/react-output-target)     | [![npm][npm-badge-react]][npm-badge-react-url]     | [![license][npm-license-react]][npm-license-react-url]     |
 | Angular Output Target | [`@stencil/angular-output-target`](https://www.npmjs.com/package/@stencil/angular-output-target) | [![npm][npm-badge-angular]][npm-badge-angular-url] | [![license][npm-license-angular]][npm-license-angular-url] |
-| Vue Output Target | In progress #57 😀| |
+| Vue Output Target     | [`@stencil/vue-output-target`](https://www.npmjs.com/package/@stencil/vue-output-target)         | [![npm][npm-badge-vue]][npm-badge-vue-url]         | [![license][npm-license-vue]][npm-license-vue-url]         |
 
 # Introduction
 
@@ -120,7 +120,11 @@ import { DemoComponent } from 'component-library-react';
 [npm-badge-react-url]: https://www.npmjs.com/package/@stencil/react-output-target
 [npm-badge-angular]: https://img.shields.io/npm/v/@stencil/angular-output-target.svg
 [npm-badge-angular-url]: https://www.npmjs.com/package/@stencil/angular-output-target
+[npm-badge-vue]: https://img.shields.io/npm/v/@stencil/vue-output-target.svg
+[npm-badge-vue-url]: https://www.npmjs.com/package/@stencil/vue-output-target
 [npm-license-react ]: https://img.shields.io/npm/l/@stencil/react-output-target.svg
 [npm-license-react-url]: https://github.com/ionic-team/stencil-ds-plugins/blob/master/packages/react-output-target/LICENSE.md
 [npm-license-angular ]: https://img.shields.io/npm/l/@stencil/angular-output-target.svg
 [npm-license-angular-url]: https://github.com/ionic-team/stencil-ds-plugins/blob/master/packages/angular-output-target/LICENSE.md
+[npm-license-vue ]: https://img.shields.io/npm/l/@stencil/vue-output-target.svg
+[npm-license-vue-url]: https://github.com/ionic-team/stencil-ds-plugins/blob/master/packages/vue-output-target/LICENSE.md
