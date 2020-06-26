@@ -1,5 +1,5 @@
 import path from 'path';
-import { OutputTargetVue } from './types';
+import { OutputTargetVue, PackageJSON } from './types';
 import { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
 import { createComponentDefinition } from './generate-vue-component';
 import { normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
@@ -12,8 +12,10 @@ export async function vueProxyOutput(
 ) {
   const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, components);
   const rootDir = config.rootDir as string;
+  const pkgData = await readPackageJson(rootDir);
 
-  await generateProxies(compilerCtx, filteredComponents, outputTarget, rootDir);
+  const finalText = generateProxies(filteredComponents, pkgData, outputTarget, rootDir);
+  await compilerCtx.fs.writeFile(outputTarget.proxiesFile, finalText);
   await copyResources(config, outputTarget);
 }
 
@@ -23,13 +25,12 @@ function getFilteredComponents(excludeComponents: string[] = [], cmps: Component
   );
 }
 
-async function generateProxies(
-  compilerCtx: CompilerCtx,
+export function generateProxies(
   components: ComponentCompilerMeta[],
+  pkgData: PackageJSON,
   outputTarget: OutputTargetVue,
   rootDir: string,
 ) {
-  const pkgData = await readPackageJson(rootDir);
   const distTypesDir = path.dirname(pkgData.types);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.proxiesFile, dtsFilePath, '.d.ts');
@@ -44,14 +45,22 @@ import { createCommonRender, createCommonMethod } from './vue-component-lib/util
     ? `import { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`
     : `import { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}';\n`;
 
-  const sourceImports = `import { ${REGISTER_CUSTOM_ELEMENTS}, ${APPLY_POLYFILLS} } from '${normalizePath(
+  const pathToCorePackageLoader = normalizePath(
     path.join(
       outputTarget.componentCorePackage || '',
       outputTarget.loaderDir || DEFAULT_LOADER_DIR,
     ),
-  )}';\n`;
+  );
+  let sourceImports = '';
+  let registerCustomElements = '';
 
-  const registerCustomElements = `${APPLY_POLYFILLS}().then(() => ${REGISTER_CUSTOM_ELEMENTS}());`;
+  if (outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
+    sourceImports = `import { ${APPLY_POLYFILLS}, ${REGISTER_CUSTOM_ELEMENTS} } from '${pathToCorePackageLoader}';\n`;
+    registerCustomElements = `${APPLY_POLYFILLS}().then(() => ${REGISTER_CUSTOM_ELEMENTS}());`;
+  } else if (!outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
+    sourceImports = `import { ${REGISTER_CUSTOM_ELEMENTS} } from '${pathToCorePackageLoader}';\n`;
+    registerCustomElements = `${REGISTER_CUSTOM_ELEMENTS}();`;
+  }
 
   const final: string[] = [
     imports,
@@ -64,10 +73,9 @@ import { createCommonRender, createCommonMethod } from './vue-component-lib/util
       .join('\n'),
   ];
 
-  const finalText = final.join('\n') + '\n';
-
-  return compilerCtx.fs.writeFile(outputTarget.proxiesFile, finalText);
+  return final.join('\n') + '\n';
 }
+
 function createIgnoredElementsString(components: ComponentCompilerMeta[]) {
   const ignoredElements = components.map((component) => ` '${component.tagName}',`).join('\n');
 

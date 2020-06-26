@@ -19,8 +19,7 @@
     "rollup": "rollup -c",
     "version": "npm run build",
     "release": "np",
-    "test": "jest --passWithNoTests",
-    "test.watch": "jest --watch"
+    "test": "../../node_modules/.bin/jest"
   },
   "repository": {
     "type": "git",

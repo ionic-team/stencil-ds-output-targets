@@ -24,6 +24,8 @@ function normalizeOutputTarget(config: Config, outputTarget: any) {
     ...outputTarget,
     excludeComponents: outputTarget.excludeComponents || [],
     componentModels: outputTarget.componentModels || [],
+    includePolyfills: outputTarget.includePolyfills ?? true,
+    includeDefineCustomElements: outputTarget.includeDefineCustomElements ?? true,
   };
 
   if (config.rootDir == null) {
