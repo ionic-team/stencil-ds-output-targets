@@ -6,9 +6,8 @@ import { createCommonRender, createCommonMethod } from './vue-component-lib/util
 
 import { Components } from 'component-library';
 
-import { defineCustomElements, applyPolyfills } from 'component-library/loader';
 
-applyPolyfills().then(() => defineCustomElements());
+
 
 const customElementTags: string[] = [
  'my-button',
@@ -44,7 +43,7 @@ export const MyButton = /*@__PURE__*/ Vue.extend({
 
   render: createCommonRender('my-button', ['myFocus', 'myBlur']),
 });
-  
+
 
 export const MyCheckbox = /*@__PURE__*/ Vue.extend({
 
@@ -64,7 +63,7 @@ export const MyCheckbox = /*@__PURE__*/ Vue.extend({
 
   render: createCommonRender('my-checkbox', ['myChange', 'myFocus', 'myBlur', 'myStyle']),
 });
-  
+
 
 export const MyComponent = /*@__PURE__*/ Vue.extend({
 
@@ -79,7 +78,7 @@ export const MyComponent = /*@__PURE__*/ Vue.extend({
 
   render: createCommonRender('my-component', ['myCustomEvent']),
 });
-  
+
 
 export const MyInput = /*@__PURE__*/ Vue.extend({
 
@@ -123,7 +122,7 @@ export const MyInput = /*@__PURE__*/ Vue.extend({
   },
   render: createCommonRender('my-input', ['myInput', 'myChange', 'myBlur', 'myFocus']),
 });
-  
+
 
 export const MyPopover = /*@__PURE__*/ Vue.extend({
 
@@ -148,7 +147,7 @@ export const MyPopover = /*@__PURE__*/ Vue.extend({
   },
   render: createCommonRender('my-popover', ['myPopoverDidPresent', 'myPopoverWillPresent', 'myPopoverWillDismiss', 'myPopoverDidDismiss']),
 });
-  
+
 
 export const MyRadio = /*@__PURE__*/ Vue.extend({
 
@@ -166,7 +165,7 @@ export const MyRadio = /*@__PURE__*/ Vue.extend({
 
   render: createCommonRender('my-radio', ['myStyle', 'myFocus', 'myBlur', 'mySelect']),
 });
-  
+
 
 export const MyRadioGroup = /*@__PURE__*/ Vue.extend({
 
@@ -183,7 +182,7 @@ export const MyRadioGroup = /*@__PURE__*/ Vue.extend({
 
   render: createCommonRender('my-radio-group', ['myChange']),
 });
-  
+
 
 export const MyRange = /*@__PURE__*/ Vue.extend({
 
@@ -209,4 +208,4 @@ export const MyRange = /*@__PURE__*/ Vue.extend({
 
   render: createCommonRender('my-range', ['myChange', 'myStyle', 'myFocus', 'myBlur']),
 });
-  
+

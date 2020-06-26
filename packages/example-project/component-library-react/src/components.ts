@@ -5,9 +5,8 @@ import { createReactComponent } from './react-component-lib';
 
 import { JSX } from 'component-library';
 
-import { defineCustomElements, applyPolyfills } from 'component-library/loader';
 
-applyPolyfills().then(() => defineCustomElements());
+
 export const MyButton = /*@__PURE__*/createReactComponent<JSX.MyButton, HTMLMyButtonElement>('my-button');
 export const MyCheckbox = /*@__PURE__*/createReactComponent<JSX.MyCheckbox, HTMLMyCheckboxElement>('my-checkbox');
 export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component');

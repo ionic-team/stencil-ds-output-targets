@@ -5,7 +5,7 @@ import { ComponentModelConfig } from './types';
 export const createComponentDefinition = (
   importTypes: string,
   componentModelConfigs: ComponentModelConfig[] | undefined,
-) => (cmpMeta: ComponentCompilerMeta) => {
+) => (cmpMeta: Pick<ComponentCompilerMeta, 'properties' | 'tagName' | 'methods' | 'events'>) => {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
   let props = '';
   let model = '';
@@ -65,6 +65,5 @@ ${methods}
   render: createCommonRender('${cmpMeta.tagName}', [${cmpMeta.events
     .map((e) => `'${e.name}'`)
     .join(', ')}]),
-});
-  `;
+});\n`;
 };
