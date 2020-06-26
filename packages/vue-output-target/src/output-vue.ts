@@ -23,7 +23,7 @@ function getFilteredComponents(excludeComponents: string[] = [], cmps: Component
   );
 }
 
-async function generateProxies(
+export async function generateProxies(
   compilerCtx: CompilerCtx,
   components: ComponentCompilerMeta[],
   outputTarget: OutputTargetVue,

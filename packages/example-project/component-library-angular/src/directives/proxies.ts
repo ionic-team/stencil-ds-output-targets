@@ -76,12 +76,13 @@ export class MyCheckbox {
     proxyOutputs(this, this.el, ['myChange', 'myFocus', 'myBlur']);
   }
 }
-
+import { MyComponent as IMyComponent } from 'component-library/dist/types/components/my-component/my-component';
 export declare interface MyComponent extends Components.MyComponent {}
 @ProxyCmp({inputs: ['age', 'first', 'kidsNames', 'last', 'middle']})
-@Component({ selector: 'my-component', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['age', 'first', 'kidsNames', 'last', 'middle'] })
+@Component({ selector: 'my-component', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['age', 'first', 'kidsNames', 'last', 'middle'], outputs: ['myCustomEvent'] })
 export class MyComponent {
-  myCustomEvent!: EventEmitter<CustomEvent>;
+  /** Testing an event without value */
+  myCustomEvent!: IMyComponent['myCustomEvent'];
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -132,12 +133,14 @@ export class MyPopover {
 import { Radio as IRadio } from 'component-library/dist/types/components/my-radio/my-radio';
 export declare interface MyRadio extends Components.MyRadio {}
 @ProxyCmp({inputs: ['color', 'disabled', 'mode', 'name', 'value']})
-@Component({ selector: 'my-radio', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['color', 'disabled', 'mode', 'name', 'value'], outputs: ['myFocus', 'myBlur'] })
+@Component({ selector: 'my-radio', changeDetection: ChangeDetectionStrategy.OnPush, template: '<ng-content></ng-content>', inputs: ['color', 'disabled', 'mode', 'name', 'value'], outputs: ['myFocus', 'myBlur', 'mySelect'] })
 export class MyRadio {
   /** Emitted when the radio button has focus. */
   myFocus!: IRadio['myFocus'];
   /** Emitted when the radio button loses focus. */
   myBlur!: IRadio['myBlur'];
+  /** Emitted when the radio button loses focus. */
+  mySelect!: IRadio['mySelect'];
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
