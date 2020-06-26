@@ -8,5 +8,10 @@
     "packages/example-project/component-library-react",
     "packages/example-project/component-library-vue"
   ],
-  "version": "independent"
+  "version": "independent",
+  "command": {
+    "publish": {
+      "ignoreChanges": ["packages/example-project/*"]
+    }
+  }
 }
