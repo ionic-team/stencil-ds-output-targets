@@ -1,11 +1,12 @@
 {
   "name": "component-library-angular",
   "version": "0.0.1",
-  "description": "",
+  "private": true,
+  "description": "Angular specific wrapper for component-library",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ionic-team/ionic.git"
+    "url": "https://github.com/ionic-team/stencil-ds-output-targets.git"
   },
   "scripts": {
     "build": "npm run build.ng",
