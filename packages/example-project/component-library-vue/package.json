@@ -1,7 +1,7 @@
 {
   "name": "component-library-vue",
   "sideEffects": false,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "description": "Vue specific wrapper for component-library",
   "repository": {
@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@vue/test-utils": "^1.0.3",
-    "component-library": "^0.0.1",
+    "component-library": "^0.0.2",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-jest": "^3.0.5",
