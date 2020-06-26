@@ -16,14 +16,15 @@ export const reactOutputTarget = (outputTarget: OutputTargetReact): OutputTarget
     await reactProxyOutput(compilerCtx, outputTarget, buildCtx.components, config);
 
     timespan.finish(`generate react finished`);
-  }
+  },
 });
-
 
 function normalizeOutputTarget(config: Config, outputTarget: any) {
   const results: OutputTargetReact = {
     ...outputTarget,
-    excludeComponents: outputTarget.excludeComponents || []
+    excludeComponents: outputTarget.excludeComponents || [],
+    includePolyfills: outputTarget.includePolyfills ?? true,
+    includeDefineCustomElements: outputTarget.includeDefineCustomElements ?? true,
   };
 
   if (config.rootDir == null) {
