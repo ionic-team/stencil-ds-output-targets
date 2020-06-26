@@ -4,6 +4,8 @@ export interface OutputTargetVue {
   excludeComponents?: string[];
   componentModels?: ComponentModelConfig[];
   loaderDir?: string;
+  includePolyfills?: boolean;
+  includeDefineCustomElements?: boolean;
 }
 
 export interface ComponentModelConfig {
