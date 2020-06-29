@@ -71,7 +71,7 @@ export default async function generateValueAccessors(
     }),
   );
 
-  await copyResources(config, ['value-accessor.ts'], targetDir),
+  await copyResources(config, ['value-accessor.ts'], targetDir);
 }
 
 function createValueAccessor(srcFileContents: string, valueAccessor: ValueAccessor) {

@@ -48,10 +48,13 @@ export const createComponentDefinition = (
       : '';
 
   const lines = [
-    `${outputsInterface}
+    `
+${outputsInterface}
 export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {}
 ${getProxyCmp(inputs, methods)}
-@Component({ ${directiveOpts.join(', ')} })
+@Component({
+  ${directiveOpts.join(',\n  ')}
+})
 export class ${tagNameAsPascal} {`,
   ];
 
@@ -88,7 +91,7 @@ function getProxyCmp(inputs: string[], methods: string[]): string {
   }
 
   if (hasInputs) proxMeta.push(`inputs: ['${inputs.join(`', '`)}']`);
-  if (hasMethods) proxMeta.push(`'methods': ['${methods.join(`', '`)}']`);
+  if (hasMethods) proxMeta.push(`methods: ['${methods.join(`', '`)}']`);
 
-  return `@ProxyCmp({${proxMeta.join(', ')}})`;
+  return `@ProxyCmp({\n  ${proxMeta.join(',\n  ')}\n})`;
 }
