@@ -8,7 +8,7 @@ import { CompilerCtx, ComponentCompilerMeta } from '@stencil/core/internal';
 export default async function generateProxies(compilerCtx: CompilerCtx, components: ComponentCompilerMeta[], outputTarget: OutputTargetAngular, rootDir: string) {
   const pkgData = await readPackageJson(rootDir);
   const distTypesDir = path.dirname(pkgData.types);
-  const proxies = getProxies(components, outputTarget.componentCorePackage!, distTypesDir);
+  const proxies = getProxies(components, outputTarget.componentCorePackage!, distTypesDir, rootDir);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.directivesProxyFile, dtsFilePath, '.d.ts');
 
@@ -32,9 +32,9 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Even
   return compilerCtx.fs.writeFile(outputTarget.directivesProxyFile, finalText);
 }
 
-function getProxies(components: ComponentCompilerMeta[], componentCorePackage: string, distTypesDir: string) {
+function getProxies(components: ComponentCompilerMeta[], componentCorePackage: string, distTypesDir: string, rootDir: string) {
   return components
-    .map((cmpMeta) => getProxy(cmpMeta, componentCorePackage, distTypesDir))
+    .map((cmpMeta) => getProxy(cmpMeta, componentCorePackage, distTypesDir, rootDir))
     .join('\n');
 }
 
@@ -52,7 +52,7 @@ function getProxyCmp(inputs: string[],methods: string[]): string {
   return `@ProxyCmp({${proxMeta.join(', ')}})`;
 }
 
-function getProxy(cmpMeta: ComponentCompilerMeta, componentCorePackage: string, distTypesDir: string) {
+function getProxy(cmpMeta: ComponentCompilerMeta, componentCorePackage: string, distTypesDir: string, rootDir: string) {
   // Collect component meta
   const inputs = getInputs(cmpMeta);
   const outputs = getOutputs(cmpMeta);
@@ -76,10 +76,10 @@ function getProxy(cmpMeta: ComponentCompilerMeta, componentCorePackage: string, 
 
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
-  const typePath = path.relative(componentCorePackage, cmpMeta.sourceFilePath).replace('../src', path.join(componentCorePackage, distTypesDir)).replace('.tsx', '');
+  const typePath = path.parse(path.join(componentCorePackage, cmpMeta.sourceFilePath.replace(path.join(rootDir, 'src'), distTypesDir)));
   const outputsInterface =
   outputs.length > 0
-    ? `import { ${cmpMeta.componentClassName} as I${cmpMeta.componentClassName} } from '${typePath}';`
+    ? `import { ${cmpMeta.componentClassName} as I${cmpMeta.componentClassName} } from '${path.join(typePath.dir, typePath.name)}';`
     : '';
 
   const lines = [`${outputsInterface}
