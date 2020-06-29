@@ -9,7 +9,7 @@ describe('generateProxies', () => {
   };
   const rootDir: string = '';
 
-  it('should include both polyfills and definCustomElements when both are true in the outputTarget', () => {
+  it('should use types from the component-library when it is provided to the config', () => {
     const outputTarget: OutputTargetAngular = {
       componentCorePackage: 'component-library',
       directivesProxyFile: '../component-library-angular/src/proxies.ts',
@@ -17,82 +17,30 @@ describe('generateProxies', () => {
 
     const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
     expect(finalText).toEqual(
-      `/* eslint-disable */
-/* tslint:disable */
-/* auto-generated vue proxies */
-import Vue, { PropOptions } from 'vue';
-import { createCommonRender, createCommonMethod } from './vue-component-lib/utils';
+      `/* tslint:disable */
+/* auto-generated angular directive proxies */
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, NgZone } from '@angular/core';
+import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';
 
 import { Components } from 'component-library';
-
-import { applyPolyfills, defineCustomElements } from 'component-library/loader';
-
-applyPolyfills().then(() => defineCustomElements());
-
-const customElementTags: string[] = [
-
-];
-Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTags];
-
 
 `,
     );
   });
 
-  it('should include only defineCustomElements when includePolyfills is false in the outputTarget', () => {
+  it('should use a relative path to types when a component-library is not provided', () => {
     const outputTarget: OutputTargetAngular = {
-      componentCorePackage: 'component-library',
       directivesProxyFile: '../component-library-angular/src/proxies.ts',
     };
 
     const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
     expect(finalText).toEqual(
-      `/* eslint-disable */
-/* tslint:disable */
-/* auto-generated vue proxies */
-import Vue, { PropOptions } from 'vue';
-import { createCommonRender, createCommonMethod } from './vue-component-lib/utils';
+      `/* tslint:disable */
+/* auto-generated angular directive proxies */
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, NgZone } from '@angular/core';
+import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';
 
-import { Components } from 'component-library';
-
-import { defineCustomElements } from 'component-library/loader';
-
-defineCustomElements();
-
-const customElementTags: string[] = [
-
-];
-Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTags];
-
-
-`,
-    );
-  });
-
-  it('should not include defineCustomElements or applyPolyfills if both are false in the outputTarget', () => {
-    const outputTarget: OutputTargetAngular = {
-      componentCorePackage: 'component-library',
-      directivesProxyFile: '../component-library-vue/src/proxies.ts',
-    };
-
-    const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
-    expect(finalText).toEqual(
-      `/* eslint-disable */
-/* tslint:disable */
-/* auto-generated vue proxies */
-import Vue, { PropOptions } from 'vue';
-import { createCommonRender, createCommonMethod } from './vue-component-lib/utils';
-
-import { Components } from 'component-library';
-
-
-
-
-const customElementTags: string[] = [
-
-];
-Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTags];
-
+import { Components } from '../../angular-output-target/dist/types/components';
 
 `,
     );

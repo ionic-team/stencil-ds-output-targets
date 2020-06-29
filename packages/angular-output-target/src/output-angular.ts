@@ -77,7 +77,7 @@ import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
 
   const typeImports = !outputTarget.componentCorePackage
     ? `import { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';`
-    : `import { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}'`;
+    : `import { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}';`;
 
   const final: string[] = [
     imports,
