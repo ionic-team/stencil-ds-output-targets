@@ -76,10 +76,11 @@ function getProxy(cmpMeta: ComponentCompilerMeta, componentCorePackage: string, 
 
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
-  const typePath = path.parse(path.join(componentCorePackage, cmpMeta.sourceFilePath.replace(path.join(rootDir, 'src'), distTypesDir)));
+  const typePath = path.parse(path.join(componentCorePackage, path.join(cmpMeta.sourceFilePath, '').replace(path.join(rootDir, 'src'), distTypesDir)))
+  const importPath = normalizePath(path.join(typePath.dir, typePath.name));
   const outputsInterface =
   outputs.length > 0
-    ? `import { ${cmpMeta.componentClassName} as I${cmpMeta.componentClassName} } from '${path.join(typePath.dir, typePath.name)}';`
+    ? `import { ${cmpMeta.componentClassName} as I${cmpMeta.componentClassName} } from '${importPath}';`
     : '';
 
   const lines = [`${outputsInterface}

@@ -19,7 +19,7 @@
     "rollup": "rollup -c",
     "version": "npm run build",
     "release": "np",
-    "test": "../../node_modules/.bin/jest --passWithNoTests",
+    "test": "jest --passWithNoTests",
     "test.watch": "jest --watch"
   },
   "repository": {
@@ -35,6 +35,7 @@
   "devDependencies": {
     "@angular/core": "8.2.14",
     "@angular/forms": "8.2.14",
+    "jest": "^26.1.0",
     "np": "^4.0.2",
     "rimraf": "^2.6.3",
     "rollup": "^1.6.0",

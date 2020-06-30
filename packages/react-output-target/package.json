@@ -19,7 +19,7 @@
     "rollup": "rollup -c",
     "version": "npm run build",
     "release": "np",
-    "test": "../../node_modules/.bin/jest"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -37,6 +37,7 @@
   "devDependencies": {
     "@types/react": "^16.7.0",
     "@types/react-dom": "^16.7.0",
+    "jest": "^26.1.0",
     "np": "^5.0.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
