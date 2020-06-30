@@ -10,9 +10,9 @@
     "url": "https://github.com/ionic-team/stencil-ds-output-targets.git"
   },
   "scripts": {
-    "test": "../../../node_modules/.bin/jest",
+    "test": "jest",
     "build": "npm run clean && npm run compile",
-    "clean": "rm -rf dist",
+    "clean": "rimraf dist",
     "compile": "npm run tsc",
     "tsc": "tsc -p ."
   },
@@ -27,8 +27,10 @@
     "@testing-library/react": "^10.0.4",
     "@types/react": "^16.7.6",
     "@types/react-dom": "^16.0.9",
+    "jest": "^26.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "rimraf": "^2.6.3",
     "rollup": "^1.21.2",
     "rollup-plugin-node-resolve": "^5.2.0",
     "typescript": "^3.3.4000"
