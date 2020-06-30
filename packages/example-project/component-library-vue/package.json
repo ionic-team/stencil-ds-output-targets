@@ -9,9 +9,9 @@
     "url": "https://github.com/ionic-team/ionic.git"
   },
   "scripts": {
-    "test": "../../../node_modules/.bin/jest",
+    "test": "jest",
     "build": "npm run clean && npm run compile",
-    "clean": "rm -rf dist",
+    "clean": "rimraf dist",
     "compile": "npm run tsc",
     "tsc": "tsc -p ."
   },
@@ -23,6 +23,8 @@
   ],
   "devDependencies": {
     "@testing-library/jest-dom": "^5.8.0",
+    "jest": "^26.1.0",
+    "rimraf": "^2.6.3",
     "rollup": "^1.21.2",
     "rollup-plugin-node-resolve": "^5.2.0",
     "typescript": "^3.3.4000"

@@ -15,7 +15,7 @@ window.matchMedia =
 } as any;
 
 let error = console.error;
-console.error = function (message: any) {
-  error.apply(console, arguments); // keep default behaviour
+console.error = function (message: any, ...args: any[]) {
+  error.call(console, message, ...args); // keep default behaviour
   throw message instanceof Error ? message : new Error(message);
 };

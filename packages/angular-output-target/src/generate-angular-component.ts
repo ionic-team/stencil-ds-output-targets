@@ -1,6 +1,6 @@
 import path from 'path';
 
-import { dashToPascalCase } from './utils';
+import { dashToPascalCase, normalizePath } from './utils';
 import { ComponentCompilerMeta } from '@stencil/core/internal';
 
 export const createComponentDefinition = (
@@ -37,14 +37,13 @@ export const createComponentDefinition = (
   const typePath = path.parse(
     path.join(
       componentCorePackage,
-      cmpMeta.sourceFilePath.replace(path.join(rootDir, 'src'), distTypesDir),
+      path.join(cmpMeta.sourceFilePath, '').replace(path.join(rootDir, 'src'), distTypesDir),
     ),
   );
+  const importPath = normalizePath(path.join(typePath.dir, typePath.name));
   const outputsInterface =
     outputs.length > 0
-      ? `import { ${cmpMeta.componentClassName} as I${
-          cmpMeta.componentClassName
-        } } from '${path.join(typePath.dir, typePath.name)}';`
+      ? `import { ${cmpMeta.componentClassName} as I${cmpMeta.componentClassName} } from '${importPath}';`
       : '';
 
   const lines = [
