@@ -45,6 +45,8 @@ export class RadioGroup implements ComponentInterface {
 
   /**
    * Emitted when the value has changed.
+   * @bindAttr value
+   * @bindType select
    */
   @Event() myChange!: EventEmitter<RadioGroupChangeEventDetail>;
 

@@ -67,6 +67,8 @@ export class Checkbox implements ComponentInterface {
 
   /**
    * Emitted when the checked property has changed.
+   * @bindAttr checked
+   * @bindType boolean
    */
   @Event() myChange!: EventEmitter<CheckboxChangeEventDetail>;
 

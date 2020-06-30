@@ -75,6 +75,8 @@ export class Radio implements ComponentInterface {
 
   /**
    * Emitted when the radio button loses focus.
+   * @bindAttr checked
+   * @bindType radio
    */
   @Event() mySelect!: EventEmitter<void>;
 

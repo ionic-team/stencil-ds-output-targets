@@ -1,9 +1,9 @@
 /* tslint:disable */
 /* auto-generated angular directive proxies */
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, NgZone } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, NgZone } from '@angular/core';
 import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';
 
-import { Components } from 'component-library'
+import { Components } from 'component-library';
 
 import { Button as IButton } from 'component-library/dist/types/components/my-button/my-button';
 export declare interface MyButton extends Components.MyButton {}
@@ -43,7 +43,7 @@ export declare interface MyCheckbox extends Components.MyCheckbox {}
   outputs: ['myChange', 'myFocus', 'myBlur']
 })
 export class MyCheckbox {
-  /** Emitted when the checked property has changed. */
+  /** Emitted when the checked property has changed. @bindAttr checked,@bindType boolean*/
   myChange!: ICheckbox['myChange'];
   /** Emitted when the toggle has focus. */
   myFocus!: ICheckbox['myFocus'];
@@ -96,7 +96,7 @@ export declare interface MyInput extends Components.MyInput {}
 export class MyInput {
   /** Emitted when a keyboard input occurred. */
   myInput!: IInput['myInput'];
-  /** Emitted when the value has changed. */
+  /** Emitted when the value has changed. @bindAttr value,@bindType text my-input[type=text],@bindType number my-input[type=number]*/
   myChange!: IInput['myChange'];
   /** Emitted when the input loses focus. */
   myBlur!: IInput['myBlur'];
@@ -157,7 +157,7 @@ export class MyRadio {
   myFocus!: IRadio['myFocus'];
   /** Emitted when the radio button loses focus. */
   myBlur!: IRadio['myBlur'];
-  /** Emitted when the radio button loses focus. */
+  /** Emitted when the radio button loses focus. @bindAttr checked,@bindType radio*/
   mySelect!: IRadio['mySelect'];
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
@@ -180,7 +180,7 @@ export declare interface MyRadioGroup extends Components.MyRadioGroup {}
   outputs: ['myChange']
 })
 export class MyRadioGroup {
-  /** Emitted when the value has changed. */
+  /** Emitted when the value has changed. @bindAttr value,@bindType select*/
   myChange!: IRadioGroup['myChange'];
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
@@ -203,7 +203,7 @@ export declare interface MyRange extends Components.MyRange {}
   outputs: ['myChange', 'myFocus', 'myBlur']
 })
 export class MyRange {
-  /** Emitted when the value property has changed. */
+  /** Emitted when the value property has changed. @bindAttr value,@bindType select*/
   myChange!: IRange['myChange'];
   /** Emitted when the range has focus. */
   myFocus!: IRange['myFocus'];

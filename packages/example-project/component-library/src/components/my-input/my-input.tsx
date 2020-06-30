@@ -187,6 +187,9 @@ export class Input implements ComponentInterface {
 
   /**
    * Emitted when the value has changed.
+   * @bindAttr value
+   * @bindType text my-input[type=text]
+   * @bindType number my-input[type=number]
    */
   @Event() myChange!: EventEmitter<InputChangeEventDetail>;
 

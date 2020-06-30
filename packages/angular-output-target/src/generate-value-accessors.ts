@@ -9,8 +9,31 @@ interface ValueAccessor {
 }
 
 type NormalizedValueAccessors = {
-  [T in ValueAccessorTypes]: ValueAccessor;
+  [T in ValueAccessorTypes]?: ValueAccessor;
 };
+
+function isValueAccessorType(va: any): va is ValueAccessorTypes {
+  return ['text', 'radio', 'select', 'number', 'boolean'].includes(va);
+}
+
+function updateNormalizedValueAccessor(
+  nva: NormalizedValueAccessors,
+  type: ValueAccessorTypes,
+  elementSelectors: ValueAccessor['elementSelectors'],
+  eventTargets: [string, string],
+) {
+  const valueAccessor = nva[type] || {
+    elementSelectors: [],
+    eventTargets: [],
+  };
+  valueAccessor.elementSelectors = [...valueAccessor.elementSelectors, ...elementSelectors];
+  valueAccessor.eventTargets = [...valueAccessor.eventTargets, eventTargets];
+
+  return {
+    ...nva,
+    [type]: valueAccessor,
+  };
+}
 
 export default async function generateValueAccessors(
   compilerCtx: CompilerCtx,
@@ -18,42 +41,62 @@ export default async function generateValueAccessors(
   outputTarget: OutputTargetAngular,
   config: Config,
 ) {
-  if (
-    !Array.isArray(outputTarget.valueAccessorConfigs) ||
-    outputTarget.valueAccessorConfigs.length === 0
-  ) {
+  let normalizedValueAccessors: NormalizedValueAccessors = {};
+
+  if (outputTarget.valueAccessorConfigs && outputTarget.valueAccessorConfigs.length > 0) {
+    normalizedValueAccessors = outputTarget.valueAccessorConfigs.reduce((allAccessors, va) => {
+      const elementSelectors = Array.isArray(va.elementSelectors)
+        ? va.elementSelectors
+        : [va.elementSelectors];
+      return updateNormalizedValueAccessor(allAccessors, va.type, elementSelectors, [
+        va.event,
+        va.targetAttr,
+      ]);
+    }, normalizedValueAccessors);
+  } else {
+    for (let cmpMeta of components) {
+      for (let event of cmpMeta.events) {
+        const bindAttr = event.docs.tags.find((t) => t.name === 'bindAttr');
+        const bindingTypes = event.docs.tags.filter((t) => t.name === 'bindType');
+
+        if (bindAttr?.text && bindingTypes.length > 0) {
+          const bindTypes = event.docs.tags.filter(
+            (t) => t.name === 'bindType' && isValueAccessorType(t.text),
+          );
+
+          for (let bindType of bindTypes) {
+            const [text, selector] = (bindType.text as string).split(' ');
+            if (!isValueAccessorType(text)) {
+              continue;
+            }
+            return updateNormalizedValueAccessor(
+              normalizedValueAccessors,
+              text,
+              [selector],
+              [bindAttr.text, event.name],
+            );
+          }
+          if (bindTypes.length > 0) {
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  if (Object.keys(normalizedValueAccessors).length === 0) {
     return;
   }
 
   const targetDir = path.dirname(outputTarget.directivesProxyFile);
 
-  const normalizedValueAccessors: NormalizedValueAccessors = outputTarget.valueAccessorConfigs.reduce(
-    (allAccessors, va) => {
-      const elementSelectors = Array.isArray(va.elementSelectors)
-        ? va.elementSelectors
-        : [va.elementSelectors];
-      const type = va.type;
-      let allElementSelectors: string[] = [];
-      let allEventTargets: [string, string][] = [];
-
-      if (allAccessors.hasOwnProperty(type)) {
-        allElementSelectors = allAccessors[type].elementSelectors;
-        allEventTargets = allAccessors[type].eventTargets;
-      }
-      return {
-        ...allAccessors,
-        [type]: {
-          elementSelectors: allElementSelectors.concat(elementSelectors),
-          eventTargets: allEventTargets.concat([[va.event, va.targetAttr]]),
-        },
-      };
-    },
-    {} as NormalizedValueAccessors,
-  );
-
   await Promise.all(
     Object.keys(normalizedValueAccessors).map(async (type) => {
       const valueAccessorType = type as ValueAccessorTypes; // Object.keys converts to string
+      const valueAccessor = normalizedValueAccessors[valueAccessorType];
+      if (valueAccessor === undefined) {
+        return Promise.resolve();
+      }
       const targetFileName = `${type}-value-accessor.ts`;
       const targetFilePath = path.join(targetDir, targetFileName);
       const srcFilePath = path.join(
@@ -63,10 +106,7 @@ export default async function generateValueAccessors(
       );
       const srcFileContents = await compilerCtx.fs.readFile(srcFilePath);
 
-      const finalText = createValueAccessor(
-        srcFileContents,
-        normalizedValueAccessors[valueAccessorType],
-      );
+      const finalText = createValueAccessor(srcFileContents, valueAccessor);
       await compilerCtx.fs.writeFile(targetFilePath, finalText);
     }),
   );

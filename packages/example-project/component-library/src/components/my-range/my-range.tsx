@@ -162,6 +162,8 @@ export class Range implements ComponentInterface {
 
   /**
    * Emitted when the value property has changed.
+   * @bindAttr value
+   * @bindType select
    */
   @Event() myChange!: EventEmitter<RangeChangeEventDetail>;
 

@@ -548,6 +548,8 @@ declare namespace LocalJSX {
         "onMyBlur"?: (event: CustomEvent<void>) => void;
         /**
           * Emitted when the checked property has changed.
+          * @bindAttr checked
+          * @bindType boolean
          */
         "onMyChange"?: (event: CustomEvent<CheckboxChangeEventDetail>) => void;
         /**
@@ -668,6 +670,9 @@ declare namespace LocalJSX {
         "onMyBlur"?: (event: CustomEvent<void>) => void;
         /**
           * Emitted when the value has changed.
+          * @bindAttr value
+          * @bindType text my-input[type=text]
+          * @bindType number my-input[type=number]
          */
         "onMyChange"?: (event: CustomEvent<InputChangeEventDetail>) => void;
         /**
@@ -800,6 +805,8 @@ declare namespace LocalJSX {
         "onMyFocus"?: (event: CustomEvent<void>) => void;
         /**
           * Emitted when the radio button loses focus.
+          * @bindAttr checked
+          * @bindType radio
          */
         "onMySelect"?: (event: CustomEvent<void>) => void;
         /**
@@ -822,6 +829,8 @@ declare namespace LocalJSX {
         "name"?: string;
         /**
           * Emitted when the value has changed.
+          * @bindAttr value
+          * @bindType select
          */
         "onMyChange"?: (event: CustomEvent<RadioGroupChangeEventDetail>) => void;
         /**
@@ -868,6 +877,8 @@ declare namespace LocalJSX {
         "onMyBlur"?: (event: CustomEvent<void>) => void;
         /**
           * Emitted when the value property has changed.
+          * @bindAttr value
+          * @bindType select
          */
         "onMyChange"?: (event: CustomEvent<RangeChangeEventDetail>) => void;
         /**

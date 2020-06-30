@@ -10,6 +10,8 @@ export const createComponentDefinition = (
   let props = '';
   let model = '';
   let methods = '';
+  let bindingEvent: string = '';
+  let bindingValue: string = '';
 
   if (Array.isArray(cmpMeta.properties) && cmpMeta.properties.length > 0) {
     const relevantPropsConfig = cmpMeta.properties
@@ -25,22 +27,38 @@ ${relevantPropsConfig}
   },`;
   }
 
+  // Use provided model bindings from config if available
   if (Array.isArray(componentModelConfigs)) {
-    const relevantModelConfig = componentModelConfigs.find((modelConfig) => {
+    const modelConfig = componentModelConfigs.find((modelConfig) => {
       if (Array.isArray(modelConfig.elements)) {
         return modelConfig.elements.includes(cmpMeta.tagName);
       }
 
       return modelConfig.elements === cmpMeta.tagName;
     });
-
-    if (relevantModelConfig) {
-      model = `
-  model: {
-    prop: '${relevantModelConfig.targetAttr}',
-    event: '${relevantModelConfig.event}'
-  },`;
+    if (modelConfig) {
+      bindingEvent = modelConfig?.event;
+      bindingValue = modelConfig?.targetAttr;
     }
+
+    // Else check if any of the component Events have bindAttr annotations
+  } else {
+    for (let event of cmpMeta.events) {
+      const bindingInfo = event.docs.tags.find((t) => t.name === 'bindAttr');
+      if (bindingInfo?.text) {
+        bindingValue = bindingInfo.text;
+        bindingEvent = event.name;
+        break;
+      }
+    }
+  }
+
+  if (bindingValue && bindingEvent) {
+    model = `
+  model: {
+    prop: '${bindingValue}',
+    event: '${bindingEvent}'
+  },`;
   }
 
   if (Array.isArray(cmpMeta.methods) && cmpMeta.methods.length > 0) {
