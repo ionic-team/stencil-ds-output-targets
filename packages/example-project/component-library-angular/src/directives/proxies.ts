@@ -1,9 +1,9 @@
 /* tslint:disable */
 /* auto-generated angular directive proxies */
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, NgZone } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, NgZone } from '@angular/core';
 import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';
 
-import { Components } from 'component-library'
+import { Components } from 'component-library';
 
 import { Button as IButton } from 'component-library/dist/types/components/my-button/my-button';
 export declare interface MyButton extends Components.MyButton {}

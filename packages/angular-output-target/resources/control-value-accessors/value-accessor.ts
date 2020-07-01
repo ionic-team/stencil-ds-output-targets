@@ -33,6 +33,6 @@ export class ValueAccessor implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean) {
-    this.el.nativeElement.disabled = isDisabled
+    this.el.nativeElement.disabled = isDisabled;
   }
 }

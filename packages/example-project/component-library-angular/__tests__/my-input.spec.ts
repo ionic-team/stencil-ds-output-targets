@@ -2,7 +2,7 @@ import { async, ComponentFixture } from '@angular/core/testing';
 
 import { ConfigureFn, configureTests } from '../src/config.testing';
 import { DebugElement, Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ComponentLibraryModule } from '../src/index';
 
@@ -89,5 +89,44 @@ describe('MyInput - Number Value', () => {
     myInputEl.nativeElement.value = 50;
     myInputEl.nativeElement.dispatchEvent(new CustomEvent('myInput', { detail: { value: 50 } }));
     expect(myAngularComponent.testNumber).toEqual(50);
+  });
+});
+
+@Component({
+  template: `<form [formGroup]="form">
+    <my-input type="text" formControlName="test"></my-input>
+  </form>`,
+})
+class TestDisabledValueAccessorComponent {
+  form = this.formBuilder.group({
+    // disabled state will be managed for us by angular
+    // and now we can later call `this.form.controls.test.enable()`
+    test: this.formBuilder.control({ value: 'test', disabled: true }),
+  });
+
+  constructor(private formBuilder: FormBuilder) {}
+}
+
+describe('MyInput - Disabled state', () => {
+  let myInputEl: DebugElement;
+  let fixture: ComponentFixture<TestDisabledValueAccessorComponent>;
+
+  beforeEach(async(() => {
+    const configure: ConfigureFn = (testBed) => {
+      testBed.configureTestingModule({
+        imports: [ReactiveFormsModule, FormsModule, ComponentLibraryModule],
+        declarations: [TestDisabledValueAccessorComponent],
+      });
+    };
+
+    configureTests(configure).then((testBed) => {
+      fixture = testBed.createComponent(TestDisabledValueAccessorComponent);
+      fixture.detectChanges();
+      myInputEl = fixture.debugElement.query(By.css('my-input'));
+    });
+  }));
+
+  it('should support setting disabled state via the ValueAccessor', () => {
+    expect(myInputEl.nativeElement.disabled).toBe(true);
   });
 });
