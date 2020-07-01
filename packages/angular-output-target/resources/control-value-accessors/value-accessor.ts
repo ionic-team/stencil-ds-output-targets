@@ -31,4 +31,8 @@ export class ValueAccessor implements ControlValueAccessor {
   registerOnTouched(fn: () => void) {
     this.onTouched = fn;
   }
+
+  setDisabledState(isDisabled: boolean) {
+    this.el.nativeElement.disabled = isDisabled;
+  }
 }
