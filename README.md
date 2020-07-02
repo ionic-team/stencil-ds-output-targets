@@ -12,6 +12,20 @@ The plugins add additional output targets for each framework binding that is inc
 
 Here is an example project using the plugins for reference: https://github.com/ionic-team/stencil-ds-output-targets/blob/master/packages/example-project/component-library
 
+## Getting started
+
+To set up this project and prepare the example project to be used in your own projects run the following commands.
+
+```
+npm i
+npm run bootstrap
+npm run build
+```
+
+This will generate all necessary builds in the example projects. You can then either publish the packages to npm or a private package manager, or use `npm pack` to start using the builds in a local project for testing purposes where you manually place the package in the project `node_modules` folder.
+
+Say you have an Angular project, simply run `npm pack` in `packages/example-project/component-library` and `packages/example-project/component-library-angular`. Since the framework component libraries depend on the StencilJS project, you will need to provide the `component-library` package in your project `node_modules` folder.
+
 ## Angular
 
 Angular has a pretty good story for integration with web components but there are a few issues with the developer experience. If you want to know what the story is without the bindings go here: https://stenciljs.com/docs/angular.
