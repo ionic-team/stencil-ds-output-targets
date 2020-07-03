@@ -86,6 +86,47 @@ import { ComponentLibraryModule } from 'component-library-angular';
 export class AppModule { }
 ```
 
+### Example: my-component
+
+Now we can add a web component to one of our Angular components. Take for example our `app.component`.
+
+In our template we add:
+
+```
+<my-component [first]=firstProperty middle="Middle Name" last="Doe"></my-component>
+```
+
+As you can see, the `first`  property acts as an Angular input, that gets passed in a variable named `firstProperty`, which will need to be defined in our component. `middle` and `last` are just `strings`.
+
+```
+export class AppComponent {
+  firstProperty = 'John';
+}
+```
+
+#### Working with events
+
+StencilJS provides a way to work with events. This is based on the [DOM events](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events) specification which is a web standard.
+
+To catch an event in Angular that is emitted from a web component, you have 2 options. Using `@HostListener`:
+
+```
+@HostListener('myCustomEvent', ['$event'])
+onMyCustomEvent($event) {
+    console.log('Event using @HostListener', $event);
+}
+```
+
+Or adding a callback function to the web component:
+
+```
+<my-component [first]=selectedFirst middle="middle" last="'Don't call me a framework' JS" (myCustomEvent)="catchEvent($event)"></my-component>
+
+catchEvent($event) {
+    console.log('Event using callback on component', $event);
+}
+```
+
 ## React
 
 React has a difficult story with web components. Their documentation shows the simplest possible example but more than likely you will want to pass more than strings to your component. If you want to know what the story is without the bindings go here: https://stenciljs.com/docs/react.
