@@ -45,6 +45,6 @@ export class MyComponent {
   }
 
   render() {
-    return <div onClick={this.emitCustomEvent.bind(this)}>Hello, World! I'm {this.getText()}</div>;
+    return <div>Hello, World! I'm {this.getText()}</div>;
   }
 }
