@@ -19,7 +19,7 @@ export const vueOutputTarget = (outputTarget: OutputTargetVue): OutputTargetCust
   },
 });
 
-function normalizeOutputTarget(config: Config, outputTarget: any) {
+export function normalizeOutputTarget(config: Config, outputTarget: any) {
   const results: OutputTargetVue = {
     ...outputTarget,
     excludeComponents: outputTarget.excludeComponents || [],
