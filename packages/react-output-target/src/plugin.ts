@@ -25,6 +25,7 @@ export function normalizeOutputTarget(config: Config, outputTarget: any) {
     excludeComponents: outputTarget.excludeComponents || [],
     includePolyfills: outputTarget.includePolyfills ?? true,
     includeDefineCustomElements: outputTarget.includeDefineCustomElements ?? true,
+    tagNameModifier: outputTarget.tagNameModifier ?? ((tagName: string) => tagName),
   };
 
   if (config.rootDir == null) {

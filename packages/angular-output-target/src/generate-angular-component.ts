@@ -2,11 +2,13 @@ import path from 'path';
 
 import { dashToPascalCase, normalizePath } from './utils';
 import { ComponentCompilerMeta } from '@stencil/core/internal';
+import { OutputTargetAngular } from './types';
 
 export const createComponentDefinition = (
   componentCorePackage: string,
   distTypesDir: string,
   rootDir: string,
+  tagNameModifier: OutputTargetAngular['tagNameModifier'],
 ) => (cmpMeta: ComponentCompilerMeta) => {
   // Collect component meta
   const inputs = [
@@ -21,7 +23,7 @@ export const createComponentDefinition = (
 
   // Generate Angular @Directive
   const directiveOpts = [
-    `selector: \'${cmpMeta.tagName}\'`,
+    `selector: \'${tagNameModifier(cmpMeta.tagName)}\'`,
     `changeDetection: ChangeDetectionStrategy.OnPush`,
     `template: '<ng-content></ng-content>'`,
   ];

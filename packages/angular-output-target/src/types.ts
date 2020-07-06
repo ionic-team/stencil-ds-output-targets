@@ -5,6 +5,8 @@ export interface OutputTargetAngular {
   directivesUtilsFile?: string;
   valueAccessorConfigs?: ValueAccessorConfig[];
   excludeComponents?: string[];
+  // @deprecated
+  tagNameModifier: (tagName: string) => string;
 }
 
 export type ValueAccessorTypes = 'text' | 'radio' | 'select' | 'number' | 'boolean';

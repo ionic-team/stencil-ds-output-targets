@@ -5,6 +5,8 @@ export interface OutputTargetReact {
   loaderDir?: string;
   includePolyfills?: boolean;
   includeDefineCustomElements?: boolean;
+  // @deprecated
+  tagNameModifier: (tagName: string) => string;
 }
 
 export interface PackageJSON {

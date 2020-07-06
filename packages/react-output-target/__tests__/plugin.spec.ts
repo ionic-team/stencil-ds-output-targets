@@ -24,12 +24,11 @@ describe('normalizeOutputTarget', () => {
       proxiesFile: '../component-library-react/src/components.ts',
     });
 
-    expect(results).toEqual({
-      proxiesFile: '../component-library-react/src/components.ts',
-      excludeComponents: [],
-      includePolyfills: true,
-      includeDefineCustomElements: true,
-    } as OutputTargetReact);
+    expect(results.proxiesFile).toEqual('../component-library-react/src/components.ts');
+    expect(results.excludeComponents).toEqual([]);
+    expect(results.includePolyfills).toEqual(true);
+    expect(results.includeDefineCustomElements).toEqual(true);
+    expect(typeof results.tagNameModifier).toBe('function');
   });
 
   it('Polyfills and DefinCustomElements should be false when set that way', () => {

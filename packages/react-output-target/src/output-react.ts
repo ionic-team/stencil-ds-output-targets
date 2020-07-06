@@ -65,19 +65,23 @@ import { createReactComponent } from './react-component-lib';\n`;
     typeImports,
     sourceImports,
     registerCustomElements,
-    components.map(createComponentDefinition).join('\n'),
+    components.map(createComponentDefinition(outputTarget.tagNameModifier)).join('\n'),
   ];
 
   return final.join('\n') + '\n';
 }
 
-function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
+const createComponentDefinition = (tagNameModifier: OutputTargetReact['tagNameModifier']) => (
+  cmpMeta: ComponentCompilerMeta,
+) => {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
   return [
-    `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}');`,
+    `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${tagNameModifier(
+      cmpMeta.tagName,
+    )}');`,
   ];
-}
+};
 
 async function copyResources(config: Config, outputTarget: OutputTargetReact) {
   if (!config.sys || !config.sys.copy || !config.sys.glob) {
