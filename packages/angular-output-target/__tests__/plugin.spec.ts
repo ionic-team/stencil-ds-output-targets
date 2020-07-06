@@ -24,7 +24,7 @@ describe('normalizeOutputTarget', () => {
       directivesProxyFile: '/component-library-angular/src/components.ts',
     });
 
-    expect(results.directivesProxyFile).toEqual('/component-library-react/src/components.ts');
+    expect(results.directivesProxyFile).toEqual('/component-library-angular/src/components.ts');
     expect(results.excludeComponents).toEqual([]);
     expect(results.valueAccessorConfigs).toEqual([]);
     expect(typeof results.tagNameModifier).toBe('function');
