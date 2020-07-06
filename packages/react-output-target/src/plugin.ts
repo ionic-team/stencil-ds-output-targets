@@ -19,7 +19,7 @@ export const reactOutputTarget = (outputTarget: OutputTargetReact): OutputTarget
   },
 });
 
-function normalizeOutputTarget(config: Config, outputTarget: any) {
+export function normalizeOutputTarget(config: Config, outputTarget: any) {
   const results: OutputTargetReact = {
     ...outputTarget,
     excludeComponents: outputTarget.excludeComponents || [],

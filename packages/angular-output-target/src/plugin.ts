@@ -16,11 +16,10 @@ export const angularOutputTarget = (outputTarget: OutputTargetAngular): OutputTa
     await angularDirectiveProxyOutput(compilerCtx, outputTarget, buildCtx.components, config);
 
     timespan.finish(`generate angular proxies finished`);
-  }
+  },
 });
 
-
-function normalizeOutputTarget(config: Config, outputTarget: any) {
+export function normalizeOutputTarget(config: Config, outputTarget: any) {
   const results: OutputTargetAngular = {
     ...outputTarget,
     excludeComponents: outputTarget.excludeComponents || [],
@@ -35,15 +34,21 @@ function normalizeOutputTarget(config: Config, outputTarget: any) {
   }
 
   if (outputTarget.directivesProxyFile && !path.isAbsolute(outputTarget.directivesProxyFile)) {
-    results.directivesProxyFile = normalizePath(path.join(config.rootDir, outputTarget.directivesProxyFile));
+    results.directivesProxyFile = normalizePath(
+      path.join(config.rootDir, outputTarget.directivesProxyFile),
+    );
   }
 
   if (outputTarget.directivesArrayFile && !path.isAbsolute(outputTarget.directivesArrayFile)) {
-    results.directivesArrayFile = normalizePath(path.join(config.rootDir, outputTarget.directivesArrayFile));
+    results.directivesArrayFile = normalizePath(
+      path.join(config.rootDir, outputTarget.directivesArrayFile),
+    );
   }
 
   if (outputTarget.directivesUtilsFile && !path.isAbsolute(outputTarget.directivesUtilsFile)) {
-    results.directivesUtilsFile = normalizePath(path.join(config.rootDir, outputTarget.directivesUtilsFile));
+    results.directivesUtilsFile = normalizePath(
+      path.join(config.rootDir, outputTarget.directivesUtilsFile),
+    );
   }
 
   return results;
