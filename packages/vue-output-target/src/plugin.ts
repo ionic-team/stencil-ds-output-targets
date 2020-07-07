@@ -11,9 +11,12 @@ export const vueOutputTarget = (outputTarget: OutputTargetVue): OutputTargetCust
     return normalizeOutputTarget(config, outputTarget);
   },
   async generator(config, compilerCtx, buildCtx) {
+    const normalizedOutputTarget = normalizeOutputTarget(config, outputTarget) as Required<
+      OutputTargetVue
+    >;
     const timespan = buildCtx.createTimeSpan(`generate vue started`, true);
 
-    await vueProxyOutput(compilerCtx, outputTarget, buildCtx.components, config);
+    await vueProxyOutput(compilerCtx, normalizedOutputTarget, buildCtx.components, config);
 
     timespan.finish(`generate vue finished`);
   },

@@ -6,7 +6,7 @@ import { normalizePath, readPackageJson, relativeImport, sortBy } from './utils'
 
 export async function vueProxyOutput(
   compilerCtx: CompilerCtx,
-  outputTarget: OutputTargetVue,
+  outputTarget: Required<OutputTargetVue>,
   components: ComponentCompilerMeta[],
   config: Config,
 ) {
@@ -86,7 +86,7 @@ ${ignoredElements}
 Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTags];\n`;
 }
 
-async function copyResources(config: Config, outputTarget: OutputTargetVue) {
+async function copyResources(config: Config, outputTarget: Required<OutputTargetVue>) {
   if (!config.sys || !config.sys.copy || !config.sys.glob) {
     throw new Error('stencil is not properly initialized at this step. Notify the developer');
   }

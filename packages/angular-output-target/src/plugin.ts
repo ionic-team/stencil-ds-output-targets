@@ -11,11 +11,14 @@ export const angularOutputTarget = (outputTarget: OutputTargetAngular): OutputTa
     return normalizeOutputTarget(config, outputTarget);
   },
   async generator(config, compilerCtx, buildCtx) {
+    const normalizedOutputTarget = normalizeOutputTarget(config, outputTarget) as Required<
+      OutputTargetAngular
+    >;
     const timespan = buildCtx.createTimeSpan(`generate angular proxies started`, true);
 
     await angularDirectiveProxyOutput(
       compilerCtx,
-      outputTarget as Required<OutputTargetAngular>,
+      normalizedOutputTarget,
       buildCtx.components,
       config,
     );
