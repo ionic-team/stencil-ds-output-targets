@@ -2,13 +2,13 @@ import path from 'path';
 
 import { dashToPascalCase, normalizePath } from './utils';
 import { ComponentCompilerMeta } from '@stencil/core/internal';
-import { OutputTargetAngular } from './types';
+import { TagNameModifier } from './types';
 
 export const createComponentDefinition = (
   componentCorePackage: string,
   distTypesDir: string,
   rootDir: string,
-  tagNameModifier: OutputTargetAngular['tagNameModifier'],
+  tagNameModifier: TagNameModifier,
 ) => (cmpMeta: ComponentCompilerMeta) => {
   // Collect component meta
   const inputs = [

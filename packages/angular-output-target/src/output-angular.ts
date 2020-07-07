@@ -8,7 +8,7 @@ import generateValueAccessors from './generate-value-accessors';
 
 export async function angularDirectiveProxyOutput(
   compilerCtx: CompilerCtx,
-  outputTarget: OutputTargetAngular,
+  outputTarget: Required<OutputTargetAngular>,
   components: ComponentCompilerMeta[],
   config: Config,
 ) {
@@ -63,7 +63,7 @@ async function copyResources(config: Config, outputTarget: OutputTargetAngular) 
 export function generateProxies(
   components: ComponentCompilerMeta[],
   pkgData: PackageJSON,
-  outputTarget: OutputTargetAngular,
+  outputTarget: Required<OutputTargetAngular>,
   rootDir: string,
 ) {
   const distTypesDir = path.dirname(pkgData.types);
@@ -83,7 +83,14 @@ import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
     imports,
     typeImports,
     components
-      .map(createComponentDefinition(outputTarget.componentCorePackage!, distTypesDir, rootDir))
+      .map(
+        createComponentDefinition(
+          outputTarget.componentCorePackage!,
+          distTypesDir,
+          rootDir,
+          outputTarget.tagNameModifier,
+        ),
+      )
       .join('\n'),
   ];
 

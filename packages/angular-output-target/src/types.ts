@@ -6,10 +6,12 @@ export interface OutputTargetAngular {
   valueAccessorConfigs?: ValueAccessorConfig[];
   excludeComponents?: string[];
   // @deprecated
-  tagNameModifier: (tagName: string) => string;
+  tagNameModifier?: TagNameModifier;
 }
 
 export type ValueAccessorTypes = 'text' | 'radio' | 'select' | 'number' | 'boolean';
+
+export type TagNameModifier = (tagName: string) => string;
 
 export interface ValueAccessorConfig {
   elementSelectors: string | string[];

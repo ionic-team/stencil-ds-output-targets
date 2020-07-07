@@ -6,8 +6,10 @@ export interface OutputTargetReact {
   includePolyfills?: boolean;
   includeDefineCustomElements?: boolean;
   // @deprecated
-  tagNameModifier: (tagName: string) => string;
+  tagNameModifier?: TagNameModifier;
 }
+
+export type TagNameModifier = (tagName: string) => string;
 
 export interface PackageJSON {
   types: string;
