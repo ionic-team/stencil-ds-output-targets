@@ -38,7 +38,8 @@ export function generateProxies(
   const imports = `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated vue proxies */
-import Vue, { PropOptions } from 'vue';
+import Vue from 'vue';
+import { defineComponent, PropOptions } from '@vue/composition-api';
 import { createCommonRender, createCommonMethod } from './vue-component-lib/utils';\n`;
 
   const typeImports = !outputTarget.componentCorePackage

@@ -1,7 +1,7 @@
 {
-  "name": "component-library-vue",
+  "name": "component-library-vue3",
   "sideEffects": false,
-  "version": "0.0.2",
+  "version": "0.0.1",
   "private": true,
   "description": "Vue specific wrapper for component-library",
   "repository": {

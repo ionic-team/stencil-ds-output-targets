@@ -1,7 +1,8 @@
 /* eslint-disable */
 /* tslint:disable */
 /* auto-generated vue proxies */
-import Vue, { PropOptions } from 'vue';
+import Vue from 'vue';
+import { defineComponent, PropOptions } from '@vue/composition-api';
 import { createCommonRender, createCommonMethod } from './vue-component-lib/utils';
 
 import { Components } from 'component-library';
@@ -22,7 +23,7 @@ const customElementTags: string[] = [
 Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTags];
 
 
-export const MyButton = /*@__PURE__*/ Vue.extend({
+export const MyButton = /*@__PURE__*/ defineComponent({
 
   props: {
     color: {} as PropOptions<Components.MyButton['color']>,
@@ -45,7 +46,7 @@ export const MyButton = /*@__PURE__*/ Vue.extend({
 });
 
 
-export const MyCheckbox = /*@__PURE__*/ Vue.extend({
+export const MyCheckbox = /*@__PURE__*/ defineComponent({
 
   props: {
     color: {} as PropOptions<Components.MyCheckbox['color']>,
@@ -65,7 +66,7 @@ export const MyCheckbox = /*@__PURE__*/ Vue.extend({
 });
 
 
-export const MyComponent = /*@__PURE__*/ Vue.extend({
+export const MyComponent = /*@__PURE__*/ defineComponent({
 
   props: {
     first: {} as PropOptions<Components.MyComponent['first']>,
@@ -80,7 +81,7 @@ export const MyComponent = /*@__PURE__*/ Vue.extend({
 });
 
 
-export const MyInput = /*@__PURE__*/ Vue.extend({
+export const MyInput = /*@__PURE__*/ defineComponent({
 
   props: {
     color: {} as PropOptions<Components.MyInput['color']>,
@@ -124,7 +125,7 @@ export const MyInput = /*@__PURE__*/ Vue.extend({
 });
 
 
-export const MyPopover = /*@__PURE__*/ Vue.extend({
+export const MyPopover = /*@__PURE__*/ defineComponent({
 
   props: {
     component: {} as PropOptions<Components.MyPopover['component']>,
@@ -149,7 +150,7 @@ export const MyPopover = /*@__PURE__*/ Vue.extend({
 });
 
 
-export const MyRadio = /*@__PURE__*/ Vue.extend({
+export const MyRadio = /*@__PURE__*/ defineComponent({
 
   props: {
     color: {} as PropOptions<Components.MyRadio['color']>,
@@ -167,7 +168,7 @@ export const MyRadio = /*@__PURE__*/ Vue.extend({
 });
 
 
-export const MyRadioGroup = /*@__PURE__*/ Vue.extend({
+export const MyRadioGroup = /*@__PURE__*/ defineComponent({
 
   props: {
     allowEmptySelection: {} as PropOptions<Components.MyRadioGroup['allowEmptySelection']>,
@@ -184,7 +185,7 @@ export const MyRadioGroup = /*@__PURE__*/ Vue.extend({
 });
 
 
-export const MyRange = /*@__PURE__*/ Vue.extend({
+export const MyRange = /*@__PURE__*/ defineComponent({
 
   props: {
     color: {} as PropOptions<Components.MyRange['color']>,
