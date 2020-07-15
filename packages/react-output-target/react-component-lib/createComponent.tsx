@@ -57,6 +57,8 @@ export const createReactComponent = <
           if (isCoveredByReact(eventName)) {
             (acc as any)[name] = (cProps as any)[name];
           }
+        } else {
+          (acc as any)[name] = (cProps as any)[name];
         }
         return acc;
       }, {});
