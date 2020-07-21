@@ -3,7 +3,7 @@ import { createComponentDefinition } from '../src/generate-vue-component';
 describe('createComponentDefinition', () => {
   const generateComponentDefinition = createComponentDefinition('Components', []);
 
-  it('should create a Vue component with the render method using createCommonRender', () => {
+  it.only('should create a Vue component with the render method using createCommonRender', () => {
     const output = generateComponentDefinition({
       properties: [],
       tagName: 'my-component',
@@ -12,16 +12,12 @@ describe('createComponentDefinition', () => {
     });
 
     expect(output).toEqual(`
-export const MyComponent = /*@__PURE__*/ Vue.extend({
+export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', [
 
-
-
-  render: createCommonRender('my-component', []),
-});
-`);
+]);`
   });
 
-  it('should pass event references to the createCommonRender function', () => {
+  it.only('should pass event references to the createCommonRender function', () => {
     const output = generateComponentDefinition({
       properties: [],
       tagName: 'my-component',
@@ -48,12 +44,9 @@ export const MyComponent = /*@__PURE__*/ Vue.extend({
     });
 
     expect(output).toEqual(`
-export const MyComponent = /*@__PURE__*/ Vue.extend({
+export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', [
 
-
-
-  render: createCommonRender('my-component', ['my-event']),
-});
+]);
 `);
   });
 
@@ -84,15 +77,9 @@ export const MyComponent = /*@__PURE__*/ Vue.extend({
     });
 
     expect(output).toEqual(`
-export const MyComponent = /*@__PURE__*/ Vue.extend({
-
-  props: {
-    myProp: {} as PropOptions<Components.MyComponent['myProp']>,
-  },
-
-
-  render: createCommonRender('my-component', []),
-});
+export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', [
+  'myProp'
+]);
 `);
   });
 
@@ -120,15 +107,9 @@ export const MyComponent = /*@__PURE__*/ Vue.extend({
     });
 
     expect(output).toEqual(`
-export const MyComponent = /*@__PURE__*/ Vue.extend({
-
-
-
-  methods: {
-    myProp: createCommonMethod('myProp') as Components.MyComponent['myProp'],
-  },
-  render: createCommonRender('my-component', []),
-});
+export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', [
+  'myProp'
+]);
 `);
   });
 });
