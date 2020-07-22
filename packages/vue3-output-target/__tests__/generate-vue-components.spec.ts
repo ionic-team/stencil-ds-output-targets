@@ -1,10 +1,10 @@
 import { createComponentDefinition } from '../src/generate-vue-component';
 
 //TODO fix
-describe.skip('createComponentDefinition', () => {
+describe('createComponentDefinition', () => {
   const generateComponentDefinition = createComponentDefinition('Components', []);
 
-  it('should create a Vue component with the render method using createCommonRender', () => {
+  it.skip('should create a Vue component with the render method using createCommonRender', () => {
     const output = generateComponentDefinition({
       properties: [],
       tagName: 'my-component',
@@ -46,7 +46,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
 
     expect(output).toEqual(`
 export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', [
-
+  'my-event'
 ]);
 `);
   });
@@ -84,7 +84,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
 `);
   });
 
-  it('should add a method with Reference to the original component library prop type', () => {
+  it.skip('should add a method with Reference to the original component library prop type', () => {
     const output = generateComponentDefinition({
       properties: [],
       tagName: 'my-component',

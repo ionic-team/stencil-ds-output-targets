@@ -13,6 +13,13 @@ export const createComponentDefinition = (
     props = cmpMeta.properties.map((prop) => `'${prop.name}'`);
   }
 
+  if (Array.isArray(cmpMeta.events) && cmpMeta.events.length > 0) {
+    props = [
+      ...props,
+      ...cmpMeta.events.map((event) => `'${event.name}'`)
+    ]
+  }
+
   return `
 export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${importTypes}.${tagNameAsPascal}>('${
     cmpMeta.tagName
