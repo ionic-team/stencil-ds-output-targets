@@ -26,6 +26,8 @@ export const defineContainer = <Props extends object>(name: string, componentPro
   Container.displayName = name;
   Container.props = componentProps;
   if (modelProp) {
+    console.log('Component has modelProp, adding emits');
+    Container.props = [...componentProps, 'modelValue'];
     Container.emits = ['update:modelValue'];
   }
 
