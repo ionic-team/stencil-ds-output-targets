@@ -18,11 +18,11 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
 ]);`
   });
   it('should create v-model bindings', () => {
-    const generateComponentDefinition = createComponentDefinition('Components', {
+    const generateComponentDefinition = createComponentDefinition('Components', [{
       elements: ['my-component'],
       event: 'ionChange',
       targetAttr: 'value'
-    });
+    }]);
     const output = generateComponentDefinition({
       properties: [
         {
