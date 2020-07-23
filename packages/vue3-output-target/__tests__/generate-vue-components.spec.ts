@@ -69,7 +69,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
     expect(output).toEqual(`
 export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', [
   'value',
-  'ionChange',
+  'ionChange'
 ],
   'value'
 );
@@ -105,7 +105,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
 
     expect(output).toEqual(`
 export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', [
-  'my-event',
+  'my-event'
 ]);
 `);
   });
@@ -139,7 +139,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
 
     expect(output).toEqual(`
 export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', [
-  'myProp',
+  'myProp'
 ]);
 `);
   });
