@@ -71,7 +71,8 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
   'value',
   'ionChange'
 ],
-  'value'
+  'value',
+  'ionChange'
 );
 `);
   });

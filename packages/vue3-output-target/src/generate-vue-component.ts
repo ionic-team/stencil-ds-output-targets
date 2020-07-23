@@ -31,7 +31,8 @@ export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${importTypes}.$
   console.log('Found model', findModel)
   if (findModel) {
     templateString += `,
-  '${findModel.targetAttr}'\n`;
+  '${findModel.targetAttr}',
+  '${findModel.event}'\n`;
   }
 
   templateString += `);\n`

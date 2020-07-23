@@ -4,17 +4,33 @@ export interface InputProps extends Object {
   modelValue: string | boolean;
 }
 
-export const defineContainer = <Props extends object>(name: string, componentProps: string[], modelProp?: string) => {
-  const Container: FunctionalComponent<Props & InputProps> = (props, { slots }) => {
+export const defineContainer = <Props extends object>(name: string, componentProps: string[], modelProp?: string, modelUpdateEvent?: string) => {
+  const Container: FunctionalComponent<Props & InputProps> = (props, { slots, emit }) => {
     const { modelValue, ...restOfProps } = props;
-    const finalProps = (modelProp) ? (
+    let finalProps = (modelProp) ? (
       {
         ...restOfProps,
         [modelProp]: props.hasOwnProperty('modelValue') ? modelValue : (props as any)[modelProp],
       }
     ) : restOfProps;
 
-    console.log('processing',name,modelProp,finalProps);
+
+    if (modelUpdateEvent) {
+      const onVnodeBeforeMount = (vnode: VNode) => {
+        if (vnode.el) {
+          vnode.el.addEventListener(modelUpdateEvent.toLowerCase(), (e: Event) => {
+            emit('update:modelValue'], (e?.target as any)[modelProp]);
+          });
+        }
+      };
+
+      finalProps = {
+        ...finalProps,
+        onVnodeBeforeMount
+      }
+    }
+
+
 
     return h(
       name,
