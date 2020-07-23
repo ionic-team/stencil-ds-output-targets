@@ -7,7 +7,7 @@ export const defineContainer = <Props extends object>(name: string, componentPro
     if (modelProp) {
       finalProps = {
         ...props,
-        'modelValue': modelProp,
+        [modelProp]: props.hasOwnProperty('modelValue') ? modelValue : (props as any)[modelProp],
 
       }
     }
@@ -20,7 +20,9 @@ export const defineContainer = <Props extends object>(name: string, componentPro
 
   Container.displayName = name;
   Container.props = componentProps;
-  Containers.emits = ['update:modelValue']
+  if (modelProp) {
+    Containers.emits = ['update:modelValue'];
+  }
 
   return Container;
 };
