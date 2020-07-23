@@ -4,7 +4,7 @@ import { ComponentModelConfig } from './types';
 
 export const createComponentDefinition = (
   importTypes: string,
-  _componentModelConfigs: ComponentModelConfig[] | undefined,
+  componentModelConfig: ComponentModelConfig | undefined,
 ) => (cmpMeta: Pick<ComponentCompilerMeta, 'properties' | 'tagName' | 'methods' | 'events'>) => {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
   let props: string[] = [];
@@ -20,10 +20,19 @@ export const createComponentDefinition = (
     ]
   }
 
-  return `
+  let templateString = `
 export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${importTypes}.${tagNameAsPascal}>('${
-    cmpMeta.tagName
-  }', [
-  ${props.join(',\n  ')}
-]);\n`;
+  cmpMeta.tagName
+}', [
+  ${props.join(',\n  ')},
+]`;
+
+  if (componentModelConfig) {
+    templateString += `,
+  '${componentModelConfig.targetAttr}'\n`;
+  }
+
+  templateString += `);\n`
+
+  return templateString;
 };
