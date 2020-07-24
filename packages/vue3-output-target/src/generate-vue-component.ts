@@ -28,7 +28,7 @@ export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${importTypes}.$
 ]`;
 
   const findModel = componentModelConfig && componentModelConfig.find(config => config.elements.includes(cmpMeta.tagName));
-  console.log('Found model', findModel)
+
   if (findModel) {
     templateString += `,
   '${findModel.targetAttr}',

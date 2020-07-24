@@ -1,6 +1,6 @@
 {
   "name": "@stencil/vue3-output-target",
-  "version": "0.0.2-8",
+  "version": "0.0.2-9",
   "description": "This is an output plugin for stencil.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",

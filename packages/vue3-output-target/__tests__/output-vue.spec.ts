@@ -1,5 +1,5 @@
 import { ComponentCompilerMeta } from '@stencil/core/internal';
-import { generateProxies } from '../src/output-vue3';
+import { generateProxies } from '../src/output-vue';
 import { PackageJSON, OutputTargetVue } from '../src/types';
 
 //TODO fix
