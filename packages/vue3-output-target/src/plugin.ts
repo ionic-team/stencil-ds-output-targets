@@ -26,6 +26,7 @@ export function normalizeOutputTarget(config: Config, outputTarget: any) {
     componentModels: outputTarget.componentModels || [],
     includePolyfills: outputTarget.includePolyfills ?? true,
     includeDefineCustomElements: outputTarget.includeDefineCustomElements ?? true,
+    routerLinkComponents: outputTarget.routerLinkComponents || [],
   };
 
   if (config.rootDir == null) {

@@ -25,7 +25,8 @@ interface InputProps extends Object {
       name: string,
       componentProps: string[],
       modelProp?: string,
-      modelUpdateEvent?: string
+      modelUpdateEvent?: string,
+      routerLinkComponent?: boolean,
     ) => {
       const Container = (props, opts) => createContainer(props, opts, modelProp, modelUpdateEvent);
 
@@ -74,6 +75,24 @@ interface InputProps extends Object {
         finalProps = {
           ...finalProps,
           onVnodeBeforeMount
+        }
+      }
+
+      const handleClick = (ev: Event) => {
+        console.log('testing ABC', this, this.$router);
+      }
+
+      if (routerLinkComponent) {
+        if (finalProps.onClick) {
+          const oldClick = finalProps.onClick;
+          finalProps.onClick = (ev: Event) => {
+            oldClick(ev);
+            if (!e.defaultPrevented) {
+              handleClick(ev);
+            }
+          }
+        } else {
+          finalProps.onClick = handleClick;
         }
       }
 

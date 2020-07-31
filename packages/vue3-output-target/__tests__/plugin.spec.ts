@@ -19,7 +19,7 @@ describe('normalizeOutputTarget', () => {
     }).toThrow(new Error('proxiesFile is required'));
   });
 
-  it('should return defaults for excludedComponents, includePolyfills, and includeDefineCustomElements', () => {
+  it('should return defaults for excludedComponents, includePolyfills, includeDefineCustomElements, and routerLinkComponents', () => {
     const results: OutputTargetVue = normalizeOutputTarget(config, {
       proxiesFile: '../component-library-vue/src/components.ts',
     });
@@ -30,6 +30,7 @@ describe('normalizeOutputTarget', () => {
       componentModels: [],
       includePolyfills: true,
       includeDefineCustomElements: true,
+      routerLinkComponents: [],
     } as OutputTargetVue);
   });
 

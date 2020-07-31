@@ -67,7 +67,7 @@ import { defineContainer } from './vue-component-lib/utils';\n`;
     sourceImports,
     registerCustomElements,
     components
-      .map(createComponentDefinition(IMPORT_TYPES, outputTarget.componentModels))
+      .map(createComponentDefinition(IMPORT_TYPES, outputTarget.componentModels, outputTarget.routerLinkComponents))
       .join('\n'),
   ];
 
