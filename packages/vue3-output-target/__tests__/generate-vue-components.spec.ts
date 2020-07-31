@@ -71,13 +71,14 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
   'value',
   'ionChange'
 ],
-  'value',
-  'ionChange'
-);
+{
+  "modelProp": "value",
+  "modelUpdateEvent": "ionChange"
+});
 `);
   });
 
-  it.only('should add router bindings', () => {
+  it('should add router bindings', () => {
     const generateComponentDefinition = createComponentDefinition('Components', [], ['my-component']);
     const output = generateComponentDefinition({
       tagName: 'my-component',
@@ -106,12 +107,13 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
 export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', [
   'value'
 ],
-  true
-);
+{
+  "routerLinkComponent": true
+});
 `);
   });
 
-  it.only('should add router and v-model bindings', () => {
+  it('should add router and v-model bindings', () => {
     const generateComponentDefinition = createComponentDefinition('Components', [{
       elements: ['my-component'],
       event: 'ionChange',
@@ -164,10 +166,11 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
   'value',
   'ionChange'
 ],
-  'value',
-  'ionChange',
-  true
-);
+{
+  "modelProp": "value",
+  "modelUpdateEvent": "ionChange",
+  "routerLinkComponent": true
+});
 `);
   });
 

@@ -1,4 +1,5 @@
 import { FunctionalComponent, h } from 'vue';
+import { ComponentOptions } from './types';
 
 const UPDATE_VALUE_EVENT = 'update:modelValue';
 const MODEL_VALUE = 'modelValue';
@@ -24,10 +25,10 @@ interface InputProps extends Object {
     export const defineContainer = <Props extends object>(
       name: string,
       componentProps: string[],
-      modelProp?: string,
-      modelUpdateEvent?: string,
-      routerLinkComponent?: boolean,
+      componentOptions: ComponentOptions = {},
     ) => {
+      const { modelProp, modelUpdateEvent, routerLinkComponent } = componentOptions;
+
       const Container = (props, opts) => createContainer(props, opts, modelProp, modelUpdateEvent);
 
       Container.displayName = name;

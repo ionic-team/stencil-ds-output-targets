@@ -1,6 +1,6 @@
 import { dashToPascalCase } from './utils';
 import { ComponentCompilerMeta } from '@stencil/core/internal';
-import { ComponentModelConfig } from './types';
+import { ComponentModelConfig, ComponentOptions } from './types';
 
 export const createComponentDefinition = (
   importTypes: string,
@@ -28,23 +28,26 @@ export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${importTypes}.$
   ${props.join(',\n  ')}
 ]`;
 
+  let options: ComponentOptions = {};
   const findModel = componentModelConfig && componentModelConfig.find(config => config.elements.includes(cmpMeta.tagName));
+  const findRouterLink = routerLinkConfig && routerLinkConfig.find(config => config.includes(cmpMeta.tagName));
 
   if (findModel) {
-    templateString += `,
-  '${findModel.targetAttr}',
-  '${findModel.event}'`;
+    options.modelProp = findModel.targetAttr;
+    options.modelUpdateEvent = findModel.event;
   }
 
-  const findRouterLink = routerLinkConfig && routerLinkConfig.find(config => config.includes(cmpMeta.tagName));
   if (findRouterLink) {
-    templateString += `,
-  ${true}\n`;
-  } else {
-    templateString += `\n`;
+    options.routerLinkComponent = true;
   }
 
-  templateString += `);\n`
+  if (Object.keys(options).length > 0) {
+    templateString += `,\n`;
+    templateString += JSON.stringify(options, null, 2);
+  }
+
+  templateString += `);\n`;
+
 
   return templateString;
 };
