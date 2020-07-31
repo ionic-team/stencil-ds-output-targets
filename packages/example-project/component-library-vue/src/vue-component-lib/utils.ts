@@ -8,7 +8,7 @@ export const createCommonRender = (tagName: string, eventNames: string[] = []) =
         ...listeners,
         [eventName]: (event: CustomEvent<any>) => {
           let emittedValue = event.detail;
-          if (event.detail.value) {
+          if (event.detail?.value) {
             emittedValue = event.detail.value;
           }
           vueElement.$emit(eventName, emittedValue);
