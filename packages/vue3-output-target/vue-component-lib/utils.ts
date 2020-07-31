@@ -1,11 +1,23 @@
-import { FunctionalComponent, h } from 'vue';
-import { ComponentOptions } from './types';
+import { FunctionalComponent, VNode, h, inject } from 'vue';
+
+export interface InputProps extends Object {
+  modelValue: string | boolean;
+}
 
 const UPDATE_VALUE_EVENT = 'update:modelValue';
 const MODEL_VALUE = 'modelValue';
+const ROUTER_LINK_VALUE = 'routerLink';
+const NAV_MANAGER = 'navManager';
+const ROUTER_PROP_REFIX = 'router';
 
-interface InputProps extends Object {
-  modelValue: string | boolean;
+interface NavManager<T = any> {
+  navigate: (options: T) => void;
+}
+
+interface ComponentOptions {
+  modelProp?: string;
+  modelUpdateEvent?: string;
+  routerLinkComponent?: boolean;
 }
 
 /**
@@ -15,91 +27,85 @@ interface InputProps extends Object {
 * @prop componentProps - An array of properties on the
 * component. These usually match up with the @Prop definitions
 * in each component's TSX file.
-* @prop modelProp - An optional string which refers to the
-* property that v-model should bind to. (i.e. v-model should
-  * bind to the `value` prop for `ion-input`)
-  * @prop modelUpdateEvent - An option string which refers to the
-  * event that should cause v-model to update. (i.e. when the
-    * `value` prop on `ion-input` changes, `ionChange` is emitted.)
-    */
-    export const defineContainer = <Props extends object>(
-      name: string,
-      componentProps: string[],
-      componentOptions: ComponentOptions = {},
-    ) => {
-      const { modelProp, modelUpdateEvent, routerLinkComponent } = componentOptions;
+* @prop componentOptions - An object that defines additional
+* options for the component such as router or v-model
+* integrations.
+*/
+export const defineContainer = <Props extends object>(name: string, componentProps: string[], componentOptions: ComponentOptions = {}) => {
+  const { modelProp, modelUpdateEvent, routerLinkComponent } = componentOptions;
 
-      const Container = (props, opts) => createContainer(props, opts, modelProp, modelUpdateEvent);
+  /**
+  * Create a Vue component wrapper around a Web Component.
+  * Note: The `props` here are not all properties on a component.
+  * They refer to whatever properties are set on an instance of a component.
+  */
+  const Container: FunctionalComponent<Props & InputProps> = (props, { slots, emit }) => {
+    const { modelValue, ...restOfProps } = props;
+    let finalProps: any = (modelProp) ? (
+      {
+        ...restOfProps,
+        [modelProp]: props.hasOwnProperty(MODEL_VALUE) ? modelValue : (props as any)[modelProp],
+      }
+    ) : restOfProps;
 
-      Container.displayName = name;
-      Container.props = (modelProp) ? [...componentProps, MODEL_VALUE] : componentProps;
-      Container.emits = (modelProp) ? [UPDATE_VALUE_EVENT] : [];
 
-      return Container;
-    };
+    if (modelUpdateEvent) {
+      const onVnodeBeforeMount = (vnode: VNode) => {
 
-    /**
-    * Create a Vue component wrapper around a Web Component.
-    * Note: The `props` here are not all properties on a component.
-    * They refer to whatever properties are set on an instance of a component.
-    */
-    const createContainer = (
-      props,
-      { slots, emit },
-      modelProp?: string,
-      modelUpdateEvent?: string
-    ) => {
-
-      // If using `v-model`, modelValue will be set,
-      // otherwise it will be `undefined`.
-      const { modelValue, ...restOfProps } = props;
-      const finalProps = restOfProps;
-
-      if (modelProp) {
-        finalProps = {
-          ...finalProps,
-          [modelProp]: props.hasOwnProperty(MODEL_VALUE) ? modelValue : (props as any)[modelProp]
+        // Add a listener to tell Vue to update the v-model
+        if (vnode.el) {
+          vnode.el.addEventListener(modelUpdateEvent.toLowerCase(), (e: Event) => {
+            emit(UPDATE_VALUE_EVENT, (e?.target as any)[modelProp]);
+          });
         }
+      };
+
+      finalProps = {
+        ...finalProps,
+        onVnodeBeforeMount
       }
-
-      if (modelUpdateEvent) {
-        const onVnodeBeforeMount = (vnode: VNode) => {
-
-          // Add a listener to tell Vue to update the v-model
-          if (vnode.el) {
-            vnode.el.addEventListener(modelUpdateEvent.toLowerCase(), (e: Event) => {
-              emit(UPDATE_VALUE_EVENT, (e?.target as any)[modelProp]);
-            });
-          }
-        };
-
-        finalProps = {
-          ...finalProps,
-          onVnodeBeforeMount
-        }
-      }
-
-      const handleClick = (ev: Event) => {
-        console.log('testing ABC', this, this.$router);
-      }
-
-      if (routerLinkComponent) {
-        if (finalProps.onClick) {
-          const oldClick = finalProps.onClick;
-          finalProps.onClick = (ev: Event) => {
-            oldClick(ev);
-            if (!e.defaultPrevented) {
-              handleClick(ev);
-            }
-          }
-        } else {
-          finalProps.onClick = handleClick;
-        }
-      }
-
-      return h(
-        name,
-        finalProps,
-        slots.default && slots.default()
-      );
     }
+
+    if (routerLinkComponent) {
+      const navManager: NavManager = inject(NAV_MANAGER);
+      const handleClick = (ev: Event) => {
+        const routerProps = Object.keys(finalProps).filter(p => p.startsWith(ROUTER_PROP_REFIX));
+        let navigationPayload: any = { event: ev };
+        routerProps.forEach(prop => {
+          navigationPayload[prop] = finalProps[prop];
+        });
+        navManager.navigate(navigationPayload);
+      }
+
+      if (finalProps.onClick) {
+        const oldClick = finalProps.onClick;
+        finalProps.onClick = (ev: Event) => {
+          oldClick(ev);
+          if (!ev.defaultPrevented) {
+            handleClick(ev);
+          }
+        }
+      } else {
+        finalProps.onClick = handleClick;
+      }
+    }
+
+    return h(
+      name,
+      finalProps,
+      slots.default && slots.default()
+    );
+  }
+
+  Container.displayName = name;
+  Container.props = componentProps;
+  if (modelProp) {
+    Container.props.push(MODEL_VALUE);
+    Container.emits = [UPDATE_VALUE_EVENT];
+  }
+  if (routerLinkComponent) {
+    Container.props.push(ROUTER_LINK_VALUE);
+  }
+
+  return Container;
+};
