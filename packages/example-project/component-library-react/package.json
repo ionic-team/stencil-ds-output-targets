@@ -1,7 +1,7 @@
 {
   "name": "component-library-react",
   "sideEffects": false,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": true,
   "description": "React specific wrapper for component-library",
   "license": "MIT",
@@ -36,7 +36,7 @@
     "typescript": "^3.3.4000"
   },
   "dependencies": {
-    "component-library": "^0.0.2"
+    "component-library": "^0.0.3"
   },
   "peerDependencies": {
     "react": "^16.7.0",
