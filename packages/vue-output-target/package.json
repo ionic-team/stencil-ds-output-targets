@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/",
-    "react-component-lib/"
+    "vue-component-lib/"
   ],
   "publishConfig": {
     "access": "public"
