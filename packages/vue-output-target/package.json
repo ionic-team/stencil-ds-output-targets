@@ -34,13 +34,6 @@
   "peerDependencies": {
     "@stencil/core": ">=1.8.0"
   },
-  "devDependencies": {
-    "jest": "^26.1.0",
-    "np": "^5.0.2",
-    "rimraf": "^2.6.3",
-    "rollup": "^1.6.0",
-    "typescript": "^3.9.3"
-  },
   "jest": {
     "transform": {
       "^.+\\.(js|ts|tsx)$": "<rootDir>/test/jest.preprocessor.js"

@@ -1,3 +1,3 @@
-# stencil-vue-plugin
+# @stencil/vue-output-target
 
 This is an output plugin for stencil.

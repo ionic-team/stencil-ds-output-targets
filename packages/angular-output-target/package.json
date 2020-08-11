@@ -35,12 +35,7 @@
   },
   "devDependencies": {
     "@angular/core": "8.2.14",
-    "@angular/forms": "8.2.14",
-    "jest": "^26.1.0",
-    "np": "^4.0.2",
-    "rimraf": "^2.6.3",
-    "rollup": "^1.6.0",
-    "typescript": "^3.9.3"
+    "@angular/forms": "8.2.14"
   },
   "jest": {
     "transform": {

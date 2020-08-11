@@ -37,14 +37,9 @@
   "devDependencies": {
     "@types/react": "^16.7.0",
     "@types/react-dom": "^16.7.0",
-    "jest": "^26.1.0",
-    "np": "^5.0.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
-    "react-testing-library": "^7.0.0",
-    "rimraf": "^2.6.3",
-    "rollup": "^1.6.0",
-    "typescript": "^3.9.3"
+    "react-testing-library": "^7.0.0"
   },
   "jest": {
     "transform": {
