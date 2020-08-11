@@ -13,7 +13,7 @@ export const vueOutputTarget = (outputTarget: OutputTargetVue): OutputTargetCust
   async generator(config, compilerCtx, buildCtx) {
     const timespan = buildCtx.createTimeSpan(`generate vue started`, true);
 
-    await vueProxyOutput(compilerCtx, outputTarget, buildCtx.components, config);
+    await vueProxyOutput(config, compilerCtx, outputTarget, buildCtx.components);
 
     timespan.finish(`generate vue finished`);
   },

@@ -1,20 +1,25 @@
 import path from 'path';
 import type { OutputTargetVue, PackageJSON } from './types';
-import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
+import type {
+  CompilerCtx,
+  ComponentCompilerMeta,
+  Config,
+  OutputTargetDist,
+} from '@stencil/core/internal';
 import { createComponentDefinition } from './generate-vue-component';
 import { normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
 
 export async function vueProxyOutput(
+  config: Config,
   compilerCtx: CompilerCtx,
   outputTarget: OutputTargetVue,
   components: ComponentCompilerMeta[],
-  config: Config,
 ) {
   const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, components);
   const rootDir = config.rootDir as string;
   const pkgData = await readPackageJson(rootDir);
 
-  const finalText = generateProxies(filteredComponents, pkgData, outputTarget, rootDir);
+  const finalText = generateProxies(config, filteredComponents, pkgData, outputTarget, rootDir);
   await compilerCtx.fs.writeFile(outputTarget.proxiesFile, finalText);
   await copyResources(config, outputTarget);
 }
@@ -26,6 +31,7 @@ function getFilteredComponents(excludeComponents: string[] = [], cmps: Component
 }
 
 export function generateProxies(
+  config: Config,
   components: ComponentCompilerMeta[],
   pkgData: PackageJSON,
   outputTarget: OutputTargetVue,
@@ -34,6 +40,7 @@ export function generateProxies(
   const distTypesDir = path.dirname(pkgData.types);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.proxiesFile, dtsFilePath, '.d.ts');
+  const pathToCorePackageLoader = getPathToCorePackageLoader(config, outputTarget);
 
   const imports = `/* eslint-disable */
 /* tslint:disable */
@@ -42,15 +49,11 @@ import Vue, { PropOptions } from 'vue';
 import { createCommonRender, createCommonMethod } from './vue-component-lib/utils';\n`;
 
   const typeImports = !outputTarget.componentCorePackage
-    ? `import { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`
-    : `import { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}';\n`;
+    ? `import type { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`
+    : `import type { ${IMPORT_TYPES} } from '${normalizePath(
+        outputTarget.componentCorePackage,
+      )}';\n`;
 
-  const pathToCorePackageLoader = normalizePath(
-    path.join(
-      outputTarget.componentCorePackage || '',
-      outputTarget.loaderDir || DEFAULT_LOADER_DIR,
-    ),
-  );
   let sourceImports = '';
   let registerCustomElements = '';
 
@@ -106,8 +109,26 @@ async function copyResources(config: Config, outputTarget: OutputTargetVue) {
   );
 }
 
+export function getPathToCorePackageLoader(config: Config, outputTarget: OutputTargetVue) {
+  const basePkg = outputTarget.componentCorePackage || '';
+  const distOutputTarget = config.outputTargets?.find((o) => o.type === 'dist') as OutputTargetDist;
+
+  const distAbsEsmLoaderPath =
+    distOutputTarget?.esmLoaderPath && path.isAbsolute(distOutputTarget.esmLoaderPath)
+      ? distOutputTarget.esmLoaderPath
+      : null;
+
+  const distRelEsmLoaderPath =
+    config.rootDir && distAbsEsmLoaderPath
+      ? path.relative(config.rootDir, distAbsEsmLoaderPath)
+      : null;
+
+  const loaderDir = outputTarget.loaderDir || distRelEsmLoaderPath || DEFAULT_LOADER_DIR;
+  return normalizePath(path.join(basePkg, loaderDir));
+}
+
 export const GENERATED_DTS = 'components.d.ts';
 const IMPORT_TYPES = 'Components';
 const REGISTER_CUSTOM_ELEMENTS = 'defineCustomElements';
 const APPLY_POLYFILLS = 'applyPolyfills';
-const DEFAULT_LOADER_DIR = '/loader';
+const DEFAULT_LOADER_DIR = '/dist/loader';

@@ -1,4 +1,4 @@
-import { ComponentCompilerMeta } from '@stencil/core/internal';
+import { ComponentCompilerMeta, Config } from '@stencil/core/internal';
 import { generateProxies } from '../src/output-vue';
 import { PackageJSON, OutputTargetVue } from '../src/types';
 
@@ -8,6 +8,7 @@ describe('generateProxies', () => {
     types: 'dist/types/index.d.ts',
   };
   const rootDir: string = '';
+  const config: Config = { outputTargets: [] };
 
   it('should include both polyfills and definCustomElements when both are true in the outputTarget', () => {
     const outputTarget: OutputTargetVue = {
@@ -17,7 +18,7 @@ describe('generateProxies', () => {
       includeDefineCustomElements: true,
     };
 
-    const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
+    const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
     expect(finalText).toEqual(
       `/* eslint-disable */
 /* tslint:disable */
@@ -25,9 +26,9 @@ describe('generateProxies', () => {
 import Vue, { PropOptions } from 'vue';
 import { createCommonRender, createCommonMethod } from './vue-component-lib/utils';
 
-import { Components } from 'component-library';
+import type { Components } from 'component-library';
 
-import { applyPolyfills, defineCustomElements } from 'component-library/loader';
+import { applyPolyfills, defineCustomElements } from 'component-library/dist/loader';
 
 applyPolyfills().then(() => defineCustomElements());
 
@@ -49,7 +50,7 @@ Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTag
       includeDefineCustomElements: true,
     };
 
-    const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
+    const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
     expect(finalText).toEqual(
       `/* eslint-disable */
 /* tslint:disable */
@@ -57,9 +58,9 @@ Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTag
 import Vue, { PropOptions } from 'vue';
 import { createCommonRender, createCommonMethod } from './vue-component-lib/utils';
 
-import { Components } from 'component-library';
+import type { Components } from 'component-library';
 
-import { defineCustomElements } from 'component-library/loader';
+import { defineCustomElements } from 'component-library/dist/loader';
 
 defineCustomElements();
 
@@ -81,7 +82,7 @@ Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTag
       includeDefineCustomElements: false,
     };
 
-    const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
+    const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
     expect(finalText).toEqual(
       `/* eslint-disable */
 /* tslint:disable */
@@ -89,7 +90,7 @@ Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTag
 import Vue, { PropOptions } from 'vue';
 import { createCommonRender, createCommonMethod } from './vue-component-lib/utils';
 
-import { Components } from 'component-library';
+import type { Components } from 'component-library';
 
 
 
