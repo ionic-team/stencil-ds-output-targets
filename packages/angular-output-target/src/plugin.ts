@@ -1,7 +1,7 @@
-import { Config, OutputTargetCustom } from '@stencil/core/internal';
+import type { Config, OutputTargetCustom } from '@stencil/core/internal';
 import { normalizePath } from './utils';
 import { angularDirectiveProxyOutput } from './output-angular';
-import { OutputTargetAngular } from './types';
+import type { OutputTargetAngular } from './types';
 import path from 'path';
 
 export const angularOutputTarget = (outputTarget: OutputTargetAngular): OutputTargetCustom => ({

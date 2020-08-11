@@ -1,7 +1,7 @@
 import path from 'path';
-import { OutputTargetReact, PackageJSON } from './types';
+import type { OutputTargetReact, PackageJSON } from './types';
 import { dashToPascalCase, normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
-import { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
+import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
 
 export async function reactProxyOutput(
   compilerCtx: CompilerCtx,

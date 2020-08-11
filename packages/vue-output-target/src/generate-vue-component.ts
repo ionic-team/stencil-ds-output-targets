@@ -1,6 +1,6 @@
 import { dashToPascalCase } from './utils';
-import { ComponentCompilerMeta } from '@stencil/core/internal';
-import { ComponentModelConfig } from './types';
+import type { ComponentCompilerMeta } from '@stencil/core/internal';
+import type { ComponentModelConfig } from './types';
 
 export const createComponentDefinition = (
   importTypes: string,

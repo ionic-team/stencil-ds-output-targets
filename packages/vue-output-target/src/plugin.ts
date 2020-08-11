@@ -1,6 +1,6 @@
-import { Config, OutputTargetCustom } from '@stencil/core/internal';
+import type { Config, OutputTargetCustom } from '@stencil/core/internal';
 import { normalizePath } from './utils';
-import { OutputTargetVue } from './types';
+import type { OutputTargetVue } from './types';
 import { vueProxyOutput } from './output-vue';
 import path from 'path';
 

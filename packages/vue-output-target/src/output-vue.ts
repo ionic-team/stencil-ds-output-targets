@@ -1,6 +1,6 @@
 import path from 'path';
-import { OutputTargetVue, PackageJSON } from './types';
-import { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
+import type { OutputTargetVue, PackageJSON } from './types';
+import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
 import { createComponentDefinition } from './generate-vue-component';
 import { normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
 

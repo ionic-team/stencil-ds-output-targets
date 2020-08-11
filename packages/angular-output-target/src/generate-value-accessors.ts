@@ -1,7 +1,6 @@
 import path from 'path';
-
-import { OutputTargetAngular, ValueAccessorTypes } from './types';
-import { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
+import type { OutputTargetAngular, ValueAccessorTypes } from './types';
+import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
 
 interface ValueAccessor {
   elementSelectors: string[];

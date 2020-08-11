@@ -1,7 +1,7 @@
 import path from 'path';
 import { promisify } from 'util';
 import fs from 'fs';
-import { PackageJSON } from './types';
+import type { PackageJSON } from './types';
 
 const readFile = promisify(fs.readFile);
 

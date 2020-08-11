@@ -1,6 +1,6 @@
-import { Config, OutputTargetCustom } from '@stencil/core/internal';
+import type { Config, OutputTargetCustom } from '@stencil/core/internal';
 import { normalizePath } from './utils';
-import { OutputTargetReact } from './types';
+import type { OutputTargetReact } from './types';
 import { reactProxyOutput } from './output-react';
 import path from 'path';
 
