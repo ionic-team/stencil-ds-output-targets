@@ -24,7 +24,7 @@ export const attachProps = (node: HTMLElement, newProps: any, oldProps: any = {}
         const eventName = name.substring(2);
         const eventNameLc = eventName[0].toLowerCase() + eventName.substring(1);
 
-        if (!isCoveredByReact(eventNameLc)) {
+        if (typeof document !== 'undefined' && !isCoveredByReact(eventNameLc, document)) {
           syncEvent(node, eventNameLc, newProps[name]);
         }
       } else {
@@ -68,7 +68,7 @@ export const getClassName = (classList: DOMTokenList, newProps: any, oldProps: a
  * Checks if an event is supported in the current execution environment.
  * @license Modernizr 3.0.0pre (Custom Build) | MIT
  */
-export const isCoveredByReact = (eventNameSuffix: string, doc: Document = document) => {
+export const isCoveredByReact = (eventNameSuffix: string, doc: Document) => {
   const eventName = 'on' + eventNameSuffix;
   let isSupported = eventName in doc;
 
