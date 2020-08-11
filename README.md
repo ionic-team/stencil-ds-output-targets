@@ -179,7 +179,7 @@ import { DemoComponent } from 'component-library-react';
 
 ```ts
 import { Config } from '@stencil/core';
-import { vue } from '@stencil/vue-output-target';
+import { vueOutputTarget } from '@stencil/vue-output-target';
 
 export const config: Config = {
   namespace: 'demo',
