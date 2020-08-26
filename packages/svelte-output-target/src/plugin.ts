@@ -1,25 +1,10 @@
 import type { Config, OutputTargetCustom } from '@stencil/core/internal';
+import path from 'path';
 import { normalizePath } from './utils';
 import type { OutputTargetSvelte } from './types';
 import { svelteProxyOutput } from './output-svelte';
-import path from 'path';
 
-export const svelteOutputTarget = (outputTarget: OutputTargetSvelte): OutputTargetCustom => ({
-  type: 'custom',
-  name: 'svelte-library',
-  validate(config) {
-    return normalizeOutputTarget(config, outputTarget);
-  },
-  async generator(config, compilerCtx, buildCtx) {
-    const timespan = buildCtx.createTimeSpan(`generate svelte started`, true);
-
-    await svelteProxyOutput(config, compilerCtx, outputTarget, buildCtx.components);
-
-    timespan.finish(`generate svelte finished`);
-  },
-});
-
-export function normalizeOutputTarget(config: Config, outputTarget: any) {
+export const normalizeOutputTarget = (config: Config, outputTarget: any) => {
   const results: OutputTargetSvelte = {
     ...outputTarget,
     excludeComponents: outputTarget.excludeComponents || [],
@@ -41,4 +26,19 @@ export function normalizeOutputTarget(config: Config, outputTarget: any) {
   }
 
   return results;
-}
+};
+
+export const svelteOutputTarget = (outputTarget: OutputTargetSvelte): OutputTargetCustom => ({
+  type: 'custom',
+  name: 'svelte-library',
+  validate(config) {
+    return normalizeOutputTarget(config, outputTarget);
+  },
+  async generator(config, compilerCtx, buildCtx) {
+    const timespan = buildCtx.createTimeSpan('generate svelte started', true);
+
+    await svelteProxyOutput(config, compilerCtx, outputTarget, buildCtx.components);
+
+    timespan.finish('generate svelte finished');
+  },
+});

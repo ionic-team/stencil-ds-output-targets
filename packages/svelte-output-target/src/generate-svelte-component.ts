@@ -5,14 +5,18 @@ export const createComponentDefinition = (
   cmpMeta: Pick<ComponentCompilerMeta, 'properties' | 'tagName' | 'methods' | 'events'>,
   bindingsConfig?: ComponentBindingConfig[],
 ) => {
-  const { tagName, properties, methods, events } = cmpMeta;
+  const {
+    tagName, properties, methods, events,
+  } = cmpMeta;
 
   const bindings = bindingsConfig
-    ?.filter(c => Array.isArray(c.elements) ? c.elements.includes(tagName) : (c.elements === tagName))
+    ?.filter((c) => (
+      Array.isArray(c.elements) ? c.elements.includes(tagName) : (c.elements === tagName)
+    ))
     .filter((c1, index, self) => index === self.findIndex((c2) => (
       (c1.event === c2.event) && (c1.targetProp === c2.targetProp)
     )))
-    .map(c => `if (e.type === '${c.event}') { ${c.targetProp} = e.detail; }`)
+    .map((c) => `if (e.type === '${c.event}') { ${c.targetProp} = e.detail; }`)
     .join('\n  ');
 
   return `
@@ -28,8 +32,8 @@ ${properties.map((prop) => `export let ${prop.name}${!prop.required ? ' = undefi
 
 ${
   methods
-  .map(method => `export const ${method.name} = (...args) => __ref.${method.name}(...args);`)
-  .join('\n')
+    .map((method) => `export const ${method.name} = (...args) => __ref.${method.name}(...args);`)
+    .join('\n')
 }
 
 export const getWebComponent = () => __ref;
@@ -40,8 +44,8 @@ const setProp = (prop, value) => { if (__ref) __ref[prop] = value; };
 
 ${
   properties
-    .filter(prop => !prop.attribute)
-    .map(prop => `$: if (__mounted) setProp('${prop.name}', ${prop.name});`)
+    .filter((prop) => !prop.attribute)
+    .map((prop) => `$: if (__mounted) setProp('${prop.name}', ${prop.name});`)
     .join('\n')
 }
 
@@ -52,11 +56,14 @@ const onEvent = (e) => {
 </script>
 
 <${tagName} 
-  ${properties.filter(prop => !!prop.attribute).map(prop => `${prop.attribute}={${prop.name}}`).join('\n  ')}
-  ${events.map(event => `on:${event.name}={onEvent}`).join('\n  ')}
+  ${properties
+    .filter((prop) => !!prop.attribute)
+    .map((prop) => `${prop.attribute}={${prop.name}}`).join('\n  ')}
+  ${events
+    .map((event) => `on:${event.name}={onEvent}`).join('\n  ')}
   bind:this={__ref}
 >
   <slot></slot>
 </${tagName}>
-  `
+  `;
 };

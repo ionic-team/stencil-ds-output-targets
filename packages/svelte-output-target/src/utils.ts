@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 import path from 'path';
 import { promisify } from 'util';
 import fs from 'fs';
@@ -5,44 +7,34 @@ import type { PackageJSON } from './types';
 
 const readFile = promisify(fs.readFile);
 
+const EXTENDED_PATH_REGEX = /^\\\\\?\\/;
+const SLASH_REGEX = /\\/g;
+// eslint-disable-next-line no-control-regex
+const NON_ASCII_REGEX = /[^\x00-\x80]+/;
+
 export const toLowerCase = (str: string) => str.toLowerCase();
 
 export const dashToCamelCase = (str: string) => str
   .replace(/-([a-z])/g, (_, up) => up.toUpperCase());
 
-export const dashToPascalCase = (str: string) =>
-  toLowerCase(str)
-    .split('-')
-    .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
-    .join('');
+export const dashToPascalCase = (str: string) => toLowerCase(str)
+  .split('-')
+  .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
+  .join('');
 
-export function flatOne<T>(array: T[][]): T[] {
-  if (array.flat) {
-    return array.flat(1);
-  }
-  return array.reduce((result, item) => {
-    result.push(...item);
-    return result;
-  }, [] as T[]);
-}
-
-export function sortBy<T>(array: T[], prop: (item: T) => string) {
-  return array.slice().sort((a, b) => {
-    const nameA = prop(a);
-    const nameB = prop(b);
-    if (nameA < nameB) return -1;
-    if (nameA > nameB) return 1;
-    return 0;
-  });
-}
+export const sortBy = <T>(array: T[], prop: (item: T) => string) => array.slice().sort((a, b) => {
+  const nameA = prop(a);
+  const nameB = prop(b);
+  if (nameA < nameB) return -1;
+  if (nameA > nameB) return 1;
+  return 0;
+});
 
 export function normalizePath(str: string) {
-  // Convert Windows backslash paths to slash paths: foo\\bar ➔ foo/bar
-  // https://github.com/sindresorhus/slash MIT
-  // By Sindre Sorhus
   if (typeof str !== 'string') {
-    throw new Error(`invalid path to normalize`);
+    throw new Error('invalid path to normalize');
   }
+
   str = str.trim();
 
   if (EXTENDED_PATH_REGEX.test(str) || NON_ASCII_REGEX.test(str)) {
@@ -67,17 +59,17 @@ export function normalizePath(str: string) {
   return str;
 }
 
-export function relativeImport(pathFrom: string, pathTo: string, ext?: string) {
+export const relativeImport = (pathFrom: string, pathTo: string, ext?: string) => {
   let relativePath = path.relative(path.dirname(pathFrom), path.dirname(pathTo));
   if (relativePath === '') {
     relativePath = '.';
   } else if (relativePath[0] !== '.') {
-    relativePath = './' + relativePath;
+    relativePath = `./${relativePath}`;
   }
   return normalizePath(`${relativePath}/${path.basename(pathTo, ext)}`);
-}
+};
 
-export async function readPackageJson(rootDir: string) {
+export const readPackageJson = async (rootDir: string) => {
   const pkgJsonPath = path.join(rootDir, 'package.json');
 
   let pkgJson: string;
@@ -95,8 +87,4 @@ export async function readPackageJson(rootDir: string) {
   }
 
   return pkgData;
-}
-
-const EXTENDED_PATH_REGEX = /^\\\\\?\\/;
-const NON_ASCII_REGEX = /[^\x00-\x80]+/;
-const SLASH_REGEX = /\\/g;
+};
