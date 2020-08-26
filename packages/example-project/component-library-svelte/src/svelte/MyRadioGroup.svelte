@@ -7,9 +7,9 @@ let __mounted = false;
 
 const dispatch = createEventDispatcher();
 
-export let allowEmptySelection;
-export let name;
-export let value;
+export let allowEmptySelection = undefined;
+export let name = undefined;
+export let value = undefined;
 
 
 

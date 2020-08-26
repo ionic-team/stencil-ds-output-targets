@@ -7,19 +7,19 @@ let __mounted = false;
 
 const dispatch = createEventDispatcher();
 
-export let color;
-export let buttonType;
-export let disabled;
-export let expand;
-export let fill;
-export let download;
-export let href;
-export let rel;
-export let shape;
-export let size;
-export let strong;
-export let target;
-export let type;
+export let color = undefined;
+export let buttonType = undefined;
+export let disabled = undefined;
+export let expand = undefined;
+export let fill = undefined;
+export let download = undefined;
+export let href = undefined;
+export let rel = undefined;
+export let shape = undefined;
+export let size = undefined;
+export let strong = undefined;
+export let target = undefined;
+export let type = undefined;
 
 
 

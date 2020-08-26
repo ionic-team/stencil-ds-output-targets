@@ -7,18 +7,18 @@ let __mounted = false;
 
 const dispatch = createEventDispatcher();
 
-export let color;
-export let debounce;
-export let name;
-export let dualKnobs;
-export let min;
-export let max;
-export let pin;
-export let snaps;
-export let step;
-export let ticks;
-export let disabled;
-export let value;
+export let color = undefined;
+export let debounce = undefined;
+export let name = undefined;
+export let dualKnobs = undefined;
+export let min = undefined;
+export let max = undefined;
+export let pin = undefined;
+export let snaps = undefined;
+export let step = undefined;
+export let ticks = undefined;
+export let disabled = undefined;
+export let value = undefined;
 
 
 
