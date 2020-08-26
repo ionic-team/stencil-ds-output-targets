@@ -7,11 +7,11 @@ let __mounted = false;
 
 const dispatch = createEventDispatcher();
 
-export let first;
-export let middle;
-export let last;
-export let age;
-export let kidsNames;
+export let first = undefined;
+export let middle = undefined;
+export let last = undefined;
+export let age = undefined;
+export let kidsNames = undefined;
 
 
 

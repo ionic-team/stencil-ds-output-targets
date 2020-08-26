@@ -1,3 +1,6 @@
+/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
 import 'component-library/loader';
 
 import MyButton from './components/MyButton';

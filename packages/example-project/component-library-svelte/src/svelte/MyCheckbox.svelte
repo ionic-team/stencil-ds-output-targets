@@ -7,12 +7,12 @@ let __mounted = false;
 
 const dispatch = createEventDispatcher();
 
-export let color;
-export let name;
-export let checked;
-export let indeterminate;
-export let disabled;
-export let value;
+export let color = undefined;
+export let name = undefined;
+export let checked = undefined;
+export let indeterminate = undefined;
+export let disabled = undefined;
+export let value = undefined;
 
 
 

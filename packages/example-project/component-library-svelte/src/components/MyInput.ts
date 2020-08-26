@@ -1,4 +1,116 @@
+/* eslint-disable */
+/* tslint:disable */
 // @ts-nocheck
+import { Components, JSX } from 'component-library';
+
+
+interface MyInputProps {
+  
+  /** The color to use from your application's color palette.
+Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`.
+For more information on colors, see [theming](/docs/theming/basics). */
+  color?: Components.MyInput["color"]
+  
+  /** If the value of the type attribute is `"file"`, then this attribute will indicate the types of files that the server accepts, otherwise it will be ignored. The value must be a comma-separated list of unique content type specifiers. */
+  accept?: Components.MyInput["accept"]
+  
+  /** Indicates whether and how the text value should be automatically capitalized as it is entered/edited by the user. */
+  autocapitalize?: Components.MyInput["autocapitalize"]
+  
+  /** Indicates whether the value of the control can be automatically completed by the browser. */
+  autocomplete?: Components.MyInput["autocomplete"]
+  
+  /** Whether auto correction should be enabled when the user is entering/editing the text value. */
+  autocorrect?: Components.MyInput["autocorrect"]
+  
+  /** This Boolean attribute lets you specify that a form control should have input focus when the page loads. */
+  autofocus?: Components.MyInput["autofocus"]
+  
+  /** If `true`, a clear icon will appear in the input when there is a value. Clicking it clears the input. */
+  clearInput?: Components.MyInput["clearInput"]
+  
+  /** If `true`, the value will be cleared after focus upon edit. Defaults to `true` when `type` is `"password"`, `false` for all other types. */
+  clearOnEdit?: Components.MyInput["clearOnEdit"]
+  
+  /** If `true`, the user cannot interact with the input. */
+  disabled?: Components.MyInput["disabled"]
+  
+  /** A hint to the browser for which enter key to display.
+Possible values: `"enter"`, `"done"`, `"go"`, `"next"`,
+`"previous"`, `"search"`, and `"send"`. */
+  enterkeyhint?: Components.MyInput["enterkeyhint"]
+  
+  /** A hint to the browser for which keyboard to display.
+Possible values: `"none"`, `"text"`, `"tel"`, `"url"`,
+`"email"`, `"numeric"`, `"decimal"`, and `"search"`. */
+  inputmode?: Components.MyInput["inputmode"]
+  
+  /** The maximum value, which must not be less than its minimum (min attribute) value. */
+  max?: Components.MyInput["max"]
+  
+  /** If the value of the type attribute is `text`, `email`, `search`, `password`, `tel`, or `url`, this attribute specifies the maximum number of characters that the user can enter. */
+  maxlength?: Components.MyInput["maxlength"]
+  
+  /** The minimum value, which must not be greater than its maximum (max attribute) value. */
+  min?: Components.MyInput["min"]
+  
+  /** If the value of the type attribute is `text`, `email`, `search`, `password`, `tel`, or `url`, this attribute specifies the minimum number of characters that the user can enter. */
+  minlength?: Components.MyInput["minlength"]
+  
+  /** If `true`, the user can enter more than one value. This attribute applies when the type attribute is set to `"email"` or `"file"`, otherwise it is ignored. */
+  multiple?: Components.MyInput["multiple"]
+  
+  /** The name of the control, which is submitted with the form data. */
+  name?: Components.MyInput["name"]
+  
+  /** A regular expression that the value is checked against. The pattern must match the entire value, not just some subset. Use the title attribute to describe the pattern to help the user. This attribute applies when the value of the type attribute is `"text"`, `"search"`, `"tel"`, `"url"`, `"email"`, `"date"`, or `"password"`, otherwise it is ignored. When the type attribute is `"date"`, `pattern` will only be used in browsers that do not support the `"date"` input type natively. See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date for more information. */
+  pattern?: Components.MyInput["pattern"]
+  
+  /** Instructional text that shows before the input has a value. */
+  placeholder?: Components.MyInput["placeholder"]
+  
+  /** If `true`, the user cannot modify the value. */
+  readonly?: Components.MyInput["readonly"]
+  
+  /** If `true`, the user must fill in a value before submitting a form. */
+  required?: Components.MyInput["required"]
+  
+  /** If `true`, the element will have its spelling and grammar checked. */
+  spellcheck?: Components.MyInput["spellcheck"]
+  
+  /** Works with the min and max attributes to limit the increments at which a value can be set.
+Possible values are: `"any"` or a positive floating point number. */
+  step?: Components.MyInput["step"]
+  
+  /** The initial size of the control. This value is in pixels unless the value of the type attribute is `"text"` or `"password"`, in which case it is an integer number of characters. This attribute applies only when the `type` attribute is set to `"text"`, `"search"`, `"tel"`, `"url"`, `"email"`, or `"password"`, otherwise it is ignored. */
+  size?: Components.MyInput["size"]
+  
+  /** The type of control to display. The default type is text. */
+  type?: Components.MyInput["type"]
+  
+  /** The value of the input. */
+  value?: Components.MyInput["value"]
+}
+
+interface MyInputEvents {
+  
+  /** Emitted when a keyboard input occurred. */
+  myInput: Parameters<JSX.MyInput["onMyInput"]>[0]["detail"]
+  
+  /** Emitted when the value has changed. */
+  myChange: Parameters<JSX.MyInput["onMyChange"]>[0]["detail"]
+  
+  /** Emitted when the input loses focus. */
+  myBlur: Parameters<JSX.MyInput["onMyBlur"]>[0]["detail"]
+  
+  /** Emitted when the input has focus. */
+  myFocus: Parameters<JSX.MyInput["onMyFocus"]>[0]["detail"]
+}
+
+interface MyInputSlots {
+  default: any
+}
+  
 /* generated by Svelte v3.24.1 */
 import {
 	SvelteComponent,
@@ -214,32 +326,32 @@ function instance($$self, $$props, $$invalidate) {
 	let __ref;
 	let __mounted = false;
 	const dispatch = createEventDispatcher();
-	let { color } = $$props;
-	let { accept } = $$props;
-	let { autocapitalize } = $$props;
-	let { autocomplete } = $$props;
-	let { autocorrect } = $$props;
-	let { autofocus } = $$props;
-	let { clearInput } = $$props;
-	let { clearOnEdit } = $$props;
-	let { disabled } = $$props;
-	let { enterkeyhint } = $$props;
-	let { inputmode } = $$props;
-	let { max } = $$props;
-	let { maxlength } = $$props;
-	let { min } = $$props;
-	let { minlength } = $$props;
-	let { multiple } = $$props;
-	let { name } = $$props;
-	let { pattern } = $$props;
-	let { placeholder } = $$props;
-	let { readonly } = $$props;
-	let { required } = $$props;
-	let { spellcheck } = $$props;
-	let { step } = $$props;
-	let { size } = $$props;
-	let { type } = $$props;
-	let { value } = $$props;
+	let { color = undefined } = $$props;
+	let { accept = undefined } = $$props;
+	let { autocapitalize = undefined } = $$props;
+	let { autocomplete = undefined } = $$props;
+	let { autocorrect = undefined } = $$props;
+	let { autofocus = undefined } = $$props;
+	let { clearInput = undefined } = $$props;
+	let { clearOnEdit = undefined } = $$props;
+	let { disabled = undefined } = $$props;
+	let { enterkeyhint = undefined } = $$props;
+	let { inputmode = undefined } = $$props;
+	let { max = undefined } = $$props;
+	let { maxlength = undefined } = $$props;
+	let { min = undefined } = $$props;
+	let { minlength = undefined } = $$props;
+	let { multiple = undefined } = $$props;
+	let { name = undefined } = $$props;
+	let { pattern = undefined } = $$props;
+	let { placeholder = undefined } = $$props;
+	let { readonly = undefined } = $$props;
+	let { required = undefined } = $$props;
+	let { spellcheck = undefined } = $$props;
+	let { step = undefined } = $$props;
+	let { size = undefined } = $$props;
+	let { type = undefined } = $$props;
+	let { value = undefined } = $$props;
 	const setFocus = (...args) => __ref.setFocus(...args);
 	const getInputElement = (...args) => __ref.getInputElement(...args);
 	const getWebComponent = () => __ref;
@@ -339,6 +451,18 @@ function instance($$self, $$props, $$invalidate) {
 }
 
 class MyInput extends SvelteComponent {
+  $$prop_def: MyInputProps;
+  $$events_def: MyInputEvents;
+  $$slot_def: MyInputSlots;
+
+  $on<K extends keyof MyInputEvents>(type: K, callback: (e: MyInputEvents[K]) => any): () => void {
+	  return super.$on(type, callback);
+	}
+
+  $set($$props: Partial<MyInputProps>): void {
+	  super.$set($$props);
+	}
+
 	constructor(options) {
 		super();
 
@@ -617,15 +741,20 @@ class MyInput extends SvelteComponent {
 		flush();
 	}
 
-	get setFocus() {
+	
+  /** Sets focus on the specified `my-input`. Use this method instead of the global
+`input.focus()`. */
+ get setFocus(): Components.MyInput["setFocus"] {
 		return this.$$.ctx[28];
 	}
 
-	get getInputElement() {
+	
+  /** Returns the native `<input>` element used under the hood. */
+ get getInputElement(): Components.MyInput["getInputElement"] {
 		return this.$$.ctx[29];
 	}
 
-	get getWebComponent() {
+	get getWebComponent(): HTMLMyInputElement | undefined {
 		return this.$$.ctx[30];
 	}
 }

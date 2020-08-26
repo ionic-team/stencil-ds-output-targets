@@ -1,3 +1,6 @@
+/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
 import MyButton from './MyButton.svelte';
 import MyCheckbox from './MyCheckbox.svelte';
 import MyComponent from './MyComponent.svelte';

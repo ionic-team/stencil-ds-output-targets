@@ -1,14 +1,11 @@
 import path from 'path';
 import type {
-  CompilerCtx,
-  ComponentCompilerMeta,
-  Config,
-  OutputTargetDist,
+  CompilerCtx, ComponentCompilerMeta, Config, OutputTargetDist,
 } from '@stencil/core/internal';
 import { OutputTargetSvelte } from './types';
 import { sortBy, normalizePath, dashToPascalCase } from './utils';
 import { createComponentDefinition } from './generate-svelte-component';
-import { generateTypings } from './generate-svelte-typings';
+import { generate$$TypeDefs, generateTypings, replaceMethodDefs } from './generate-svelte-typings';
 
 const svelte = require('svelte/compiler');
 
@@ -140,13 +137,15 @@ export const svelteProxyOutput = async (
 
   await Promise.all(output.compiledFiles.map((file) => {
     const filePath = path.resolve(compiledDir, `${file.name}.ts`);
+    const { content, meta } = file;
+
     return compilerCtx.fs.writeFile(
       filePath,
       [
         ignoreChecks(),
         `import { Components, JSX } from '${outputTarget.componentCorePackage}';\n`,
-        file.content,
-        generateTypings(file.meta),
+        generateTypings(meta),
+        replaceMethodDefs(meta, generate$$TypeDefs(meta, content)),
       ].join('\n'),
     );
   }));
