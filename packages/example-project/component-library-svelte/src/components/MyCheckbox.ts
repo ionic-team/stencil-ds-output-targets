@@ -34,16 +34,16 @@ it's only used when the toggle participates in a native `<form>`. */
 interface MyCheckboxEvents {
   
   /** Emitted when the checked property has changed. */
-  myChange: Parameters<JSX.MyCheckbox["onMyChange"]>[0]["detail"]
+  myChange: Parameters<JSX.MyCheckbox["onMyChange"]>[0]
   
   /** Emitted when the toggle has focus. */
-  myFocus: Parameters<JSX.MyCheckbox["onMyFocus"]>[0]["detail"]
+  myFocus: Parameters<JSX.MyCheckbox["onMyFocus"]>[0]
   
   /** Emitted when the toggle loses focus. */
-  myBlur: Parameters<JSX.MyCheckbox["onMyBlur"]>[0]["detail"]
+  myBlur: Parameters<JSX.MyCheckbox["onMyBlur"]>[0]
   
   /** Emitted when the styles change. */
-  myStyle: Parameters<JSX.MyCheckbox["onMyStyle"]>[0]["detail"]
+  myStyle: Parameters<JSX.MyCheckbox["onMyStyle"]>[0]
 }
 
 interface MyCheckboxSlots {

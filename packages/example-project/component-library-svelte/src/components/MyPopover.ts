@@ -40,16 +40,16 @@ Only applies when the mode is `"ios"` and the device supports
 interface MyPopoverEvents {
   
   /** Emitted after the popover has presented. */
-  myPopoverDidPresent: Parameters<JSX.MyPopover["onMyPopoverDidPresent"]>[0]["detail"]
+  myPopoverDidPresent: Parameters<JSX.MyPopover["onMyPopoverDidPresent"]>[0]
   
   /** Emitted before the popover has presented. */
-  myPopoverWillPresent: Parameters<JSX.MyPopover["onMyPopoverWillPresent"]>[0]["detail"]
+  myPopoverWillPresent: Parameters<JSX.MyPopover["onMyPopoverWillPresent"]>[0]
   
   /** Emitted before the popover has dismissed. */
-  myPopoverWillDismiss: Parameters<JSX.MyPopover["onMyPopoverWillDismiss"]>[0]["detail"]
+  myPopoverWillDismiss: Parameters<JSX.MyPopover["onMyPopoverWillDismiss"]>[0]
   
   /** Emitted after the popover has dismissed. */
-  myPopoverDidDismiss: Parameters<JSX.MyPopover["onMyPopoverDidDismiss"]>[0]["detail"]
+  myPopoverDidDismiss: Parameters<JSX.MyPopover["onMyPopoverDidDismiss"]>[0]
 }
 
 interface MyPopoverSlots {

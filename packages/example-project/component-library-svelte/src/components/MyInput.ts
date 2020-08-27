@@ -95,16 +95,16 @@ Possible values are: `"any"` or a positive floating point number. */
 interface MyInputEvents {
   
   /** Emitted when a keyboard input occurred. */
-  myInput: Parameters<JSX.MyInput["onMyInput"]>[0]["detail"]
+  myInput: Parameters<JSX.MyInput["onMyInput"]>[0]
   
   /** Emitted when the value has changed. */
-  myChange: Parameters<JSX.MyInput["onMyChange"]>[0]["detail"]
+  myChange: Parameters<JSX.MyInput["onMyChange"]>[0]
   
   /** Emitted when the input loses focus. */
-  myBlur: Parameters<JSX.MyInput["onMyBlur"]>[0]["detail"]
+  myBlur: Parameters<JSX.MyInput["onMyBlur"]>[0]
   
   /** Emitted when the input has focus. */
-  myFocus: Parameters<JSX.MyInput["onMyFocus"]>[0]["detail"]
+  myFocus: Parameters<JSX.MyInput["onMyFocus"]>[0]
 }
 
 interface MyInputSlots {

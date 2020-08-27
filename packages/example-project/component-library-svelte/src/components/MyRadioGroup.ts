@@ -19,7 +19,7 @@ interface MyRadioGroupProps {
 interface MyRadioGroupEvents {
   
   /** Emitted when the value has changed. */
-  myChange: Parameters<JSX.MyRadioGroup["onMyChange"]>[0]["detail"]
+  myChange: Parameters<JSX.MyRadioGroup["onMyChange"]>[0]
 }
 
 interface MyRadioGroupSlots {

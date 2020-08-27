@@ -25,7 +25,7 @@ interface MyComponentProps {
 interface MyComponentEvents {
   
   /** Testing an event without value */
-  myCustomEvent: Parameters<JSX.MyComponent["onMyCustomEvent"]>[0]["detail"]
+  myCustomEvent: Parameters<JSX.MyComponent["onMyCustomEvent"]>[0]
 }
 
 interface MyComponentSlots {

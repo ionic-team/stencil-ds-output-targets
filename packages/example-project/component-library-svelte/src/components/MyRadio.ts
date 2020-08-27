@@ -24,16 +24,16 @@ For more information on colors, see [theming](/docs/theming/basics). */
 interface MyRadioEvents {
   
   /** Emitted when the styles change. */
-  myStyle: Parameters<JSX.MyRadio["onMyStyle"]>[0]["detail"]
+  myStyle: Parameters<JSX.MyRadio["onMyStyle"]>[0]
   
   /** Emitted when the radio button has focus. */
-  myFocus: Parameters<JSX.MyRadio["onMyFocus"]>[0]["detail"]
+  myFocus: Parameters<JSX.MyRadio["onMyFocus"]>[0]
   
   /** Emitted when the radio button loses focus. */
-  myBlur: Parameters<JSX.MyRadio["onMyBlur"]>[0]["detail"]
+  myBlur: Parameters<JSX.MyRadio["onMyBlur"]>[0]
   
   /** Emitted when the radio button loses focus. */
-  mySelect: Parameters<JSX.MyRadio["onMySelect"]>[0]["detail"]
+  mySelect: Parameters<JSX.MyRadio["onMySelect"]>[0]
 }
 
 interface MyRadioSlots {
