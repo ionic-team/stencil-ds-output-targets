@@ -61,10 +61,10 @@ Special keywords: `"_blank"`, `"_self"`, `"_parent"`, `"_top"`. */
 interface MyButtonEvents {
   
   /** Emitted when the button has focus. */
-  myFocus: Parameters<JSX.MyButton["onMyFocus"]>[0]["detail"]
+  myFocus: Parameters<JSX.MyButton["onMyFocus"]>[0]
   
   /** Emitted when the button loses focus. */
-  myBlur: Parameters<JSX.MyButton["onMyBlur"]>[0]["detail"]
+  myBlur: Parameters<JSX.MyButton["onMyBlur"]>[0]
 }
 
 interface MyButtonSlots {

@@ -52,16 +52,16 @@ Only applies when `snaps` is `true`. */
 interface MyRangeEvents {
   
   /** Emitted when the value property has changed. */
-  myChange: Parameters<JSX.MyRange["onMyChange"]>[0]["detail"]
+  myChange: Parameters<JSX.MyRange["onMyChange"]>[0]
   
   /** Emitted when the styles change. */
-  myStyle: Parameters<JSX.MyRange["onMyStyle"]>[0]["detail"]
+  myStyle: Parameters<JSX.MyRange["onMyStyle"]>[0]
   
   /** Emitted when the range has focus. */
-  myFocus: Parameters<JSX.MyRange["onMyFocus"]>[0]["detail"]
+  myFocus: Parameters<JSX.MyRange["onMyFocus"]>[0]
   
   /** Emitted when the range loses focus. */
-  myBlur: Parameters<JSX.MyRange["onMyBlur"]>[0]["detail"]
+  myBlur: Parameters<JSX.MyRange["onMyBlur"]>[0]
 }
 
 interface MyRangeSlots {

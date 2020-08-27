@@ -16,7 +16,7 @@ interface ${name}Props {
 interface ${name}Events {
   ${
   meta.events
-    .map((event) => `\n  /** ${event.docs.text} */\n  ${event.name}: Parameters<JSX.${name}["${jsxEventName(event.name)}"]>[0]["detail"]`)
+    .map((event) => `\n  /** ${event.docs.text} */\n  ${event.name}: Parameters<JSX.${name}["${jsxEventName(event.name)}"]>[0]`)
     .join('\n  ')}
 }
 
