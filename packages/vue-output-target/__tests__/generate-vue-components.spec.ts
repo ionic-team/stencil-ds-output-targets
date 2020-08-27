@@ -1,9 +1,8 @@
 import { createComponentDefinition } from '../src/generate-vue-component';
 
-//TODO fix
 describe('createComponentDefinition', () => {
 
-  it.skip('should create a Vue component with the render method using createCommonRender', () => {
+  it('should create a Vue component with the render method using createCommonRender', () => {
     const generateComponentDefinition = createComponentDefinition('Components', []);
     const output = generateComponentDefinition({
       properties: [],
@@ -11,11 +10,9 @@ describe('createComponentDefinition', () => {
       methods: [],
       events: [],
     });
-
     expect(output).toEqual(`
-export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', [
-
-]);`
+export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component');
+`
   });
   it('should create v-model bindings', () => {
     const generateComponentDefinition = createComponentDefinition('Components', [{
@@ -232,37 +229,6 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
       ],
       tagName: 'my-component',
       methods: [],
-      events: [],
-    });
-
-    expect(output).toEqual(`
-export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', [
-  'myProp'
-]);
-`);
-  });
-
-  it.skip('should add a method with Reference to the original component library prop type', () => {
-    const generateComponentDefinition = createComponentDefinition('Components', []);
-    const output = generateComponentDefinition({
-      properties: [],
-      tagName: 'my-component',
-      methods: [
-        {
-          name: 'myProp',
-          internal: false,
-          docs: {
-            text: '',
-            tags: [],
-          },
-          complexType: {
-            signature: '',
-            parameters: [],
-            references: {},
-            return: '',
-          },
-        },
-      ],
       events: [],
     });
 

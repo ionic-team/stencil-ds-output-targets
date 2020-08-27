@@ -31,7 +31,7 @@ interface ComponentOptions {
 * options for the component such as router or v-model
 * integrations.
 */
-export const defineContainer = <Props extends object>(name: string, componentProps: string[], componentOptions: ComponentOptions = {}) => {
+export const defineContainer = <Props extends object>(name: string, componentProps: string[] = [], componentOptions: ComponentOptions = {}) => {
   const { modelProp, modelUpdateEvent, routerLinkComponent } = componentOptions;
 
   /**
