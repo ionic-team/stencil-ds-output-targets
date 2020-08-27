@@ -1,4 +1,4 @@
-import { FunctionalComponent, VNode, h, inject } from 'vue';
+import { FunctionalComponent, VNode, h, inject, ref } from 'vue';
 
 export interface InputProps extends Object {
   modelValue: string | boolean;
@@ -19,6 +19,11 @@ interface ComponentOptions {
   modelUpdateEvent?: string;
   routerLinkComponent?: boolean;
 }
+
+const getElementClasses = (ref: Ref<HTMLElement | undefined>, componentClasses: string[], defaultClasses: string[] = []) => {
+  return [ ...Array.from(ref.value?.classList || []), ...defaultClasses ]
+    .filter((c: string, i, self) => !componentClasses.includes(c) && self.indexOf(c) === i);
+};
 
 /**
 * Create a callback to define a Vue component wrapper around a Web Component.
@@ -41,6 +46,9 @@ export const defineContainer = <Props extends object>(name: string, componentPro
   */
   const Container: FunctionalComponent<Props & InputProps> = (props, { attrs, slots, emit }) => {
     const { modelValue, ...restOfProps } = props;
+    const containerRef = ref<HTMLElement>();
+    const classes: string[] = (attrs.class as string)?.split(' ') || [];
+
     let finalProps: any = (modelProp) ? (
       {
         ...restOfProps,
@@ -63,6 +71,8 @@ export const defineContainer = <Props extends object>(name: string, componentPro
       finalProps = {
         ...finalProps,
         ...attrs,
+        ref: containerRef,
+        class: getElementClasses(containerRef, classes),
         onVnodeBeforeMount
       }
     }
