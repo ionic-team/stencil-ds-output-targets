@@ -1,4 +1,4 @@
-import { FunctionalComponent, VNode, h, inject, ref } from 'vue';
+import { FunctionalComponent, VNode, h, inject, ref, Ref } from 'vue';
 
 export interface InputProps extends Object {
   modelValue: string | boolean;
