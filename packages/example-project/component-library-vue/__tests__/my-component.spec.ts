@@ -18,7 +18,7 @@ describe('MyComponent', () => {
 
   it('should get strings as props', () => {
     const wrapper = mount(MyComponent, {
-      propsData: {
+      props: {
         first: 'blue',
       },
     });
@@ -28,7 +28,7 @@ describe('MyComponent', () => {
 
   it('should get numbers as props', () => {
     const wrapper = mount(MyComponent, {
-      propsData: {
+      props: {
         age: 39,
       },
     });
@@ -38,7 +38,7 @@ describe('MyComponent', () => {
 
   it('should get arrays as props', () => {
     const wrapper = mount(MyComponent, {
-      propsData: {
+      props: {
         kidsNames: ['billy', 'jane'],
       },
     });
@@ -56,7 +56,7 @@ describe('MyComponent', () => {
       },
     };
     const wrapper = mount(Component);
-    const myComponentEl = wrapper.find('my-component').element as HTMLMyCheckboxElement;
+    const myComponentEl = wrapper.find('my-component').element as HTMLMyComponentElement;
     myComponentEl.dispatchEvent(new CustomEvent('myCustomEvent', { detail: 5 }));
 
     expect(onMyCustomEvent).toBeCalledTimes(1);

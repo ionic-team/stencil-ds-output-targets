@@ -2,7 +2,6 @@ import { Config } from '@stencil/core';
 import { angularOutputTarget, ValueAccessorConfig } from '@stencil/angular-output-target';
 import { reactOutputTarget } from '@stencil/react-output-target';
 import { vueOutputTarget, ComponentModelConfig } from '@stencil/vue-output-target';
-import { vueOutputTarget as vue3OutputTarget } from '@stencil/vue3-output-target';
 
 const angularValueAccessorBindings: ValueAccessorConfig[] = [
   {
@@ -76,11 +75,6 @@ export const config: Config = {
     vueOutputTarget({
       componentCorePackage: 'component-library',
       proxiesFile: '../component-library-vue/src/proxies.ts',
-      componentModels: vueComponentModels,
-    }),
-    vue3OutputTarget({
-      componentCorePackage: 'component-library',
-      proxiesFile: '../component-library-vue3/src/proxies.ts',
       componentModels: vueComponentModels,
     }),
     {

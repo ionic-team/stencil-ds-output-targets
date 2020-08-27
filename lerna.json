@@ -3,12 +3,10 @@
     "packages/angular-output-target",
     "packages/react-output-target",
     "packages/vue-output-target",
-    "packages/vue3-output-target",
     "packages/example-project/component-library",
     "packages/example-project/component-library-angular",
     "packages/example-project/component-library-react",
     "packages/example-project/component-library-vue",
-    "packages/example-project/component-library-vue3"
   ],
   "version": "independent",
   "command": {
