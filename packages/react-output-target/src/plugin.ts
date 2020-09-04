@@ -13,7 +13,7 @@ export const reactOutputTarget = (outputTarget: OutputTargetReact): OutputTarget
   async generator(config, compilerCtx, buildCtx) {
     const timespan = buildCtx.createTimeSpan(`generate react started`, true);
 
-    await reactProxyOutput(compilerCtx, outputTarget, buildCtx.components, config);
+    await reactProxyOutput(compilerCtx, normalizeOutputTarget(config, outputTarget), buildCtx.components, config);
 
     timespan.finish(`generate react finished`);
   }
