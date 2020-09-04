@@ -1,0 +1,50 @@
+{
+  "name": "component-library-vue",
+  "sideEffects": false,
+  "version": "0.0.4",
+  "private": true,
+  "description": "Vue specific wrapper for component-library",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ionic-team/ionic.git"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "npm run clean && npm run compile",
+    "clean": "rimraf dist",
+    "compile": "npm run tsc",
+    "tsc": "tsc -p ."
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.8.0",
+    "jest": "^26.1.0",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.21.2",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "typescript": "^3.3.4000"
+  },
+  "dependencies": {
+    "@vue/test-utils": "^1.0.3",
+    "component-library": "^0.0.4",
+    "vue": "^2.6.11",
+    "vue-class-component": "^7.2.3",
+    "vue-jest": "^3.0.5",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "setupFilesAfterEnv": [
+      "<rootDir>/setupTests.ts"
+    ],
+    "testPathIgnorePatterns": [
+      "node_modules",
+      "dist"
+    ]
+  }
+}
