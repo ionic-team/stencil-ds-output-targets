@@ -1,4 +1,4 @@
-import { FunctionalComponent, VNode, h, inject, ref, Ref } from 'vue';
+import { FunctionalComponent, VNode, defineComponent, h, inject, ref, Ref } from 'vue';
 
 export interface InputProps extends Object {
   modelValue: string | boolean;
@@ -44,38 +44,20 @@ export const defineContainer = <Props extends object>(name: string, componentPro
   * Note: The `props` here are not all properties on a component.
   * They refer to whatever properties are set on an instance of a component.
   */
-  const Container: FunctionalComponent<Props & InputProps> = (props, { attrs, slots, emit }) => {
+  const Container: FunctionalComponent<Props & InputProps> = defineComponent((props, { attrs, slots, emit }) => {
     const { modelValue, ...restOfProps } = props;
     const containerRef = ref<HTMLElement>();
     const classes: string[] = (attrs.class as string)?.split(' ') || [];
-
-    let finalProps: any = (modelProp) ? (
-      {
-        ...restOfProps,
-        [modelProp]: props.hasOwnProperty(MODEL_VALUE) ? modelValue : (props as any)[modelProp],
+    const onVnodeBeforeMount = (vnode: VNode) => {
+      // Add a listener to tell Vue to update the v-model
+      if (vnode.el) {
+        vnode.el.addEventListener(modelUpdateEvent.toLowerCase(), (e: Event) => {
+          emit(UPDATE_VALUE_EVENT, (e?.target as any)[modelProp]);
+        });
       }
-    ) : restOfProps;
+    };
 
-
-    if (modelUpdateEvent) {
-      const onVnodeBeforeMount = (vnode: VNode) => {
-
-        // Add a listener to tell Vue to update the v-model
-        if (vnode.el) {
-          vnode.el.addEventListener(modelUpdateEvent.toLowerCase(), (e: Event) => {
-            emit(UPDATE_VALUE_EVENT, (e?.target as any)[modelProp]);
-          });
-        }
-      };
-
-      finalProps = {
-        ...finalProps,
-        ...attrs,
-        ref: containerRef,
-        class: getElementClasses(containerRef, classes),
-        onVnodeBeforeMount
-      }
-    }
+    let finalProps: any = { ...restOfProps };
 
     if (routerLinkComponent) {
       const navManager: NavManager = inject(NAV_MANAGER);
@@ -103,12 +85,30 @@ export const defineContainer = <Props extends object>(name: string, componentPro
       }
     }
 
-    return h(
-      name,
-      finalProps,
-      slots.default && slots.default()
-    );
-  }
+    return () => {
+      let propsToAdd = {
+        ...finalProps,
+        ref: containerRef,
+        class: getElementClasses(containerRef, classes)
+      };
+
+      if (modelUpdateEvent) {
+        propsToAdd = {
+          ...propsToAdd,
+          onVnodeBeforeMount
+        }
+      }
+
+      if (modelProp) {
+        propsToAdd = {
+          ...propsToAdd,
+          [modelProp]: props.hasOwnProperty('modelValue') ? props.modelValue : (props as any)[modelProp]
+        }
+      }
+
+      return h(name, propsToAdd, slots.default && slots.default());
+    }
+  });
 
   Container.displayName = name;
   Container.props = componentProps;
