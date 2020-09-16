@@ -37,7 +37,7 @@ export function generateProxies(
   const customElementsImports = components
     .map(cmpMeta => dashToPascalCase(cmpMeta.tagName))
     .join(', ');
-  const coreImports = components.length > 0 ? `${customElementsImports}, ${IMPORT_TYPES}` : IMPORT_TYPES;
+  const coreImports = components.length > 0 ? `${customElementsImports} as ${customElementsImports}CMP, ${IMPORT_TYPES}` : IMPORT_TYPES;
 
   const imports = `/* eslint-disable */
 /* tslint:disable */
