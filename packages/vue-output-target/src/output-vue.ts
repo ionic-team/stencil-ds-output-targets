@@ -2,7 +2,7 @@ import path from 'path';
 import { OutputTargetVue, PackageJSON } from './types';
 import { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
 import { createComponentDefinition } from './generate-vue-component';
-import { normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
+import { dashToPascalCase, normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
 
 export async function vueProxyOutput(
   compilerCtx: CompilerCtx,
@@ -34,6 +34,10 @@ export function generateProxies(
   const distTypesDir = path.dirname(pkgData.types);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.proxiesFile, dtsFilePath, '.d.ts');
+  const customElementsImports = components
+    .map(cmpMeta => dashToPascalCase(cmpMeta.tagName))
+    .join(', ');
+  const coreImports = components.length > 0 ? `${customElementsImports}, ${IMPORT_TYPES}` : IMPORT_TYPES;
 
   const imports = `/* eslint-disable */
 /* tslint:disable */
@@ -41,8 +45,8 @@ export function generateProxies(
 import { defineContainer } from './vue-component-lib/utils';\n`;
 
   const typeImports = !outputTarget.componentCorePackage
-    ? `import { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`
-    : `import { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}';\n`;
+    ? `import { ${coreImports} } from '${normalizePath(componentsTypeFile)}';\n`
+    : `import { ${coreImports} } from '${normalizePath(outputTarget.componentCorePackage)}';\n`;
 
   const pathToCorePackageLoader = normalizePath(
     path.join(
