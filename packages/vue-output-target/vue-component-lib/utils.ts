@@ -29,12 +29,6 @@ const getElementClasses = (ref: Ref<HTMLElement | undefined>, componentClasses: 
     .filter((c: string, i, self) => !componentClasses.has(c) && self.indexOf(c) === i);
 };
 
-const registerCustomElement = (ce: any) => {
-  if (typeof customElements !== 'undefined' && !customElements.get(ce.is)) {
-    customElements.define(ce.is, ce);
-  }
-}
-
 /**
 * Create a callback to define a Vue component wrapper around a Web Component.
 *
@@ -46,10 +40,8 @@ const registerCustomElement = (ce: any) => {
 * options for the component such as router or v-model
 * integrations.
 */
-export const defineContainer = <Props extends object>(name: string, customElementInstance: any, componentProps: string[] = [], componentOptions: ComponentOptions = {}) => {
+export const defineContainer = <Props extends object>(name: string, componentProps: string[] = [], componentOptions: ComponentOptions = {}) => {
   const { modelProp, modelUpdateEvent, routerLinkComponent } = componentOptions;
-
-  registerCustomElement(customElementInstance);
 
   /**
   * Create a Vue component wrapper around a Web Component.

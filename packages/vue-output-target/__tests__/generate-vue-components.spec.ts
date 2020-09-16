@@ -11,7 +11,7 @@ describe('createComponentDefinition', () => {
       events: [],
     });
     expect(output).toEqual(`
-export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>(MyComponentCMP.is, MyComponentCMP);
+export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component');
 `
   });
   it('should create v-model bindings', () => {
@@ -64,7 +64,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
     });
 
     expect(output).toEqual(`
-export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>(MyComponentCMP.is, MyComponentCMP, [
+export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', [
   'value',
   'ionChange'
 ],
@@ -101,7 +101,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
     });
 
   expect(output).toEqual(`
-export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>(MyComponentCMP.is, MyComponentCMP, [
+export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', [
   'value'
 ],
 {
@@ -159,7 +159,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
     });
 
     expect(output).toEqual(`
-export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>(MyComponentCMP.is, MyComponentCMP, [
+export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', [
   'value',
   'ionChange'
 ],
@@ -199,7 +199,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
     });
 
     expect(output).toEqual(`
-export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>(MyComponentCMP.is, MyComponentCMP, [
+export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', [
   'my-event'
 ]);
 `);
@@ -233,7 +233,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
     });
 
     expect(output).toEqual(`
-export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>(MyComponentCMP.is, MyComponentCMP, [
+export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', [
   'myProp'
 ]);
 `);
