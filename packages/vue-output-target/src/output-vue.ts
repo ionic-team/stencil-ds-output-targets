@@ -35,9 +35,13 @@ export function generateProxies(
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.proxiesFile, dtsFilePath, '.d.ts');
   const customElementsImports = components
-    .map(cmpMeta => dashToPascalCase(cmpMeta.tagName))
+    .map(cmpMeta => {
+      const element = dashToPascalCase(cmpMeta.tagName);
+
+      return `${element} as ${element}CMP`;
+    })
     .join(', ');
-  const coreImports = components.length > 0 ? `${customElementsImports} as ${customElementsImports}CMP, ${IMPORT_TYPES}` : IMPORT_TYPES;
+  const coreImports = components.length > 0 ? `${customElementsImports}, ${IMPORT_TYPES}` : IMPORT_TYPES;
 
   const imports = `/* eslint-disable */
 /* tslint:disable */
