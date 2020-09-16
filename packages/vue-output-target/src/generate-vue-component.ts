@@ -24,7 +24,7 @@ export const createComponentDefinition = (
   let templateString = `
 export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${importTypes}.${tagNameAsPascal}>('${
   cmpMeta.tagName
-}'`;
+}', ${tagNameAsPascal}`;
 
   if (props.length > 0) {
     templateString += `, [
