@@ -1,4 +1,4 @@
-import { FunctionalComponent, VNode, defineComponent, h, inject, ref, Ref } from 'vue';
+import { VNode, defineComponent, h, inject, ref, Ref } from 'vue';
 
 export interface InputProps extends Object {
   modelValue: string | boolean;
@@ -40,7 +40,7 @@ const getElementClasses = (ref: Ref<HTMLElement | undefined>, componentClasses: 
 * options for the component such as router or v-model
 * integrations.
 */
-export const defineContainer = <Props extends object>(name: string, componentProps: string[] = [], componentOptions: ComponentOptions = {}) => {
+export const defineContainer = <Props>(name: string, componentProps: string[] = [], componentOptions: ComponentOptions = {}) => {
   const { modelProp, modelUpdateEvent, routerLinkComponent } = componentOptions;
 
   /**
@@ -48,7 +48,7 @@ export const defineContainer = <Props extends object>(name: string, componentPro
   * Note: The `props` here are not all properties on a component.
   * They refer to whatever properties are set on an instance of a component.
   */
-  const Container: FunctionalComponent<Props & InputProps> = defineComponent((props, { attrs, slots, emit }) => {
+  const Container = defineComponent<Props & InputProps>((props, { attrs, slots, emit }) => {
     const containerRef = ref<HTMLElement>();
     const classes = new Set(getComponentClasses(attrs.class));
     const onVnodeBeforeMount = (vnode: VNode) => {
@@ -60,31 +60,18 @@ export const defineContainer = <Props extends object>(name: string, componentPro
       }
     };
 
-    let finalProps: any = { ...props };
-
+    let handleClick: (ev: Event) => void;
     if (routerLinkComponent) {
       const navManager: NavManager = inject(NAV_MANAGER);
-      const handleClick = (ev: Event) => {
-        const routerProps = Object.keys(finalProps).filter(p => p.startsWith(ROUTER_PROP_REFIX));
+      handleClick = (ev: Event) => {
+        const routerProps = Object.keys(props).filter(p => p.startsWith(ROUTER_PROP_REFIX));
         if (routerProps.length === 0) return;
 
         let navigationPayload: any = { event: ev };
         routerProps.forEach(prop => {
-          navigationPayload[prop] = finalProps[prop];
+          navigationPayload[prop] = (props as any)[prop];
         });
         navManager.navigate(navigationPayload);
-      }
-
-      if (finalProps.onClick) {
-        const oldClick = finalProps.onClick;
-        finalProps.onClick = (ev: Event) => {
-          oldClick(ev);
-          if (!ev.defaultPrevented) {
-            handleClick(ev);
-          }
-        }
-      } else {
-        finalProps.onClick = handleClick;
       }
     }
 
@@ -92,17 +79,23 @@ export const defineContainer = <Props extends object>(name: string, componentPro
       getComponentClasses(attrs.class).forEach(value => {
         classes.add(value);
       });
+
       let propsToAdd = {
-        ...finalProps,
+        ...props,
         ref: containerRef,
-        class: getElementClasses(containerRef, classes)
+        class: getElementClasses(containerRef, classes),
+        onClick: (routerLinkComponent) ? handleClick : (props as any).onClick,
+        onVnodeBeforeMount: (modelUpdateEvent) ? onVnodeBeforeMount : undefined
       };
 
-      if (modelUpdateEvent) {
-        propsToAdd = {
-          ...propsToAdd,
-          onVnodeBeforeMount
-        }
+      if ((props as any).onClick) {
+        const oldClick = (props as any).onClick;
+        propsToAdd.onClick = (ev: Event) => {
+            oldClick(ev);
+            if (!ev.defaultPrevented) {
+                handleClick(ev);
+            }
+        };
       }
 
       if (modelProp) {
