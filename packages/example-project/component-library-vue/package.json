@@ -31,7 +31,7 @@
     "vue": "^3.0.0-beta.20"
   },
   "dependencies": {
-    "component-library": "^0.0.4"
+    "component-library": "file:../component-library"
   },
   "jest": {
     "preset": "ts-jest",
