@@ -1,6 +1,6 @@
 import path from 'path';
-import { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
-import { OutputTargetAngular, PackageJSON } from './types';
+import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
+import type { OutputTargetAngular, PackageJSON } from './types';
 import { relativeImport, normalizePath, sortBy, readPackageJson } from './utils';
 import { createComponentDefinition } from './generate-angular-component';
 import { generateAngularDirectivesFile } from './generate-angular-directives-file';

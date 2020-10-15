@@ -116,4 +116,3 @@ export const MyRange = /*@__PURE__*/ defineContainer<JSX.MyRange>('my-range', [
   'disabled',
   'value'
 ]);
-

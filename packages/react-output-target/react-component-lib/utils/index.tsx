@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StyleReactProps } from '../interfaces';
+import type { StyleReactProps } from '../interfaces';
 
 type Mutable<T> = { -readonly [P in keyof T]-?: T[P] }; // Remove readonly and ?
 

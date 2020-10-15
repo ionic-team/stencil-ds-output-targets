@@ -1,6 +1,6 @@
-import { Config, OutputTargetCustom } from '@stencil/core/internal';
+import type { Config, OutputTargetCustom } from '@stencil/core/internal';
 import { normalizePath } from './utils';
-import { OutputTargetVue } from './types';
+import type { OutputTargetVue } from './types';
 import { vueProxyOutput } from './output-vue';
 import path from 'path';
 
@@ -13,7 +13,7 @@ export const vueOutputTarget = (outputTarget: OutputTargetVue): OutputTargetCust
   async generator(config, compilerCtx, buildCtx) {
     const timespan = buildCtx.createTimeSpan(`generate vue started`, true);
 
-    await vueProxyOutput(compilerCtx, outputTarget, buildCtx.components, config);
+    await vueProxyOutput(config, compilerCtx, outputTarget, buildCtx.components);
 
     timespan.finish(`generate vue finished`);
   },

@@ -51,7 +51,7 @@ const createContainer = (
   // If using `v-model`, modelValue will be set,
   // otherwise it will be `undefined`.
   const { modelValue, ...restOfProps } = props;
-  const finalProps = restOfProps;
+  let finalProps = restOfProps;
 
   if (modelProp) {
     finalProps = {

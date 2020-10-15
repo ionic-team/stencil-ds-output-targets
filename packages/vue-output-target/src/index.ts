@@ -1,2 +1,2 @@
 export { vueOutputTarget } from './plugin';
-export { OutputTargetVue, ComponentModelConfig } from './types';
+export type { OutputTargetVue, ComponentModelConfig } from './types';
