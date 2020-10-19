@@ -8,6 +8,7 @@ describe('generateProxies', () => {
     types: 'dist/types/index.d.ts',
   };
   const rootDir: string = '';
+  const config: Config = { outputTargets: [] };
 
   it('should include both polyfills and definCustomElements when both are true in the outputTarget', () => {
     const outputTarget: OutputTargetVue = {
@@ -17,16 +18,16 @@ describe('generateProxies', () => {
       includeDefineCustomElements: true,
     };
 
-    const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
+    const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
     expect(finalText).toEqual(
       `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated vue proxies */
 import { defineContainer } from './vue-component-lib/utils';
 
-import { JSX } from 'component-library';
+import type { JSX } from 'component-library';
 
-import { applyPolyfills, defineCustomElements } from 'component-library/loader';
+import { applyPolyfills, defineCustomElements } from 'component-library/dist/loader';
 
 applyPolyfills().then(() => defineCustomElements());
 
@@ -42,16 +43,16 @@ applyPolyfills().then(() => defineCustomElements());
       includeDefineCustomElements: true,
     };
 
-    const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
+    const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
     expect(finalText).toEqual(
       `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated vue proxies */
 import { defineContainer } from './vue-component-lib/utils';
 
-import { JSX } from 'component-library';
+import type { JSX } from 'component-library';
 
-import { defineCustomElements } from 'component-library/loader';
+import { defineCustomElements } from 'component-library/dist/loader';
 
 defineCustomElements();
 
@@ -67,14 +68,14 @@ defineCustomElements();
       includeDefineCustomElements: false,
     };
 
-    const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
+    const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
     expect(finalText).toEqual(
       `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated vue proxies */
 import { defineContainer } from './vue-component-lib/utils';
 
-import { JSX } from 'component-library';
+import type { JSX } from 'component-library';
 
 
 
