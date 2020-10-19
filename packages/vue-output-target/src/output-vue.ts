@@ -21,7 +21,27 @@ export async function vueProxyOutput(
 
   const finalText = generateProxies(config, filteredComponents, pkgData, outputTarget, rootDir);
   await compilerCtx.fs.writeFile(outputTarget.proxiesFile, finalText);
+
+  if (outputTarget.vetur) {
+    const { veturTags, veturAttributes } = await generateVetur(compilerCtx, outputTarget, filteredComponents);
+    console.log('results', veturTags, veturAttributes);
+  }
+
   await copyResources(config, outputTarget);
+}
+
+export async function generateVetur(
+  compilerCtx: CompilerCtx,
+  outputTarget: OutputTargetVue,
+  components: ComponentCompilerMeta[]
+) {
+  const docsJson = await compilerCtx.fs.readFile(outputTarget.docsFile!);
+  console.log('got docs json', docsJson);
+
+  return {
+    veturTags: '',
+    veturAttributes: ''
+  }
 }
 
 function getFilteredComponents(excludeComponents: string[] = [], cmps: ComponentCompilerMeta[]) {

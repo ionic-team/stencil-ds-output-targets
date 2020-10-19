@@ -1,5 +1,5 @@
 import { ComponentCompilerMeta } from '@stencil/core/internal';
-import { generateProxies } from '../src/output-vue';
+import { generateProxies, generateVetur } from '../src/output-vue';
 import { PackageJSON, OutputTargetVue } from '../src/types';
 
 describe('generateProxies', () => {
@@ -81,5 +81,18 @@ import { JSX } from 'component-library';
 
 `,
     );
+  });
+});
+
+describe.only('generateVetur', () => {
+  it('should generate vetur output files', () => {
+    const outputTarget: OutputTargetVue = {
+      componentCorePackage: 'component-library',
+      vetur: true,
+      docsFile: '../component-library/dist/docs.json'
+    };
+
+    const res = generateVetur(outputTarget, []);
+    console.log('got', res);
   });
 });

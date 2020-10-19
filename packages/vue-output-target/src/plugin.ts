@@ -27,6 +27,7 @@ export function normalizeOutputTarget(config: Config, outputTarget: any) {
     includePolyfills: outputTarget.includePolyfills ?? true,
     includeDefineCustomElements: outputTarget.includeDefineCustomElements ?? true,
     routerLinkComponents: outputTarget.routerLinkComponents || [],
+    vetur: outputTarget.vetur ?? false
   };
 
   if (config.rootDir == null) {
@@ -34,6 +35,10 @@ export function normalizeOutputTarget(config: Config, outputTarget: any) {
   }
   if (outputTarget.proxiesFile == null) {
     throw new Error('proxiesFile is required');
+  }
+
+  if (outputTarget.vetur && !outputTarget.docsFile) {
+    throw new Error('docsFile is required when outputting Vetur files')
   }
 
   if (outputTarget.directivesProxyFile && !path.isAbsolute(outputTarget.directivesProxyFile)) {

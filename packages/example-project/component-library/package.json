@@ -21,7 +21,7 @@
     "loader/"
   ],
   "scripts": {
-    "build": "stencil build --docs",
+    "build": "stencil build --docs --docs-json dist/docs.json",
     "test": "echo \"No tests specified\" && exit 0",
     "start": "stencil build --dev --watch --serve",
     "generate": "stencil generate"

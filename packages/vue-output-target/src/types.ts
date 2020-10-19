@@ -7,6 +7,8 @@ export interface OutputTargetVue {
   includePolyfills?: boolean;
   includeDefineCustomElements?: boolean;
   routerLinkComponents?: string[];
+  vetur?: boolean;
+  docsFile?: string;
 }
 
 export interface ComponentOptions {
