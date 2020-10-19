@@ -86,13 +86,129 @@ import { JSX } from 'component-library';
 
 describe.only('generateVetur', () => {
   it('should generate vetur output files', () => {
-    const outputTarget: OutputTargetVue = {
-      componentCorePackage: 'component-library',
-      vetur: true,
-      docsFile: '../component-library/dist/docs.json'
+    const docsJson = {
+      "timestamp": "2020-10-19T22:05:00",
+      "compiler": {
+        "name": "@stencil/core",
+        "version": "1.17.3",
+        "typescriptVersion": "3.9.7"
+      },
+      "components": [
+        {
+          "filePath": "./src/components/my-button/my-button.tsx",
+          "encapsulation": "shadow",
+          "tag": "my-button",
+          "readme": "# ion-button\n\n\n",
+          "docs": "My button description",
+          "docsTags": [],
+          "usage": {},
+          "props": [
+            {
+              "name": "buttonType",
+              "type": "string",
+              "mutable": true,
+              "attr": "button-type",
+              "reflectToAttr": false,
+              "docs": "The type of button.",
+              "docsTags": [],
+              "default": "'button'",
+              "values": [
+                {
+                  "type": "string"
+                }
+              ],
+              "optional": false,
+              "required": false
+            },
+            {
+              "name": "color",
+              "type": "string",
+              "mutable": false,
+              "attr": "color",
+              "reflectToAttr": false,
+              "docs": "The color to use from your application's color palette.",
+              "docsTags": [],
+              "values": [
+                {
+                  "type": "string"
+                }
+              ],
+              "optional": true,
+              "required": false
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "mutable": false,
+              "attr": "disabled",
+              "reflectToAttr": true,
+              "docs": "If true, the user cannot interact with the button.",
+              "docsTags": [],
+              "default": "false",
+              "values": [
+                {
+                  "type": "boolean"
+                }
+              ],
+              "optional": false,
+              "required": false
+            }
+          ],
+          "methods": [],
+          "events": [],
+          "listeners": [],
+          "styles": [],
+          "slots": [],
+          "parts": [],
+          "dependents": [],
+          "dependencies": [],
+          "dependencyGraph": {}
+        },
+        {
+          "filePath": "./src/components/my-card/my-card.tsx",
+          "encapsulation": "shadow",
+          "tag": "my-card",
+          "readme": "# ion-card\n\n\n",
+          "docs": "My card description",
+          "docsTags": [],
+          "usage": {},
+          "props": [
+            {
+              "name": "color",
+              "type": "string",
+              "mutable": false,
+              "attr": "color",
+              "reflectToAttr": false,
+              "docs": "The color to use from your application's color palette.",
+              "docsTags": [],
+              "values": [
+                {
+                  "type": "string"
+                }
+              ],
+              "optional": true,
+              "required": false
+            }
+          ],
+          "methods": [],
+          "events": [],
+          "listeners": [],
+          "styles": [],
+          "slots": [],
+          "parts": [],
+          "dependents": [],
+          "dependencies": [],
+          "dependencyGraph": {}
+        },
+      ]
     };
 
-    const res = generateVetur(outputTarget, []);
-    console.log('got', res);
+    const { veturTags, veturAttributes } = generateVetur(docsJson, [{ tagName: 'my-button' }]);
+
+    const tagsKeys = Object.keys(veturTags);
+    const attributeKeys = Object.keys(veturAttributes);
+
+    expect(tagsKeys).toEqual(['my-button']);
+    expect(attributeKeys).toEqual(['my-button/buttonType', 'my-button/color', 'my-button/disabled']);
   });
 });
