@@ -41,6 +41,10 @@ export function normalizeOutputTarget(config: Config, outputTarget: any) {
     throw new Error('docsFile is required when outputting Vetur files')
   }
 
+  if (outputTarget.vetur && (!outputTarget.veturTagsFile || !outputTarget.veturAttributesFile)) {
+    throw new Error('veturTagsFile and veturAttributesFile are required when outputting Vetur file')
+  }
+
   if (outputTarget.directivesProxyFile && !path.isAbsolute(outputTarget.directivesProxyFile)) {
     results.proxiesFile = normalizePath(path.join(config.rootDir, outputTarget.proxiesFile));
   }
