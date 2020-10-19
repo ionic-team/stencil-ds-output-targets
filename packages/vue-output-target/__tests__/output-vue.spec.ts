@@ -84,7 +84,7 @@ import { JSX } from 'component-library';
   });
 });
 
-describe.only('generateVetur', () => {
+describe('generateVetur', () => {
   it('should generate vetur output files', () => {
     const docsJson = {
       "timestamp": "2020-10-19T22:05:00",
