@@ -9,6 +9,8 @@ export interface OutputTargetVue {
   routerLinkComponents?: string[];
   vetur?: boolean;
   docsFile?: string;
+  veturTagsFile?: string;
+  veturAttributesFile?: string;
 }
 
 export interface ComponentOptions {

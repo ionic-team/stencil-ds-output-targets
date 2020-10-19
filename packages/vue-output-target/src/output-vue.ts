@@ -23,24 +23,45 @@ export async function vueProxyOutput(
   await compilerCtx.fs.writeFile(outputTarget.proxiesFile, finalText);
 
   if (outputTarget.vetur) {
-    const { veturTags, veturAttributes } = await generateVetur(compilerCtx, outputTarget, filteredComponents);
-    console.log('results', veturTags, veturAttributes);
+    const docsJson = await compilerCtx.fs.readFile(outputTarget.docsFile!);
+    const { veturTags, veturAttributes } = generateVetur(JSON.parse(docsJson), filteredComponents);
+
+    await Promise.all([
+      compilerCtx.fs.writeFile(outputTarget.veturTagsFile!, JSON.stringify(veturTags, null, 2)),
+      compilerCtx.fs.writeFile(outputTarget.veturAttributesFile!, JSON.stringify(veturAttributes, null, 2))
+    ]);
   }
 
   await copyResources(config, outputTarget);
 }
 
-export async function generateVetur(
-  compilerCtx: CompilerCtx,
-  outputTarget: OutputTargetVue,
+// TODO types
+export function generateVetur(
+  docsJson: any,
   components: ComponentCompilerMeta[]
 ) {
-  const docsJson = await compilerCtx.fs.readFile(outputTarget.docsFile!);
-  console.log('got docs json', docsJson);
+  const tagsObject: any = {};
+  const attributesObject: any = {};
+  docsJson.components.forEach((component: any) => {
+    const shouldIncludeComponent = components.find(cmp => cmp.tagName === component.tag);
+    if (shouldIncludeComponent) {
+      tagsObject[component.tag] = {
+        description: component.docs,
+        attributes: component.props.map((prop: any) => prop.name)
+      }
+
+      component.props.forEach((prop: any) => {
+        attributesObject[`${component.tag}/${prop.name}`] = {
+          type: prop.type,
+          description: prop.docs
+        }
+      });
+    }
+  });
 
   return {
-    veturTags: '',
-    veturAttributes: ''
+    veturTags: tagsObject,
+    veturAttributes: attributesObject
   }
 }
 
