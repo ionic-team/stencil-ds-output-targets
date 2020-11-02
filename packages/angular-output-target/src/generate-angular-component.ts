@@ -27,9 +27,6 @@ export const createComponentDefinition = (
   if (inputs.length > 0) {
     directiveOpts.push(`inputs: ['${inputs.join(`', '`)}']`);
   }
-  if (outputs.length > 0) {
-    directiveOpts.push(`outputs: ['${outputs.map((output) => output.name).join(`', '`)}']`);
-  }
 
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
