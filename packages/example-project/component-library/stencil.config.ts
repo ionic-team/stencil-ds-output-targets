@@ -100,6 +100,8 @@ export const config: Config = {
       componentCorePackage: 'component-library',
       proxiesFile: '../component-library-vue/src/proxies.ts',
       componentModels: vueComponentModels,
+      includeDefineCustomElements: true,
+      includePolyfills: true,
     }),
     svelteOutputTarget({
       accessors: true,

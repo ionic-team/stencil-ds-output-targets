@@ -1,5 +1,6 @@
 node_modules/
 dist/
+dist-transpiled/
 build/
 *.swp
 .DS_Store
