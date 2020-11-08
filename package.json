@@ -7,6 +7,7 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
+    "postinstall": "npm run bootstrap",
     "build": "lerna run build",
     "test": "lerna run test",
     "changelog": "lerna-changelog",
