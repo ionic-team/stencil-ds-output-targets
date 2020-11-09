@@ -1,6 +1,6 @@
 {
   "name": "component-library",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": true,
   "description": "Stencil Component Library for testing purposes",
   "license": "MIT",
@@ -30,7 +30,7 @@
     "@stencil/core": "^1.17.3",
     "@types/puppeteer": "2.0.1",
     "hirsch-angular-output-target": "^0.0.6",
-    "hirsch-vue-output-target": "^0.0.4",
+    "hirsch-vue-output-target": "^0.0.5",
     "jest-cli": "26.0.1",
     "puppeteer": "2.1.1"
   }
