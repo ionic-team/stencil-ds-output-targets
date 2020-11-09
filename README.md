@@ -215,8 +215,48 @@ For an example component library package see our demo [`component-library`](./pa
 
 ### Usage
 
+Edit the `main.js` file in a Vue 3 project like this:
+
+```js
+import { createApp } from 'vue';
+import App from './App.vue';
+import { defineCustomElements } from 'component-library/loader';
+
+const app = createApp(App);
+
+defineCustomElements().then(() => {
+  app.mount('#app');
+});
+```
+
+_This is needed because `defineCustomElements` is async. Otherwise the Vue 3 mount is ran before the custom elements are fully defined, resulting in Vue 3 not correctly binding object/array values on load._
+
+Or if you need the polyfills:
+
+```js
+import { createApp } from 'vue';
+import App from './App.vue';
+import { applyPolyfills, defineCustomElements } from 'component-library/loader';
+
+const app = createApp(App);
+
+applyPolyfills().then(() => {
+  defineCustomElements().then(() => {
+    app.mount('#app');
+  });
+});
+```
+
+Import the component(s) you want to use:
+
 ```ts
-import { DemoComponent } from 'component-library-vue';
+import { MyComponent } from 'component-library-vue';
+```
+
+Use it in your template as any Vue component:
+
+```html
+<MyComponent :first="firstProperty" middle="Middle Name" last="Doe" />
 ```
 
 ## Svelte
