@@ -27,7 +27,7 @@
     "generate": "stencil generate"
   },
   "devDependencies": {
-    "@stencil/angular-output-target": "^0.0.3",
+    "@stencil/angular-output-target": "^0.0.4",
     "@stencil/core": "^1.13.0",
     "@stencil/react-output-target": "0.0.6",
     "@stencil/vue-output-target": "^0.0.3",

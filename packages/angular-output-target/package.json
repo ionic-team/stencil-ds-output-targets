@@ -1,6 +1,6 @@
 {
   "name": "@stencil/angular-output-target",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "This is an output plugin for stencil.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
