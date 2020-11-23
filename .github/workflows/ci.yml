@@ -3,8 +3,8 @@ name: CI
 on: push
 
 jobs:
-  build-and-test-nix:
-    name: Build and Test
+  build-and-test-unix:
+    name: Build and Test Unix
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -31,7 +31,7 @@ jobs:
       - name: Test
         run: npm test
   plugin-build-and-test-windows:
-    name: Build and Test
+    name: Build and Test Windows
     runs-on: windows-latest
     timeout-minutes: 30
     steps:
