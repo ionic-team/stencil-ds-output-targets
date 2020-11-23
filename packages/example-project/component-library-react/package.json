@@ -9,7 +9,7 @@
     "url": "https://github.com/ionic-team/ionic.git"
   },
   "scripts": {
-    "test": "../../../node_modules/.bin/jest",
+    "test": "jest",
     "build": "npm run clean && npm run compile",
     "clean": "rm -rf dist",
     "compile": "npm run tsc",
