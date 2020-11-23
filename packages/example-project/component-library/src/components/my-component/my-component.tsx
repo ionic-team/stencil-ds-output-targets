@@ -1,4 +1,4 @@
-import { Component, Prop, h } from '@stencil/core';
+import { Component, Prop, h, Event, EventEmitter } from '@stencil/core';
 
 @Component({
   tag: 'my-component',
@@ -31,11 +31,20 @@ export class MyComponent {
    */
   @Prop() kidsNames: string[];
 
+  /**
+   * Testing an event without value
+   */
+  @Event() myCustomEvent: EventEmitter<number>;
+
+  emitCustomEvent() {
+    this.myCustomEvent.emit(5);
+  }
+
   private getText(): string {
     return `${this.first} ${this.middle} ${this.last}`;
   }
 
   render() {
-    return <div>Hello, World! I'm {this.getText()}</div>;
+    return <div onClick={this.emitCustomEvent.bind(this)}>Hello, World! I'm {this.getText()}</div>;
   }
 }

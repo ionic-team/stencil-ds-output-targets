@@ -14,7 +14,6 @@ class TestRadioValueAccessorComponent {
 }
 
 describe('MyRadio', () => {
-  let component: TestRadioValueAccessorComponent;
   let myRadioEl: DebugElement;
   let fixture: ComponentFixture<TestRadioValueAccessorComponent>;
 
@@ -28,7 +27,6 @@ describe('MyRadio', () => {
 
     configureTests(configure).then((testBed) => {
       fixture = testBed.createComponent(TestRadioValueAccessorComponent);
-      component = fixture.componentInstance;
       fixture.detectChanges();
       myRadioEl = fixture.debugElement.query(By.css('my-radio'));
     });
@@ -36,7 +34,10 @@ describe('MyRadio', () => {
 
   it('on mySelect checked the bound component attribute should update', () => {
     const { componentInstance: myAngularComponent } = fixture;
-    myRadioEl.triggerEventHandler('mySelect', { target: { checked: true } });
+    myRadioEl.nativeElement.checked = true;
+    myRadioEl.nativeElement.dispatchEvent(
+      new CustomEvent('mySelect', { detail: { checked: true } }),
+    );
     expect(myAngularComponent.isChecked).toEqual(true);
   });
 });

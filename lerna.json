@@ -2,9 +2,16 @@
   "packages": [
     "packages/angular-output-target",
     "packages/react-output-target",
+    "packages/vue-output-target",
     "packages/example-project/component-library",
     "packages/example-project/component-library-angular",
-    "packages/example-project/component-library-react"
+    "packages/example-project/component-library-react",
+    "packages/example-project/component-library-vue"
   ],
-  "version": "independent"
+  "version": "independent",
+  "command": {
+    "publish": {
+      "ignoreChanges": ["packages/example-project/*"]
+    }
+  }
 }

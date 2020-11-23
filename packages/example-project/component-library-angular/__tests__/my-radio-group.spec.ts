@@ -18,7 +18,6 @@ class TestRadioValueAccessorComponent {
 }
 
 describe('MyRadioGroup', () => {
-  let component: TestRadioValueAccessorComponent;
   let myRadioGroupEl: DebugElement;
   let fixture: ComponentFixture<TestRadioValueAccessorComponent>;
 
@@ -32,7 +31,6 @@ describe('MyRadioGroup', () => {
 
     configureTests(configure).then((testBed) => {
       fixture = testBed.createComponent(TestRadioValueAccessorComponent);
-      component = fixture.componentInstance;
       fixture.detectChanges();
       myRadioGroupEl = fixture.debugElement.query(By.css('my-radio-group'));
     });
@@ -40,7 +38,10 @@ describe('MyRadioGroup', () => {
 
   it('on myChange value the bound component attribute should update', () => {
     const { componentInstance: myAngularComponent } = fixture;
-    myRadioGroupEl.triggerEventHandler('myChange', { target: { value: 'buford' } });
+    myRadioGroupEl.nativeElement.value = 'buford';
+    myRadioGroupEl.nativeElement.dispatchEvent(
+      new CustomEvent('myChange', { detail: { value: 'buford' } }),
+    );
     expect(myAngularComponent.selectedName).toEqual('buford');
   });
 });

@@ -584,6 +584,10 @@ declare namespace LocalJSX {
           * The middle name
          */
         "middle"?: string;
+        /**
+          * Testing an event without value
+         */
+        "onMyCustomEvent"?: (event: CustomEvent<number>) => void;
     }
     interface MyInput {
         /**
@@ -794,6 +798,10 @@ declare namespace LocalJSX {
           * Emitted when the radio button has focus.
          */
         "onMyFocus"?: (event: CustomEvent<void>) => void;
+        /**
+          * Emitted when the radio button loses focus.
+         */
+        "onMySelect"?: (event: CustomEvent<void>) => void;
         /**
           * Emitted when the styles change.
          */

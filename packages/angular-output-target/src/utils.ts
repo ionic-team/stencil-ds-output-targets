@@ -7,9 +7,13 @@ const readFile = promisify(fs.readFile);
 
 export const toLowerCase = (str: string) => str.toLowerCase();
 
-export const dashToPascalCase = (str: string) => toLowerCase(str).split('-').map(segment => segment.charAt(0).toUpperCase() + segment.slice(1)).join('');
+export const dashToPascalCase = (str: string) =>
+  toLowerCase(str)
+    .split('-')
+    .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
+    .join('');
 
-export function sortBy<T>(array: T[], prop: ((item: T) => string)) {
+export function sortBy<T>(array: T[], prop: (item: T) => string) {
   return array.slice().sort((a, b) => {
     const nameA = prop(a);
     const nameB = prop(b);
@@ -42,7 +46,6 @@ export function normalizePath(str: string) {
       if (colonIndex < str.length - 2) {
         str = str.substring(0, str.length - 1);
       }
-
     } else if (str.length > 1) {
       str = str.substring(0, str.length - 1);
     }
@@ -67,7 +70,6 @@ export async function readPackageJson(rootDir: string) {
   let pkgJson: string;
   try {
     pkgJson = await readFile(pkgJsonPath, 'utf8');
-
   } catch (e) {
     throw new Error(`Missing "package.json" file for distribution: ${pkgJsonPath}`);
   }
@@ -75,7 +77,6 @@ export async function readPackageJson(rootDir: string) {
   let pkgData: PackageJSON;
   try {
     pkgData = JSON.parse(pkgJson);
-
   } catch (e) {
     throw new Error(`Error parsing package.json: ${pkgJsonPath}, ${e}`);
   }
@@ -86,5 +87,3 @@ export async function readPackageJson(rootDir: string) {
 const EXTENDED_PATH_REGEX = /^\\\\\?\\/;
 const NON_ASCII_REGEX = /[^\x00-\x80]+/;
 const SLASH_REGEX = /\\/g;
-
-export const GENERATED_DTS = 'components.d.ts';

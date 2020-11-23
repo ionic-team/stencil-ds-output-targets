@@ -1,7 +1,13 @@
 {
   "name": "component-library",
-  "version": "0.0.1",
-  "description": "Stencil Component Starter",
+  "version": "0.0.2",
+  "private": true,
+  "description": "Stencil Component Library for testing purposes",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ionic-team/stencil-ds-output-targets.git"
+  },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "es2015": "dist/esm/index.mjs",
@@ -21,12 +27,12 @@
     "generate": "stencil generate"
   },
   "devDependencies": {
-    "@stencil/angular-output-target": "0.0.2",
+    "@stencil/angular-output-target": "^0.0.3",
     "@stencil/core": "^1.13.0",
     "@stencil/react-output-target": "0.0.6",
+    "@stencil/vue-output-target": "^0.0.3",
     "@types/puppeteer": "2.0.1",
     "jest-cli": "26.0.1",
     "puppeteer": "2.1.1"
-  },
-  "license": "MIT"
+  }
 }

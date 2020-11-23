@@ -14,7 +14,6 @@ class TestSelectValueAccessorComponent {
 }
 
 describe('MyRange', () => {
-  let component: TestSelectValueAccessorComponent;
   let myRangeEl: DebugElement;
   let fixture: ComponentFixture<TestSelectValueAccessorComponent>;
 
@@ -28,7 +27,6 @@ describe('MyRange', () => {
 
     configureTests(configure).then((testBed) => {
       fixture = testBed.createComponent(TestSelectValueAccessorComponent);
-      component = fixture.componentInstance;
       fixture.detectChanges();
       myRangeEl = fixture.debugElement.query(By.css('my-range'));
     });
@@ -36,7 +34,8 @@ describe('MyRange', () => {
 
   it('on myChange value the bound component attribute should update', () => {
     const { componentInstance: myAngularComponent } = fixture;
-    myRangeEl.triggerEventHandler('myChange', { target: { value: '50' } });
-    expect(myAngularComponent.testText).toEqual('50');
+    myRangeEl.nativeElement.value = 50;
+    myRangeEl.nativeElement.dispatchEvent(new CustomEvent('myChange', { detail: { value: 50 } }));
+    expect(myAngularComponent.testText).toEqual(50);
   });
 });
