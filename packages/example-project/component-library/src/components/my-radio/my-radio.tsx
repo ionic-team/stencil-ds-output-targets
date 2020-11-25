@@ -73,6 +73,11 @@ export class Radio implements ComponentInterface {
    */
   @Event() myBlur!: EventEmitter<void>;
 
+  /**
+   * Emitted when the radio button loses focus.
+   */
+  @Event() mySelect!: EventEmitter<void>;
+
   connectedCallback() {
     if (this.value === undefined) {
       this.value = this.inputId;

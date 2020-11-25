@@ -1,13 +1,14 @@
 {
   "name": "@stencil/angular-output-target",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "This is an output plugin for stencil.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist/",
-    "resources/"
+    "resources/",
+    "angular-component-lib"
   ],
   "publishConfig": {
     "access": "public"
@@ -19,22 +20,23 @@
     "rollup": "rollup -c",
     "version": "npm run build",
     "release": "np",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test.watch": "jest --watch"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ionic-team/stencil-ds-plugins.git"
+    "url": "git+https://github.com/ionic-team/stencil-ds-output-targets.git"
   },
   "author": "Ionic Team",
   "homepage": "https://stenciljs.com/",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ionic-team/stencil-ds-plugins/issues"
+    "url": "https://github.com/ionic-team/stencil-ds-output-targets/issues"
   },
   "devDependencies": {
     "@angular/core": "8.2.14",
     "@angular/forms": "8.2.14",
+    "jest": "^26.1.0",
     "np": "^4.0.2",
     "rimraf": "^2.6.3",
     "rollup": "^1.6.0",

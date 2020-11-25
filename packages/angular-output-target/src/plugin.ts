@@ -11,20 +11,28 @@ export const angularOutputTarget = (outputTarget: OutputTargetAngular): OutputTa
     return normalizeOutputTarget(config, outputTarget);
   },
   async generator(config, compilerCtx, buildCtx) {
+    const normalizedOutputTarget = normalizeOutputTarget(config, outputTarget) as Required<
+      OutputTargetAngular
+    >;
     const timespan = buildCtx.createTimeSpan(`generate angular proxies started`, true);
 
-    await angularDirectiveProxyOutput(compilerCtx, outputTarget, buildCtx.components, config);
+    await angularDirectiveProxyOutput(
+      compilerCtx,
+      normalizedOutputTarget,
+      buildCtx.components,
+      config,
+    );
 
     timespan.finish(`generate angular proxies finished`);
-  }
+  },
 });
 
-
-function normalizeOutputTarget(config: Config, outputTarget: any) {
+export function normalizeOutputTarget(config: Config, outputTarget: any) {
   const results: OutputTargetAngular = {
     ...outputTarget,
     excludeComponents: outputTarget.excludeComponents || [],
-    valueAccessorConfig: outputTarget.valueAccessorConfig || [],
+    valueAccessorConfigs: outputTarget.valueAccessorConfigs || [],
+    tagNameModifier: outputTarget.tagNameModifier ?? ((tagName: string) => tagName),
   };
 
   if (config.rootDir == null) {
@@ -35,15 +43,21 @@ function normalizeOutputTarget(config: Config, outputTarget: any) {
   }
 
   if (outputTarget.directivesProxyFile && !path.isAbsolute(outputTarget.directivesProxyFile)) {
-    results.directivesProxyFile = normalizePath(path.join(config.rootDir, outputTarget.directivesProxyFile));
+    results.directivesProxyFile = normalizePath(
+      path.join(config.rootDir, outputTarget.directivesProxyFile),
+    );
   }
 
   if (outputTarget.directivesArrayFile && !path.isAbsolute(outputTarget.directivesArrayFile)) {
-    results.directivesArrayFile = normalizePath(path.join(config.rootDir, outputTarget.directivesArrayFile));
+    results.directivesArrayFile = normalizePath(
+      path.join(config.rootDir, outputTarget.directivesArrayFile),
+    );
   }
 
   if (outputTarget.directivesUtilsFile && !path.isAbsolute(outputTarget.directivesUtilsFile)) {
-    results.directivesUtilsFile = normalizePath(path.join(config.rootDir, outputTarget.directivesUtilsFile));
+    results.directivesUtilsFile = normalizePath(
+      path.join(config.rootDir, outputTarget.directivesUtilsFile),
+    );
   }
 
   return results;
