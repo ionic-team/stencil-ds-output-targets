@@ -8,6 +8,7 @@ export const createComponentDefinition = (
   routerLinkConfig: string[] | undefined,
 ) => (cmpMeta: Pick<ComponentCompilerMeta, 'properties' | 'tagName' | 'methods' | 'events'>) => {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
+  const importAs = tagNameAsPascal + 'Cmp';
   let props: string[] = [];
 
   if (Array.isArray(cmpMeta.properties) && cmpMeta.properties.length > 0) {
@@ -22,9 +23,7 @@ export const createComponentDefinition = (
   }
 
   let templateString = `
-export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${importTypes}.${tagNameAsPascal}>('${
-  cmpMeta.tagName
-}'`;
+export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${importTypes}.${tagNameAsPascal}>('${cmpMeta.tagName}', ${importAs}`;
 
   if (props.length > 0) {
     templateString += `, [

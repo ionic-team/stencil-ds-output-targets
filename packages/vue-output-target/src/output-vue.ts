@@ -7,7 +7,7 @@ import type {
   OutputTargetDist,
 } from '@stencil/core/internal';
 import { createComponentDefinition } from './generate-vue-component';
-import { normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
+import { normalizePath, readPackageJson, relativeImport, sortBy, dashToPascalCase } from './utils';
 
 export async function vueProxyOutput(
   config: Config,
@@ -56,7 +56,14 @@ import { defineContainer } from './vue-component-lib/utils';\n`;
   let sourceImports = '';
   let registerCustomElements = '';
 
-  if (outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
+  if (outputTarget.useCustomElementsBuild) {
+    const cmpImports = components.map(component => {
+      const pascalImport = dashToPascalCase(component.tagName);
+
+      return `${pascalImport} as ${pascalImport}Cmp`;
+    });
+    sourceImports = `import type { ${cmpImports.join(', ')} } from '${normalizePath(componentsTypeFile)}';\n`;
+  } else if (outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
     sourceImports = `import { ${APPLY_POLYFILLS}, ${REGISTER_CUSTOM_ELEMENTS} } from '${pathToCorePackageLoader}';\n`;
     registerCustomElements = `${APPLY_POLYFILLS}().then(() => ${REGISTER_CUSTOM_ELEMENTS}());`;
   } else if (!outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {

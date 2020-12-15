@@ -40,8 +40,10 @@ const getElementClasses = (ref: Ref<HTMLElement | undefined>, componentClasses: 
 * options for the component such as router or v-model
 * integrations.
 */
-export const defineContainer = <Props>(name: string, componentProps: string[] = [], componentOptions: ComponentOptions = {}) => {
+export const defineContainer = <Props>(name: string, customElement: any, componentProps: string[] = [], componentOptions: ComponentOptions = {}) => {
   const { modelProp, modelUpdateEvent, routerLinkComponent } = componentOptions;
+
+  customElements.define(name, customElement);
 
   /**
   * Create a Vue component wrapper around a Web Component.
