@@ -62,7 +62,11 @@ import { defineContainer } from './vue-component-lib/utils';\n`;
 
       return `${pascalImport} as ${pascalImport}Cmp`;
     });
-    sourceImports = `import type { ${cmpImports.join(', ')} } from '${normalizePath(componentsTypeFile)}';\n`;
+
+    sourceImports = !outputTarget.componentCorePackage
+      ? `import type { ${cmpImports.join(', ')} } from '${normalizePath(componentsTypeFile)}';\n`
+      : `import type { ${cmpImports.join(', ')} } from '${normalizePath(outputTarget.componentCorePackage)}';\n`;
+
   } else if (outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
     sourceImports = `import { ${APPLY_POLYFILLS}, ${REGISTER_CUSTOM_ELEMENTS} } from '${pathToCorePackageLoader}';\n`;
     registerCustomElements = `${APPLY_POLYFILLS}().then(() => ${REGISTER_CUSTOM_ELEMENTS}());`;
