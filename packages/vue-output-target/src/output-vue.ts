@@ -47,11 +47,16 @@ export function generateProxies(
 /* auto-generated vue proxies */
 import { defineContainer } from './vue-component-lib/utils';\n`;
 
-  const typeImports = !outputTarget.componentCorePackage
-    ? `import type { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`
-    : `import type { ${IMPORT_TYPES} } from '${normalizePath(
-        outputTarget.componentCorePackage,
-      )}';\n`;
+  const generateTypeImports = () => {
+    if (outputTarget.componentCorePackage !== undefined) {
+      const dirPath = outputTarget.useCustomElementsBuild ? '/components' : '';
+      return `import type { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}${dirPath}';\n`;
+    }
+
+    return `import type { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`;
+  }
+
+  const typeImports = generateTypeImports();
 
   let sourceImports = '';
   let registerCustomElements = '';
