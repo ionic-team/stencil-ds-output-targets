@@ -4,8 +4,7 @@ import { ComponentModelConfig, ComponentOptions } from './types';
 
 export const createComponentDefinition = (
   importTypes: string,
-  componentModelConfig: ComponentModelConfig[] | undefined,
-  routerLinkConfig: string[] | undefined,
+  componentModelConfig: ComponentModelConfig[] | undefined
 ) => (cmpMeta: Pick<ComponentCompilerMeta, 'properties' | 'tagName' | 'methods' | 'events'>) => {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
   let props: string[] = [];
@@ -34,15 +33,10 @@ export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${importTypes}.$
 
   let options: ComponentOptions = {};
   const findModel = componentModelConfig && componentModelConfig.find(config => config.elements.includes(cmpMeta.tagName));
-  const findRouterLink = routerLinkConfig && routerLinkConfig.find(config => config.includes(cmpMeta.tagName));
 
   if (findModel) {
     options.modelProp = findModel.targetAttr;
     options.modelUpdateEvent = findModel.event;
-  }
-
-  if (findRouterLink) {
-    options.routerLinkComponent = true;
   }
 
   if (Object.keys(options).length > 0) {

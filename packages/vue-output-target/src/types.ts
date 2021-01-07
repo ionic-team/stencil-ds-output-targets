@@ -6,13 +6,11 @@ export interface OutputTargetVue {
   loaderDir?: string;
   includePolyfills?: boolean;
   includeDefineCustomElements?: boolean;
-  routerLinkComponents?: string[];
 }
 
 export interface ComponentOptions {
   modelProp?: string;
   modelUpdateEvent?: string;
-  routerLinkComponent?: boolean;
 }
 
 export interface ComponentModelConfig {
