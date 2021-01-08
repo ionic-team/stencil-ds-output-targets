@@ -57,6 +57,8 @@ export const defineContainer = <Props>(name: string, componentProps: string[] = 
         vnode.el.addEventListener(modelUpdateEvent.toLowerCase(), (e: Event) => {
           modelPropValue = (e?.target as any)[modelProp];
           emit(UPDATE_VALUE_EVENT, modelPropValue);
+          emit(modelUpdateEvent.toLowerCase(), e);
+          e.stopImmediatePropagation();
         });
       }
     };
@@ -119,7 +121,7 @@ export const defineContainer = <Props>(name: string, componentProps: string[] = 
   Container.props = [...componentProps, ROUTER_LINK_VALUE];
   if (modelProp) {
     Container.props.push(MODEL_VALUE);
-    Container.emits = [UPDATE_VALUE_EVENT];
+    Container.emits = [UPDATE_VALUE_EVENT, modelUpdateEvent];
   }
 
   return Container;
