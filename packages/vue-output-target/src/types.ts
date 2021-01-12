@@ -8,11 +8,6 @@ export interface OutputTargetVue {
   includeDefineCustomElements?: boolean;
 }
 
-export interface ComponentOptions {
-  modelProp?: string;
-  modelUpdateEvent?: string;
-}
-
 export interface ComponentModelConfig {
   elements: string | string[];
   event: string;

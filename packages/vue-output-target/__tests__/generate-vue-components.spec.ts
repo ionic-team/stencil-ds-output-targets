@@ -68,10 +68,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
   'value',
   'ionChange'
 ],
-{
-  "modelProp": "value",
-  "modelUpdateEvent": "ionChange"
-});
+'value', 'ionChange');
 `);
   });
 
@@ -128,10 +125,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
   'value',
   'ionChange'
 ],
-{
-  "modelProp": "value",
-  "modelUpdateEvent": "ionChange"
-});
+'value', 'ionChange');
 `);
   });
 

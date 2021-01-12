@@ -1,6 +1,6 @@
 import { dashToPascalCase } from './utils';
 import { ComponentCompilerMeta } from '@stencil/core/internal';
-import { ComponentModelConfig, ComponentOptions } from './types';
+import { ComponentModelConfig } from './types';
 
 export const createComponentDefinition = (
   importTypes: string,
@@ -31,21 +31,14 @@ export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${importTypes}.$
 ]`;
   }
 
-  let options: ComponentOptions = {};
   const findModel = componentModelConfig && componentModelConfig.find(config => config.elements.includes(cmpMeta.tagName));
 
   if (findModel) {
-    options.modelProp = findModel.targetAttr;
-    options.modelUpdateEvent = findModel.event;
-  }
-
-  if (Object.keys(options).length > 0) {
     templateString += `,\n`;
-    templateString += JSON.stringify(options, null, 2);
+    templateString += `'${findModel.targetAttr}', '${findModel.event}'`
   }
 
   templateString += `);\n`;
-
 
   return templateString;
 };
