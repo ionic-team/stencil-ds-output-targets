@@ -68,45 +68,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
   'value',
   'ionChange'
 ],
-{
-  "modelProp": "value",
-  "modelUpdateEvent": "ionChange"
-});
-`);
-  });
-
-  it('should add router bindings', () => {
-    const generateComponentDefinition = createComponentDefinition('Components', [], ['my-component']);
-    const output = generateComponentDefinition({
-      tagName: 'my-component',
-      properties: [
-        {
-          name: 'value',
-          internal: false,
-          mutable: false,
-          optional: false,
-          required: false,
-          type: 'string',
-          complexType: {
-            original: '',
-            resolved: '',
-            references: {},
-          },
-          docs: {
-            text: '',
-            tags: [],
-          },
-        },
-      ],
-    });
-
-  expect(output).toEqual(`
-export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', MyComponentCmp, [
-  'value'
-],
-{
-  "routerLinkComponent": true
-});
+'value', 'ionChange');
 `);
   });
 
@@ -163,11 +125,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
   'value',
   'ionChange'
 ],
-{
-  "modelProp": "value",
-  "modelUpdateEvent": "ionChange",
-  "routerLinkComponent": true
-});
+'value', 'ionChange');
 `);
   });
 
