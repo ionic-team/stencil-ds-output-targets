@@ -1,4 +1,5 @@
 import { fromEvent } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export const proxyInputs = (Cmp: any, inputs: string[]) => {
   const Prototype = Cmp.prototype;
@@ -25,7 +26,17 @@ export const proxyMethods = (Cmp: any, methods: string[]) => {
 };
 
 export const proxyOutputs = (instance: any, el: any, events: string[]) => {
-  events.forEach((eventName) => (instance[eventName] = fromEvent(el, eventName)));
+  events.forEach(
+    (eventName) =>
+      (instance[eventName] = fromEvent(el, eventName).pipe(
+        map((event: any) => {
+          if (Object.hasOwnProperty.call(event, 'detail')) {
+            return event.detail;
+          }
+          return event;
+        }),
+      )),
+  );
 };
 
 // tslint:disable-next-line: only-arrow-functions
