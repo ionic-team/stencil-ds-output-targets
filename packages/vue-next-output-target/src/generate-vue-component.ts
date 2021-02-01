@@ -47,11 +47,4 @@ export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<JSX.${tagNameAsP
   ${events.trim()}
   ${model.trim()}
 );\n`;
-  // ${props}
-  // ${model}
-  // ${methods}
-  //   render: createCommonRender('${cmpMeta.tagName}', [${cmpMeta.events
-  //     .map((e) => `'${e.name}'`)
-  //     .join(', ')}]),
-  // });\n`;
 };
