@@ -4,10 +4,6 @@
   "version": "0.0.6",
   "private": true,
   "description": "Vue specific wrapper for component-library",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ionic-team/ionic.git"
-  },
   "scripts": {
     "test": "jest",
     "build": "npm run clean && npm run compile",

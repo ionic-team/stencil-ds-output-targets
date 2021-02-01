@@ -25,6 +25,11 @@
     "type": "git",
     "url": "git+https://github.com/hirsch88/stencil-ds-output-targets.git"
   },
+  "author": {
+    "name": "Gery Hirschfeld",
+    "email": "gerhard.hirschfeld@baloise.ch",
+    "url": "https://github.com/hirsch88"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/hirsch88/stencil-ds-output-targets/issues"

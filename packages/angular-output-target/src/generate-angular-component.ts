@@ -48,7 +48,12 @@ export const createComponentDefinition = (
   let outputsTypes = outputs
     .filter(
       (output) =>
-        !!output.complexType.references && Object.keys(output.complexType.references).length > 0,
+        !!output.complexType.references &&
+        Object.prototype.hasOwnProperty.call(
+          output.complexType.references,
+          output.complexType.original,
+        ) &&
+        output.complexType.references[output.complexType.original].location === 'import',
     )
     .map((output) => output.complexType.resolved)
     .join(', ');

@@ -6,7 +6,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ionic-team/stencil-ds-output-targets.git"
+    "url": "https://github.com/hirsch/stencil-ds-output-targets.git"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",

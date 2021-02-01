@@ -142,4 +142,62 @@ export class MyComponent {
   }
 }`);
   });
+
+  test('should create a Angular component with a event with a custom type', () => {
+    const references: ComponentCompilerTypeReferences = {
+      MouseEvent: {
+        location: 'global',
+      },
+    };
+
+    const finalText = generateComponent({
+      tagName: 'my-component',
+      properties: [],
+      virtualProperties: [],
+      events: [
+        {
+          internal: false,
+          name: 'my-event',
+          method: '',
+          bubbles: true,
+          cancelable: true,
+          composed: false,
+          docs: {
+            text: '',
+            tags: [],
+          },
+          complexType: {
+            original: 'MouseEvent',
+            resolved: 'MouseEvent',
+            references: references,
+          },
+        },
+      ],
+      methods: [],
+      sourceFilePath: '',
+      componentClassName: 'MyComponent',
+    } as ComponentCompilerMeta);
+
+    expect(finalText).toEqual(`
+
+import { MyComponent as IMyComponent } from 'component-library';
+export declare interface MyComponent extends Components.MyComponent {}
+
+@Component({
+  selector: 'my-component',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  outputs: ['my-event']
+})
+export class MyComponent {
+  /**  */
+  my-event!: EventEmitter<MouseEvent>;
+  protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+    proxyOutputs(this, this.el, ['my-event']);
+  }
+}`);
+  });
 });
