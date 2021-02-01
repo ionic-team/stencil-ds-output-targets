@@ -45,8 +45,20 @@ export const createComponentDefinition = (
       ? `import { ${cmpMeta.componentClassName} as I${cmpMeta.componentClassName} } from '${importPath}';`
       : '';
 
+  let outputsTypes = outputs
+    .filter(
+      (output) =>
+        !!output.complexType.references && Object.keys(output.complexType.references).length > 0,
+    )
+    .map((output) => output.complexType.resolved)
+    .join(', ');
+  if (outputsTypes.length > 0) {
+    outputsTypes = `import { ${outputsTypes} } from '@baloise/ui-library';`;
+  }
+
   const lines = [
     `
+${outputsTypes}
 ${outputsInterface}
 export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {}
 ${getProxyCmp(inputs, methods)}
