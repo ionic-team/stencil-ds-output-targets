@@ -114,6 +114,23 @@ export class MyComponent {
             references: references,
           },
         },
+        {
+          internal: false,
+          name: 'my-event-two',
+          method: '',
+          bubbles: true,
+          cancelable: true,
+          composed: false,
+          docs: {
+            text: '',
+            tags: [],
+          },
+          complexType: {
+            original: 'BalTabOption',
+            resolved: 'BalTabOption',
+            references: references,
+          },
+        },
       ],
       methods: [],
       sourceFilePath: '',
@@ -129,16 +146,18 @@ export declare interface MyComponent extends Components.MyComponent {}
   selector: 'my-component',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  outputs: ['my-event']
+  outputs: ['my-event', 'my-event-two']
 })
 export class MyComponent {
   /**  */
   my-event!: EventEmitter<BalTabOption>;
+  /**  */
+  my-event-two!: EventEmitter<BalTabOption>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['my-event']);
+    proxyOutputs(this, this.el, ['my-event', 'my-event-two']);
   }
 }`);
   });

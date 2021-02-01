@@ -56,6 +56,7 @@ export const createComponentDefinition = (
         output.complexType.references[output.complexType.original].location === 'import',
     )
     .map((output) => output.complexType.resolved)
+    .filter((item, pos, self) => self.indexOf(item) === pos)
     .join(', ');
   if (outputsTypes.length > 0) {
     outputsTypes = `import { ${outputsTypes} } from '@baloise/ui-library';`;
