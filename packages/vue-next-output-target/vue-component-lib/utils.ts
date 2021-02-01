@@ -162,6 +162,7 @@ export const defineContainer = <Props>(
   });
 
   Container.displayName = name;
+  Container.emits = [...componentEvents];
   Container.props = [...componentProps, ROUTER_LINK_VALUE];
   if (modelProp) {
     Container.props.push(MODEL_VALUE);
