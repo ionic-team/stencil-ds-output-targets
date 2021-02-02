@@ -1,5 +1,3 @@
-// import { fromEvent } from 'rxjs';
-// import { map } from 'rxjs/operators';
 import { EventEmitter } from '@angular/core';
 
 export const proxyInputs = (Cmp: any, inputs: string[]) => {
@@ -26,17 +24,35 @@ export const proxyMethods = (Cmp: any, methods: string[]) => {
   });
 };
 
-export const proxyOutputs = (instance: any, el: any, events: string[]) => {
-  events.forEach((eventName) => (instance[eventName] = new EventEmitter()));
+const eventMethodName = (name: string) => 'on' + name[0].toUpperCase() + name.slice(1);
 
+const parseEvent = (event: any) => {
+  if ('detail' in event) {
+    return event.detail;
+  }
+  return event;
+};
+
+export const proxyOutputs = (instance: any, el: HTMLElement, events: string[]) => {
   events.forEach((eventName) => {
-    el.addEventListener(eventName, (event: any) => {
-      let emittedValue = event;
-      if ('detail' in event) {
-        emittedValue = event.detail;
-      }
-      instance[eventName].emit(emittedValue);
-    });
+    instance[eventName] = new EventEmitter();
+    instance[eventMethodName(eventName)] = (event: any) => {
+      console.log(eventName, event);
+      instance[eventName].emit(parseEvent(event));
+    };
+  });
+  console.log(instance);
+};
+
+export const addProxyOutputListener = (instance: any, el: HTMLElement, events: string[]) => {
+  events.forEach((eventName) => {
+    el.addEventListener(eventName, instance[eventMethodName(eventName)]);
+  });
+};
+
+export const removeProxyOutputListener = (instance: any, el: HTMLElement, events: string[]) => {
+  events.forEach((eventName) => {
+    el.removeEventListener(eventName, instance[eventMethodName(eventName)]);
   });
 };
 

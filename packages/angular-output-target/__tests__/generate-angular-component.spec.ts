@@ -81,6 +81,12 @@ export class MyComponent {
     this.el = r.nativeElement;
     proxyOutputs(this, this.el, ['my-event']);
   }
+  ngOnInit() {
+    addProxyOutputListener(this, this.el, ['my-event']);
+  }
+  ngOnDestroy() {
+    removeProxyOutputListener(this, this.el, ['my-event']);
+  }
 }`);
   });
 
@@ -159,6 +165,12 @@ export class MyComponent {
     this.el = r.nativeElement;
     proxyOutputs(this, this.el, ['my-event', 'my-event-two']);
   }
+  ngOnInit() {
+    addProxyOutputListener(this, this.el, ['my-event', 'my-event-two']);
+  }
+  ngOnDestroy() {
+    removeProxyOutputListener(this, this.el, ['my-event', 'my-event-two']);
+  }
 }`);
   });
 
@@ -216,6 +228,12 @@ export class MyComponent {
     c.detach();
     this.el = r.nativeElement;
     proxyOutputs(this, this.el, ['my-event']);
+  }
+  ngOnInit() {
+    addProxyOutputListener(this, this.el, ['my-event']);
+  }
+  ngOnDestroy() {
+    removeProxyOutputListener(this, this.el, ['my-event']);
   }
 }`);
   });
