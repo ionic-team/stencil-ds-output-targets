@@ -30,7 +30,7 @@ export const proxyOutputs = (instance: any, el: any, events: string[]) => {
     (eventName) =>
       (instance[eventName] = fromEvent(el, eventName).pipe(
         map((event: any) => {
-          if (Object.hasOwnProperty.call(event, 'detail')) {
+          if ('detail' in event) {
             return event.detail;
           }
           return event;
