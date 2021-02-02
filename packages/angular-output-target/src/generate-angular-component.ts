@@ -92,22 +92,6 @@ export class ${tagNameAsPascal} {`,
     );
   }
   lines.push(`  }`);
-  // if (hasOutputs) {
-  //   lines.push(`  ngOnInit() {`);
-  //   lines.push(
-  //     `    addProxyOutputListener(this, this.el, ['${outputs
-  //       .map((output) => output.name)
-  //       .join(`', '`)}']);`,
-  //   );
-  //   lines.push(`  }`);
-  //   lines.push(`  ngOnDestroy() {`);
-  //   lines.push(
-  //     `    removeProxyOutputListener(this, this.el, ['${outputs
-  //       .map((output) => output.name)
-  //       .join(`', '`)}']);`,
-  //   );
-  //   lines.push(`  }`);
-  // }
   lines.push(`}`);
 
   return lines.join('\n');
