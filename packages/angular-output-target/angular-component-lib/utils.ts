@@ -36,24 +36,24 @@ const parseEvent = (event: any) => {
 export const proxyOutputs = (instance: any, el: HTMLElement, events: string[]) => {
   events.forEach((eventName) => {
     instance[eventName] = new EventEmitter();
-    instance[eventMethodName(eventName)] = (event: any) => {
-      console.log(eventName, event);
-      instance[eventName].emit(parseEvent(event));
-    };
+    // instance[eventMethodName(eventName)] = (event: Event) => {
+    //   event.preventDefault();
+    //   event.stopPropagation();
+    //   instance[eventName].emit(parseEvent(event));
+    // };
   });
-  console.log(instance);
 };
 
 export const addProxyOutputListener = (instance: any, el: HTMLElement, events: string[]) => {
-  events.forEach((eventName) => {
-    el.addEventListener(eventName, instance[eventMethodName(eventName)]);
-  });
+  // events.forEach((eventName) => {
+  //   el.addEventListener(eventName, instance[eventMethodName(eventName)]);
+  // });
 };
 
 export const removeProxyOutputListener = (instance: any, el: HTMLElement, events: string[]) => {
-  events.forEach((eventName) => {
-    el.removeEventListener(eventName, instance[eventMethodName(eventName)]);
-  });
+  // events.forEach((eventName) => {
+  //   el.removeEventListener(eventName, instance[eventMethodName(eventName)]);
+  // });
 };
 
 // tslint:disable-next-line: only-arrow-functions
