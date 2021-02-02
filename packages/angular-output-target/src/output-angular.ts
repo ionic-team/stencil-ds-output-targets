@@ -73,7 +73,7 @@ export function generateProxies(
   const imports = `/* tslint:disable */
 /* auto-generated angular directive proxies */
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, NgZone, EventEmitter } from '@angular/core';
-import { ProxyCmp, proxyOutputs, addProxyOutputListener, removeProxyOutputListener } from './angular-component-lib/utils';\n`;
+import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
 
   const typeImports = !outputTarget.componentCorePackage
     ? `import { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';`

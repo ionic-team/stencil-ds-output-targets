@@ -1,6 +1,6 @@
 {
   "name": "hirsch-angular-output-target",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Angular output target for @stencil/core components.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",

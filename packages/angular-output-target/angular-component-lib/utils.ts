@@ -44,17 +44,17 @@ export const proxyOutputs = (instance: any, el: HTMLElement, events: string[]) =
   });
 };
 
-export const addProxyOutputListener = (instance: any, el: HTMLElement, events: string[]) => {
-  // events.forEach((eventName) => {
-  //   el.addEventListener(eventName, instance[eventMethodName(eventName)]);
-  // });
-};
+// export const addProxyOutputListener = (instance: any, el: HTMLElement, events: string[]) => {
+//   // events.forEach((eventName) => {
+//   //   el.addEventListener(eventName, instance[eventMethodName(eventName)]);
+//   // });
+// };
 
-export const removeProxyOutputListener = (instance: any, el: HTMLElement, events: string[]) => {
-  // events.forEach((eventName) => {
-  //   el.removeEventListener(eventName, instance[eventMethodName(eventName)]);
-  // });
-};
+// export const removeProxyOutputListener = (instance: any, el: HTMLElement, events: string[]) => {
+//   // events.forEach((eventName) => {
+//   //   el.removeEventListener(eventName, instance[eventMethodName(eventName)]);
+//   // });
+// };
 
 // tslint:disable-next-line: only-arrow-functions
 export function ProxyCmp(opts: { inputs?: any; methods?: any }) {
