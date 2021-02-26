@@ -10,7 +10,7 @@ export interface OutputTargetVue {
 
 export interface ComponentOptions {
   modelProp?: string;
-  modelUpdateEvent?: string;
+  modelUpdateEvent?: string | string[];
   externalModelUpdateEvent?: string;
 }
 

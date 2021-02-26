@@ -37,7 +37,7 @@ export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${importTypes}.$
   if (findModel) {
     options.modelProp = findModel.targetAttr;
     options.modelUpdateEvent = findModel.event;
-    options.externalModelUpdateEvent = findModel.externalEvent || findModel.event;
+    options.externalModelUpdateEvent = findModel.externalEvent;
   }
 
   if (Object.keys(options).length > 0) {
