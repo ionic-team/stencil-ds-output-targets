@@ -31,7 +31,7 @@
     "@stencil/core": "^1.17.3",
     "@stencil/react-output-target": "^0.0.9",
     "@stencil/vue-output-target": "^0.0.3",
-    "@stencil/svelte-output-target": "file:../../svelte-output-target",
+    "@stencil/svelte-output-target": "^0.0.3",
     "@types/puppeteer": "2.0.1",
     "jest-cli": "26.0.1",
     "puppeteer": "2.1.1"
