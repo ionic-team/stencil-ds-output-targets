@@ -17,6 +17,32 @@ interface StencilReactInternalProps<ElementType> extends React.HTMLAttributes<El
   ref?: React.Ref<any>;
 }
 
+export const createReactComponentFromCustomElement = <
+  PropType,
+  ElementType extends HTMLStencilElement,
+  ContextStateType = {},
+  ExpandedPropsTypes = {}
+>(
+  customElement: any,
+  dependencies?: any[],
+  ReactComponentContext?: React.Context<ContextStateType>,
+  manipulatePropsFunction?: (
+    originalProps: StencilReactInternalProps<ElementType>,
+    propsToPass: any,
+  ) => ExpandedPropsTypes,
+) => {
+  if (!customElements.get(customElement.is)) customElements.define(customElement.is, customElement);
+  dependencies?.forEach((dependency) => {
+    if (!customElements.get(dependency.is)) customElements.define(dependency.is, dependency);
+  });
+
+  return createReactComponent<PropType, ElementType, ContextStateType, ExpandedPropsTypes>(
+    customElement.is!,
+    ReactComponentContext,
+    manipulatePropsFunction,
+  );
+};
+
 export const createReactComponent = <
   PropType,
   ElementType extends HTMLStencilElement,

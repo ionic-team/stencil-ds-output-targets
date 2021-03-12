@@ -5,6 +5,7 @@ export interface OutputTargetReact {
   loaderDir?: string;
   includePolyfills?: boolean;
   includeDefineCustomElements?: boolean;
+  includeImportCustomElements?: boolean;
 }
 
 export interface PackageJSON {

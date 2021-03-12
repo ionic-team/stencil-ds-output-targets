@@ -25,6 +25,7 @@ export function normalizeOutputTarget(config: Config, outputTarget: any) {
     excludeComponents: outputTarget.excludeComponents || [],
     includePolyfills: outputTarget.includePolyfills ?? true,
     includeDefineCustomElements: outputTarget.includeDefineCustomElements ?? true,
+    includeImportCustomElements: outputTarget.includeImportCustomElements ?? true,
   };
 
   if (config.rootDir == null) {
@@ -32,6 +33,12 @@ export function normalizeOutputTarget(config: Config, outputTarget: any) {
   }
   if (outputTarget.proxiesFile == null) {
     throw new Error('proxiesFile is required');
+  }
+  if (outputTarget.includeDefineCustomElements && outputTarget.includeImportCustomElements) {
+    throw new Error('Choose either includeDefineCustomElements or includeImportCustomElements');
+  }
+  if (outputTarget.includePolyfills && outputTarget.includeImportCustomElements) {
+    throw new Error('includePolyfills is not compatible with includeImportCustomElements yet');
   }
 
   if (outputTarget.directivesProxyFile && !path.isAbsolute(outputTarget.directivesProxyFile)) {

@@ -44,7 +44,8 @@ export function generateProxies(
   const imports = `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated react proxies */
-import { createReactComponent } from './react-component-lib';\n`;
+/* customized by the Scopus team to integrate with 'dist-custom-elements' */
+import { createReactComponent, createReactComponentFromCustomElement } from './react-component-lib';\n`;
 
   const typeImports = !outputTarget.componentCorePackage
     ? `import type { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`
@@ -61,6 +62,8 @@ import { createReactComponent } from './react-component-lib';\n`;
   } else if (!outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
     sourceImports = `import { ${REGISTER_CUSTOM_ELEMENTS} } from '${pathToCorePackageLoader}';\n`;
     registerCustomElements = `${REGISTER_CUSTOM_ELEMENTS}();`;
+  } else if (outputTarget.includeImportCustomElements) {
+    sourceImports = components.map((c) => createCustomElementImport(outputTarget, c)).join('\n');
   }
 
   const final: string[] = [
@@ -68,17 +71,42 @@ import { createReactComponent } from './react-component-lib';\n`;
     typeImports,
     sourceImports,
     registerCustomElements,
-    components.map(createComponentDefinition).join('\n'),
+    components.map((c) => createComponentDefinition(outputTarget, c)).join('\n'),
   ];
 
   return final.join('\n') + '\n';
 }
 
-function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
+function createComponentDefinition(
+  outputTarget: OutputTargetReact,
+  cmpMeta: ComponentCompilerMeta,
+) {
+  const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
+
+  if (!outputTarget.includeImportCustomElements) {
+    return [
+      `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}');`,
+    ];
+  }
+
+  return [
+    `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponentFromCustomElement<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>(\n`,
+    `  ${tagNameAsPascal}CustomElement,\n`,
+    `  [${cmpMeta.dependencies?.map((d) => dashToPascalCase(d) + 'CustomElement').join(',')}],\n`,
+    `);`,
+  ].join('');
+}
+
+function createCustomElementImport(
+  outputTarget: OutputTargetReact,
+  cmpMeta: ComponentCompilerMeta,
+) {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
   return [
-    `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}');`,
+    `import { ${tagNameAsPascal} as ${tagNameAsPascal}CustomElement } from '${normalizePath(
+      outputTarget.componentCorePackage!,
+    )}/dist/components/${cmpMeta.tagName}';`,
   ];
 }
 
