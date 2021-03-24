@@ -24,11 +24,18 @@ describe('generateProxies', () => {
 /* tslint:disable */
 /* auto-generated react proxies */
 import { createReactComponent } from './react-component-lib';
+
 import type { JSX } from 'component-library';
+
 import { applyPolyfills, defineCustomElements } from 'component-library/dist/loader';
+
 applyPolyfills().then(() => defineCustomElements());
+
+
 const setupComponents = (prefix?: string) => {
+
 }
+
 export { setupComponents,  };
 `,
     );
@@ -48,11 +55,18 @@ export { setupComponents,  };
 /* tslint:disable */
 /* auto-generated react proxies */
 import { createReactComponent } from './react-component-lib';
+
 import type { JSX } from 'component-library';
+
 import { defineCustomElements } from 'component-library/dist/loader';
+
 defineCustomElements();
+
+
 const setupComponents = (prefix?: string) => {
+
 }
+
 export { setupComponents,  };
 `,
     );
@@ -72,9 +86,17 @@ export { setupComponents,  };
 /* tslint:disable */
 /* auto-generated react proxies */
 import { createReactComponent } from './react-component-lib';
+
 import type { JSX } from 'component-library';
+
+
+
+
+
 const setupComponents = (prefix?: string) => {
+
 }
+
 export { setupComponents,  };
 `,
     );
