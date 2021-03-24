@@ -1,5 +1,5 @@
 {
-  "name": "@stencil/angular-output-target",
+  "name": "@didomi/angular-output-target",
   "version": "0.0.7",
   "description": "Angular output target for @stencil/core components.",
   "main": "dist/index.cjs.js",
@@ -51,5 +51,5 @@
     ],
     "testURL": "http://localhost"
   },
-  "gitHead": "50b6761d2ceb97080eba41f486148e12ce51d14c"
+  "gitHead": "696416cc16e0c2e5b84a1594290e9834852a6e98"
 }
