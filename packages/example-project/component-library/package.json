@@ -1,6 +1,6 @@
 {
   "name": "component-library",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": true,
   "description": "Stencil Component Library for testing purposes",
   "license": "MIT",
@@ -27,11 +27,11 @@
     "generate": "stencil generate"
   },
   "devDependencies": {
-    "@stencil/angular-output-target": "^0.0.6",
+    "@stencil/angular-output-target": "^0.0.7",
     "@stencil/core": "^1.17.3",
     "@stencil/react-output-target": "^0.0.9",
     "@stencil/svelte-output-target": "file:../../svelte-output-target",
-    "@stencil/vue-output-target": "^0.0.4",
+    "@stencil/vue-output-target": "^0.0.5",
     "@types/puppeteer": "2.0.1",
     "jest-cli": "26.0.1",
     "puppeteer": "2.1.1"
