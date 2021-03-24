@@ -88,6 +88,7 @@ function createComponent(cmpMeta: ComponentCompilerMeta) {
 
 function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
   const tagNameAsPascal = getComponentName(cmpMeta);
+  
   return [
     `${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>(\`${`\${prefix ? \`\${prefix}-\` : ''}${cmpMeta.tagName}`}\`);`,
   ];
