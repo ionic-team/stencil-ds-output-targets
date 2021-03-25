@@ -1,6 +1,6 @@
 {
   "name": "@didomi/stencil-angular-output-target",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Angular output target for @stencil/core components.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
