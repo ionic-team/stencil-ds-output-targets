@@ -1,7 +1,7 @@
 {
   "name": "component-library-react",
   "sideEffects": false,
-  "version": "0.0.7",
+  "version": "0.1.3",
   "private": true,
   "description": "React specific wrapper for component-library",
   "license": "MIT",
