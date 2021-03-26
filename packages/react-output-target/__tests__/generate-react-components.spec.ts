@@ -31,6 +31,12 @@ import { applyPolyfills, defineCustomElements } from 'component-library/dist/loa
 
 applyPolyfills().then(() => defineCustomElements());
 
+
+const setupComponents = (prefix?: string) => {
+
+}
+
+export { setupComponents,  };
 `,
     );
   });
@@ -56,6 +62,12 @@ import { defineCustomElements } from 'component-library/dist/loader';
 
 defineCustomElements();
 
+
+const setupComponents = (prefix?: string) => {
+
+}
+
+export { setupComponents,  };
 `,
     );
   });
@@ -80,6 +92,12 @@ import type { JSX } from 'component-library';
 
 
 
+
+const setupComponents = (prefix?: string) => {
+
+}
+
+export { setupComponents,  };
 `,
     );
   });

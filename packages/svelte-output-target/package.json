@@ -1,6 +1,7 @@
 {
-  "name": "@stencil/svelte-output-target",
-  "version": "0.0.3",
+  "name": "@didomi/svelte-output-target",
+  "version": "0.1.4",
+  "private": true,
   "description": "Svelte output target for @stencil/core components.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -50,5 +51,6 @@
       "jsx"
     ],
     "testURL": "http://localhost"
-  }
+  },
+  "gitHead": "3dfdfc13b63e4a905228b2d9f7c260e82f0324ee"
 }

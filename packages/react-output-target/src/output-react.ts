@@ -68,17 +68,29 @@ import { createReactComponent } from './react-component-lib';\n`;
     typeImports,
     sourceImports,
     registerCustomElements,
+    components.map(createComponent).join('\n'),
+    `\nconst ${SETUP_REACT_COMPONENTS} = (prefix?: string) => {`,
     components.map(createComponentDefinition).join('\n'),
+    '}\n',
+    `export { ${SETUP_REACT_COMPONENTS}, ${components.map(getComponentName).join(', ')} };`,
   ];
 
   return final.join('\n') + '\n';
 }
 
-function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
-  const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
+function getComponentName(cmpMeta: ComponentCompilerMeta) {
+  return dashToPascalCase(cmpMeta.tagName);
+}
 
+function createComponent(cmpMeta: ComponentCompilerMeta) {
+  return `let ${getComponentName(cmpMeta)};`;
+}
+
+function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
+  const tagNameAsPascal = getComponentName(cmpMeta);
+  
   return [
-    `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}');`,
+    `${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>(\`${`\${prefix ? \`\${prefix}-\` : ''}${cmpMeta.tagName}`}\`);`,
   ];
 }
 
@@ -123,5 +135,6 @@ export function getPathToCorePackageLoader(config: Config, outputTarget: OutputT
 export const GENERATED_DTS = 'components.d.ts';
 const IMPORT_TYPES = 'JSX';
 const REGISTER_CUSTOM_ELEMENTS = 'defineCustomElements';
+const SETUP_REACT_COMPONENTS = 'setupComponents';
 const APPLY_POLYFILLS = 'applyPolyfills';
 const DEFAULT_LOADER_DIR = '/dist/loader';
