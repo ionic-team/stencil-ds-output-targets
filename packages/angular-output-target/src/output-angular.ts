@@ -83,7 +83,12 @@ import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
     imports,
     typeImports,
     components
-      .map(createComponentDefinition(outputTarget.componentCorePackage!, distTypesDir, rootDir))
+      .map(createComponentDefinition(
+        outputTarget.componentCorePackage!,
+          distTypesDir,
+          rootDir,
+          outputTarget.tagNameModifier,
+      ))
       .join('\n'),
   ];
 

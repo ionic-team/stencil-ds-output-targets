@@ -44,7 +44,11 @@ export function generateProxies(
   const imports = `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated react proxies */
-import { createReactComponent } from './react-component-lib';\n`;
+import { createReactComponent } from './react-component-lib';\n
+import { ForwardRefExoticComponent, PropsWithoutRef, RefAttributes } from 'react';\n
+import { StyleReactProps } from './react-component-lib/interfaces';\n`;
+
+  const typeDeclaration = 'type ReactComponent<T, P> = ForwardRefExoticComponent<PropsWithoutRef<T> & Omit<React.HTMLAttributes<P>, "style"> & StyleReactProps & RefAttributes<P>>;';
 
   const typeImports = !outputTarget.componentCorePackage
     ? `import type { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`
@@ -66,6 +70,7 @@ import { createReactComponent } from './react-component-lib';\n`;
   const final: string[] = [
     imports,
     typeImports,
+    typeDeclaration,
     sourceImports,
     registerCustomElements,
     components.map(createComponent).join('\n'),
@@ -83,7 +88,8 @@ function getComponentName(cmpMeta: ComponentCompilerMeta) {
 }
 
 function createComponent(cmpMeta: ComponentCompilerMeta) {
-  return `let ${getComponentName(cmpMeta)};`;
+  const tagNameAsPascal = getComponentName(cmpMeta);
+  return `let ${tagNameAsPascal}: ReactComponent<JSX.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>;`;
 }
 
 function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
