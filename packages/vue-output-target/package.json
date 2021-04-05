@@ -1,6 +1,6 @@
 {
   "name": "@didomi/vue-output-target",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "description": "Vue output target for @stencil/core components.",
   "main": "dist/index.cjs.js",

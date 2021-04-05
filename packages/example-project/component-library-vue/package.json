@@ -1,7 +1,7 @@
 {
   "name": "component-library-vue",
   "sideEffects": false,
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "description": "Vue specific wrapper for component-library",
   "repository": {

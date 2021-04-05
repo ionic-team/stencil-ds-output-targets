@@ -1,6 +1,6 @@
 {
   "name": "component-library-angular",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "description": "Angular specific wrapper for component-library",
   "license": "MIT",
