@@ -1,6 +1,6 @@
 {
   "name": "@didomi/stencil-react-output-target",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "React output target for @stencil/core components.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
