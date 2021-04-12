@@ -1,5 +1,33 @@
 import { camelToDashCase } from './case';
 
+type ElementWithEvents = Element & {
+  __events?: Record<string, (e: Event) => any | undefined>;
+};
+
+const cleanupEvents = (node: ElementWithEvents, newProps: any) => {
+  if (node.__events == null) {
+    return;
+  }
+
+  for (var eventName in node.__events) {
+    if (!node.__events.hasOwnProperty(eventName)) {
+      continue;
+    }
+
+    const prefixedEventName = `on${eventName[0].toUpperCase()}${eventName.substring(1)}`;
+
+    // we should only remove events that are no longer in props
+    if (newProps[prefixedEventName] != null) {
+      continue;
+    }
+
+    if (node.__events[eventName]) {
+      node.removeEventListener(eventName, node.__events[eventName]);
+      delete node.__events[eventName];
+    }
+  }
+};
+
 export const attachProps = (node: HTMLElement, newProps: any, oldProps: any = {}) => {
   // some test frameworks don't render DOM elements, so we test here to make sure we are dealing with DOM first
   if (node instanceof Element) {
@@ -8,6 +36,10 @@ export const attachProps = (node: HTMLElement, newProps: any, oldProps: any = {}
     if (className !== '') {
       node.className = className;
     }
+
+    // remove any event listeners that do not appear in newProps
+    // since they are no longer used/wanted by the component
+    cleanupEvents(node, newProps);
 
     Object.keys(newProps).forEach((name) => {
       if (
@@ -82,7 +114,7 @@ export const isCoveredByReact = (eventNameSuffix: string, doc: Document) => {
 };
 
 export const syncEvent = (
-  node: Element & { __events?: { [key: string]: ((e: Event) => any) | undefined } },
+  node: ElementWithEvents,
   eventName: string,
   newEventHandler?: (e: Event) => any,
 ) => {
