@@ -64,6 +64,25 @@ describe('createComponent - events', () => {
     const attachedEvents = (webcomponent as any).__events;
     expect(Object.keys(attachedEvents)).toContain('myFocus');
   });
+
+  test('should clean up unused events', async () => {
+    const FakeFocus = jest.fn();
+
+    const { webcomponent, rerender } = includeWebComponent<HTMLMyInputElement>(
+      renderWithStrictMode(<MyInput onMyFocus={FakeFocus} />),
+    );
+
+    const attachedEvents = (webcomponent as any).__events;
+    expect(Object.keys(attachedEvents)).toContain('myFocus');
+
+    rerender(
+      <React.StrictMode>
+        <MyInput />
+      </React.StrictMode>,
+    );
+
+    expect(Object.keys(attachedEvents)).not.toContain('myFocus');
+  });
 });
 
 function includeWebComponent<T extends HTMLStencilElement>(results: RenderResult) {
