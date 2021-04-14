@@ -31,6 +31,18 @@ describe('MyComponent', () => {
     );
     expect(myComponent.kidsNames).toEqual(['billy', 'jane']);
   });
+
+  it('should render dash case attributes', () => {
+    const { webcomponent } = includeWebComponent<HTMLMyComponentElement>(
+      renderWithStrictMode(<MyButton buttonType="my-button-type" />),
+    );
+
+    expect(webcomponent.attributes).toHaveProperty('button-type');
+    expect(webcomponent.attributes.getNamedItem('button-type')).toHaveProperty(
+      'value',
+      'my-button-type',
+    );
+  });
 });
 
 describe('createComponent - ref', () => {
