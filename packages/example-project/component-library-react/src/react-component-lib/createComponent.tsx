@@ -65,8 +65,13 @@ export const createReactComponent = <
             acc[name] = value;
           }
         } else {
-          name = typeof value === 'string' ? camelToDashCase(name) : name;
-          acc[name] = value;
+          // we should only render strings, booleans, and numbers as attrs in html.
+          // objects, functions, arrays etc get synced via properties on mount.
+          const type = typeof value;
+
+          if (type === 'string' || type === 'boolean' || type === 'number') {
+            acc[camelToDashCase(name)] = value;
+          }
         }
         return acc;
       }, {});
