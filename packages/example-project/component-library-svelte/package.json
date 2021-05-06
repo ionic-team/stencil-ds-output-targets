@@ -12,7 +12,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "component-library": "file:../component-library"
+    "component-library": "0.0.4"
   },
   "devDependencies": {
     "@testing-library/svelte": "^3.0.0",
