@@ -3,6 +3,8 @@ export interface OutputTargetReact {
   proxiesFile: string;
   excludeComponents?: string[];
   loaderDir?: string;
+  includePolyfills?: boolean;
+  includeDefineCustomElements?: boolean;
 }
 
 export interface PackageJSON {

@@ -1,6 +1,6 @@
-import { Config, OutputTargetCustom } from '@stencil/core/internal';
+import type { Config, OutputTargetCustom } from '@stencil/core/internal';
 import { normalizePath } from './utils';
-import { OutputTargetReact } from './types';
+import type { OutputTargetReact } from './types';
 import { reactProxyOutput } from './output-react';
 import path from 'path';
 
@@ -13,17 +13,18 @@ export const reactOutputTarget = (outputTarget: OutputTargetReact): OutputTarget
   async generator(config, compilerCtx, buildCtx) {
     const timespan = buildCtx.createTimeSpan(`generate react started`, true);
 
-    await reactProxyOutput(compilerCtx, outputTarget, buildCtx.components, config);
+    await reactProxyOutput(config, compilerCtx, outputTarget, buildCtx.components);
 
     timespan.finish(`generate react finished`);
-  }
+  },
 });
 
-
-function normalizeOutputTarget(config: Config, outputTarget: any) {
+export function normalizeOutputTarget(config: Config, outputTarget: any) {
   const results: OutputTargetReact = {
     ...outputTarget,
-    excludeComponents: outputTarget.excludeComponents || []
+    excludeComponents: outputTarget.excludeComponents || [],
+    includePolyfills: outputTarget.includePolyfills ?? true,
+    includeDefineCustomElements: outputTarget.includeDefineCustomElements ?? true,
   };
 
   if (config.rootDir == null) {

@@ -1,6 +1,7 @@
-import { ElementRef, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 
+@Directive({})
 export class ValueAccessor implements ControlValueAccessor {
   private onChange: (value: any) => void = () => {};
   private onTouched: () => void = () => {};
@@ -31,7 +32,7 @@ export class ValueAccessor implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  setDisabledState(disabled: boolean) {
-    this.el.nativeElement.disabled = disabled;
+  setDisabledState(isDisabled: boolean) {
+    this.el.nativeElement.disabled = isDisabled;
   }
 }

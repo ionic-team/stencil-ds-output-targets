@@ -1,37 +1,45 @@
 import path from 'path';
-import { OutputTargetReact } from './types';
+import type { OutputTargetReact, PackageJSON } from './types';
 import { dashToPascalCase, normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
-import { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
+import type {
+  CompilerCtx,
+  ComponentCompilerMeta,
+  Config,
+  OutputTargetDist,
+} from '@stencil/core/internal';
 
 export async function reactProxyOutput(
+  config: Config,
   compilerCtx: CompilerCtx,
   outputTarget: OutputTargetReact,
   components: ComponentCompilerMeta[],
-  config: Config,
 ) {
   const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, components);
   const rootDir = config.rootDir as string;
+  const pkgData = await readPackageJson(rootDir);
 
-  await generateProxies(compilerCtx, filteredComponents, outputTarget, rootDir);
+  const finalText = generateProxies(config, filteredComponents, pkgData, outputTarget, rootDir);
+  await compilerCtx.fs.writeFile(outputTarget.proxiesFile, finalText);
   await copyResources(config, outputTarget);
 }
 
 function getFilteredComponents(excludeComponents: string[] = [], cmps: ComponentCompilerMeta[]) {
-  return sortBy(cmps, cmp => cmp.tagName).filter(
-    c => !excludeComponents.includes(c.tagName) && !c.internal,
+  return sortBy(cmps, (cmp) => cmp.tagName).filter(
+    (c) => !excludeComponents.includes(c.tagName) && !c.internal,
   );
 }
 
-async function generateProxies(
-  compilerCtx: CompilerCtx,
+export function generateProxies(
+  config: Config,
   components: ComponentCompilerMeta[],
+  pkgData: PackageJSON,
   outputTarget: OutputTargetReact,
   rootDir: string,
 ) {
-  const pkgData = await readPackageJson(rootDir);
   const distTypesDir = path.dirname(pkgData.types);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.proxiesFile, dtsFilePath, '.d.ts');
+  const pathToCorePackageLoader = getPathToCorePackageLoader(config, outputTarget);
 
   const imports = `/* eslint-disable */
 /* tslint:disable */
@@ -39,17 +47,21 @@ async function generateProxies(
 import { createReactComponent } from './react-component-lib';\n`;
 
   const typeImports = !outputTarget.componentCorePackage
-    ? `import { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`
-    : `import { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}';\n`;
+    ? `import type { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`
+    : `import type { ${IMPORT_TYPES} } from '${normalizePath(
+        outputTarget.componentCorePackage,
+      )}';\n`;
 
-  const sourceImports = `import { ${REGISTER_CUSTOM_ELEMENTS}, ${APPLY_POLYFILLS} } from '${normalizePath(
-    path.join(
-      outputTarget.componentCorePackage || '',
-      outputTarget.loaderDir || DEFAULT_LOADER_DIR,
-    ),
-  )}';\n`;
+  let sourceImports = '';
+  let registerCustomElements = '';
 
-  const registerCustomElements = `${APPLY_POLYFILLS}().then(() => ${REGISTER_CUSTOM_ELEMENTS}());`;
+  if (outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
+    sourceImports = `import { ${APPLY_POLYFILLS}, ${REGISTER_CUSTOM_ELEMENTS} } from '${pathToCorePackageLoader}';\n`;
+    registerCustomElements = `${APPLY_POLYFILLS}().then(() => ${REGISTER_CUSTOM_ELEMENTS}());`;
+  } else if (!outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
+    sourceImports = `import { ${REGISTER_CUSTOM_ELEMENTS} } from '${pathToCorePackageLoader}';\n`;
+    registerCustomElements = `${REGISTER_CUSTOM_ELEMENTS}();`;
+  }
 
   const final: string[] = [
     imports,
@@ -59,9 +71,7 @@ import { createReactComponent } from './react-component-lib';\n`;
     components.map(createComponentDefinition).join('\n'),
   ];
 
-  const finalText = final.join('\n') + '\n';
-
-  return compilerCtx.fs.writeFile(outputTarget.proxiesFile, finalText);
+  return final.join('\n') + '\n';
 }
 
 function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
@@ -92,8 +102,26 @@ async function copyResources(config: Config, outputTarget: OutputTargetReact) {
   );
 }
 
+export function getPathToCorePackageLoader(config: Config, outputTarget: OutputTargetReact) {
+  const basePkg = outputTarget.componentCorePackage || '';
+  const distOutputTarget = config.outputTargets?.find((o) => o.type === 'dist') as OutputTargetDist;
+
+  const distAbsEsmLoaderPath =
+    distOutputTarget?.esmLoaderPath && path.isAbsolute(distOutputTarget.esmLoaderPath)
+      ? distOutputTarget.esmLoaderPath
+      : null;
+
+  const distRelEsmLoaderPath =
+    config.rootDir && distAbsEsmLoaderPath
+      ? path.relative(config.rootDir, distAbsEsmLoaderPath)
+      : null;
+
+  const loaderDir = outputTarget.loaderDir || distRelEsmLoaderPath || DEFAULT_LOADER_DIR;
+  return normalizePath(path.join(basePkg, loaderDir));
+}
+
 export const GENERATED_DTS = 'components.d.ts';
 const IMPORT_TYPES = 'JSX';
 const REGISTER_CUSTOM_ELEMENTS = 'defineCustomElements';
 const APPLY_POLYFILLS = 'applyPolyfills';
-const DEFAULT_LOADER_DIR = '/loader';
+const DEFAULT_LOADER_DIR = '/dist/loader';

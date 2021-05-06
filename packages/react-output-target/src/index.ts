@@ -1,2 +1,2 @@
 export { reactOutputTarget } from './plugin';
-export { OutputTargetReact } from './types';
+export type { OutputTargetReact } from './types';
