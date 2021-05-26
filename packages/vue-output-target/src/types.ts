@@ -14,6 +14,7 @@ export interface ComponentModelConfig {
   elements: string | string[];
   event: string;
   targetAttr: string;
+  externalEvent?: string;
 }
 
 export interface PackageJSON {

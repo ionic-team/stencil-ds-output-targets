@@ -33,7 +33,7 @@ const getElementClasses = (ref: Ref<HTMLElement | undefined>, componentClasses: 
 * @prop modelProp - The prop that v-model binds to (i.e. value)
 * @prop modelUpdateEvent - The event that is fired when the value changes (i.e. ionChange)
 */
-export const defineContainer = <Props>(name: string, customElement: any, componentProps: string[] = [], modelProp?: string, modelUpdateEvent?: string) => {
+export const defineContainer = <Props>(name: string, customElement: any, componentProps: string[] = [], modelProp?: string, modelUpdateEvent?: string, externalModelUpdateEvent?: string) => {
 
   customElements.define(name, customElement);
 
@@ -49,20 +49,22 @@ export const defineContainer = <Props>(name: string, customElement: any, compone
     const onVnodeBeforeMount = (vnode: VNode) => {
       // Add a listener to tell Vue to update the v-model
       if (vnode.el) {
-        vnode.el.addEventListener(modelUpdateEvent.toLowerCase(), (e: Event) => {
-          modelPropValue = (e?.target as any)[modelProp];
-          emit(UPDATE_VALUE_EVENT, modelPropValue);
+        const eventsNames = Array.isArray(modelUpdateEvent) ? modelUpdateEvent : [modelUpdateEvent];
+        eventsNames.forEach((eventName: string) => {
+          vnode.el.addEventListener(eventName.toLowerCase(), (e: Event) => {
+            modelPropValue = (e?.target as any)[modelProp];
+            emit(UPDATE_VALUE_EVENT, modelPropValue);
 
-          /**
-           * We need to emit the change event here
-           * rather than on the web component to ensure
-           * that any v-model bindings have been updated.
-           * Otherwise, the developer will listen on the
-           * native web component, but the v-model will
-           * not have been updated yet.
-           */
-          emit(modelUpdateEvent, e);
-          e.stopImmediatePropagation();
+            /**
+             * We need to emit the change event here
+             * rather than on the web component to ensure
+             * that any v-model bindings have been updated.
+             * Otherwise, the developer will listen on the
+             * native web component, but the v-model will
+             * not have been updated yet.
+             */
+            emit(externalModelUpdateEvent, e);
+          });
         });
       }
     };
@@ -88,6 +90,8 @@ export const defineContainer = <Props>(name: string, customElement: any, compone
     }
 
     return () => {
+      modelPropValue = (props as any)[modelProp];
+
       getComponentClasses(attrs.class).forEach(value => {
         classes.add(value);
       });
@@ -107,7 +111,7 @@ export const defineContainer = <Props>(name: string, customElement: any, compone
         ref: containerRef,
         class: getElementClasses(containerRef, classes),
         onClick: handleClick,
-        onVnodeBeforeMount: (modelUpdateEvent) ? onVnodeBeforeMount : undefined
+        onVnodeBeforeMount: (modelUpdateEvent && externalModelUpdateEvent) ? onVnodeBeforeMount : undefined
       };
 
       if (modelProp) {
@@ -125,7 +129,7 @@ export const defineContainer = <Props>(name: string, customElement: any, compone
   Container.props = [...componentProps, ROUTER_LINK_VALUE];
   if (modelProp) {
     Container.props.push(MODEL_VALUE);
-    Container.emits = [UPDATE_VALUE_EVENT, modelUpdateEvent];
+    Container.emits = [UPDATE_VALUE_EVENT, externalModelUpdateEvent];
   }
 
   return Container;

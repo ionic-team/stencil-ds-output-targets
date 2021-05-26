@@ -17,7 +17,8 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
   it('should create v-model bindings', () => {
     const generateComponentDefinition = createComponentDefinition('Components', [{
       elements: ['my-component'],
-      event: 'ionChange',
+      event: 'v-ionChange',
+      externalEvent: 'ionChange',
       targetAttr: 'value'
     }]);
     const output = generateComponentDefinition({
@@ -68,14 +69,15 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
   'value',
   'ionChange'
 ],
-'value', 'ionChange');
+'value', 'v-ionChange', 'ionChange');
 `);
   });
 
   it('should add router and v-model bindings', () => {
     const generateComponentDefinition = createComponentDefinition('Components', [{
       elements: ['my-component'],
-      event: 'ionChange',
+      event: 'v-ionChange',
+      externalEvent: 'ionChange',
       targetAttr: 'value'
     }], ['my-component']);
     const output = generateComponentDefinition({
@@ -125,7 +127,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
   'value',
   'ionChange'
 ],
-'value', 'ionChange');
+'value', 'v-ionChange', 'ionChange');
 `);
   });
 
