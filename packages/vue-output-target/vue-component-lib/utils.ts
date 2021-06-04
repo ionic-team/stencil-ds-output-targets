@@ -131,7 +131,7 @@ export const defineContainer = <Props>(name: string, componentProps: string[] = 
          */
         propsToAdd = {
           ...propsToAdd,
-          [modelProp]: props.hasOwnProperty(MODEL_VALUE) && prop[MODEL_VALUE] !== undefined ? props.modelValue : modelPropValue
+          [modelProp]: props.hasOwnProperty(MODEL_VALUE) && props[MODEL_VALUE] !== undefined ? props.modelValue : modelPropValue
         }
       }
 
