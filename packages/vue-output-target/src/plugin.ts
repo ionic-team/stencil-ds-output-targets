@@ -25,7 +25,8 @@ export function normalizeOutputTarget(config: Config, outputTarget: any) {
     excludeComponents: outputTarget.excludeComponents || [],
     componentModels: outputTarget.componentModels || [],
     includePolyfills: outputTarget.includePolyfills ?? true,
-    includeDefineCustomElements: outputTarget.includeDefineCustomElements ?? true
+    includeDefineCustomElements: outputTarget.includeDefineCustomElements ?? true,
+    includeImportCustomElements: outputTarget.includeImportCustomElements ?? true
   };
 
   if (config.rootDir == null) {
@@ -33,6 +34,9 @@ export function normalizeOutputTarget(config: Config, outputTarget: any) {
   }
   if (outputTarget.proxiesFile == null) {
     throw new Error('proxiesFile is required');
+  }
+  if (outputTarget.includeDefineCustomElements && outputTarget.includeImportCustomElements) {
+    throw new Error('includeImportCustomElements cannot be used at the same time as includeDefineCustomElements since includeDefineCustomElements is used for lazy loading components. Set `includeDefineCustomElements: false` in your Vue output target config to resolve this.');
   }
 
   if (outputTarget.directivesProxyFile && !path.isAbsolute(outputTarget.directivesProxyFile)) {

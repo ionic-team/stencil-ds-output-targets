@@ -49,7 +49,7 @@ import { defineContainer } from './vue-component-lib/utils';\n`;
 
   const generateTypeImports = () => {
     if (outputTarget.componentCorePackage !== undefined) {
-      const dirPath = outputTarget.useCustomElementsBuild ? '/components' : '';
+      const dirPath = outputTarget.includeImportCustomElements ? '/components' : '';
       return `import type { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}${dirPath}';\n`;
     }
 
@@ -61,7 +61,7 @@ import { defineContainer } from './vue-component-lib/utils';\n`;
   let sourceImports = '';
   let registerCustomElements = '';
 
-  if (outputTarget.useCustomElementsBuild && outputTarget.componentCorePackage !== undefined) {
+  if (outputTarget.includeImportCustomElements && outputTarget.componentCorePackage !== undefined) {
     const cmpImports = components.map(component => {
       const pascalImport = dashToPascalCase(component.tagName);
 

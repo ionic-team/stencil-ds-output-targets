@@ -6,7 +6,7 @@ export interface OutputTargetVue {
   loaderDir?: string;
   includePolyfills?: boolean;
   includeDefineCustomElements?: boolean;
-  useCustomElementsBuild?: boolean;
+  includeImportCustomElements?: boolean;
   routerLinkComponents?: string[];
 }
 
