@@ -49,7 +49,7 @@ import { defineContainer } from './vue-component-lib/utils';\n`;
 
   const generateTypeImports = () => {
     if (outputTarget.componentCorePackage !== undefined) {
-      const dirPath = outputTarget.includeImportCustomElements ? `/${outputTarget.customElementsDir}` : '';
+      const dirPath = outputTarget.includeImportCustomElements ? `/${outputTarget.customElementsDir || 'components'}` : '';
       return `import type { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}${dirPath}';\n`;
     }
 
@@ -65,7 +65,9 @@ import { defineContainer } from './vue-component-lib/utils';\n`;
     const cmpImports = components.map(component => {
       const pascalImport = dashToPascalCase(component.tagName);
 
-      return `import { ${pascalImport} as ${pascalImport}Cmp } from '${normalizePath(outputTarget.componentCorePackage!)}/${outputTarget.customElementsDir}/${component.tagName}.js';`;
+      return `import { ${pascalImport} as ${pascalImport}Cmp } from '${normalizePath(outputTarget.componentCorePackage!)}/${outputTarget.customElementsDir ||
+        'components'
+      }/${component.tagName}.js';`;
     });
 
     sourceImports = cmpImports.join('\n');
@@ -84,7 +86,7 @@ import { defineContainer } from './vue-component-lib/utils';\n`;
     sourceImports,
     registerCustomElements,
     components
-      .map(createComponentDefinition(IMPORT_TYPES, outputTarget.componentModels))
+      .map(createComponentDefinition(IMPORT_TYPES, outputTarget.componentModels, outputTarget.includeImportCustomElements))
       .join('\n'),
   ];
 

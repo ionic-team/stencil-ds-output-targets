@@ -40,7 +40,7 @@ const getElementClasses = (ref: Ref<HTMLElement | undefined>, componentClasses: 
 export const defineContainer = <Props>(
   name: string,
   componentProps: string[] = [],
-  customElement: any,
+  customElement?: any,
   modelProp?: string,
   modelUpdateEvent?: string,
   externalModelUpdateEvent?: string

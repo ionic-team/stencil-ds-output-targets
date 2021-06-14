@@ -83,4 +83,49 @@ import type { JSX } from 'component-library';
 `,
     );
   });
+  it('should include importCustomElements if true in the outputTarget', () => {
+    const outputTarget: OutputTargetVue = {
+      componentCorePackage: 'component-library',
+      proxiesFile: '../component-library-vue/src/proxies.ts',
+      includeImportCustomElements: true,
+    };
+
+    const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
+    expect(finalText).toEqual(
+      `/* eslint-disable */
+/* tslint:disable */
+/* auto-generated vue proxies */
+import { defineContainer } from './vue-component-lib/utils';
+
+import type { JSX } from 'component-library/components';
+
+
+
+
+`,
+    );
+  });
+  it('should include importCustomElements with custom path if defined in outputTarget', () => {
+    const outputTarget: OutputTargetVue = {
+      componentCorePackage: 'component-library',
+      proxiesFile: '../component-library-vue/src/proxies.ts',
+      includeImportCustomElements: true,
+      customElementsDir: 'custom-dir/hello'
+    };
+
+    const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
+    expect(finalText).toEqual(
+      `/* eslint-disable */
+/* tslint:disable */
+/* auto-generated vue proxies */
+import { defineContainer } from './vue-component-lib/utils';
+
+import type { JSX } from 'component-library/custom-dir/hello';
+
+
+
+
+`,
+    );
+  });
 });

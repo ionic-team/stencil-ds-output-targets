@@ -11,9 +11,22 @@ describe('createComponentDefinition', () => {
       events: [],
     });
     expect(output).toEqual(`
+export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', undefined);
+`
+  });
+  it('should create a Vue component with custom element support', () => {
+    const generateComponentDefinition = createComponentDefinition('Components', [], true);
+    const output = generateComponentDefinition({
+      properties: [],
+      tagName: 'my-component',
+      methods: [],
+      events: [],
+    });
+    expect(output).toEqual(`
 export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', MyComponentCmp);
 `
   });
+
   it('should create v-model bindings', () => {
     const generateComponentDefinition = createComponentDefinition('Components', [{
       elements: ['my-component'],
@@ -65,7 +78,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
     });
 
     expect(output).toEqual(`
-export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', MyComponentCmp, [
+export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', undefined, [
   'value',
   'ionChange'
 ],
@@ -79,7 +92,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
       event: 'v-ionChange',
       externalEvent: 'ionChange',
       targetAttr: 'value'
-    }], ['my-component']);
+    }]);
     const output = generateComponentDefinition({
       tagName: 'my-component',
       properties: [
@@ -123,7 +136,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
     });
 
     expect(output).toEqual(`
-export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', MyComponentCmp, [
+export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', undefined, [
   'value',
   'ionChange'
 ],
@@ -159,7 +172,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
     });
 
     expect(output).toEqual(`
-export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', MyComponentCmp, [
+export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', undefined, [
   'my-event'
 ]);
 `);
@@ -193,7 +206,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
     });
 
     expect(output).toEqual(`
-export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', MyComponentCmp, [
+export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', undefined, [
   'myProp'
 ]);
 `);
