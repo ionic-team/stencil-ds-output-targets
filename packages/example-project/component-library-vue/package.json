@@ -42,6 +42,13 @@
     "testPathIgnorePatterns": [
       "node_modules",
       "dist"
-    ]
+    ],
+    "globals": {
+      "ts-jest": {
+        "diagnostics": {
+          "warnOnly": true
+        }
+      }
+    }
   }
 }
