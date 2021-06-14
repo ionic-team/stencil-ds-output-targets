@@ -7,13 +7,6 @@ export interface OutputTargetVue {
   includePolyfills?: boolean;
   includeDefineCustomElements?: boolean;
   includeImportCustomElements?: boolean;
-  routerLinkComponents?: string[];
-}
-
-export interface ComponentOptions {
-  modelProp?: string;
-  modelUpdateEvent?: string | string[];
-  externalModelUpdateEvent?: string;
 }
 
 export interface ComponentModelConfig {
