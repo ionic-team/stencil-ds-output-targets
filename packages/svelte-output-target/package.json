@@ -12,12 +12,12 @@
     "access": "public"
   },
   "scripts": {
-    "prebuild": "node rimraf ./dist",
-    "build": "node tsc && npm run rollup",
-    "watch": "node tsc --watch",
-    "rollup": "node rollup -c",
+    "prebuild": "rimraf ./dist",
+    "build": "tsc && npm run rollup",
+    "watch": "tsc --watch",
+    "rollup": "rollup -c",
     "version": "npm run build",
-    "release": "node np",
+    "release": "np",
     "test": "jest"
   },
   "repository": {
