@@ -1,69 +1,52 @@
 import { dashToPascalCase } from './utils';
-import type { ComponentCompilerMeta } from '@stencil/core/internal';
-import type { ComponentModelConfig } from './types';
+import { ComponentCompilerMeta } from '@stencil/core/internal';
+import { ComponentModelConfig, ComponentOptions } from './types';
 
 export const createComponentDefinition = (
   importTypes: string,
-  componentModelConfigs: ComponentModelConfig[] | undefined,
+  componentModelConfig: ComponentModelConfig[] | undefined
 ) => (cmpMeta: Pick<ComponentCompilerMeta, 'properties' | 'tagName' | 'methods' | 'events'>) => {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
-  let props = '';
-  let model = '';
-  let methods = '';
+  let props: string[] = [];
 
   if (Array.isArray(cmpMeta.properties) && cmpMeta.properties.length > 0) {
-    const relevantPropsConfig = cmpMeta.properties
-      .map(
-        (prop) =>
-          `    ${prop.name}: {} as PropOptions<${importTypes}.${tagNameAsPascal}['${prop.name}']>,`,
-      )
-      .join('\n');
-
-    props = `
-  props: {
-${relevantPropsConfig}
-  },`;
+    props = cmpMeta.properties.map((prop) => `'${prop.name}'`);
   }
 
-  if (Array.isArray(componentModelConfigs)) {
-    const relevantModelConfig = componentModelConfigs.find((modelConfig) => {
-      if (Array.isArray(modelConfig.elements)) {
-        return modelConfig.elements.includes(cmpMeta.tagName);
-      }
-
-      return modelConfig.elements === cmpMeta.tagName;
-    });
-
-    if (relevantModelConfig) {
-      model = `
-  model: {
-    prop: '${relevantModelConfig.targetAttr}',
-    event: '${relevantModelConfig.event}'
-  },`;
-    }
+  if (Array.isArray(cmpMeta.events) && cmpMeta.events.length > 0) {
+    props = [
+      ...props,
+      ...cmpMeta.events.map((event) => `'${event.name}'`)
+    ]
   }
 
-  if (Array.isArray(cmpMeta.methods) && cmpMeta.methods.length > 0) {
-    const relevantMethodConfig = cmpMeta.methods
-      .map(
-        (method) =>
-          `    ${method.name}: createCommonMethod('${method.name}') as ${importTypes}.${tagNameAsPascal}['${method.name}'],`,
-      )
-      .join('\n');
+  let templateString = `
+export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${importTypes}.${tagNameAsPascal}>('${
+  cmpMeta.tagName
+}'`;
 
-    methods = `
-  methods: {
-${relevantMethodConfig}
-  },`;
+  if (props.length > 0) {
+    templateString += `, [
+  ${props.length > 0 ? props.join(',\n  ') : ''}
+]`;
   }
 
-  return `
-export const ${tagNameAsPascal} = /*@__PURE__*/ Vue.extend({
-${props}
-${model}
-${methods}
-  render: createCommonRender('${cmpMeta.tagName}', [${cmpMeta.events
-    .map((e) => `'${e.name}'`)
-    .join(', ')}]),
-});\n`;
+  let options: ComponentOptions = {};
+  const findModel = componentModelConfig && componentModelConfig.find(config => config.elements.includes(cmpMeta.tagName));
+
+  if (findModel) {
+    options.modelProp = findModel.targetAttr;
+    options.modelUpdateEvent = findModel.event;
+    options.externalModelUpdateEvent = findModel.externalEvent;
+  }
+
+  if (Object.keys(options).length > 0) {
+    templateString += `,\n`;
+    templateString += JSON.stringify(options, null, 2);
+  }
+
+  templateString += `);\n`;
+
+
+  return templateString;
 };
