@@ -8,6 +8,7 @@ export const createComponentDefinition = (
 ) => (cmpMeta: Pick<ComponentCompilerMeta, 'properties' | 'tagName' | 'methods' | 'events'>) => {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
   const importAs = tagNameAsPascal + 'Cmp';
+
   let props: string[] = [];
 
   if (Array.isArray(cmpMeta.properties) && cmpMeta.properties.length > 0) {

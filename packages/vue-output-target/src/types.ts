@@ -10,6 +10,12 @@ export interface OutputTargetVue {
   routerLinkComponents?: string[];
 }
 
+export interface ComponentOptions {
+  modelProp?: string;
+  modelUpdateEvent?: string | string[];
+  externalModelUpdateEvent?: string;
+}
+
 export interface ComponentModelConfig {
   elements: string | string[];
   event: string;

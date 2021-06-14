@@ -12,12 +12,12 @@
     "access": "public"
   },
   "scripts": {
-    "prebuild": "node ../../node_modules/.bin/rimraf ./dist",
-    "build": "node ../../node_modules/.bin/tsc && npm run rollup",
-    "watch": "node ../../node_modules/.bin/tsc --watch",
-    "rollup": "node ../../node_modules/.bin/rollup -c",
+    "prebuild": "rimraf ./dist",
+    "build": "tsc && npm run rollup",
+    "watch": "tsc --watch",
+    "rollup": "rollup -c",
     "version": "npm run build",
-    "release": "node ../../node_modules/.bin/np",
+    "release": "np",
     "test": "jest"
   },
   "repository": {
