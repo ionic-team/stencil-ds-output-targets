@@ -2,7 +2,7 @@ import { render } from '@testing-library/svelte';
 import { MyComponent } from '../src';
 
 describe('MyComponent', () => {
-  const getWebComponent = (container: HTMLElement) => container.querySelector('my-component');
+  const getWebComponent = (container: HTMLElement) => container.querySelector('my-component') as HTMLMyComponentElement;
 
   it('should be rendered', async () => {
     const { container } = render(MyComponent as any, {
@@ -10,7 +10,7 @@ describe('MyComponent', () => {
       middle: 'Jane',
       last: 'Doe',
     });
-   
+
     expect(container.querySelector('my-component[first="John"][middle="Jane"][last="Doe"]')).toBeDefined();
   });
 
