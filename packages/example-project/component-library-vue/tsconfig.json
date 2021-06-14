@@ -18,7 +18,7 @@
     "sourceMap": true,
     "jsx": "react",
     "target": "esnext",
-    "types": []
+    "types": ["jest"]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["./__tests__/**", "node_modules", "setupTests.ts"],
