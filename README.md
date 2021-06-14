@@ -211,7 +211,7 @@ This is an array of component names to exclude from the output target build. Thi
 
 ### componentModels
 
-This is an array of `ComponentModelConfig` objects about components that should be integrated with `v-model`. 
+This is an array of `ComponentModelConfig` objects for components that should be integrated with `v-model`. 
 
 ```typescript
 export interface ComponentModelConfig {
@@ -229,8 +229,8 @@ export interface ComponentModelConfig {
   event: string;
   
   /**
-   * The Web Component property to update
-   * when the `v-model` state changes.
+   * The Web Component property that the value
+   * of the `v-model` reference is based off.
    */
   targetAttr: string;
   
@@ -275,7 +275,7 @@ If `true`, all Web Components will automatically be registered with the Custom E
 
 ### includeImportCustomElements
 
-If `true`, the output target will import the custom element instance and register it with the Custom Elements Registry when the component is imported inside of a user's app. This can only be used with the [Custom Elements Bundle](https://stenciljs.com/docs/custom-elements) and cannot be used with lazy loaded components.
+If `true`, the output target will import the custom element instance and register it with the Custom Elements Registry when the component is imported inside of a user's app. This can only be used with the [Custom Elements Bundle](https://stenciljs.com/docs/custom-elements) and will not work with lazy loaded components.
 
 ### customElementsDir
 
