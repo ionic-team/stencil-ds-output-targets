@@ -7,6 +7,7 @@ export interface OutputTargetVue {
   includePolyfills?: boolean;
   includeDefineCustomElements?: boolean;
   includeImportCustomElements?: boolean;
+  customElementsDir?: string;
 }
 
 export interface ComponentModelConfig {

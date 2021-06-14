@@ -26,7 +26,8 @@ export function normalizeOutputTarget(config: Config, outputTarget: any) {
     componentModels: outputTarget.componentModels || [],
     includePolyfills: outputTarget.includePolyfills ?? true,
     includeDefineCustomElements: outputTarget.includeDefineCustomElements ?? true,
-    includeImportCustomElements: outputTarget.includeImportCustomElements ?? true
+    includeImportCustomElements: outputTarget.includeImportCustomElements ?? true,
+    customElementsDir: outputTarget.customElementsDir || 'components'
   };
 
   if (config.rootDir == null) {
@@ -36,7 +37,11 @@ export function normalizeOutputTarget(config: Config, outputTarget: any) {
     throw new Error('proxiesFile is required');
   }
   if (outputTarget.includeDefineCustomElements && outputTarget.includeImportCustomElements) {
-    throw new Error('includeImportCustomElements cannot be used at the same time as includeDefineCustomElements since includeDefineCustomElements is used for lazy loading components. Set `includeDefineCustomElements: false` in your Vue output target config to resolve this.');
+    throw new Error('includeDefineCustomElements cannot be used at the same time as includeImportCustomElements since includeDefineCustomElements is used for lazy loading components. Set `includeDefineCustomElements: false` in your Vue output target config to resolve this.');
+  }
+
+  if (outputTarget.includeImportCustomElements && outputTarget.includePolyfills) {
+    throw new Error('includePolyfills cannot be used at the same time as includeImportCustomElements. Set `includePolyfills: false` in your Vue output target config to resolve this.')
   }
 
   if (outputTarget.directivesProxyFile && !path.isAbsolute(outputTarget.directivesProxyFile)) {
