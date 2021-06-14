@@ -17,7 +17,8 @@
     "removeComments": false,
     "sourceMap": true,
     "jsx": "react",
-    "target": "esnext"
+    "target": "esnext",
+    "types": []
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["./__tests__/**", "node_modules", "setupTests.ts"],
