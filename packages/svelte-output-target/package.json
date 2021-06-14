@@ -12,7 +12,7 @@
     "access": "public"
   },
   "scripts": {
-    "prebuild": "node .rimraf ./dist",
+    "prebuild": "node rimraf ./dist",
     "build": "node tsc && npm run rollup",
     "watch": "node tsc --watch",
     "rollup": "node rollup -c",
