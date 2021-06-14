@@ -45,8 +45,7 @@ export function generateProxies(
   const imports = `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated vue proxies */
-import Vue, { PropOptions } from 'vue';
-import { createCommonRender, createCommonMethod } from './vue-component-lib/utils';\n`;
+import { defineContainer } from './vue-component-lib/utils';\n`;
 
   const typeImports = !outputTarget.componentCorePackage
     ? `import type { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`
@@ -70,23 +69,12 @@ import { createCommonRender, createCommonMethod } from './vue-component-lib/util
     typeImports,
     sourceImports,
     registerCustomElements,
-    createIgnoredElementsString(components),
     components
       .map(createComponentDefinition(IMPORT_TYPES, outputTarget.componentModels))
       .join('\n'),
   ];
 
   return final.join('\n') + '\n';
-}
-
-function createIgnoredElementsString(components: ComponentCompilerMeta[]) {
-  const ignoredElements = components.map((component) => ` '${component.tagName}',`).join('\n');
-
-  return `
-const customElementTags: string[] = [
-${ignoredElements}
-];
-Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTags];\n`;
 }
 
 async function copyResources(config: Config, outputTarget: OutputTargetVue) {
@@ -128,7 +116,7 @@ export function getPathToCorePackageLoader(config: Config, outputTarget: OutputT
 }
 
 export const GENERATED_DTS = 'components.d.ts';
-const IMPORT_TYPES = 'Components';
+const IMPORT_TYPES = 'JSX';
 const REGISTER_CUSTOM_ELEMENTS = 'defineCustomElements';
 const APPLY_POLYFILLS = 'applyPolyfills';
 const DEFAULT_LOADER_DIR = '/dist/loader';

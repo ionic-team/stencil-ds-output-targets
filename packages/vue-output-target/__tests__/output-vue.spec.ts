@@ -1,4 +1,4 @@
-import { ComponentCompilerMeta, Config } from '@stencil/core/internal';
+import { ComponentCompilerMeta } from '@stencil/core/internal';
 import { generateProxies } from '../src/output-vue';
 import { PackageJSON, OutputTargetVue } from '../src/types';
 
@@ -23,20 +23,13 @@ describe('generateProxies', () => {
       `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated vue proxies */
-import Vue, { PropOptions } from 'vue';
-import { createCommonRender, createCommonMethod } from './vue-component-lib/utils';
+import { defineContainer } from './vue-component-lib/utils';
 
-import type { Components } from 'component-library';
+import type { JSX } from 'component-library';
 
 import { applyPolyfills, defineCustomElements } from 'component-library/dist/loader';
 
 applyPolyfills().then(() => defineCustomElements());
-
-const customElementTags: string[] = [
-
-];
-Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTags];
-
 
 `,
     );
@@ -55,20 +48,13 @@ Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTag
       `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated vue proxies */
-import Vue, { PropOptions } from 'vue';
-import { createCommonRender, createCommonMethod } from './vue-component-lib/utils';
+import { defineContainer } from './vue-component-lib/utils';
 
-import type { Components } from 'component-library';
+import type { JSX } from 'component-library';
 
 import { defineCustomElements } from 'component-library/dist/loader';
 
 defineCustomElements();
-
-const customElementTags: string[] = [
-
-];
-Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTags];
-
 
 `,
     );
@@ -87,18 +73,11 @@ Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTag
       `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated vue proxies */
-import Vue, { PropOptions } from 'vue';
-import { createCommonRender, createCommonMethod } from './vue-component-lib/utils';
+import { defineContainer } from './vue-component-lib/utils';
 
-import type { Components } from 'component-library';
-
+import type { JSX } from 'component-library';
 
 
-
-const customElementTags: string[] = [
-
-];
-Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTags];
 
 
 `,

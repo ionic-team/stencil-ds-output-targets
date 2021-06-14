@@ -18,48 +18,45 @@ describe('MyComponent', () => {
 
   it('should get strings as props', () => {
     const wrapper = mount(MyComponent, {
-      propsData: {
+      props: {
         first: 'blue',
       },
     });
     expect(wrapper.props().first).toEqual('blue');
-    expect((wrapper.element as HTMLMyComponentElement).first).toEqual('blue');
   });
 
   it('should get numbers as props', () => {
     const wrapper = mount(MyComponent, {
-      propsData: {
+      props: {
         age: 39,
       },
     });
     expect(wrapper.props().age).toEqual(39);
-    expect((wrapper.element as HTMLMyComponentElement).age).toEqual(39);
   });
 
   it('should get arrays as props', () => {
     const wrapper = mount(MyComponent, {
-      propsData: {
+      props: {
         kidsNames: ['billy', 'jane'],
       },
     });
     expect(wrapper.props().kidsNames).toEqual(['billy', 'jane']);
-    expect((wrapper.element as HTMLMyComponentElement).kidsNames).toEqual(['billy', 'jane']);
   });
 
   it('on myChange value the bound component attribute should update', () => {
     const onMyCustomEvent = jest.fn();
     const Component = {
-      template: `<MyComponent type="text" v-on:myCustomEvent="customEventAction"></MyComponent>`,
+      template: `<MyComponent type="text" v-on:myCustomEvent="customEventAction($event)"></MyComponent>`,
       components: { MyComponent },
       methods: {
         customEventAction: onMyCustomEvent,
       },
     };
     const wrapper = mount(Component);
-    const myComponentEl = wrapper.find('my-component').element as HTMLMyCheckboxElement;
-    myComponentEl.dispatchEvent(new CustomEvent('myCustomEvent', { detail: 5 }));
+    const myComponentEl = wrapper.find('my-component').element as HTMLMyComponentElement;
+    myComponentEl.dispatchEvent(new CustomEvent('my-custom-event', { detail: 5 }));
 
     expect(onMyCustomEvent).toBeCalledTimes(1);
-    expect(onMyCustomEvent).toBeCalledWith(5);
+    expect(onMyCustomEvent.mock.calls[0][0].detail).toEqual(5);
   });
 });
