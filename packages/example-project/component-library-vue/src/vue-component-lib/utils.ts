@@ -14,12 +14,6 @@ interface NavManager<T = any> {
   navigate: (options: T) => void;
 }
 
-interface ComponentOptions {
-  modelProp?: string;
-  modelUpdateEvent?: string | string[];
-  externalModelUpdateEvent?: string;
-}
-
 const getComponentClasses = (classes: unknown) => {
   return (classes as string)?.split(' ') || [];
 };
@@ -36,12 +30,34 @@ const getElementClasses = (ref: Ref<HTMLElement | undefined>, componentClasses: 
 * @prop componentProps - An array of properties on the
 * component. These usually match up with the @Prop definitions
 * in each component's TSX file.
-* @prop componentOptions - An object that defines additional
-* options for the component such as router or v-model
-* integrations.
+* @prop customElement - An option custom element instance to pass
+* to customElements.define. Only set if `includeImportCustomElements: true` in your config.
+* @prop modelProp - The prop that v-model binds to (i.e. value)
+* @prop modelUpdateEvent - The event that is fired from your Web Component when the value changes (i.e. ionChange)
+* @prop externalModelUpdateEvent - The external event to fire from your Vue component when modelUpdateEvent fires. This is used for ensuring that v-model references have been
+* correctly updated when a user's event callback fires.
 */
-export const defineContainer = <Props>(name: string, componentProps: string[] = [], componentOptions: ComponentOptions = {}) => {
-  const { modelProp, modelUpdateEvent, externalModelUpdateEvent } = componentOptions;
+export const defineContainer = <Props>(
+  name: string,
+  customElement: any,
+  componentProps: string[] = [],
+  modelProp?: string,
+  modelUpdateEvent?: string,
+  externalModelUpdateEvent?: string
+) => {
+
+  /**
+   * If importing custom elements, register it
+   * with the custom elements registry only if
+   * it has not already been registered.
+   */
+  if (
+    customElement !== undefined &&
+    typeof customElements !== 'undefined' &&
+    !customElements.get(name)
+  ) {
+    customElements.define(name, customElement);
+  }
 
   /**
   * Create a Vue component wrapper around a Web Component.
