@@ -48,96 +48,98 @@ export const defineContainer = <Props>(name: string, componentProps: string[] = 
   * Note: The `props` here are not all properties on a component.
   * They refer to whatever properties are set on an instance of a component.
   */
-  const Container = defineComponent<Props & InputProps>((props, { attrs, slots, emit }) => {
-    let modelPropValue = (props as any)[modelProp];
-    const containerRef = ref<HTMLElement>();
-    const classes = new Set(getComponentClasses(attrs.class));
-    const onVnodeBeforeMount = (vnode: VNode) => {
-      // Add a listener to tell Vue to update the v-model
-      if (vnode.el) {
-        const eventsNames = Array.isArray(modelUpdateEvent) ? modelUpdateEvent : [modelUpdateEvent];
-        eventsNames.forEach((eventName: string) => {
-          vnode.el.addEventListener(eventName.toLowerCase(), (e: Event) => {
-            modelPropValue = (e?.target as any)[modelProp];
-            emit(UPDATE_VALUE_EVENT, modelPropValue);
+  const Container = defineComponent<Props & InputProps>({
+    name: name,
+    setup(props, { attrs, slots, emit }) {
+      let modelPropValue = (props as any)[modelProp];
+      const containerRef = ref<HTMLElement>();
+      const classes = new Set(getComponentClasses(attrs.class));
+      const onVnodeBeforeMount = (vnode: VNode) => {
+        // Add a listener to tell Vue to update the v-model
+        if (vnode.el) {
+          const eventsNames = Array.isArray(modelUpdateEvent) ? modelUpdateEvent : [modelUpdateEvent];
+          eventsNames.forEach((eventName: string) => {
+            vnode.el.addEventListener(eventName.toLowerCase(), (e: Event) => {
+              modelPropValue = (e?.target as any)[modelProp];
+              emit(UPDATE_VALUE_EVENT, modelPropValue);
 
-            /**
-             * We need to emit the change event here
-             * rather than on the web component to ensure
-             * that any v-model bindings have been updated.
-             * Otherwise, the developer will listen on the
-             * native web component, but the v-model will
-             * not have been updated yet.
-             */
-            emit(externalModelUpdateEvent, e);
+              /**
+               * We need to emit the change event here
+               * rather than on the web component to ensure
+               * that any v-model bindings have been updated.
+               * Otherwise, the developer will listen on the
+               * native web component, but the v-model will
+               * not have been updated yet.
+               */
+              emit(externalModelUpdateEvent, e);
+            });
           });
-        });
-      }
-    };
-
-    const currentInstance = getCurrentInstance();
-    const hasRouter = currentInstance?.appContext?.provides[NAV_MANAGER];
-    const navManager: NavManager | undefined = hasRouter ? inject(NAV_MANAGER) : undefined;
-    const handleRouterLink = (ev: Event) => {
-      const { routerLink } = props as any;
-      if (!routerLink) return;
-
-      const routerProps = Object.keys(props).filter(p => p.startsWith(ROUTER_PROP_REFIX));
-
-      if (navManager !== undefined) {
-        let navigationPayload: any = { event: ev };
-        routerProps.forEach(prop => {
-          navigationPayload[prop] = (props as any)[prop];
-        });
-        navManager.navigate(navigationPayload);
-      } else {
-        console.warn('Tried to navigate, but no router was found. Make sure you have mounted Vue Router.');
-      }
-    }
-
-    return () => {
-      modelPropValue = (props as any)[modelProp];
-
-      getComponentClasses(attrs.class).forEach(value => {
-        classes.add(value);
-      });
-
-      const oldClick = (props as any).onClick;
-      const handleClick = (ev: Event) => {
-        if (oldClick !== undefined) {
-          oldClick(ev);
         }
-        if (!ev.defaultPrevented) {
-          handleRouterLink(ev);
-        }
-      }
-
-      let propsToAdd = {
-        ...props,
-        ref: containerRef,
-        class: getElementClasses(containerRef, classes),
-        onClick: handleClick,
-        onVnodeBeforeMount: (modelUpdateEvent && externalModelUpdateEvent) ? onVnodeBeforeMount : undefined
       };
 
-      if (modelProp) {
-        /**
-         * Starting in Vue 3.1.0, all properties are
-         * added as keys to the props object, even if
-         * they are not being used. In order to correctly
-         * account for both value props and v-model props,
-         * we need to check if the key exists for Vue <3.1.0
-         * and then check if it is not undefined for Vue >= 3.1.0.
-         */
-        propsToAdd = {
-          ...propsToAdd,
-          [modelProp]: props.hasOwnProperty(MODEL_VALUE) && props[MODEL_VALUE] !== undefined ? props.modelValue : modelPropValue
+      const currentInstance = getCurrentInstance();
+      const hasRouter = currentInstance?.appContext?.provides[NAV_MANAGER];
+      const navManager: NavManager | undefined = hasRouter ? inject(NAV_MANAGER) : undefined;
+      const handleRouterLink = (ev: Event) => {
+        const { routerLink } = props as any;
+        if (!routerLink) return;
+
+        const routerProps = Object.keys(props).filter(p => p.startsWith(ROUTER_PROP_REFIX));
+
+        if (navManager !== undefined) {
+          let navigationPayload: any = { event: ev };
+          routerProps.forEach(prop => {
+            navigationPayload[prop] = (props as any)[prop];
+          });
+          navManager.navigate(navigationPayload);
+        } else {
+          console.warn('Tried to navigate, but no router was found. Make sure you have mounted Vue Router.');
         }
       }
 
-      return h(name, propsToAdd, slots.default && slots.default());
-    }
-  });
+      return () => {
+        modelPropValue = (props as any)[modelProp];
+
+        getComponentClasses(attrs.class).forEach(value => {
+          classes.add(value);
+        });
+
+        const oldClick = (props as any).onClick;
+        const handleClick = (ev: Event) => {
+          if (oldClick !== undefined) {
+            oldClick(ev);
+          }
+          if (!ev.defaultPrevented) {
+            handleRouterLink(ev);
+          }
+        }
+
+        let propsToAdd = {
+          ...props,
+          ref: containerRef,
+          class: getElementClasses(containerRef, classes),
+          onClick: handleClick,
+          onVnodeBeforeMount: (modelUpdateEvent && externalModelUpdateEvent) ? onVnodeBeforeMount : undefined
+        };
+
+        if (modelProp) {
+          /**
+           * Starting in Vue 3.1.0, all properties are
+           * added as keys to the props object, even if
+           * they are not being used. In order to correctly
+           * account for both value props and v-model props,
+           * we need to check if the key exists for Vue <3.1.0
+           * and then check if it is not undefined for Vue >= 3.1.0.
+           */
+          propsToAdd = {
+            ...propsToAdd,
+            [modelProp]: props.hasOwnProperty(MODEL_VALUE) && props[MODEL_VALUE] !== undefined ? props.modelValue : modelPropValue
+          }
+        }
+
+        return h(name, propsToAdd, slots.default && slots.default());
+      }
+  }});
 
   Container.displayName = name;
   Container.props = [...componentProps, ROUTER_LINK_VALUE];
