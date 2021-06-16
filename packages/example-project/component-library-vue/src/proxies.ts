@@ -39,7 +39,7 @@ export const MyCheckbox = /*@__PURE__*/ defineContainer<JSX.MyCheckbox>('my-chec
   'myBlur',
   'myStyle'
 ],
-'checked', 'myChange', 'undefined');
+'checked', 'myChange');
 
 
 export const MyComponent = /*@__PURE__*/ defineContainer<JSX.MyComponent>('my-component', undefined, [
@@ -84,7 +84,7 @@ export const MyInput = /*@__PURE__*/ defineContainer<JSX.MyInput>('my-input', un
   'myBlur',
   'myFocus'
 ],
-'value', 'myChange', 'undefined');
+'value', 'myChange');
 
 
 export const MyPopover = /*@__PURE__*/ defineContainer<JSX.MyPopover>('my-popover', undefined, [
@@ -122,7 +122,7 @@ export const MyRadioGroup = /*@__PURE__*/ defineContainer<JSX.MyRadioGroup>('my-
   'value',
   'myChange'
 ],
-'value', 'myChange', 'undefined');
+'value', 'myChange');
 
 
 export const MyRange = /*@__PURE__*/ defineContainer<JSX.MyRange>('my-range', undefined, [
@@ -143,5 +143,5 @@ export const MyRange = /*@__PURE__*/ defineContainer<JSX.MyRange>('my-range', un
   'myFocus',
   'myBlur'
 ],
-'value', 'myChange', 'undefined');
+'value', 'myChange');
 
