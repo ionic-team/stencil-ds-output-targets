@@ -45,12 +45,12 @@ export const defineContainer = <Props>(
   modelUpdateEvent?: string,
   externalModelUpdateEvent?: string
 ) => {
-
   /**
-   * If importing custom elements, register it
-   * with the custom elements registry only if
-   * it has not already been registered.
-   */
+  * Create a Vue component wrapper around a Web Component.
+  * Note: The `props` here are not all properties on a component.
+  * They refer to whatever properties are set on an instance of a component.
+  */
+
   if (
     customElement !== undefined &&
     typeof customElements !== 'undefined' &&
@@ -59,11 +59,6 @@ export const defineContainer = <Props>(
     customElements.define(name, customElement);
   }
 
-  /**
-  * Create a Vue component wrapper around a Web Component.
-  * Note: The `props` here are not all properties on a component.
-  * They refer to whatever properties are set on an instance of a component.
-  */
   const Container = defineComponent<Props & InputProps>((props, { attrs, slots, emit }) => {
     let modelPropValue = (props as any)[modelProp];
     const containerRef = ref<HTMLElement>();
