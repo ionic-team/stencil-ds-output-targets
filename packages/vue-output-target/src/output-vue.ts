@@ -7,7 +7,7 @@ import type {
   OutputTargetDist,
 } from '@stencil/core/internal';
 import { createComponentDefinition } from './generate-vue-component';
-import { normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
+import { normalizePath, readPackageJson, relativeImport, sortBy, dashToPascalCase } from './utils';
 
 export async function vueProxyOutput(
   config: Config,
@@ -47,16 +47,32 @@ export function generateProxies(
 /* auto-generated vue proxies */
 import { defineContainer } from './vue-component-lib/utils';\n`;
 
-  const typeImports = !outputTarget.componentCorePackage
-    ? `import type { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`
-    : `import type { ${IMPORT_TYPES} } from '${normalizePath(
-        outputTarget.componentCorePackage,
-      )}';\n`;
+  const generateTypeImports = () => {
+    if (outputTarget.componentCorePackage !== undefined) {
+      const dirPath = outputTarget.includeImportCustomElements ? `/${outputTarget.customElementsDir || 'components'}` : '';
+      return `import type { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}${dirPath}';\n`;
+    }
+
+    return `import type { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`;
+  }
+
+  const typeImports = generateTypeImports();
 
   let sourceImports = '';
   let registerCustomElements = '';
 
-  if (outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
+  if (outputTarget.includeImportCustomElements && outputTarget.componentCorePackage !== undefined) {
+    const cmpImports = components.map(component => {
+      const pascalImport = dashToPascalCase(component.tagName);
+
+      return `import { ${pascalImport} as ${pascalImport}Cmp } from '${normalizePath(outputTarget.componentCorePackage!)}/${outputTarget.customElementsDir ||
+        'components'
+      }/${component.tagName}.js';`;
+    });
+
+    sourceImports = cmpImports.join('\n');
+
+  } else if (outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
     sourceImports = `import { ${APPLY_POLYFILLS}, ${REGISTER_CUSTOM_ELEMENTS} } from '${pathToCorePackageLoader}';\n`;
     registerCustomElements = `${APPLY_POLYFILLS}().then(() => ${REGISTER_CUSTOM_ELEMENTS}());`;
   } else if (!outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
@@ -70,7 +86,7 @@ import { defineContainer } from './vue-component-lib/utils';\n`;
     sourceImports,
     registerCustomElements,
     components
-      .map(createComponentDefinition(IMPORT_TYPES, outputTarget.componentModels))
+      .map(createComponentDefinition(IMPORT_TYPES, outputTarget.componentModels, outputTarget.includeImportCustomElements))
       .join('\n'),
   ];
 

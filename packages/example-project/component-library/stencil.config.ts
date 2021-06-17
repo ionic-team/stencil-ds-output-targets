@@ -24,12 +24,6 @@ const angularValueAccessorBindings: ValueAccessorConfig[] = [
     type: 'boolean',
   },
   {
-    elementSelectors: ['my-radio'],
-    event: 'mySelect',
-    targetAttr: 'checked',
-    type: 'radio',
-  },
-  {
     elementSelectors: ['my-range', 'my-radio-group'],
     event: 'myChange',
     targetAttr: 'value',
@@ -49,11 +43,6 @@ const vueComponentModels: ComponentModelConfig[] = [
     targetAttr: 'checked',
   },
   {
-    elements: ['my-radio'],
-    event: 'mySelect',
-    targetAttr: 'checked',
-  },
-  {
     elements: ['my-range', 'my-radio-group'],
     event: 'myChange',
     targetAttr: 'value',
@@ -69,11 +58,6 @@ const svelteComponentBindings: ComponentBindingConfig[] = [
   {
     elements: ['my-checkbox'],
     event: 'myChange',
-    targetProp: 'checked',
-  },
-  {
-    elements: ['my-radio'],
-    event: 'mySelect',
     targetProp: 'checked',
   },
   {

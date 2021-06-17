@@ -6,12 +6,8 @@ export interface OutputTargetVue {
   loaderDir?: string;
   includePolyfills?: boolean;
   includeDefineCustomElements?: boolean;
-}
-
-export interface ComponentOptions {
-  modelProp?: string;
-  modelUpdateEvent?: string | string[];
-  externalModelUpdateEvent?: string;
+  includeImportCustomElements?: boolean;
+  customElementsDir?: string;
 }
 
 export interface ComponentModelConfig {
