@@ -72,16 +72,20 @@ export function generateProxies(
 
   const imports = `/* tslint:disable */
 /* auto-generated angular directive proxies */
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, NgZone } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, NgZone } from '@angular/core';
+import { EventEmitter as StencilEventEmitter } from '@stencil/core';
 import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
 
   const typeImports = !outputTarget.componentCorePackage
     ? `import { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';`
     : `import { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}';`;
 
+  const stencilEventEmitterGenericParameterExtractor = `type StencilEventEmitterValueType<Type> = Type extends StencilEventEmitter<infer X> ? X : never`;
+
   const final: string[] = [
     imports,
     typeImports,
+    stencilEventEmitterGenericParameterExtractor,
     components
       .map(createComponentDefinition(outputTarget.componentCorePackage!, distTypesDir, rootDir))
       .join('\n'),

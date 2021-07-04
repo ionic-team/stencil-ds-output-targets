@@ -1,9 +1,11 @@
 /* tslint:disable */
 /* auto-generated angular directive proxies */
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, NgZone } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, NgZone } from '@angular/core';
+import { EventEmitter as StencilEventEmitter } from '@stencil/core';
 import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';
 
 import { Components } from 'component-library';
+type StencilEventEmitterValueType<Type> = Type extends StencilEventEmitter<infer X> ? X : never
 
 import { Button as IButton } from 'component-library/dist/types/components/my-button/my-button';
 export declare interface MyButton extends Components.MyButton {}
@@ -19,9 +21,9 @@ export declare interface MyButton extends Components.MyButton {}
 })
 export class MyButton {
   /** Emitted when the button has focus. */
-  myFocus!: IButton['myFocus'];
+  myFocus!: IButton['myFocus'] & EventEmitter<StencilEventEmitterValueType<IButton['myFocus']>>;
   /** Emitted when the button loses focus. */
-  myBlur!: IButton['myBlur'];
+  myBlur!: IButton['myBlur'] & EventEmitter<StencilEventEmitterValueType<IButton['myBlur']>>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -44,11 +46,11 @@ export declare interface MyCheckbox extends Components.MyCheckbox {}
 })
 export class MyCheckbox {
   /** Emitted when the checked property has changed. */
-  myChange!: ICheckbox['myChange'];
+  myChange!: ICheckbox['myChange'] & EventEmitter<StencilEventEmitterValueType<ICheckbox['myChange']>>;
   /** Emitted when the toggle has focus. */
-  myFocus!: ICheckbox['myFocus'];
+  myFocus!: ICheckbox['myFocus'] & EventEmitter<StencilEventEmitterValueType<ICheckbox['myFocus']>>;
   /** Emitted when the toggle loses focus. */
-  myBlur!: ICheckbox['myBlur'];
+  myBlur!: ICheckbox['myBlur'] & EventEmitter<StencilEventEmitterValueType<ICheckbox['myBlur']>>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -71,7 +73,7 @@ export declare interface MyComponent extends Components.MyComponent {}
 })
 export class MyComponent {
   /** Testing an event without value */
-  myCustomEvent!: IMyComponent['myCustomEvent'];
+  myCustomEvent!: IMyComponent['myCustomEvent'] & EventEmitter<StencilEventEmitterValueType<IMyComponent['myCustomEvent']>>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -95,13 +97,13 @@ export declare interface MyInput extends Components.MyInput {}
 })
 export class MyInput {
   /** Emitted when a keyboard input occurred. */
-  myInput!: IInput['myInput'];
+  myInput!: IInput['myInput'] & EventEmitter<StencilEventEmitterValueType<IInput['myInput']>>;
   /** Emitted when the value has changed. */
-  myChange!: IInput['myChange'];
+  myChange!: IInput['myChange'] & EventEmitter<StencilEventEmitterValueType<IInput['myChange']>>;
   /** Emitted when the input loses focus. */
-  myBlur!: IInput['myBlur'];
+  myBlur!: IInput['myBlur'] & EventEmitter<StencilEventEmitterValueType<IInput['myBlur']>>;
   /** Emitted when the input has focus. */
-  myFocus!: IInput['myFocus'];
+  myFocus!: IInput['myFocus'] & EventEmitter<StencilEventEmitterValueType<IInput['myFocus']>>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -125,13 +127,13 @@ export declare interface MyPopover extends Components.MyPopover {}
 })
 export class MyPopover {
   /** Emitted after the popover has presented. */
-  myPopoverDidPresent!: IPopover['didPresent'];
+  myPopoverDidPresent!: IPopover['didPresent'] & EventEmitter<StencilEventEmitterValueType<IPopover['didPresent']>>;
   /** Emitted before the popover has presented. */
-  myPopoverWillPresent!: IPopover['willPresent'];
+  myPopoverWillPresent!: IPopover['willPresent'] & EventEmitter<StencilEventEmitterValueType<IPopover['willPresent']>>;
   /** Emitted before the popover has dismissed. */
-  myPopoverWillDismiss!: IPopover['willDismiss'];
+  myPopoverWillDismiss!: IPopover['willDismiss'] & EventEmitter<StencilEventEmitterValueType<IPopover['willDismiss']>>;
   /** Emitted after the popover has dismissed. */
-  myPopoverDidDismiss!: IPopover['didDismiss'];
+  myPopoverDidDismiss!: IPopover['didDismiss'] & EventEmitter<StencilEventEmitterValueType<IPopover['didDismiss']>>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -154,11 +156,11 @@ export declare interface MyRadio extends Components.MyRadio {}
 })
 export class MyRadio {
   /** Emitted when the radio button has focus. */
-  myFocus!: IRadio['myFocus'];
+  myFocus!: IRadio['myFocus'] & EventEmitter<StencilEventEmitterValueType<IRadio['myFocus']>>;
   /** Emitted when the radio button loses focus. */
-  myBlur!: IRadio['myBlur'];
+  myBlur!: IRadio['myBlur'] & EventEmitter<StencilEventEmitterValueType<IRadio['myBlur']>>;
   /** Emitted when the radio button loses focus. */
-  mySelect!: IRadio['mySelect'];
+  mySelect!: IRadio['mySelect'] & EventEmitter<StencilEventEmitterValueType<IRadio['mySelect']>>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -181,7 +183,7 @@ export declare interface MyRadioGroup extends Components.MyRadioGroup {}
 })
 export class MyRadioGroup {
   /** Emitted when the value has changed. */
-  myChange!: IRadioGroup['myChange'];
+  myChange!: IRadioGroup['myChange'] & EventEmitter<StencilEventEmitterValueType<IRadioGroup['myChange']>>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -204,11 +206,11 @@ export declare interface MyRange extends Components.MyRange {}
 })
 export class MyRange {
   /** Emitted when the value property has changed. */
-  myChange!: IRange['myChange'];
+  myChange!: IRange['myChange'] & EventEmitter<StencilEventEmitterValueType<IRange['myChange']>>;
   /** Emitted when the range has focus. */
-  myFocus!: IRange['myFocus'];
+  myFocus!: IRange['myFocus'] & EventEmitter<StencilEventEmitterValueType<IRange['myFocus']>>;
   /** Emitted when the range loses focus. */
-  myBlur!: IRange['myBlur'];
+  myBlur!: IRange['myBlur'] & EventEmitter<StencilEventEmitterValueType<IRange['myBlur']>>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();

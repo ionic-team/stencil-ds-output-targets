@@ -61,7 +61,8 @@ export class ${tagNameAsPascal} {`,
     lines.push(
       `  /** ${output.docs.text} ${output.docs.tags.map((tag) => `@${tag.name} ${tag.text}`)}*/`,
     );
-    lines.push(`  ${output.name}!: I${cmpMeta.componentClassName}['${output.method}'];`);
+    const typeName = `I${cmpMeta.componentClassName}['${output.method}']`;
+    lines.push(`  ${output.name}!: ${typeName} & EventEmitter<StencilEventEmitterValueType<${typeName}>>;`);
   });
 
   lines.push('  protected el: HTMLElement;');
