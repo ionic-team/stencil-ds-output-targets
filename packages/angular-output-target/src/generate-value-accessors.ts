@@ -1,8 +1,9 @@
+import { EOL } from 'os';
 import path from 'path';
 import type { OutputTargetAngular, ValueAccessorTypes } from './types';
 import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
 
-interface ValueAccessor {
+export interface ValueAccessor {
   elementSelectors: string[];
   eventTargets: [string, string][];
 }
@@ -73,7 +74,7 @@ export default async function generateValueAccessors(
   await copyResources(config, ['value-accessor.ts'], targetDir);
 }
 
-function createValueAccessor(srcFileContents: string, valueAccessor: ValueAccessor) {
+export function createValueAccessor(srcFileContents: string, valueAccessor: ValueAccessor) {
   const hostContents = valueAccessor.eventTargets.map((listItem) =>
     VALUE_ACCESSOR_EVENTTARGETS.replace(VALUE_ACCESSOR_EVENT, listItem[0]).replace(
       VALUE_ACCESSOR_TARGETATTR,
@@ -83,7 +84,7 @@ function createValueAccessor(srcFileContents: string, valueAccessor: ValueAccess
 
   return srcFileContents
     .replace(VALUE_ACCESSOR_SELECTORS, valueAccessor.elementSelectors.join(', '))
-    .replace(VALUE_ACCESSOR_EVENTTARGETS, hostContents.join('\n'));
+    .replace(VALUE_ACCESSOR_EVENTTARGETS, hostContents.join(`,${EOL}`));
 }
 
 function copyResources(config: Config, resourcesFilesToCopy: string[], directory: string) {
