@@ -105,7 +105,7 @@ export const defineContainer = <Props>(
     const navManager: NavManager | undefined = hasRouter ? inject(NAV_MANAGER) : undefined;
     const handleRouterLink = (ev: Event) => {
       const { routerLink } = props;
-      if (!routerLink) return;
+      if (routerLink === EMPTY_PROP) return;
 
       if (navManager !== undefined) {
         let navigationPayload: any = { event: ev };
