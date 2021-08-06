@@ -8,7 +8,7 @@ const UPDATE_VALUE_EVENT = 'update:modelValue';
 const MODEL_VALUE = 'modelValue';
 const ROUTER_LINK_VALUE = 'routerLink';
 const NAV_MANAGER = 'navManager';
-const ROUTER_PROP_REFIX = 'router';
+const ROUTER_PROP_PREFIX = 'router';
 
 /**
  * Starting in Vue 3.1.0, all properties are
@@ -107,13 +107,15 @@ export const defineContainer = <Props>(
       const { routerLink } = props;
       if (!routerLink) return;
 
-      const routerProps = Object.keys(props).filter(p => p.startsWith(ROUTER_PROP_REFIX));
-
       if (navManager !== undefined) {
         let navigationPayload: any = { event: ev };
-        routerProps.forEach(prop => {
-          navigationPayload[prop] = props[prop];
-        });
+        for (const key in props) {
+          const value = props[key];
+          if (props.hasOwnProperty(key) && key.startsWith(ROUTER_PROP_PREFIX) && value !== EMPTY_PROP) {
+            navigationPayload[key] = value;
+          }
+        }
+
         navManager.navigate(navigationPayload);
       } else {
         console.warn('Tried to navigate, but no router was found. Make sure you have mounted Vue Router.');
