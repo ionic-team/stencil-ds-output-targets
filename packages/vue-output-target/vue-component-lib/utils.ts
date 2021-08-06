@@ -71,8 +71,8 @@ export const defineContainer = <Props>(
     customElements.define(name, customElement);
   }
 
-  const Container = defineComponent<Props & InputProps>((props, { attrs, slots, emit }) => {
-    let modelPropValue = (props as any)[modelProp];
+  const Container = defineComponent<Props & InputProps>((props: any, { attrs, slots, emit }) => {
+    let modelPropValue = props[modelProp];
     const containerRef = ref<HTMLElement>();
     const classes = new Set(getComponentClasses(attrs.class));
     const onVnodeBeforeMount = (vnode: VNode) => {
@@ -104,7 +104,7 @@ export const defineContainer = <Props>(
     const hasRouter = currentInstance?.appContext?.provides[NAV_MANAGER];
     const navManager: NavManager | undefined = hasRouter ? inject(NAV_MANAGER) : undefined;
     const handleRouterLink = (ev: Event) => {
-      const { routerLink } = props as any;
+      const { routerLink } = props;
       if (!routerLink) return;
 
       const routerProps = Object.keys(props).filter(p => p.startsWith(ROUTER_PROP_REFIX));
@@ -112,7 +112,7 @@ export const defineContainer = <Props>(
       if (navManager !== undefined) {
         let navigationPayload: any = { event: ev };
         routerProps.forEach(prop => {
-          navigationPayload[prop] = (props as any)[prop];
+          navigationPayload[prop] = props[prop];
         });
         navManager.navigate(navigationPayload);
       } else {
@@ -121,13 +121,13 @@ export const defineContainer = <Props>(
     }
 
     return () => {
-      modelPropValue = (props as any)[modelProp];
+      modelPropValue = props[modelProp];
 
       getComponentClasses(attrs.class).forEach(value => {
         classes.add(value);
       });
 
-      const oldClick = (props as any).onClick;
+      const oldClick = props.onClick;
       const handleClick = (ev: Event) => {
         if (oldClick !== undefined) {
           oldClick(ev);
@@ -137,7 +137,7 @@ export const defineContainer = <Props>(
         }
       }
 
-      let propsToAdd = {
+      let propsToAdd: any = {
         ref: containerRef,
         class: getElementClasses(containerRef, classes),
         onClick: handleClick,
