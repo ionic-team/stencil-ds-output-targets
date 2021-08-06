@@ -151,8 +151,9 @@ export const defineContainer = <Props>(
        * where as this only requires 1.
        */
       for (const key in props) {
-        if (props.hasOwnProperty(key)) {
-          propsToAdd[key] = props[key];
+        const value = props[key];
+        if (props.hasOwnProperty(key) && value !== EMPTY_PROP) {
+          propsToAdd[key] = value;
         }
       }
 
