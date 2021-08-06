@@ -169,7 +169,7 @@ export const defineContainer = <Props>(
         if (props[MODEL_VALUE] !== EMPTY_PROP) {
           propsToAdd = {
             ...propsToAdd,
-            [modelProp]: props.modelValue
+            [modelProp]: props[MODEL_VALUE]
           }
         } else if (modelPropValue !== EMPTY_PROP) {
           propsToAdd = {
