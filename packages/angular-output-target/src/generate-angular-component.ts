@@ -1,5 +1,5 @@
 import path from 'path';
-import { dashToPascalCase, normalizePath } from './utils';
+import { dashToPascalCase, isRelativePath, normalizePath } from './utils';
 import type { ComponentCompilerMeta } from '@stencil/core/internal';
 
 export const createComponentDefinition = (
@@ -40,14 +40,28 @@ export const createComponentDefinition = (
     ),
   );
   const importPath = normalizePath(path.join(typePath.dir, typePath.name));
-  const outputsInterface =
-    outputs.length > 0
-      ? `import { ${cmpMeta.componentClassName} as I${cmpMeta.componentClassName} } from '${importPath}';`
-      : '';
+  const outputsInterface: string[] = ['']; // Empty first line
+
+  const outputReferenceRemap: { [p: string]: string } = {};
+  outputs.forEach((output) => {
+    Object.entries(output.complexType.references).forEach(([reference, refObject]) => {
+      // Add import line for each local/import reference, and add new mapping name
+      const remappedReference = `I${cmpMeta.componentClassName}${reference}`;
+      if (refObject.location === 'local') {
+        outputReferenceRemap[reference] = remappedReference;
+        outputsInterface.push(`import { ${reference} as ${remappedReference} } from '${importPath}';`);
+      } else if (refObject.location === 'import') {
+        outputReferenceRemap[reference] = remappedReference;
+        const interfacePath = normalizePath(
+          isRelativePath(refObject.path!) ? path.join(typePath.dir, refObject.path!) : refObject.path!,
+        );
+        outputsInterface.push(`import { ${reference} as ${remappedReference} } from '${interfacePath}';`);
+      }
+    });
+  });
 
   const lines = [
-    `
-${outputsInterface}
+    `${outputsInterface.join('\n')}
 export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {}
 ${getProxyCmp(inputs, methods)}
 @Component({
@@ -61,7 +75,13 @@ export class ${tagNameAsPascal} {`,
     lines.push(
       `  /** ${output.docs.text} ${output.docs.tags.map((tag) => `@${tag.name} ${tag.text}`)}*/`,
     );
-    lines.push(`  ${output.name}!: I${cmpMeta.componentClassName}['${output.method}'];`);
+    // Regexp to replace output references with their remapped name
+    const outputTypeRemapped = Object.entries(outputReferenceRemap).reduce((type, [src, dst]) => {
+      return type
+        .replace(new RegExp(`^${src}$`, 'g'), `${dst}`)
+        .replace(new RegExp(`(:\\s)${src}([,\\s]{1})`, 'g'), `$1${dst}$2`);
+    }, output.complexType.original);
+    lines.push(`  ${output.name}!: EventEmitter<CustomEvent<${outputTypeRemapped}>>;`);
   });
 
   lines.push('  protected el: HTMLElement;');
