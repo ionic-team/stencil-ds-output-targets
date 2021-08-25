@@ -79,9 +79,15 @@ export class ${tagNameAsPascal} {`,
     const outputTypeRemapped = Object.entries(outputReferenceRemap).reduce((type, [src, dst]) => {
       return type
         .replace(new RegExp(`^${src}$`, 'g'), `${dst}`)
-        .replace(new RegExp(`(:\\s)${src}([,\\s]{1})`, 'g'), `$1${dst}$2`);
-    }, output.complexType.original);
-    lines.push(`  ${output.name}!: EventEmitter<CustomEvent<${outputTypeRemapped}>>;`);
+        .replace(
+          new RegExp(`([\\s<]|:\\s?)\\s*${src}\\s*((?<=[\\s<]\\s*${src}\\s*)[,<>]|(?<=:\\s*${src}\\s*)[,\\s}])`, 'g'),
+          (v, p1, p2) => [p1, dst, p2].join(''),
+        );
+    }, output.complexType.original
+      .replace(/\n/g, ' ')
+      .replace(/\s{2,}/g, ' ')
+      .replace(/,\s*/g, ', '));
+    lines.push(`  ${output.name}!: EventEmitter<CustomEvent<${outputTypeRemapped.trim()}>>;`);
   });
 
   lines.push('  protected el: HTMLElement;');
