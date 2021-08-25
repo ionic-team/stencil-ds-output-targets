@@ -80,7 +80,7 @@ export class ${tagNameAsPascal} {`,
       return type
         .replace(new RegExp(`^${src}$`, 'g'), `${dst}`)
         .replace(
-          new RegExp(`([\\s<]|:\\s?)\\s*${src}\\s*((?<=[\\s<]\\s*${src}\\s*)[,<>]|(?<=:\\s*${src}\\s*)[,\\s}])`, 'g'),
+          new RegExp(`([^\\w])${src}([^\\w])`, 'g'),
           (v, p1, p2) => [p1, dst, p2].join(''),
         );
     }, output.complexType.original
