@@ -55,7 +55,18 @@ import { createReactComponent } from './react-component-lib';\n`;
   let sourceImports = '';
   let registerCustomElements = '';
 
-  if (outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
+  if (outputTarget.includeImportCustomElements && outputTarget.componentCorePackage !== undefined) {
+    const cmpImports = components.map(component => {
+      const pascalImport = dashToPascalCase(component.tagName);
+
+      return `import { ${pascalImport} as ${pascalImport}Cmp } from '${normalizePath(outputTarget.componentCorePackage!)}/${outputTarget.customElementsDir ||
+        'components'
+      }/${component.tagName}.js';`;
+    });
+
+    sourceImports = cmpImports.join('\n');
+
+  } else if (outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
     sourceImports = `import { ${APPLY_POLYFILLS}, ${REGISTER_CUSTOM_ELEMENTS} } from '${pathToCorePackageLoader}';\n`;
     registerCustomElements = `${APPLY_POLYFILLS}().then(() => ${REGISTER_CUSTOM_ELEMENTS}());`;
   } else if (!outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
@@ -68,17 +79,18 @@ import { createReactComponent } from './react-component-lib';\n`;
     typeImports,
     sourceImports,
     registerCustomElements,
-    components.map(createComponentDefinition).join('\n'),
+    components.map(cmpMeta => createComponentDefinition(cmpMeta, outputTarget.includeImportCustomElements)).join('\n'),
   ];
 
   return final.join('\n') + '\n';
 }
 
-function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
+function createComponentDefinition(cmpMeta: ComponentCompilerMeta, includeCustomElement: boolean = false) {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
+  const importAs = (includeCustomElement) ? tagNameAsPascal + 'Cmp' : 'undefined';
 
   return [
-    `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}');`,
+    `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}', ${importAs});`,
   ];
 }
 
