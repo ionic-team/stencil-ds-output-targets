@@ -90,7 +90,7 @@ import { createReactComponent } from './react-component-lib';\n`;
   return final.join('\n') + '\n';
 }
 
-function createComponentDefinition(cmpMeta: ComponentCompilerMeta, includeCustomElement: boolean = false) {
+export function createComponentDefinition(cmpMeta: ComponentCompilerMeta, includeCustomElement: boolean = false) {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
   const importAs = (includeCustomElement) ? tagNameAsPascal + 'Cmp' : 'undefined';
 

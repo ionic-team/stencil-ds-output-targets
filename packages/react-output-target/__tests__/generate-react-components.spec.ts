@@ -1,6 +1,17 @@
 import { ComponentCompilerMeta, Config } from '@stencil/core/internal';
-import { generateProxies, getPathToCorePackageLoader } from '../src/output-react';
+import { createComponentDefinition, generateProxies, getPathToCorePackageLoader } from '../src/output-react';
 import { PackageJSON, OutputTargetReact } from '../src/types';
+
+describe('createComponentDefinition', () => {
+  it('should create a React component with custom element support', () => {
+    const output = createComponentDefinition({
+      properties: [],
+      tagName: 'my-component',
+      methods: [],
+      events: [],
+    }, true);
+    expect(output[0]).toEqual(`export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component', MyComponentCmp);`});
+})
 
 describe('generateProxies', () => {
   const components: ComponentCompilerMeta[] = [];
