@@ -105,8 +105,14 @@ import { createReactComponent } from './react-component-lib';\n`;
 /**
  * Defines the React component that developers will import
  * to use in their applications.
+ * @param cmpMeta: Meta data for a single Web Component
+ * @param includeCustomElement: If `true`, the Web Component instance
+ * will be passed in to createReactComponent to be registered
+ * with the Custom Elements Registry.
+ * @returns An array where each entry is a string version
+ * of the React component definition.
  */
-export function createComponentDefinition(cmpMeta: ComponentCompilerMeta, includeCustomElement: boolean = false) {
+export function createComponentDefinition(cmpMeta: ComponentCompilerMeta, includeCustomElement: boolean = false): string[] {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
   const importAs = (includeCustomElement) ? tagNameAsPascal + 'Cmp' : undefined;
 
