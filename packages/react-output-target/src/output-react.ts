@@ -117,7 +117,7 @@ export function createComponentDefinition(cmpMeta: ComponentCompilerMeta, includ
   let template = `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}'`;
 
   if (includeCustomElement) {
-    template += `, ${tagNameAsPascal}Cmp`;
+    template += `, undefined, undefined, ${tagNameAsPascal}Cmp`;
   }
 
   template += `);`;
