@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { OverlayEventDetail } from './interfaces';
-import { attachProps, setRef, StencilReactForwardedRef } from './utils';
+import { StencilReactForwardedRef, attachProps, setRef } from './utils';
 
 interface OverlayElement extends HTMLElement {
   present: () => Promise<void>;
@@ -23,7 +23,8 @@ export const createOverlayComponent = <
   OverlayType extends OverlayElement
 >(
   displayName: string,
-  controller: { create: (options: any) => Promise<OverlayType> }
+  controller: { create: (options: any) => Promise<OverlayType> },
+  customElement?: any
 ) => {
   const didDismissEventName = `on${displayName}DidDismiss`;
   const didPresentEventName = `on${displayName}DidPresent`;
@@ -36,6 +37,14 @@ export const createOverlayComponent = <
     };
 
   let isDismissing = false;
+
+  if (
+    customElement !== undefined &&
+    typeof customElements !== 'undefined' &&
+    !customElements.get(displayName)
+  ) {
+    customElements.define(displayName, customElement);
+  }
 
   class Overlay extends React.Component<Props> {
     overlay?: OverlayType;
