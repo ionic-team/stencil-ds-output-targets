@@ -114,12 +114,10 @@ import { createReactComponent } from './react-component-lib';\n`;
  */
 export function createComponentDefinition(cmpMeta: ComponentCompilerMeta, includeCustomElement: boolean = false): string[] {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
-  const importAs = (includeCustomElement) ? tagNameAsPascal + 'Cmp' : undefined;
-
   let template = `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}'`;
 
-  if (importAs) {
-    template += `, ${importAs}`;
+  if (includeCustomElement) {
+    template += `, ${tagNameAsPascal}Cmp`;
   }
 
   template += `);`;
