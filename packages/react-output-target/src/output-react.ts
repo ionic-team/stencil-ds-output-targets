@@ -46,6 +46,12 @@ export function generateProxies(
 /* auto-generated react proxies */
 import { createReactComponent } from './react-component-lib';\n`;
 
+  /**
+   * Generate JSX import type from correct location.
+   * When using custom elements build, we need to import from
+   * either the "components" directory or customElementsDir
+   * otherwise we risk bundlers pulling in lazy loaded imports.
+   */
   const generateTypeImports = () => {
     if (outputTarget.componentCorePackage !== undefined) {
       const dirPath = outputTarget.includeImportCustomElements ? `/${outputTarget.customElementsDir || 'components'}` : '';
@@ -60,6 +66,12 @@ import { createReactComponent } from './react-component-lib';\n`;
   let sourceImports = '';
   let registerCustomElements = '';
 
+  /**
+   * Build an array of Custom Elements build imports and namespace them
+   * so that they do not conflict with the React wrapper names. For example,
+   * IonButton would be imported as IonButtonCmp so as to not conflict with the
+   * IonButton React Component that takes in the Web Component as a parameter.
+   */
   if (outputTarget.includeImportCustomElements && outputTarget.componentCorePackage !== undefined) {
     const cmpImports = components.map(component => {
       const pascalImport = dashToPascalCase(component.tagName);
@@ -90,6 +102,10 @@ import { createReactComponent } from './react-component-lib';\n`;
   return final.join('\n') + '\n';
 }
 
+/**
+ * Defines the React component that developers will import
+ * to use in their applications.
+ */
 export function createComponentDefinition(cmpMeta: ComponentCompilerMeta, includeCustomElement: boolean = false) {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
   const importAs = (includeCustomElement) ? tagNameAsPascal + 'Cmp' : undefined;
