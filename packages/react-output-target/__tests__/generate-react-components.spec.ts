@@ -83,6 +83,53 @@ import type { JSX } from 'component-library';
 `,
     );
   });
+
+  it('should include importCustomElements if true in the outputTarget', () => {
+    const outputTarget: OutputTargetReact = {
+      componentCorePackage: 'component-library',
+      proxiesFile: '../component-library-react/src/proxies.ts',
+      includeImportCustomElements: true,
+    };
+
+    const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
+    expect(finalText).toEqual(
+      `/* eslint-disable */
+/* tslint:disable */
+/* auto-generated react proxies */
+import { createReactComponent } from './react-component-lib';
+
+import type { JSX } from 'component-library/components';
+
+
+
+
+`,
+    );
+  });
+
+  it('should include importCustomElements with custom path if defined in outputTarget', () => {
+    const outputTarget: OutputTargetReact = {
+      componentCorePackage: 'component-library',
+      proxiesFile: '../component-library-react/src/proxies.ts',
+      includeImportCustomElements: true,
+      customElementsDir: 'custom-dir/hello'
+    };
+
+    const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
+    expect(finalText).toEqual(
+      `/* eslint-disable */
+/* tslint:disable */
+/* auto-generated react proxies */
+import { createReactComponent } from './react-component-lib';
+
+import type { JSX } from 'component-library/custom-dir/hello';
+
+
+
+
+`,
+    );
+  });
 });
 
 describe('getPathToCorePackageLoader', () => {
@@ -162,4 +209,6 @@ describe('getPathToCorePackageLoader', () => {
     const p = getPathToCorePackageLoader(config, outputTarget);
     expect(p).toBe('my-library/my-loader-dir');
   });
+
+
 });
