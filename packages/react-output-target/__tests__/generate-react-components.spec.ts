@@ -10,8 +10,19 @@ describe('createComponentDefinition', () => {
       methods: [],
       events: [],
     }, true);
-    expect(output[0]).toEqual(`export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component', MyComponentCmp);`});
-})
+    expect(output[0]).toEqual(`export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component', MyComponentCmp);`);
+  });
+
+  it('should create a React component without custom element support', () => {
+    const output = createComponentDefinition({
+      properties: [],
+      tagName: 'my-component',
+      methods: [],
+      events: [],
+    });
+    expect(output[0]).toEqual(`export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component');`);
+  });
+});
 
 describe('generateProxies', () => {
   const components: ComponentCompilerMeta[] = [];
@@ -220,6 +231,4 @@ describe('getPathToCorePackageLoader', () => {
     const p = getPathToCorePackageLoader(config, outputTarget);
     expect(p).toBe('my-library/my-loader-dir');
   });
-
-
 });
