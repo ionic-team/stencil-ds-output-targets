@@ -46,16 +46,44 @@ export function generateProxies(
 /* auto-generated react proxies */
 import { createReactComponent } from './react-component-lib';\n`;
 
-  const typeImports = !outputTarget.componentCorePackage
-    ? `import type { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`
-    : `import type { ${IMPORT_TYPES} } from '${normalizePath(
-        outputTarget.componentCorePackage,
-      )}';\n`;
+  /**
+   * Generate JSX import type from correct location.
+   * When using custom elements build, we need to import from
+   * either the "components" directory or customElementsDir
+   * otherwise we risk bundlers pulling in lazy loaded imports.
+   */
+  const generateTypeImports = () => {
+    if (outputTarget.componentCorePackage !== undefined) {
+      const dirPath = outputTarget.includeImportCustomElements ? `/${outputTarget.customElementsDir || 'components'}` : '';
+      return `import type { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}${dirPath}';\n`;
+    }
+
+    return `import type { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`;
+  }
+
+  const typeImports = generateTypeImports();
 
   let sourceImports = '';
   let registerCustomElements = '';
 
-  if (outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
+  /**
+   * Build an array of Custom Elements build imports and namespace them
+   * so that they do not conflict with the React wrapper names. For example,
+   * IonButton would be imported as IonButtonCmp so as to not conflict with the
+   * IonButton React Component that takes in the Web Component as a parameter.
+   */
+  if (outputTarget.includeImportCustomElements && outputTarget.componentCorePackage !== undefined) {
+    const cmpImports = components.map(component => {
+      const pascalImport = dashToPascalCase(component.tagName);
+
+      return `import { ${pascalImport} as ${pascalImport}Cmp } from '${normalizePath(outputTarget.componentCorePackage!)}/${outputTarget.customElementsDir ||
+        'components'
+      }/${component.tagName}.js';`;
+    });
+
+    sourceImports = cmpImports.join('\n');
+
+  } else if (outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
     sourceImports = `import { ${APPLY_POLYFILLS}, ${REGISTER_CUSTOM_ELEMENTS} } from '${pathToCorePackageLoader}';\n`;
     registerCustomElements = `${APPLY_POLYFILLS}().then(() => ${REGISTER_CUSTOM_ELEMENTS}());`;
   } else if (!outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
@@ -68,17 +96,34 @@ import { createReactComponent } from './react-component-lib';\n`;
     typeImports,
     sourceImports,
     registerCustomElements,
-    components.map(createComponentDefinition).join('\n'),
+    components.map(cmpMeta => createComponentDefinition(cmpMeta, outputTarget.includeImportCustomElements)).join('\n'),
   ];
 
   return final.join('\n') + '\n';
 }
 
-function createComponentDefinition(cmpMeta: ComponentCompilerMeta) {
+/**
+ * Defines the React component that developers will import
+ * to use in their applications.
+ * @param cmpMeta: Meta data for a single Web Component
+ * @param includeCustomElement: If `true`, the Web Component instance
+ * will be passed in to createReactComponent to be registered
+ * with the Custom Elements Registry.
+ * @returns An array where each entry is a string version
+ * of the React component definition.
+ */
+export function createComponentDefinition(cmpMeta: ComponentCompilerMeta, includeCustomElement: boolean = false): string[] {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
+  let template = `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}'`;
+
+  if (includeCustomElement) {
+    template += `, undefined, undefined, ${tagNameAsPascal}Cmp`;
+  }
+
+  template += `);`;
 
   return [
-    `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}');`,
+    template
   ];
 }
 
