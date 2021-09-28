@@ -40,28 +40,28 @@ export const createComponentDefinition = (
     ),
   );
   const importPath = normalizePath(path.join(typePath.dir, typePath.name));
-  const outputsInterface: string[] = ['']; // Empty first line
+  const outputsInterface: Set<string> = new Set();
 
   const outputReferenceRemap: { [p: string]: string } = {};
   outputs.forEach((output) => {
     Object.entries(output.complexType.references).forEach(([reference, refObject]) => {
       // Add import line for each local/import reference, and add new mapping name
       const remappedReference = `I${cmpMeta.componentClassName}${reference}`;
+      outputReferenceRemap[reference] = remappedReference;
       if (refObject.location === 'local') {
-        outputReferenceRemap[reference] = remappedReference;
-        outputsInterface.push(`import { ${reference} as ${remappedReference} } from '${importPath}';`);
+        outputsInterface.add(`import { ${reference} as ${remappedReference} } from '${importPath}';`);
       } else if (refObject.location === 'import') {
-        outputReferenceRemap[reference] = remappedReference;
         const interfacePath = normalizePath(
           isRelativePath(refObject.path!) ? path.join(typePath.dir, refObject.path!) : refObject.path!,
         );
-        outputsInterface.push(`import { ${reference} as ${remappedReference} } from '${interfacePath}';`);
+        outputsInterface.add(`import { ${reference} as ${remappedReference} } from '${interfacePath}';`);
       }
     });
   });
 
   const lines = [
-    `${outputsInterface.join('\n')}
+    '', // Empty first line
+    `${[...outputsInterface].join('\n')}
 export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {}
 ${getProxyCmp(inputs, methods)}
 @Component({
