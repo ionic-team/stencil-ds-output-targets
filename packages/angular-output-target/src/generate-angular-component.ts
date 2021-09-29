@@ -78,7 +78,12 @@ export class ${tagNameAsPascal} {`,
     lines.push(
       `  /** ${output.docs.text} ${output.docs.tags.map((tag) => `@${tag.name} ${tag.text}`)}*/`,
     );
-    // Regexp to replace output references with their remapped name
+    /**
+     * The original attribute contains the original type defined by the devs.
+     * This regexp normalizes the reference, by removing linebreaks,
+     * replacing consecutive spaces with a single space, and adding a single space after commas.
+     **/
+
     const outputTypeRemapped = Object.entries(outputReferenceRemap).reduce((type, [src, dst]) => {
       return type
         .replace(new RegExp(`^${src}$`, 'g'), `${dst}`)
