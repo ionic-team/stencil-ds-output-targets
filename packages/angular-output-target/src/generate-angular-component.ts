@@ -1,5 +1,5 @@
 import path from 'path';
-import { dashToPascalCase, normalizePath } from './utils';
+import { dashToPascalCase, isRelativePath, normalizePath } from './utils';
 import type { ComponentCompilerMeta } from '@stencil/core/internal';
 
 export const createComponentDefinition = (
@@ -40,14 +40,31 @@ export const createComponentDefinition = (
     ),
   );
   const importPath = normalizePath(path.join(typePath.dir, typePath.name));
-  const outputsInterface =
-    outputs.length > 0
-      ? `import { ${cmpMeta.componentClassName} as I${cmpMeta.componentClassName} } from '${importPath}';`
-      : '';
+  const outputsInterface: Set<string> = new Set();
+
+  const outputReferenceRemap: { [p: string]: string } = {};
+  outputs.forEach((output) => {
+    Object.entries(output.complexType.references).forEach(([reference, refObject]) => {
+      // Add import line for each local/import reference, and add new mapping name
+      // outputReferenceRemap should be updated only if the import interface is set in outputsInterface
+      // This will prevent global types to be remapped
+      const remappedReference = `I${cmpMeta.componentClassName}${reference}`;
+      if (refObject.location === 'local') {
+        outputReferenceRemap[reference] = remappedReference;
+        outputsInterface.add(`import { ${reference} as ${remappedReference} } from '${importPath}';`);
+      } else if (refObject.location === 'import') {
+        outputReferenceRemap[reference] = remappedReference;
+        const interfacePath = normalizePath(
+          isRelativePath(refObject.path!) ? path.join(typePath.dir, refObject.path!) : refObject.path!,
+        );
+        outputsInterface.add(`import { ${reference} as ${remappedReference} } from '${interfacePath}';`);
+      }
+    });
+  });
 
   const lines = [
-    `
-${outputsInterface}
+    '', // Empty first line
+    `${[...outputsInterface].join('\n')}
 export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {}
 ${getProxyCmp(inputs, methods)}
 @Component({
@@ -61,7 +78,24 @@ export class ${tagNameAsPascal} {`,
     lines.push(
       `  /** ${output.docs.text} ${output.docs.tags.map((tag) => `@${tag.name} ${tag.text}`)}*/`,
     );
-    lines.push(`  ${output.name}!: I${cmpMeta.componentClassName}['${output.method}'];`);
+    /**
+     * The original attribute contains the original type defined by the devs.
+     * This regexp normalizes the reference, by removing linebreaks,
+     * replacing consecutive spaces with a single space, and adding a single space after commas.
+     **/
+
+    const outputTypeRemapped = Object.entries(outputReferenceRemap).reduce((type, [src, dst]) => {
+      return type
+        .replace(new RegExp(`^${src}$`, 'g'), `${dst}`)
+        .replace(
+          new RegExp(`([^\\w])${src}([^\\w])`, 'g'),
+          (v, p1, p2) => [p1, dst, p2].join(''),
+        );
+    }, output.complexType.original
+      .replace(/\n/g, ' ')
+      .replace(/\s{2,}/g, ' ')
+      .replace(/,\s*/g, ', '));
+    lines.push(`  ${output.name}!: EventEmitter<CustomEvent<${outputTypeRemapped.trim()}>>;`);
   });
 
   lines.push('  protected el: HTMLElement;');

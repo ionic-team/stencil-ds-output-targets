@@ -64,6 +64,10 @@ export function relativeImport(pathFrom: string, pathTo: string, ext?: string) {
   return normalizePath(`${relativePath}/${path.basename(pathTo, ext)}`);
 }
 
+export function isRelativePath(path: string) {
+  return path && path.startsWith('.');
+}
+
 export async function readPackageJson(rootDir: string) {
   const pkgJsonPath = path.join(rootDir, 'package.json');
 
