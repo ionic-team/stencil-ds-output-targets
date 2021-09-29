@@ -46,11 +46,14 @@ export const createComponentDefinition = (
   outputs.forEach((output) => {
     Object.entries(output.complexType.references).forEach(([reference, refObject]) => {
       // Add import line for each local/import reference, and add new mapping name
+      // outputReferenceRemap should be updated only if the import interface is set in outputsInterface
+      // This will prevent global types to be remapped
       const remappedReference = `I${cmpMeta.componentClassName}${reference}`;
-      outputReferenceRemap[reference] = remappedReference;
       if (refObject.location === 'local') {
+        outputReferenceRemap[reference] = remappedReference;
         outputsInterface.add(`import { ${reference} as ${remappedReference} } from '${importPath}';`);
       } else if (refObject.location === 'import') {
+        outputReferenceRemap[reference] = remappedReference;
         const interfacePath = normalizePath(
           isRelativePath(refObject.path!) ? path.join(typePath.dir, refObject.path!) : refObject.path!,
         );
