@@ -1,5 +1,4 @@
-import path from 'path';
-import { dashToPascalCase, isRelativePath, normalizePath } from './utils';
+import { dashToPascalCase } from './utils';
 import type { ComponentCompilerMeta } from '@stencil/core/internal';
 
 export const createComponentDefinition = (
@@ -33,31 +32,18 @@ export const createComponentDefinition = (
 
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
-  const typePath = path.parse(
-    path.join(
-      componentCorePackage,
-      path.join(cmpMeta.sourceFilePath, '').replace(path.join(rootDir, 'src'), distTypesDir),
-    ),
-  );
-  const importPath = normalizePath(path.join(typePath.dir, typePath.name));
   const outputsInterface: Set<string> = new Set();
-
   const outputReferenceRemap: { [p: string]: string } = {};
+
   outputs.forEach((output) => {
     Object.entries(output.complexType.references).forEach(([reference, refObject]) => {
-      // Add import line for each local/import reference, and add new mapping name
-      // outputReferenceRemap should be updated only if the import interface is set in outputsInterface
-      // This will prevent global types to be remapped
+      // Add import line for each local/import reference, and add new mapping name.
+      // `outputReferenceRemap` should be updated only if the import interface is set in outputsInterface,
+      // this will prevent global types to be remapped.
       const remappedReference = `I${cmpMeta.componentClassName}${reference}`;
-      if (refObject.location === 'local') {
+      if (refObject.location === 'local' || refObject.location === 'import') {
         outputReferenceRemap[reference] = remappedReference;
-        outputsInterface.add(`import { ${reference} as ${remappedReference} } from '${importPath}';`);
-      } else if (refObject.location === 'import') {
-        outputReferenceRemap[reference] = remappedReference;
-        const interfacePath = normalizePath(
-          isRelativePath(refObject.path!) ? path.join(typePath.dir, refObject.path!) : refObject.path!,
-        );
-        outputsInterface.add(`import { ${reference} as ${remappedReference} } from '${interfacePath}';`);
+        outputsInterface.add(`import { ${reference} as ${remappedReference} } from '${componentCorePackage}';`)
       }
     });
   });
