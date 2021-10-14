@@ -1,13 +1,24 @@
 /* tslint:disable */
 /* auto-generated angular directive proxies */
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, NgZone } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, NgZone } from '@angular/core';
 import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';
 
-import { Components } from 'component-library';
+import type { Components } from 'component-library/components';
 
-import { Button as IButton } from 'component-library/dist/types/components/my-button/my-button';
+import { MyButton as MyButtonCmp } from 'component-library/components/my-button.js';
+import { MyCheckbox as MyCheckboxCmp } from 'component-library/components/my-checkbox.js';
+import { MyComponent as MyComponentCmp } from 'component-library/components/my-component.js';
+import { MyInput as MyInputCmp } from 'component-library/components/my-input.js';
+import { MyPopover as MyPopoverCmp } from 'component-library/components/my-popover.js';
+import { MyRadio as MyRadioCmp } from 'component-library/components/my-radio.js';
+import { MyRadioGroup as MyRadioGroupCmp } from 'component-library/components/my-radio-group.js';
+import { MyRange as MyRangeCmp } from 'component-library/components/my-range.js';
+
+
 export declare interface MyButton extends Components.MyButton {}
 @ProxyCmp({
+  tagName: 'my-button',
+  customElement: MyButtonCmp,
   inputs: ['buttonType', 'color', 'disabled', 'download', 'expand', 'fill', 'href', 'mode', 'rel', 'shape', 'size', 'strong', 'target', 'type']
 })
 @Component({
@@ -19,9 +30,9 @@ export declare interface MyButton extends Components.MyButton {}
 })
 export class MyButton {
   /** Emitted when the button has focus. */
-  myFocus!: IButton['myFocus'];
+  myFocus!: EventEmitter<CustomEvent<void>>;
   /** Emitted when the button loses focus. */
-  myBlur!: IButton['myBlur'];
+  myBlur!: EventEmitter<CustomEvent<void>>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -30,9 +41,11 @@ export class MyButton {
   }
 }
 
-import { Checkbox as ICheckbox } from 'component-library/dist/types/components/my-checkbox/my-checkbox';
+import { CheckboxChangeEventDetail as ICheckboxCheckboxChangeEventDetail } from 'component-library';
 export declare interface MyCheckbox extends Components.MyCheckbox {}
 @ProxyCmp({
+  tagName: 'my-checkbox',
+  customElement: MyCheckboxCmp,
   inputs: ['checked', 'color', 'disabled', 'indeterminate', 'mode', 'name', 'value']
 })
 @Component({
@@ -44,11 +57,11 @@ export declare interface MyCheckbox extends Components.MyCheckbox {}
 })
 export class MyCheckbox {
   /** Emitted when the checked property has changed. */
-  myChange!: ICheckbox['myChange'];
+  myChange!: EventEmitter<CustomEvent<ICheckboxCheckboxChangeEventDetail>>;
   /** Emitted when the toggle has focus. */
-  myFocus!: ICheckbox['myFocus'];
+  myFocus!: EventEmitter<CustomEvent<void>>;
   /** Emitted when the toggle loses focus. */
-  myBlur!: ICheckbox['myBlur'];
+  myBlur!: EventEmitter<CustomEvent<void>>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -57,9 +70,11 @@ export class MyCheckbox {
   }
 }
 
-import { MyComponent as IMyComponent } from 'component-library/dist/types/components/my-component/my-component';
+
 export declare interface MyComponent extends Components.MyComponent {}
 @ProxyCmp({
+  tagName: 'my-component',
+  customElement: MyComponentCmp,
   inputs: ['age', 'first', 'kidsNames', 'last', 'middle']
 })
 @Component({
@@ -71,7 +86,7 @@ export declare interface MyComponent extends Components.MyComponent {}
 })
 export class MyComponent {
   /** Testing an event without value */
-  myCustomEvent!: IMyComponent['myCustomEvent'];
+  myCustomEvent!: EventEmitter<CustomEvent<number>>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -80,9 +95,11 @@ export class MyComponent {
   }
 }
 
-import { Input as IInput } from 'component-library/dist/types/components/my-input/my-input';
+import { InputChangeEventDetail as IInputInputChangeEventDetail } from 'component-library';
 export declare interface MyInput extends Components.MyInput {}
 @ProxyCmp({
+  tagName: 'my-input',
+  customElement: MyInputCmp,
   inputs: ['accept', 'autocapitalize', 'autocomplete', 'autocorrect', 'autofocus', 'clearInput', 'clearOnEdit', 'color', 'disabled', 'enterkeyhint', 'inputmode', 'max', 'maxlength', 'min', 'minlength', 'mode', 'multiple', 'name', 'pattern', 'placeholder', 'readonly', 'required', 'size', 'spellcheck', 'step', 'type', 'value'],
   methods: ['setFocus', 'getInputElement']
 })
@@ -95,13 +112,13 @@ export declare interface MyInput extends Components.MyInput {}
 })
 export class MyInput {
   /** Emitted when a keyboard input occurred. */
-  myInput!: IInput['myInput'];
+  myInput!: EventEmitter<CustomEvent<KeyboardEvent>>;
   /** Emitted when the value has changed. */
-  myChange!: IInput['myChange'];
+  myChange!: EventEmitter<CustomEvent<IInputInputChangeEventDetail>>;
   /** Emitted when the input loses focus. */
-  myBlur!: IInput['myBlur'];
+  myBlur!: EventEmitter<CustomEvent<void>>;
   /** Emitted when the input has focus. */
-  myFocus!: IInput['myFocus'];
+  myFocus!: EventEmitter<CustomEvent<void>>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -110,9 +127,11 @@ export class MyInput {
   }
 }
 
-import { Popover as IPopover } from 'component-library/dist/types/components/my-dialog/my-dialog';
+import { OverlayEventDetail as IPopoverOverlayEventDetail } from 'component-library';
 export declare interface MyPopover extends Components.MyPopover {}
 @ProxyCmp({
+  tagName: 'my-popover',
+  customElement: MyPopoverCmp,
   inputs: ['animated', 'backdropDismiss', 'component', 'componentProps', 'cssClass', 'event', 'keyboardClose', 'mode', 'showBackdrop', 'translucent'],
   methods: ['present', 'dismiss', 'onDidDismiss', 'onWillDismiss']
 })
@@ -125,13 +144,13 @@ export declare interface MyPopover extends Components.MyPopover {}
 })
 export class MyPopover {
   /** Emitted after the popover has presented. */
-  myPopoverDidPresent!: IPopover['didPresent'];
+  myPopoverDidPresent!: EventEmitter<CustomEvent<void>>;
   /** Emitted before the popover has presented. */
-  myPopoverWillPresent!: IPopover['willPresent'];
+  myPopoverWillPresent!: EventEmitter<CustomEvent<void>>;
   /** Emitted before the popover has dismissed. */
-  myPopoverWillDismiss!: IPopover['willDismiss'];
+  myPopoverWillDismiss!: EventEmitter<CustomEvent<IPopoverOverlayEventDetail>>;
   /** Emitted after the popover has dismissed. */
-  myPopoverDidDismiss!: IPopover['didDismiss'];
+  myPopoverDidDismiss!: EventEmitter<CustomEvent<IPopoverOverlayEventDetail>>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -140,9 +159,11 @@ export class MyPopover {
   }
 }
 
-import { Radio as IRadio } from 'component-library/dist/types/components/my-radio/my-radio';
+
 export declare interface MyRadio extends Components.MyRadio {}
 @ProxyCmp({
+  tagName: 'my-radio',
+  customElement: MyRadioCmp,
   inputs: ['color', 'disabled', 'mode', 'name', 'value']
 })
 @Component({
@@ -154,11 +175,11 @@ export declare interface MyRadio extends Components.MyRadio {}
 })
 export class MyRadio {
   /** Emitted when the radio button has focus. */
-  myFocus!: IRadio['myFocus'];
+  myFocus!: EventEmitter<CustomEvent<void>>;
   /** Emitted when the radio button loses focus. */
-  myBlur!: IRadio['myBlur'];
+  myBlur!: EventEmitter<CustomEvent<void>>;
   /** Emitted when the radio button loses focus. */
-  mySelect!: IRadio['mySelect'];
+  mySelect!: EventEmitter<CustomEvent<void>>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -167,9 +188,11 @@ export class MyRadio {
   }
 }
 
-import { RadioGroup as IRadioGroup } from 'component-library/dist/types/components/my-radio-group/my-radio-group';
+import { RadioGroupChangeEventDetail as IRadioGroupRadioGroupChangeEventDetail } from 'component-library';
 export declare interface MyRadioGroup extends Components.MyRadioGroup {}
 @ProxyCmp({
+  tagName: 'my-radio-group',
+  customElement: MyRadioGroupCmp,
   inputs: ['allowEmptySelection', 'name', 'value']
 })
 @Component({
@@ -181,7 +204,7 @@ export declare interface MyRadioGroup extends Components.MyRadioGroup {}
 })
 export class MyRadioGroup {
   /** Emitted when the value has changed. */
-  myChange!: IRadioGroup['myChange'];
+  myChange!: EventEmitter<CustomEvent<IRadioGroupRadioGroupChangeEventDetail>>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
@@ -190,9 +213,11 @@ export class MyRadioGroup {
   }
 }
 
-import { Range as IRange } from 'component-library/dist/types/components/my-range/my-range';
+import { RangeChangeEventDetail as IRangeRangeChangeEventDetail } from 'component-library';
 export declare interface MyRange extends Components.MyRange {}
 @ProxyCmp({
+  tagName: 'my-range',
+  customElement: MyRangeCmp,
   inputs: ['color', 'debounce', 'disabled', 'dualKnobs', 'max', 'min', 'mode', 'name', 'pin', 'snaps', 'step', 'ticks', 'value']
 })
 @Component({
@@ -204,11 +229,11 @@ export declare interface MyRange extends Components.MyRange {}
 })
 export class MyRange {
   /** Emitted when the value property has changed. */
-  myChange!: IRange['myChange'];
+  myChange!: EventEmitter<CustomEvent<IRangeRangeChangeEventDetail>>;
   /** Emitted when the range has focus. */
-  myFocus!: IRange['myFocus'];
+  myFocus!: EventEmitter<CustomEvent<void>>;
   /** Emitted when the range loses focus. */
-  myBlur!: IRange['myBlur'];
+  myBlur!: EventEmitter<CustomEvent<void>>;
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();

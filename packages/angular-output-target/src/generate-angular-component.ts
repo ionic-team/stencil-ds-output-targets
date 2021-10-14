@@ -5,6 +5,7 @@ export const createComponentDefinition = (
   componentCorePackage: string,
   distTypesDir: string,
   rootDir: string,
+  includeCustomElement: boolean = false
 ) => (cmpMeta: ComponentCompilerMeta) => {
   // Collect component meta
   const inputs = [
@@ -52,7 +53,12 @@ export const createComponentDefinition = (
     '', // Empty first line
     `${[...outputsInterface].join('\n')}
 export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {}
-${getProxyCmp(inputs, methods)}
+${getProxyCmp(
+  cmpMeta.tagName,
+  includeCustomElement,
+  inputs,
+  methods
+)}
 @Component({
   ${directiveOpts.join(',\n  ')}
 })
@@ -99,14 +105,15 @@ export class ${tagNameAsPascal} {`,
   return lines.join('\n');
 };
 
-function getProxyCmp(inputs: string[], methods: string[]): string {
+//TODO
+function getProxyCmp(tagName: string, includeCustomElement: boolean, inputs: string[], methods: string[]): string {
   const hasInputs = inputs.length > 0;
   const hasMethods = methods.length > 0;
-  const proxMeta: string[] = [];
 
-  if (!hasInputs && !hasMethods) {
-    return '';
-  }
+  const proxMeta: string[] = [
+    `tagName: \'${tagName}\'`,
+    `customElement: ${includeCustomElement ? dashToPascalCase(tagName) + 'Cmp' : 'undefined'}`
+  ];
 
   if (hasInputs) proxMeta.push(`inputs: ['${inputs.join(`', '`)}']`);
   if (hasMethods) proxMeta.push(`methods: ['${methods.join(`', '`)}']`);

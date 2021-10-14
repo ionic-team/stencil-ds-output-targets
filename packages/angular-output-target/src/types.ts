@@ -5,6 +5,8 @@ export interface OutputTargetAngular {
   directivesUtilsFile?: string;
   valueAccessorConfigs?: ValueAccessorConfig[];
   excludeComponents?: string[];
+  includeImportCustomElements?: boolean;
+  customElementsDir?: string;
 }
 
 export type ValueAccessorTypes = 'text' | 'radio' | 'select' | 'number' | 'boolean';

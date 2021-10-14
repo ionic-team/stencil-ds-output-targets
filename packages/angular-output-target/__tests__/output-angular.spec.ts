@@ -2,6 +2,7 @@ import { ComponentCompilerMeta } from '@stencil/core/internal';
 import { generateProxies } from '../src/output-angular';
 import { PackageJSON, OutputTargetAngular } from '../src/types';
 
+// TODO: fix failing
 describe('generateProxies', () => {
   const components: ComponentCompilerMeta[] = [];
   const pkgData: PackageJSON = {
