@@ -26,7 +26,7 @@ export class MyButton {
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['myFocus', 'myBlur']);
+    proxyOutputs(this, ['myFocus', 'myBlur']);
   }
 }
 
@@ -53,7 +53,7 @@ export class MyCheckbox {
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['myChange', 'myFocus', 'myBlur']);
+    proxyOutputs(this, ['myChange', 'myFocus', 'myBlur']);
   }
 }
 
@@ -76,7 +76,7 @@ export class MyComponent {
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['myCustomEvent']);
+    proxyOutputs(this, ['myCustomEvent']);
   }
 }
 
@@ -106,7 +106,7 @@ export class MyInput {
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['myInput', 'myChange', 'myBlur', 'myFocus']);
+    proxyOutputs(this, ['myInput', 'myChange', 'myBlur', 'myFocus']);
   }
 }
 
@@ -136,7 +136,7 @@ export class MyPopover {
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['myPopoverDidPresent', 'myPopoverWillPresent', 'myPopoverWillDismiss', 'myPopoverDidDismiss']);
+    proxyOutputs(this, ['myPopoverDidPresent', 'myPopoverWillPresent', 'myPopoverWillDismiss', 'myPopoverDidDismiss']);
   }
 }
 
@@ -163,7 +163,7 @@ export class MyRadio {
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['myFocus', 'myBlur', 'mySelect']);
+    proxyOutputs(this, ['myFocus', 'myBlur', 'mySelect']);
   }
 }
 
@@ -186,7 +186,7 @@ export class MyRadioGroup {
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['myChange']);
+    proxyOutputs(this, ['myChange']);
   }
 }
 
@@ -213,6 +213,6 @@ export class MyRange {
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['myChange', 'myFocus', 'myBlur']);
+    proxyOutputs(this, ['myChange', 'myFocus', 'myBlur']);
   }
 }

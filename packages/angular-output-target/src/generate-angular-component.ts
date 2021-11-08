@@ -90,7 +90,7 @@ export class ${tagNameAsPascal} {`,
     this.el = r.nativeElement;`);
   if (hasOutputs) {
     lines.push(
-      `    proxyOutputs(this, this.el, ['${outputs.map((output) => output.name).join(`', '`)}']);`,
+      `    proxyOutputs(this, ['${outputs.map((output) => output.name).join(`', '`)}']);`,
     );
   }
   lines.push(`  }`);
