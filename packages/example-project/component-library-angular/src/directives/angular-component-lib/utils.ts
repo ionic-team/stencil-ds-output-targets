@@ -1,4 +1,4 @@
-import { EventEmitter } from '@angular/core';
+import { fromEvent } from 'rxjs';
 
 export const proxyInputs = (Cmp: any, inputs: string[]) => {
   const Prototype = Cmp.prototype;
@@ -24,8 +24,8 @@ export const proxyMethods = (Cmp: any, methods: string[]) => {
   });
 };
 
-export const proxyOutputs = (instance: any, events: string[]) => {
-  events.forEach((eventName) => (instance[eventName] = new EventEmitter()));
+export const proxyOutputs = (instance: any, el: any, events: string[]) => {
+  events.forEach((eventName) => (instance[eventName] = fromEvent(el, eventName)));
 };
 
 // tslint:disable-next-line: only-arrow-functions
