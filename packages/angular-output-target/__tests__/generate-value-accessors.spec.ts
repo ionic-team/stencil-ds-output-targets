@@ -2,8 +2,11 @@ import { createValueAccessor, ValueAccessor } from '../src/generate-value-access
 import { EOL } from 'os';
 import path from 'path';
 import fs from 'fs';
+import { createTestingSystem } from './helpers';
 
 describe('createValueAccessor', () => {
+  const config = createTestingSystem();
+  
   it('should create a valid {type}-value-accessor.ts file when multiple value accessors of the same type are in the config', () => {
     const valueAccessor: ValueAccessor = {
       elementSelectors: ['my-input[type=text]', 'my-input[type=email]'],
@@ -18,7 +21,7 @@ describe('createValueAccessor', () => {
       '../resources/control-value-accessors/text-value-accessor.ts',
     );
     const srcFile = fs.readFileSync(srcFilePath, { encoding: 'utf-8' });
-    const finalText = createValueAccessor(srcFile, valueAccessor);
+    const finalText = createValueAccessor(config, srcFile, valueAccessor);
     const exptectedOutput = `import { Directive, ElementRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 

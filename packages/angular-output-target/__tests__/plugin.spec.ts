@@ -1,11 +1,10 @@
 import { Config } from '@stencil/core/internal';
 import { OutputTargetAngular } from '../src/types';
 import { normalizeOutputTarget } from '../src/plugin';
+import { createTestingSystem } from './helpers';
 
 describe('normalizeOutputTarget', () => {
-  const config: Config = {
-    rootDir: '/dev/',
-  };
+  const config = createTestingSystem();
 
   it('should return fail if proxiesFile is not set', () => {
     expect(() => {

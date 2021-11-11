@@ -1,4 +1,3 @@
-import path from 'path';
 import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
 import type { OutputTargetAngular, PackageJSON } from './types';
 import { relativeImport, normalizePath, sortBy, readPackageJson } from './utils';
@@ -14,19 +13,20 @@ export async function angularDirectiveProxyOutput(
 ) {
   const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, components);
   const rootDir = config.rootDir as string;
-  const pkgData = await readPackageJson(rootDir);
+  const pkgData = await readPackageJson(config, rootDir);
 
   const finalText = generateProxies(
     filteredComponents,
     pkgData,
     outputTarget,
     config.rootDir as string,
+    config,
   );
 
   await Promise.all([
     compilerCtx.fs.writeFile(outputTarget.directivesProxyFile, finalText),
     copyResources(config, outputTarget),
-    generateAngularDirectivesFile(compilerCtx, filteredComponents, outputTarget),
+    generateAngularDirectivesFile(config, compilerCtx, filteredComponents, outputTarget),
     generateValueAccessors(compilerCtx, filteredComponents, outputTarget, config),
   ]);
 }
@@ -38,26 +38,28 @@ function getFilteredComponents(excludeComponents: string[] = [], cmps: Component
 }
 
 async function copyResources(config: Config, outputTarget: OutputTargetAngular) {
-  if (!config.sys || !config.sys.copy || !config.sys.glob) {
+  if (!config.sys || !config.sys.resolvePath || !config.sys.copy) {
     throw new Error('stencil is not properly initialized at this step. Notify the developer');
   }
-  const srcDirectory = path.join(__dirname, '..', 'angular-component-lib');
-  const destDirectory = path.join(
-    path.dirname(outputTarget.directivesProxyFile),
-    'angular-component-lib',
-  );
+  if (config.sys) {
+    const srcDirectory = config.sys.joinPaths(__dirname, '..', 'angular-component-lib');
+    const destDirectory = config.sys.joinPaths(
+      config.sys.dirname(outputTarget.directivesProxyFile),
+      'angular-component-lib',
+    );
 
-  return config.sys.copy(
-    [
-      {
-        src: srcDirectory,
-        dest: destDirectory,
-        keepDirStructure: false,
-        warn: false,
-      },
-    ],
-    srcDirectory,
-  );
+    return config.sys.copy(
+      [
+        {
+          src: srcDirectory,
+          dest: destDirectory,
+          keepDirStructure: false,
+          warn: false,
+        },
+      ],
+      srcDirectory,
+    );
+  }
 }
 
 export function generateProxies(
@@ -65,10 +67,19 @@ export function generateProxies(
   pkgData: PackageJSON,
   outputTarget: OutputTargetAngular,
   rootDir: string,
+  config: Config,
 ) {
-  const distTypesDir = path.dirname(pkgData.types);
-  const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
-  const componentsTypeFile = relativeImport(outputTarget.directivesProxyFile, dtsFilePath, '.d.ts');
+  if (!config.sys || !config.sys.resolvePath) {
+    throw new Error('stencil is not properly initialized at this step. Notify the developer');
+  }
+  const distTypesDir = config.sys.dirname(pkgData.types);
+  const dtsFilePath = config.sys.joinPaths(rootDir, '/', distTypesDir, GENERATED_DTS);
+  const componentsTypeFile = relativeImport(
+    config,
+    outputTarget.directivesProxyFile,
+    dtsFilePath,
+    '.d.ts',
+  );
 
   const imports = `/* tslint:disable */
 /* auto-generated angular directive proxies */

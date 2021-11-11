@@ -1,9 +1,5 @@
-import path from 'path';
-import { promisify } from 'util';
-import fs from 'fs';
+import { Config } from '@stencil/core/internal';
 import type { PackageJSON } from './types';
-
-const readFile = promisify(fs.readFile);
 
 export const toLowerCase = (str: string) => str.toLowerCase();
 
@@ -54,27 +50,35 @@ export function normalizePath(str: string) {
   return str;
 }
 
-export function relativeImport(pathFrom: string, pathTo: string, ext?: string) {
-  let relativePath = path.relative(path.dirname(pathFrom), path.dirname(pathTo));
+export function relativeImport(config: Config, pathFrom: string, pathTo: string, ext?: string) {
+  if (!config.sys || !config.sys.relative || !config.sys.dirname || !config.sys.basename) {
+    throw new Error('stencil is not properly initialized at this step. Notify the developer');
+  }
+  const to = config.sys.resolvePath(config.sys.dirname(pathFrom));
+
+  let relativePath = config.sys.joinPaths(config.sys.dirname(to), config.sys.dirname(pathTo));
+
   if (relativePath === '') {
     relativePath = '.';
   } else if (relativePath[0] !== '.') {
     relativePath = './' + relativePath;
   }
-  return normalizePath(`${relativePath}/${path.basename(pathTo, ext)}`);
+
+  return normalizePath(`${relativePath}/${config.sys.basename(pathTo, ext)}`);
 }
 
 export function isRelativePath(path: string) {
   return path && path.startsWith('.');
 }
 
-export async function readPackageJson(rootDir: string) {
-  const pkgJsonPath = path.join(rootDir, 'package.json');
+export async function readPackageJson(config: Config, rootDir: string) {
+  if (!config.sys || !config.sys.readFile) {
+    throw new Error('stencil is not properly initialized at this step. Notify the developer');
+  }
+  const pkgJsonPath = config.sys.joinPaths(rootDir, 'package.json');
+  const pkgJson = await config.sys.readFile(pkgJsonPath, 'utf8');
 
-  let pkgJson: string;
-  try {
-    pkgJson = await readFile(pkgJsonPath, 'utf8');
-  } catch (e) {
+  if (!pkgJson) {
     throw new Error(`Missing "package.json" file for distribution: ${pkgJsonPath}`);
   }
 

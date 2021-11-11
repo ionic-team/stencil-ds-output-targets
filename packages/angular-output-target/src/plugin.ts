@@ -2,7 +2,6 @@ import type { Config, OutputTargetCustom } from '@stencil/core/internal';
 import { normalizePath } from './utils';
 import { angularDirectiveProxyOutput } from './output-angular';
 import type { OutputTargetAngular } from './types';
-import path from 'path';
 
 export const angularOutputTarget = (outputTarget: OutputTargetAngular): OutputTargetCustom => ({
   type: 'custom',
@@ -33,22 +32,33 @@ export function normalizeOutputTarget(config: Config, outputTarget: any) {
     throw new Error('directivesProxyFile is required');
   }
 
-  if (outputTarget.directivesProxyFile && !path.isAbsolute(outputTarget.directivesProxyFile)) {
-    results.directivesProxyFile = normalizePath(
-      path.join(config.rootDir, outputTarget.directivesProxyFile),
-    );
-  }
+  if (config.sys) {
+    if (
+      outputTarget.directivesProxyFile &&
+      !config.sys?.isAbsolutePath(outputTarget.directivesProxyFile)
+    ) {
+      const proxyPath =
+        config.sys.joinPaths(config.rootDir, outputTarget.directivesProxyFile) || '';
+      results.directivesProxyFile = normalizePath(proxyPath);
+    }
 
-  if (outputTarget.directivesArrayFile && !path.isAbsolute(outputTarget.directivesArrayFile)) {
-    results.directivesArrayFile = normalizePath(
-      path.join(config.rootDir, outputTarget.directivesArrayFile),
-    );
-  }
+    if (
+      outputTarget.directivesArrayFile &&
+      !config.sys?.isAbsolutePath(outputTarget.directivesArrayFile)
+    ) {
+      const arrayPath =
+        config.sys.joinPaths(config.rootDir, outputTarget.directivesArrayFile) || '';
+      results.directivesArrayFile = normalizePath(arrayPath);
+    }
 
-  if (outputTarget.directivesUtilsFile && !path.isAbsolute(outputTarget.directivesUtilsFile)) {
-    results.directivesUtilsFile = normalizePath(
-      path.join(config.rootDir, outputTarget.directivesUtilsFile),
-    );
+    if (
+      outputTarget.directivesUtilsFile &&
+      !config.sys?.isAbsolutePath(outputTarget.directivesUtilsFile)
+    ) {
+      const utilsPath =
+        config.sys.joinPaths(config.rootDir, outputTarget.directivesUtilsFile) || '';
+      results.directivesUtilsFile = normalizePath(utilsPath);
+    }
   }
 
   return results;

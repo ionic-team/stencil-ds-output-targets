@@ -1,8 +1,9 @@
 import type { OutputTargetAngular } from './types';
 import { dashToPascalCase, relativeImport } from './utils';
-import type { CompilerCtx, ComponentCompilerMeta } from '@stencil/core/internal';
+import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
 
 export function generateAngularDirectivesFile(
+  config: Config,
   compilerCtx: CompilerCtx,
   components: ComponentCompilerMeta[],
   outputTarget: OutputTargetAngular,
@@ -13,6 +14,7 @@ export function generateAngularDirectivesFile(
   }
 
   const proxyPath = relativeImport(
+    config,
     outputTarget.directivesArrayFile,
     outputTarget.directivesProxyFile,
     '.ts',

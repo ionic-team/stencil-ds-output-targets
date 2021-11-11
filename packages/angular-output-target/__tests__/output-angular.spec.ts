@@ -1,6 +1,7 @@
-import { ComponentCompilerMeta } from '@stencil/core/internal';
+import type { ComponentCompilerMeta, Config, CopyTask } from '@stencil/core/internal';
+import type { PackageJSON, OutputTargetAngular } from '../src/types';
 import { generateProxies } from '../src/output-angular';
-import { PackageJSON, OutputTargetAngular } from '../src/types';
+import { createTestingSystem } from './helpers';
 
 describe('generateProxies', () => {
   const components: ComponentCompilerMeta[] = [];
@@ -8,6 +9,7 @@ describe('generateProxies', () => {
     types: 'dist/types/index.d.ts',
   };
   const rootDir: string = '';
+  const config = createTestingSystem();
 
   it('should use types from the component-library when it is provided to the config', () => {
     const outputTarget: OutputTargetAngular = {
@@ -15,7 +17,14 @@ describe('generateProxies', () => {
       directivesProxyFile: '../component-library-angular/src/proxies.ts',
     };
 
-    const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
+    const finalText = generateProxies(
+      components,
+      pkgData,
+      outputTarget,
+      rootDir,
+      config,
+      {} as any,
+    );
     expect(finalText).toEqual(
       `/* tslint:disable */
 /* auto-generated angular directive proxies */
@@ -33,14 +42,21 @@ import { Components } from 'component-library';
       directivesProxyFile: '../component-library-angular/src/proxies.ts',
     };
 
-    const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
+    const finalText = generateProxies(
+      components,
+      pkgData,
+      outputTarget,
+      rootDir,
+      config,
+      {} as any,
+    );
     expect(finalText).toEqual(
       `/* tslint:disable */
 /* auto-generated angular directive proxies */
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, NgZone } from '@angular/core';
 import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';
 
-import { Components } from '../../angular-output-target/dist/types/components';
+import { Components } from '../component-library-angular/dist/types/components';
 
 `,
     );
