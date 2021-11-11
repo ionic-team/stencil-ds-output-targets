@@ -27,9 +27,6 @@ export const createComponentDefinition = (
   if (inputs.length > 0) {
     directiveOpts.push(`inputs: ['${inputs.join(`', '`)}']`);
   }
-  if (outputs.length > 0) {
-    directiveOpts.push(`outputs: ['${outputs.map((output) => output.name).join(`', '`)}']`);
-  }
 
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
@@ -49,27 +46,16 @@ export const createComponentDefinition = (
     });
   });
 
-  const lines = [
-    '', // Empty first line
-    `${[...outputsInterface].join('\n')}
-export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {}
-${getProxyCmp(
-  cmpMeta.tagName,
-  includeCustomElement,
-  inputs,
-  methods
-)}
-@Component({
-  ${directiveOpts.join(',\n  ')}
-})
-export class ${tagNameAsPascal} {`,
+  const componentEvents: string[] = [
+    '' // Empty first line
   ];
 
   // Generate outputs
-  outputs.forEach((output) => {
-    lines.push(
-      `  /** ${output.docs.text} ${output.docs.tags.map((tag) => `@${tag.name} ${tag.text}`)}*/`,
-    );
+  outputs.forEach((output, index) => {
+    componentEvents.push(
+`  /**
+   * ${output.docs.text} ${output.docs.tags.map((tag) => `@${tag.name} ${tag.text}`)}
+   */`);
     /**
      * The original attribute contains the original type defined by the devs.
      * This regexp normalizes the reference, by removing linebreaks,
@@ -87,8 +73,30 @@ export class ${tagNameAsPascal} {`,
       .replace(/\n/g, ' ')
       .replace(/\s{2,}/g, ' ')
       .replace(/,\s*/g, ', '));
-    lines.push(`  ${output.name}!: EventEmitter<CustomEvent<${outputTypeRemapped.trim()}>>;`);
+    componentEvents.push(`  ${output.name}: EventEmitter<CustomEvent<${outputTypeRemapped.trim()}>>;`);
+
+    if (index === outputs.length - 1) {
+      // Empty line to push end `}` to new line
+      componentEvents.push('\n');
+    }
   });
+
+  const lines = [
+    '', // Empty first line
+    `${[...outputsInterface].join('\n')}
+export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {${componentEvents.length > 1 ? componentEvents.join('\n') : ''}}
+
+${getProxyCmp(
+  cmpMeta.tagName,
+  includeCustomElement,
+  inputs,
+  methods
+)}
+@Component({
+  ${directiveOpts.join(',\n  ')}
+})
+export class ${tagNameAsPascal} {`,
+  ];
 
   lines.push('  protected el: HTMLElement;');
   lines.push(`  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
