@@ -14,7 +14,7 @@ export async function angularDirectiveProxyOutput(
 ) {
   const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, components);
   const rootDir = config.rootDir as string;
-  const pkgData = await readPackageJson(rootDir);
+  const pkgData = await readPackageJson(config, rootDir);
 
   const finalText = generateProxies(
     filteredComponents,
