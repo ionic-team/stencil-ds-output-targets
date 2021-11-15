@@ -27,7 +27,7 @@
     "generate": "stencil generate"
   },
   "devDependencies": {
-    "@stencil/angular-output-target": "file:../../angular-output-target/stencil-angular-output-target-0.1.0.tgz",
+    "@stencil/angular-output-target": "^0.0.5",
     "@stencil/core": "^2.9.0",
     "@stencil/react-output-target": "^0.0.9",
     "@stencil/svelte-output-target": "^0.0.3",
