@@ -82,12 +82,9 @@ import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
    * otherwise we risk bundlers pulling in lazy loaded imports.
    */
    const generateTypeImports = () => {
-    if (outputTarget.componentCorePackage !== undefined) {
-      const dirPath = outputTarget.includeImportCustomElements ? `/${outputTarget.customElementsDir || 'components'}` : '';
-      return `import type { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}${dirPath}';\n`;
-    }
-
-    return `import type { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`;
+    let importLocation = outputTarget.componentCorePackage ? normalizePath(outputTarget.componentCorePackage) : normalizePath(componentsTypeFile);
+    importLocation += outputTarget.includeImportCustomElements ? `/${outputTarget.customElementsDir || 'components'}` : '';
+    return `import ${outputTarget.includeImportCustomElements ? 'type ' : ''}{ ${IMPORT_TYPES} } from '${importLocation}';\n`;
   }
 
   const typeImports = generateTypeImports();
@@ -118,7 +115,7 @@ import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
     typeImports,
     sourceImports,
     components
-      .map(createComponentDefinition(outputTarget.componentCorePackage!, distTypesDir, rootDir, outputTarget.includeImportCustomElements))
+      .map(createComponentDefinition(outputTarget.componentCorePackage!, distTypesDir, rootDir, outputTarget.includeImportCustomElements, outputTarget.customElementsDir))
       .join('\n'),
   ];
 

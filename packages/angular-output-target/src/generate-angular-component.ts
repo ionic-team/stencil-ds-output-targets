@@ -1,11 +1,12 @@
-import { dashToPascalCase } from './utils';
+import { dashToPascalCase, normalizePath } from './utils';
 import type { ComponentCompilerMeta } from '@stencil/core/internal';
 
 export const createComponentDefinition = (
   componentCorePackage: string,
   distTypesDir: string,
   rootDir: string,
-  includeCustomElement: boolean = false
+  includeImportCustomElements: boolean = false,
+  customElementsDir: string = 'components'
 ) => (cmpMeta: ComponentCompilerMeta) => {
   // Collect component meta
   const inputs = [
@@ -41,7 +42,12 @@ export const createComponentDefinition = (
       const remappedReference = `I${cmpMeta.componentClassName}${reference}`;
       if (refObject.location === 'local' || refObject.location === 'import') {
         outputReferenceRemap[reference] = remappedReference;
-        outputsInterface.add(`import { ${reference} as ${remappedReference} } from '${componentCorePackage}';`)
+        let importLocation: string = componentCorePackage;
+        if (componentCorePackage !== undefined) {
+          const dirPath = includeImportCustomElements ? `/${customElementsDir || 'components'}` : '';
+          importLocation = `${normalizePath(componentCorePackage)}${dirPath}`;
+        }
+        outputsInterface.add(`import type { ${reference} as ${remappedReference} } from '${importLocation}';`);
       }
     });
   });
@@ -88,7 +94,7 @@ export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal
 
 ${getProxyCmp(
   cmpMeta.tagName,
-  includeCustomElement,
+  includeImportCustomElements,
   inputs,
   methods
 )}
