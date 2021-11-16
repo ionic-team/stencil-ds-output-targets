@@ -119,7 +119,6 @@ export class ${tagNameAsPascal} {`,
   return lines.join('\n');
 };
 
-//TODO
 function getProxyCmp(tagName: string, includeCustomElement: boolean, inputs: string[], methods: string[]): string {
   const hasInputs = inputs.length > 0;
   const hasMethods = methods.length > 0;
