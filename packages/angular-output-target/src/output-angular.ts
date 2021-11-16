@@ -1,7 +1,7 @@
 import path from 'path';
 import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
 import type { OutputTargetAngular, PackageJSON } from './types';
-import { relativeImport, normalizePath, sortBy, readPackageJson } from './utils';
+import { relativeImport, normalizePath, sortBy, readPackageJson, dashToPascalCase } from './utils';
 import { createComponentDefinition } from './generate-angular-component';
 import { generateAngularDirectivesFile } from './generate-angular-directives-file';
 import generateValueAccessors from './generate-value-accessors';
@@ -14,7 +14,7 @@ export async function angularDirectiveProxyOutput(
 ) {
   const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, components);
   const rootDir = config.rootDir as string;
-  const pkgData = await readPackageJson(rootDir);
+  const pkgData = await readPackageJson(config, rootDir);
 
   const finalText = generateProxies(
     filteredComponents,
@@ -75,15 +75,47 @@ export function generateProxies(
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, NgZone } from '@angular/core';
 import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
 
-  const typeImports = !outputTarget.componentCorePackage
-    ? `import { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';`
-    : `import { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}';`;
+  /**
+   * Generate JSX import type from correct location.
+   * When using custom elements build, we need to import from
+   * either the "components" directory or customElementsDir
+   * otherwise we risk bundlers pulling in lazy loaded imports.
+   */
+   const generateTypeImports = () => {
+    let importLocation = outputTarget.componentCorePackage ? normalizePath(outputTarget.componentCorePackage) : normalizePath(componentsTypeFile);
+    importLocation += outputTarget.includeImportCustomElements ? `/${outputTarget.customElementsDir || 'components'}` : '';
+    return `import ${outputTarget.includeImportCustomElements ? 'type ' : ''}{ ${IMPORT_TYPES} } from '${importLocation}';\n`;
+  }
+
+  const typeImports = generateTypeImports();
+
+  let sourceImports = '';
+
+  /**
+   * Build an array of Custom Elements build imports and namespace them
+   * so that they do not conflict with the React wrapper names. For example,
+   * IonButton would be imported as IonButtonCmp so as to not conflict with the
+   * IonButton React Component that takes in the Web Component as a parameter.
+   */
+  if (outputTarget.includeImportCustomElements && outputTarget.componentCorePackage !== undefined) {
+    const cmpImports = components.map(component => {
+      const pascalImport = dashToPascalCase(component.tagName);
+
+      return `import { ${pascalImport} as ${pascalImport}Cmp } from '${normalizePath(outputTarget.componentCorePackage!)}/${outputTarget.customElementsDir ||
+        'components'
+      }/${component.tagName}.js';`;
+    });
+
+    sourceImports = cmpImports.join('\n');
+
+  }
 
   const final: string[] = [
     imports,
     typeImports,
+    sourceImports,
     components
-      .map(createComponentDefinition(outputTarget.componentCorePackage!, distTypesDir, rootDir))
+      .map(createComponentDefinition(outputTarget.componentCorePackage!, distTypesDir, rootDir, outputTarget.includeImportCustomElements, outputTarget.customElementsDir))
       .join('\n'),
   ];
 

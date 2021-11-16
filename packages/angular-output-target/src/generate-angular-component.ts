@@ -1,10 +1,12 @@
-import { dashToPascalCase } from './utils';
+import { dashToPascalCase, normalizePath } from './utils';
 import type { ComponentCompilerMeta } from '@stencil/core/internal';
 
 export const createComponentDefinition = (
   componentCorePackage: string,
   distTypesDir: string,
   rootDir: string,
+  includeImportCustomElements: boolean = false,
+  customElementsDir: string = 'components'
 ) => (cmpMeta: ComponentCompilerMeta) => {
   // Collect component meta
   const inputs = [
@@ -40,7 +42,12 @@ export const createComponentDefinition = (
       const remappedReference = `I${cmpMeta.componentClassName}${reference}`;
       if (refObject.location === 'local' || refObject.location === 'import') {
         outputReferenceRemap[reference] = remappedReference;
-        outputsInterface.add(`import { ${reference} as ${remappedReference} } from '${componentCorePackage}';`)
+        let importLocation: string = componentCorePackage;
+        if (componentCorePackage !== undefined) {
+          const dirPath = includeImportCustomElements ? `/${customElementsDir || 'components'}` : '';
+          importLocation = `${normalizePath(componentCorePackage)}${dirPath}`;
+        }
+        outputsInterface.add(`import type { ${reference} as ${remappedReference} } from '${importLocation}';`);
       }
     });
   });
@@ -85,7 +92,12 @@ export const createComponentDefinition = (
     `${[...outputsInterface].join('\n')}
 export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {${componentEvents.length > 1 ? componentEvents.join('\n') : ''}}
 
-${getProxyCmp(inputs, methods)}
+${getProxyCmp(
+  cmpMeta.tagName,
+  includeImportCustomElements,
+  inputs,
+  methods
+)}
 @Component({
   ${directiveOpts.join(',\n  ')}
 })
@@ -107,14 +119,14 @@ export class ${tagNameAsPascal} {`,
   return lines.join('\n');
 };
 
-function getProxyCmp(inputs: string[], methods: string[]): string {
+function getProxyCmp(tagName: string, includeCustomElement: boolean, inputs: string[], methods: string[]): string {
   const hasInputs = inputs.length > 0;
   const hasMethods = methods.length > 0;
-  const proxMeta: string[] = [];
 
-  if (!hasInputs && !hasMethods) {
-    return '';
-  }
+  const proxMeta: string[] = [
+    `tagName: \'${tagName}\'`,
+    `customElement: ${includeCustomElement ? dashToPascalCase(tagName) + 'Cmp' : 'undefined'}`
+  ];
 
   if (hasInputs) proxMeta.push(`inputs: ['${inputs.join(`', '`)}']`);
   if (hasMethods) proxMeta.push(`methods: ['${methods.join(`', '`)}']`);

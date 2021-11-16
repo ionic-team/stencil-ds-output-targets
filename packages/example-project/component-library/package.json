@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@stencil/angular-output-target": "^0.0.5",
-    "@stencil/core": "^1.17.3",
+    "@stencil/core": "^2.9.0",
     "@stencil/react-output-target": "^0.0.9",
     "@stencil/svelte-output-target": "^0.0.3",
     "@stencil/vue-output-target": "^0.4.3",
