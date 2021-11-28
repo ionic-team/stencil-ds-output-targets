@@ -31,8 +31,13 @@
   "bugs": {
     "url": "https://github.com/ionic-team/stencil-ds-output-targets/issues"
   },
+  "devDependencies": {
+    "@stencil/core": "^2",
+    "@types/node": "^16.11.10",
+    "rollup": "^2.23.1"
+  },
   "peerDependencies": {
-    "@stencil/core": ">=1.8.0 || ^2.0.0"
+    "@stencil/core": "^2.7"
   },
   "jest": {
     "transform": {
