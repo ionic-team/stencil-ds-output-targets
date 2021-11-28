@@ -1,7 +1,14 @@
 import path from 'path';
 import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
-import type { OutputTargetAngular, PackageJSON } from './types';
-import { relativeImport, normalizePath, sortBy, readPackageJson, dashToPascalCase } from './utils';
+import type { OutputTargetAngular } from './types';
+import type { PackageJSON } from '@stencil/wrappers-utils';
+import {
+  relativeImport,
+  normalizePath,
+  sortBy,
+  readPackageJson,
+  dashToPascalCase,
+} from '@stencil/wrappers-utils';
 import { createComponentDefinition } from './generate-angular-component';
 import { generateAngularDirectivesFile } from './generate-angular-directives-file';
 import generateValueAccessors from './generate-value-accessors';

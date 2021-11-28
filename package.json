@@ -7,12 +7,32 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "build": "lerna run build",
+    "build": "npm run build.utils && npm run build.wrappers && npm run build.samples",
+    "build.utils": "lerna run build --stream --scope=@stencil/wrappers-utils",
+    "build.wrappers": "lerna run build --stream --scope={@stencil/react-output-target,@stencil/angular-output-target,@stencil/vue-output-target,@stencil/svelte-output-target}",
+    "build.samples": "lerna run build --stream --scope={component-library,component-library-react,component-library-angular,component-library-vue,component-library-svelte}",
     "test": "lerna run test",
     "changelog": "lerna-changelog",
-    "publish": "lerna publish"
+    "publish": "lerna publish",
+    "clean": "npm run clean.npm && npm run clean.lockfiles && npm run clean.stencil-cache && npm run clean.dist",
+    "clean.npm": "find . -name \"node_modules\" -exec rm -rf '{}' +",
+    "clean.lockfiles": "find . -name \"package-lock.json\" -exec rm -rf '{}' +",
+    "clean.stencil-cache": "find . -name \".stencil\" -exec rm -rf '{}' +",
+    "clean.dist": "find . -name \"dist\" -exec rm -rf '{}' +"
   },
   "devDependencies": {
     "lerna": "^4.0.0"
+  },
+  "dependencies": {
+    "@stencil/angular-output-target": "file:packages/angular",
+    "@stencil/react-output-target": "file:packages/react",
+    "@stencil/svelte-output-target": "file:packages/svelte",
+    "@stencil/vue-output-target": "file:packages/vue",
+    "@stencil/wrappers-utils": "file:packages/utils",
+    "component-library": "file:packages/example-project/component-library",
+    "component-library-angular": "file:packages/example-project/component-library-angular",
+    "component-library-react": "file:packages/example-project/component-library-react",
+    "component-library-svelte": "file:packages/example-project/component-library-svelte",
+    "component-library-vue": "file:packages/example-project/component-library-vue"
   }
 }

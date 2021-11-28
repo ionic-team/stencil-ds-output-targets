@@ -1,5 +1,5 @@
 import type { OutputTargetAngular } from './types';
-import { dashToPascalCase, relativeImport } from './utils';
+import { dashToPascalCase, relativeImport } from '@stencil/wrappers-utils';
 import type { CompilerCtx, ComponentCompilerMeta } from '@stencil/core/internal';
 
 export function generateAngularDirectivesFile(

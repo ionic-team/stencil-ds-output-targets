@@ -1,5 +1,4 @@
 {
-  "extends": "../tsconfig.settings.json",
   "compilerOptions": {
     "target": "es2017",
     "outDir": "dist/main",

@@ -1,5 +1,5 @@
 import type { Config, OutputTargetCustom } from '@stencil/core/internal';
-import { normalizePath } from './utils';
+import { normalizePath } from '@stencil/wrappers-utils';
 import { angularDirectiveProxyOutput } from './output-angular';
 import type { OutputTargetAngular } from './types';
 import path from 'path';

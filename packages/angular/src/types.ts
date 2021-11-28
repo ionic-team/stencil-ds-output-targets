@@ -17,7 +17,3 @@ export interface ValueAccessorConfig {
   targetAttr: string;
   type: ValueAccessorTypes;
 }
-
-export interface PackageJSON {
-  types: string;
-}
