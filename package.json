@@ -1,0 +1,18 @@
+{
+  "name": "@stencil/wrappers-monorepo",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ionic-team/stencil-ds-output-targets.git"
+  },
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna run build",
+    "test": "lerna run test",
+    "changelog": "lerna-changelog",
+    "publish": "lerna publish"
+  },
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  }
+}

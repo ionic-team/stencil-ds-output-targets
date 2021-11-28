@@ -1,0 +1,50 @@
+{
+  "name": "@stencil/wrappers-utils",
+  "public": true,
+  "version": "0.1.0",
+  "description": "Common stuff for Stencil's wrappers",
+  "main": "dist/main/index.js",
+  "typings": "dist/main/index.d.ts",
+  "module": "dist/module/index.js",
+  "repository": "https://github.com/ionic-team/wrappers",
+  "license": "MIT",
+  "keywords": [],
+  "scripts": {
+    "describe": "npm-scripts-info",
+    "build": "run-s clean && run-p build:*",
+    "build:main": "tsc -p tsconfig.json",
+    "build:module": "tsc -p tsconfig.module.json",
+    "watch:main": "tsc -p tsconfig.json --watch --incremental --preserveWatchOutput",
+    "fix": "run-s fix:*",
+    "fix:prettier": "prettier \"src/**/*.ts\" --write",
+    "fix:tslint": "tslint --fix --project .",
+    "test": "run-s build test:*",
+    "test:lint": "tslint --project .",
+    "watch": "run-s clean watch:main",
+    "start": "run-s clean watch:main",
+    "cov": "run-s build cov:html && open-cli coverage/index.html",
+    "cov:html": "nyc report --reporter=html",
+    "cov:send": "nyc report --reporter=lcov && codecov",
+    "cov:check": "nyc report && nyc check-coverage --lines 100 --functions 100 --branches 100",
+    "doc": "run-s doc:html && open-cli dist/docs/index.html",
+    "doc:html": "typedoc src/ --exclude **/*.spec.ts --target ES6 --mode file --out dist/docs",
+    "doc:json": "typedoc src/ --exclude **/*.spec.ts --target ES6 --mode file --json dist/docs/typedoc.json",
+    "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d dist/docs",
+    "reset": "git clean -dfx && git reset --hard && npm i",
+    "clean": "trash build test",
+    "prepare-release": "run-s reset test cov:check doc:html version doc:publish"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "codecov": "^3.5.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.18.2",
+    "standard-version": "^8.0.0",
+    "trash-cli": "^3.0.0",
+    "typescript": "^3.5.3",
+    "jest": "^26.0.0",
+    "@types/jest": "^26.0.0"
+  }
+}
