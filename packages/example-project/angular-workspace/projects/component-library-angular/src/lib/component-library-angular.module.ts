@@ -1,16 +1,28 @@
 import { NgModule } from '@angular/core';
-import { ComponentLibraryAngularComponent } from './component-library-angular.component';
 
-
+import {
+  MyButton,
+  MyCheckbox,
+  MyComponent,
+  MyInput,
+  MyPopover,
+  MyRadio,
+  MyRadioGroup,
+  MyRange,
+} from './stencil-generated/components';
 
 @NgModule({
   declarations: [
-    ComponentLibraryAngularComponent
+    MyButton,
+    MyCheckbox,
+    MyComponent,
+    MyInput,
+    MyPopover,
+    MyRadio,
+    MyRadioGroup,
+    MyRange,
   ],
-  imports: [
-  ],
-  exports: [
-    ComponentLibraryAngularComponent
-  ]
+  imports: [],
+  exports: [MyButton, MyCheckbox, MyComponent, MyInput, MyPopover, MyRadio, MyRadioGroup, MyRange],
 })
-export class ComponentLibraryAngularModule { }
+export class ComponentLibraryAngularModule {}
