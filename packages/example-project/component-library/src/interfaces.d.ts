@@ -1,7 +1,6 @@
 import { EventEmitter } from '@stencil/core';
 
 export * from './components';
-export * from './index';
 
 // From: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
 export type AutocompleteTypes =
