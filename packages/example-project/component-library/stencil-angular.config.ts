@@ -29,29 +29,29 @@ const angularValueAccessorBindings: ValueAccessorConfig[] = [
 ];
 
 export const config: Config = {
-  namespace: 'component-library',
-  taskQueue: 'async',
-  outputTargets: [
-    angularOutputTarget({
-      componentCorePackage: 'component-library',
-      directivesProxyFile:
-        '../angular-workspace/projects/component-library-angular/src/lib/stencil-generated/components.ts',
-      valueAccessorConfigs: angularValueAccessorBindings,
-    }),
-    {
-      type: 'dist-custom-elements',
-      dir: 'dist/components',
-    },
-    {
-      type: 'dist',
-      esmLoaderPath: '../loader',
-    },
-    {
-      type: 'docs-readme',
-    },
-    {
-      type: 'www',
-      serviceWorker: null, // disable service workers
-    },
-  ],
-};
+         namespace: 'component-library',
+         taskQueue: 'async',
+         outputTargets: [
+           angularOutputTarget({
+             componentCorePackage: 'component-library',
+             directivesProxyFile:
+               '../angular-workspace/projects/component-library-angular/src/lib/stencil-generated/components.ts',
+             valueAccessorConfigs: angularValueAccessorBindings,
+           }),
+           {
+             type: 'dist-custom-elements',
+             dir: 'dist/components',
+           },
+           {
+             type: 'dist',
+             esmLoaderPath: '../loader',
+           },
+           {
+             type: 'docs-readme',
+           },
+           {
+             type: 'www',
+             serviceWorker: null, // disable service workers
+           },
+         ],
+       };

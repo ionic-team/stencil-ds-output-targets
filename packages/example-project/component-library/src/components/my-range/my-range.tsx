@@ -11,15 +11,15 @@ import {
   h,
 } from '@stencil/core';
 
-import { Color, StyleEventDetail } from '../element-interface';
+import {
+  Color,
+  KnobName,
+  RangeChangeEventDetail,
+  RangeValue,
+  StyleEventDetail,
+} from '../../interfaces';
 import { clamp, debounceEvent, renderHiddenInput } from '../helpers';
 
-export type KnobName = 'A' | 'B' | undefined;
-export type RangeValue = number | { lower: number; upper: number };
-
-export interface RangeChangeEventDetail {
-  value: RangeValue;
-}
 
 /**
  * @virtualProp {"ios" | "md"} mode - The mode determines which platform styles to use.

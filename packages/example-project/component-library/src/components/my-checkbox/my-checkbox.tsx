@@ -10,7 +10,7 @@ import {
   h,
 } from '@stencil/core';
 
-import { CheckboxChangeEventDetail, Color, StyleEventDetail } from '../element-interface';
+import { CheckboxChangeEventDetail, Color, StyleEventDetail } from '../../interfaces';
 import { findItemLabel, renderHiddenInput } from '../../utils/helpers';
 
 /**

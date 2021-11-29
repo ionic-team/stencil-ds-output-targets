@@ -11,7 +11,7 @@ import {
   h,
 } from '@stencil/core';
 
-import { Color, StyleEventDetail } from '../element-interface';
+import { Color, StyleEventDetail } from '../../interfaces';
 import { findItemLabel } from '../../utils/helpers';
 
 /**

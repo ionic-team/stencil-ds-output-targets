@@ -1,5 +1,8 @@
 import { EventEmitter } from '@stencil/core';
 
+export * from './components';
+export * from './index';
+
 // From: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
 export type AutocompleteTypes =
   | 'on'
@@ -90,6 +93,39 @@ export type ComponentTags = string;
 export type ComponentRef = Function | HTMLElement | string | null;
 export type ComponentProps<T = null> = { [key: string]: any };
 export type CssClassMap = { [className: string]: boolean };
+
+export interface InputChangeEventDetail {
+  value: string | number | undefined | null;
+}
+
+export interface RadioGroupChangeEventDetail {
+  value: any;
+}
+
+export interface AnchorInterface {
+  href: string | undefined;
+  target: string | undefined;
+  rel: string | undefined;
+  download: string | undefined;
+}
+
+export type KnobName = 'A' | 'B' | undefined;
+export type RangeValue = number | { lower: number; upper: number };
+
+export interface RangeChangeEventDetail {
+  value: RangeValue;
+}
+
+export interface ButtonInterface {
+  type: 'submit' | 'reset' | 'button';
+  disabled: boolean;
+}
+
+export interface CheckboxChangeEventDetail {
+  value: any;
+  checked: boolean;
+}
+
 
 export interface OverlayInterface {
   el: HTMLElement;

@@ -11,7 +11,7 @@ import {
 
 import { Color } from '../../interfaces';
 import { hasShadowDom } from '../helpers';
-import { AnchorInterface, ButtonInterface } from '../element-interface';
+import { AnchorInterface, ButtonInterface } from '../../interfaces';
 
 /**
  * @virtualProp {"ios" | "md"} mode - The mode determines which platform styles to use.

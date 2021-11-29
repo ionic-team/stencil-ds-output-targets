@@ -5,11 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AutocompleteTypes, Color, ComponentProps, ComponentRef, OverlayEventDetail, TextFieldTypes } from "./interfaces";
-import { CheckboxChangeEventDetail, Color as Color1, StyleEventDetail } from "./components/element-interface";
-import { InputChangeEventDetail } from "./components/my-input/my-input";
-import { RadioGroupChangeEventDetail } from "./components/my-radio-group/my-radio-group";
-import { RangeChangeEventDetail, RangeValue } from "./components/my-range/my-range";
+import { AutocompleteTypes, CheckboxChangeEventDetail, Color, ComponentProps, ComponentRef, InputChangeEventDetail, OverlayEventDetail, RadioGroupChangeEventDetail, RangeChangeEventDetail, RangeValue, StyleEventDetail, TextFieldTypes } from "./interfaces";
 export namespace Components {
     interface MyButton {
         /**
