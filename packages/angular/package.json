@@ -15,8 +15,8 @@
   },
   "scripts": {
     "prebuild": "rimraf ./dist && npm run test",
-    "build": "tsc && npm run rollup",
-    "watch": "tsc --watch",
+    "build": "tsc -p tsconfig.json && npm run rollup",
+    "watch": "tsc --watch -p tsconfig.json",
     "rollup": "rollup -c",
     "version": "npm run build",
     "release": "np",
@@ -34,7 +34,8 @@
     "url": "https://github.com/ionic-team/stencil-ds-output-targets/issues"
   },
   "peerDependencies": {
-    "@stencil/core": "^2.7"
+    "@stencil/core": "^2.7",
+    "typescript": "^4.3"
   },
   "devDependencies": {
     "@angular/core": "8.2.14",
@@ -42,7 +43,6 @@
     "@types/jest": "^26.0.9",
     "jest": "^26.3.0",
     "prettier": "^2.0.5",
-    "typescript": "^4.3",
     "rollup": "^2.23.1"
   },
   "jest": {
@@ -59,5 +59,8 @@
     ],
     "testURL": "http://localhost"
   },
-  "gitHead": "a3588e905186a0e86e7f88418fd5b2f9531b55e0"
+  "gitHead": "a3588e905186a0e86e7f88418fd5b2f9531b55e0",
+  "dependencies": {
+    "@stencil/wrappers-utils": "^0.1.0"
+  }
 }

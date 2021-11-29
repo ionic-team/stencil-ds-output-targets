@@ -34,7 +34,8 @@ export const config: Config = {
   outputTargets: [
     angularOutputTarget({
       componentCorePackage: 'component-library',
-      directivesProxyFile: '../component-library-angular/src/directives/proxies.ts',
+      directivesProxyFile:
+        '../angular-workspace/projects/component-library-angular/src/lib/stencil-generated/components.ts',
       valueAccessorConfigs: angularValueAccessorBindings,
     }),
     {

@@ -7,37 +7,39 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "build": "npm run build.utils && npm run build.wrappers && npm run build.example-library && npm run build.framework-libraries",
+    "build": "yarn build.utils && yarn build.wrappers && yarn build.example-library && yarn build.framework-libraries",
     "build.utils": "lerna run build --stream --scope=@stencil/wrappers-utils",
     "build.wrappers": "lerna run build --stream --no-bail --scope={@stencil/react-output-target,@stencil/angular-output-target,@stencil/vue-output-target,@stencil/svelte-output-target}",
     "build.example-library": "lerna run build --stream --scope=component-library",
-    "build.framework-libraries": "lerna run build --stream --no-bail --scope={component-library-react,component-library-angular,component-library-vue,component-library-svelte}",
-    "build.angular": "npm run build.utils && lerna run build --stream --scope=@stencil/angular-output-target && lerna run build.angular-library && lerna run build --stream --no-bail --scope=component-library-angular",
-    "build.react": "npm run build.utils && lerna run build --stream --scope=@stencil/react-output-target && lerna run build.react-library && lerna run build --stream --no-bail --scope=component-library-react",
-    "build.vue": "npm run build.utils && lerna run build --stream --scope=@stencil/vue-output-target && lerna run build.vue-library && lerna run build --stream --no-bail --scope=component-library-vue",
-    "build.svelte": "npm run build.utils && lerna run build --stream --scope=@stencil/svelte-output-target && lerna run build.svelte-library && lerna run build --stream --no-bail --scope=component-library-svelte",
+    "build.framework-libraries": "lerna run build --stream --no-bail --scope={component-library-react,angular-workspace,component-library-vue,component-library-svelte}",
+    "build.angular": "yarn build.utils && lerna run build --stream --scope=@stencil/angular-output-target && lerna run build.angular-library && lerna run build --stream --no-bail --scope=angular-workspace",
+    "build.react": "yarn build.utils && lerna run build --stream --scope=@stencil/react-output-target && lerna run build.react-library && lerna run build --stream --no-bail --scope=component-library-react",
+    "build.vue": "yarn build.utils && lerna run build --stream --scope=@stencil/vue-output-target && lerna run build.vue-library && lerna run build --stream --no-bail --scope=component-library-vue",
+    "build.svelte": "yarn build.utils && lerna run build --stream --scope=@stencil/svelte-output-target && lerna run build.svelte-library && lerna run build --stream --no-bail --scope=component-library-svelte",
     "test": "lerna run test",
     "changelog": "lerna-changelog",
     "publish": "lerna publish",
-    "clean": "npm run clean.npm && npm run clean.lockfiles && npm run clean.stencil-cache && npm run clean.dist",
+    "clean": "yarn clean.npm && yarn clean.lockfiles && yarn clean.yarnlockfiles && yarn clean.stencil-cache && yarn clean.dist",
     "clean.npm": "find . -name \"node_modules\" -exec rm -rf '{}' +",
     "clean.lockfiles": "find . -name \"package-lock.json\" -exec rm -rf '{}' +",
+    "clean.yarnlockfiles": "find . -name \"yarn.lock\" -exec rm -rf '{}' +",
     "clean.stencil-cache": "find . -name \".stencil\" -exec rm -rf '{}' +",
     "clean.dist": "find . -name \"dist\" -exec rm -rf '{}' +"
   },
   "devDependencies": {
     "lerna": "^4.0.0"
   },
-  "dependencies": {
-    "@stencil/angular-output-target": "file:packages/angular",
-    "@stencil/react-output-target": "file:packages/react",
-    "@stencil/svelte-output-target": "file:packages/svelte",
-    "@stencil/vue-output-target": "file:packages/vue",
-    "@stencil/wrappers-utils": "file:packages/utils",
-    "component-library": "file:packages/example-project/component-library",
-    "component-library-angular": "file:packages/example-project/component-library-angular",
-    "component-library-react": "file:packages/example-project/component-library-react",
-    "component-library-svelte": "file:packages/example-project/component-library-svelte",
-    "component-library-vue": "file:packages/example-project/component-library-vue"
-  }
+  "workspaces": [
+    "packages/utils",
+    "packages/angular",
+    "packages/react",
+    "packages/vue",
+    "packages/svelte",
+    "packages/wrappers",
+    "packages/example-project/component-library",
+    "packages/example-project/angular-workspace",
+    "packages/example-project/component-library-react",
+    "packages/example-project/component-library-vue",
+    "packages/example-project/component-library-svelte"
+  ]
 }
