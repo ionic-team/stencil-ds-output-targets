@@ -3,7 +3,7 @@ import type {
   CompilerCtx, ComponentCompilerMeta, Config, OutputTargetDist,
 } from '@stencil/core/internal';
 import { OutputTargetSvelte } from './types';
-import { sortBy, normalizePath, dashToPascalCase } from './utils';
+import { sortBy, normalizePath, dashToPascalCase } from '@stencil/wrappers-utils';
 import { createComponentDefinition } from './generate-svelte-component';
 import { generate$$TypeDefs, generateTypings, replaceMethodDefs } from './generate-svelte-typings';
 

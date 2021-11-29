@@ -1,6 +1,6 @@
 import type { Config, OutputTargetCustom } from '@stencil/core/internal';
 import path from 'path';
-import { normalizePath } from './utils';
+import { normalizePath } from '@stencil/wrappers-utils';
 import type { OutputTargetSvelte } from './types';
 import { svelteProxyOutput } from './output-svelte';
 

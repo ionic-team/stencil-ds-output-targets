@@ -1,5 +1,5 @@
 import type { Config, OutputTargetCustom } from '@stencil/core/internal';
-import { normalizePath } from './utils';
+import { normalizePath } from '@stencil/wrappers-utils';
 import type { OutputTargetReact } from './types';
 import { reactProxyOutput } from './output-react';
 import path from 'path';

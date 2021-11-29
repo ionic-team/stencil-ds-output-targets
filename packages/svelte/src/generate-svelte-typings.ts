@@ -1,5 +1,5 @@
 import { ComponentCompilerMeta } from '@stencil/core/internal';
-import { dashToPascalCase } from './utils';
+import { dashToPascalCase } from '@stencil/wrappers-utils';
 
 export const generateTypings = (meta: ComponentCompilerMeta) => {
   const name = dashToPascalCase(meta.tagName);

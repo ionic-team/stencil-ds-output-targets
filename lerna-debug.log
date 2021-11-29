@@ -1,0 +1,12 @@
+0 silly argv {
+0 silly argv   _: [ 'bootstrap' ],
+0 silly argv   lernaVersion: '4.0.0',
+0 silly argv   '$0': '/Users/will/Sites/Ionic/stencil-ds-output-targets/node_modules/.bin/lerna'
+0 silly argv }
+1 notice cli v4.0.0
+2 verbose rootPath /Users/will/Sites/Ionic/stencil-ds-output-targets
+3 info versioning independent
+4 error JSONError: Unexpected end of JSON input while parsing near "...teer\": \"2.1.1\"\n  }\n}\n" in packages/example-project/component-library/package.json
+4 error     at parseJson (/Users/will/Sites/Ionic/stencil-ds-output-targets/node_modules/parse-json/index.js:29:21)
+4 error     at parse (/Users/will/Sites/Ionic/stencil-ds-output-targets/node_modules/load-json-file/index.js:15:9)
+4 error     at module.exports (/Users/will/Sites/Ionic/stencil-ds-output-targets/node_modules/load-json-file/index.js:18:47)

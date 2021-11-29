@@ -4,6 +4,7 @@ import {
   attachProps,
   createForwardRef,
   dashToPascalCase,
+  defineCustomElement,
   isCoveredByReact,
   mergeRefs,
 } from './utils';
@@ -29,9 +30,11 @@ export const createReactComponent = <
     originalProps: StencilReactInternalProps<ElementType>,
     propsToPass: any,
   ) => ExpandedPropsTypes,
+  customElement?: any,
 ) => {
-  const displayName = dashToPascalCase(tagName);
+  defineCustomElement(tagName, customElement);
 
+  const displayName = dashToPascalCase(tagName);
   const ReactComponent = class extends React.Component<StencilReactInternalProps<ElementType>> {
     componentEl!: ElementType;
 
@@ -57,7 +60,7 @@ export const createReactComponent = <
       let propsToPass = Object.keys(cProps).reduce((acc, name) => {
         if (name.indexOf('on') === 0 && name[2] === name[2].toUpperCase()) {
           const eventName = name.substring(2).toLowerCase();
-          if (typeof document !== 'undefined' && isCoveredByReact(eventName, document)) {
+          if (typeof document !== 'undefined' && isCoveredByReact(eventName)) {
             (acc as any)[name] = (cProps as any)[name];
           }
         } else {
@@ -70,7 +73,7 @@ export const createReactComponent = <
         propsToPass = manipulatePropsFunction(this.props, propsToPass);
       }
 
-      let newProps: Omit<StencilReactInternalProps<ElementType>, 'forwardedRef'> = {
+      const newProps: Omit<StencilReactInternalProps<ElementType>, 'forwardedRef'> = {
         ...propsToPass,
         ref: mergeRefs(forwardedRef, this.setComponentElRef),
         style,

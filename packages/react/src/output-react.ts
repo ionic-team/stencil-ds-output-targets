@@ -1,6 +1,12 @@
 import path from 'path';
 import type { OutputTargetReact, PackageJSON } from './types';
-import { dashToPascalCase, normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
+import {
+  dashToPascalCase,
+  normalizePath,
+  readPackageJson,
+  relativeImport,
+  sortBy,
+} from '@stencil/wrappers-utils';
 import type {
   CompilerCtx,
   ComponentCompilerMeta,
@@ -16,7 +22,7 @@ export async function reactProxyOutput(
 ) {
   const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, components);
   const rootDir = config.rootDir as string;
-  const pkgData = await readPackageJson(rootDir);
+  const pkgData = await readPackageJson(config, rootDir);
 
   const finalText = generateProxies(config, filteredComponents, pkgData, outputTarget, rootDir);
   await compilerCtx.fs.writeFile(outputTarget.proxiesFile, finalText);

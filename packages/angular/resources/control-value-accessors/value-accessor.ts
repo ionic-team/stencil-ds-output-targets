@@ -1,11 +1,16 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Component, ElementRef, HostListener } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 
-@Directive({})
+@Component({
+  template: '',
+})
 export class ValueAccessor implements ControlValueAccessor {
-
-  private onChange: (value: any) => void = () => {/**/};
-  private onTouched: () => void = () => {/**/};
+  private onChange: (value: any) => void = () => {
+    /**/
+  };
+  private onTouched: () => void = () => {
+    /**/
+  };
   protected lastValue: any;
 
   constructor(protected el: ElementRef) {}

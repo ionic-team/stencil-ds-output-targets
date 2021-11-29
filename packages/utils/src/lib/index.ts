@@ -5,3 +5,4 @@ export * from './readPackageJson';
 export * from './relativeImport';
 export * from './sortBy';
 export * from './toLowerCase';
+export * from './flatOne';

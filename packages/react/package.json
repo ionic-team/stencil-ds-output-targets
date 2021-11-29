@@ -41,6 +41,7 @@
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-testing-library": "^7.0.0",
+    "typescript": "^4.3",
     "rollup": "^2.23.1"
   },
   "jest": {

@@ -21,3 +21,14 @@ We commit to removing all instances of "path", "os", and "child_process" in favo
 ## Consequences
 
 By assuming this, we make the wrapper functions significantly more portable and can feel more confident in the resultant output of any given wrapper function.
+
+We can enforce this via eslint's no-nodejs-modules rule https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-nodejs-modules.md
+
+```
+{
+  ...
+  "rules": {
+    "import/no-nodejs-modules": true
+  }
+}
+```

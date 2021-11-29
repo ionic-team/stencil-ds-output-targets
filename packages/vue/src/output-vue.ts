@@ -7,7 +7,13 @@ import type {
   OutputTargetDist,
 } from '@stencil/core/internal';
 import { createComponentDefinition } from './generate-vue-component';
-import { normalizePath, readPackageJson, relativeImport, sortBy, dashToPascalCase } from './utils';
+import {
+  normalizePath,
+  readPackageJson,
+  relativeImport,
+  sortBy,
+  dashToPascalCase,
+} from '@stencil/wrappers-utils';
 
 export async function vueProxyOutput(
   config: Config,
@@ -17,7 +23,7 @@ export async function vueProxyOutput(
 ) {
   const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, components);
   const rootDir = config.rootDir as string;
-  const pkgData = await readPackageJson(rootDir);
+  const pkgData = await readPackageJson(config, rootDir);
 
   const finalText = generateProxies(config, filteredComponents, pkgData, outputTarget, rootDir);
   await compilerCtx.fs.writeFile(outputTarget.proxiesFile, finalText);
