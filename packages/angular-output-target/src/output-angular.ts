@@ -101,7 +101,7 @@ import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
     const cmpImports = components.map(component => {
       const pascalImport = dashToPascalCase(component.tagName);
 
-      return `import { ${pascalImport} as ${pascalImport}Cmp } from '${normalizePath(outputTarget.componentCorePackage!)}/${outputTarget.customElementsDir ||
+      return `import { defineCustomElement as define${pascalImport} } from '${normalizePath(outputTarget.componentCorePackage!)}/${outputTarget.customElementsDir ||
         'components'
       }/${component.tagName}.js';`;
     });
