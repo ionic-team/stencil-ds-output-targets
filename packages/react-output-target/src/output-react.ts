@@ -76,7 +76,7 @@ import { createReactComponent } from './react-component-lib';\n`;
     const cmpImports = components.map(component => {
       const pascalImport = dashToPascalCase(component.tagName);
 
-      return `import { ${pascalImport} as ${pascalImport}Cmp } from '${normalizePath(outputTarget.componentCorePackage!)}/${outputTarget.customElementsDir ||
+      return `import { defineCustomElement as define${pascalImport} } from '${normalizePath(outputTarget.componentCorePackage!)}/${outputTarget.customElementsDir ||
         'components'
       }/${component.tagName}.js';`;
     });
@@ -117,7 +117,7 @@ export function createComponentDefinition(cmpMeta: ComponentCompilerMeta, includ
   let template = `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}'`;
 
   if (includeCustomElement) {
-    template += `, undefined, undefined, ${tagNameAsPascal}Cmp`;
+    template += `, undefined, undefined, define${tagNameAsPascal}`;
   }
 
   template += `);`;

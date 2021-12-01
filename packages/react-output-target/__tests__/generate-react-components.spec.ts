@@ -10,7 +10,7 @@ describe('createComponentDefinition', () => {
       methods: [],
       events: [],
     }, true);
-    expect(output[0]).toEqual(`export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component', undefined, undefined, MyComponentCmp);`);
+    expect(output[0]).toEqual(`export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component', undefined, undefined, defineMyComponent);`);
   });
 
   it('should create a React component without custom element support', () => {
