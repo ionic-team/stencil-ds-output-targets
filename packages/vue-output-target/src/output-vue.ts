@@ -65,7 +65,7 @@ import { defineContainer } from './vue-component-lib/utils';\n`;
     const cmpImports = components.map(component => {
       const pascalImport = dashToPascalCase(component.tagName);
 
-      return `import { ${pascalImport} as define${pascalImport} } from '${normalizePath(outputTarget.componentCorePackage!)}/${outputTarget.customElementsDir ||
+      return `import { defineCustomElement as define${pascalImport} } from '${normalizePath(outputTarget.componentCorePackage!)}/${outputTarget.customElementsDir ||
         'components'
       }/${component.tagName}.js';`;
     });
