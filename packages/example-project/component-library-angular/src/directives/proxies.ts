@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* auto-generated angular directive proxies */
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, NgZone } from '@angular/core';
-import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, NgZone, Output } from '@angular/core';
+import { ProxyCmp } from './angular-component-lib/utils';
 
 import type { Components } from 'component-library/components';
 
@@ -15,7 +15,7 @@ import { MyRadioGroup as MyRadioGroupCmp } from 'component-library/components/my
 import { MyRange as MyRangeCmp } from 'component-library/components/my-range.js';
 
 
-export declare interface MyButton extends Components.MyButton {}
+export declare interface MyButton extends Components.MyButton { }
 @ProxyCmp({
   tagName: 'my-button',
   customElement: MyButtonCmp,
@@ -25,24 +25,22 @@ export declare interface MyButton extends Components.MyButton {}
   selector: 'my-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['buttonType', 'color', 'disabled', 'download', 'expand', 'fill', 'href', 'mode', 'rel', 'shape', 'size', 'strong', 'target', 'type'],
-  outputs: ['myFocus', 'myBlur']
+  inputs: ['buttonType', 'color', 'disabled', 'download', 'expand', 'fill', 'href', 'mode', 'rel', 'shape', 'size', 'strong', 'target', 'type']
 })
 export class MyButton {
   /** Emitted when the button has focus. */
-  myFocus!: EventEmitter<CustomEvent<void>>;
+  @Output() myFocus = new EventEmitter<CustomEvent<void>>();
   /** Emitted when the button loses focus. */
-  myBlur!: EventEmitter<CustomEvent<void>>;
+  @Output() myBlur = new EventEmitter<CustomEvent<void>>();
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['myFocus', 'myBlur']);
   }
 }
 
 import { CheckboxChangeEventDetail as ICheckboxCheckboxChangeEventDetail } from 'component-library';
-export declare interface MyCheckbox extends Components.MyCheckbox {}
+export declare interface MyCheckbox extends Components.MyCheckbox { }
 @ProxyCmp({
   tagName: 'my-checkbox',
   customElement: MyCheckboxCmp,
@@ -52,26 +50,24 @@ export declare interface MyCheckbox extends Components.MyCheckbox {}
   selector: 'my-checkbox',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['checked', 'color', 'disabled', 'indeterminate', 'mode', 'name', 'value'],
-  outputs: ['myChange', 'myFocus', 'myBlur']
+  inputs: ['checked', 'color', 'disabled', 'indeterminate', 'mode', 'name', 'value']
 })
 export class MyCheckbox {
   /** Emitted when the checked property has changed. */
-  myChange!: EventEmitter<CustomEvent<ICheckboxCheckboxChangeEventDetail>>;
+  @Output() myChange = new EventEmitter<CustomEvent<ICheckboxCheckboxChangeEventDetail>>();
   /** Emitted when the toggle has focus. */
-  myFocus!: EventEmitter<CustomEvent<void>>;
+  @Output() myFocus = new EventEmitter<CustomEvent<void>>();
   /** Emitted when the toggle loses focus. */
-  myBlur!: EventEmitter<CustomEvent<void>>;
+  @Output() myBlur = new EventEmitter<CustomEvent<void>>();
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['myChange', 'myFocus', 'myBlur']);
   }
 }
 
 
-export declare interface MyComponent extends Components.MyComponent {}
+export declare interface MyComponent extends Components.MyComponent { }
 @ProxyCmp({
   tagName: 'my-component',
   customElement: MyComponentCmp,
@@ -81,8 +77,7 @@ export declare interface MyComponent extends Components.MyComponent {}
   selector: 'my-component',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['age', 'first', 'kidsNames', 'last', 'middle'],
-  outputs: ['myCustomEvent']
+  inputs: ['age', 'first', 'kidsNames', 'last', 'middle']
 })
 export class MyComponent {
   /** Testing an event without value */
@@ -91,12 +86,11 @@ export class MyComponent {
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['myCustomEvent']);
   }
 }
 
 import { InputChangeEventDetail as IInputInputChangeEventDetail } from 'component-library';
-export declare interface MyInput extends Components.MyInput {}
+export declare interface MyInput extends Components.MyInput { }
 @ProxyCmp({
   tagName: 'my-input',
   customElement: MyInputCmp,
@@ -107,28 +101,26 @@ export declare interface MyInput extends Components.MyInput {}
   selector: 'my-input',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['accept', 'autocapitalize', 'autocomplete', 'autocorrect', 'autofocus', 'clearInput', 'clearOnEdit', 'color', 'disabled', 'enterkeyhint', 'inputmode', 'max', 'maxlength', 'min', 'minlength', 'mode', 'multiple', 'name', 'pattern', 'placeholder', 'readonly', 'required', 'size', 'spellcheck', 'step', 'type', 'value'],
-  outputs: ['myInput', 'myChange', 'myBlur', 'myFocus']
+  inputs: ['accept', 'autocapitalize', 'autocomplete', 'autocorrect', 'autofocus', 'clearInput', 'clearOnEdit', 'color', 'disabled', 'enterkeyhint', 'inputmode', 'max', 'maxlength', 'min', 'minlength', 'mode', 'multiple', 'name', 'pattern', 'placeholder', 'readonly', 'required', 'size', 'spellcheck', 'step', 'type', 'value']
 })
 export class MyInput {
   /** Emitted when a keyboard input occurred. */
-  myInput!: EventEmitter<CustomEvent<KeyboardEvent>>;
+  @Output() myInput = new EventEmitter<CustomEvent<KeyboardEvent>>();
   /** Emitted when the value has changed. */
-  myChange!: EventEmitter<CustomEvent<IInputInputChangeEventDetail>>;
+  @Output() myChange = new EventEmitter<CustomEvent<IInputInputChangeEventDetail>>();
   /** Emitted when the input loses focus. */
-  myBlur!: EventEmitter<CustomEvent<void>>;
+  @Output() myBlur = new EventEmitter<CustomEvent<void>>();
   /** Emitted when the input has focus. */
-  myFocus!: EventEmitter<CustomEvent<void>>;
+  @Output() myFocus = new EventEmitter<CustomEvent<void>>();
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['myInput', 'myChange', 'myBlur', 'myFocus']);
   }
 }
 
 import { OverlayEventDetail as IPopoverOverlayEventDetail } from 'component-library';
-export declare interface MyPopover extends Components.MyPopover {}
+export declare interface MyPopover extends Components.MyPopover { }
 @ProxyCmp({
   tagName: 'my-popover',
   customElement: MyPopoverCmp,
@@ -139,28 +131,26 @@ export declare interface MyPopover extends Components.MyPopover {}
   selector: 'my-popover',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['animated', 'backdropDismiss', 'component', 'componentProps', 'cssClass', 'event', 'keyboardClose', 'mode', 'showBackdrop', 'translucent'],
-  outputs: ['myPopoverDidPresent', 'myPopoverWillPresent', 'myPopoverWillDismiss', 'myPopoverDidDismiss']
+  inputs: ['animated', 'backdropDismiss', 'component', 'componentProps', 'cssClass', 'event', 'keyboardClose', 'mode', 'showBackdrop', 'translucent']
 })
 export class MyPopover {
   /** Emitted after the popover has presented. */
-  myPopoverDidPresent!: EventEmitter<CustomEvent<void>>;
+  @Output() myPopoverDidPresent = new EventEmitter<CustomEvent<void>>();
   /** Emitted before the popover has presented. */
-  myPopoverWillPresent!: EventEmitter<CustomEvent<void>>;
+  @Output() myPopoverWillPresent = new EventEmitter<CustomEvent<void>>();
   /** Emitted before the popover has dismissed. */
-  myPopoverWillDismiss!: EventEmitter<CustomEvent<IPopoverOverlayEventDetail>>;
+  @Output() myPopoverWillDismiss = new EventEmitter<CustomEvent<IPopoverOverlayEventDetail>>();
   /** Emitted after the popover has dismissed. */
-  myPopoverDidDismiss!: EventEmitter<CustomEvent<IPopoverOverlayEventDetail>>;
+  @Output() myPopoverDidDismiss = new EventEmitter<CustomEvent<IPopoverOverlayEventDetail>>();
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['myPopoverDidPresent', 'myPopoverWillPresent', 'myPopoverWillDismiss', 'myPopoverDidDismiss']);
   }
 }
 
 
-export declare interface MyRadio extends Components.MyRadio {}
+export declare interface MyRadio extends Components.MyRadio { }
 @ProxyCmp({
   tagName: 'my-radio',
   customElement: MyRadioCmp,
@@ -170,26 +160,24 @@ export declare interface MyRadio extends Components.MyRadio {}
   selector: 'my-radio',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['color', 'disabled', 'mode', 'name', 'value'],
-  outputs: ['myFocus', 'myBlur', 'mySelect']
+  inputs: ['color', 'disabled', 'mode', 'name', 'value']
 })
 export class MyRadio {
   /** Emitted when the radio button has focus. */
-  myFocus!: EventEmitter<CustomEvent<void>>;
+  @Output() myFocus = new EventEmitter<CustomEvent<void>>();
   /** Emitted when the radio button loses focus. */
-  myBlur!: EventEmitter<CustomEvent<void>>;
+  @Output() myBlur = new EventEmitter<CustomEvent<void>>();
   /** Emitted when the radio button loses focus. */
-  mySelect!: EventEmitter<CustomEvent<void>>;
+  @Output() mySelect = new EventEmitter<CustomEvent<void>>();
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['myFocus', 'myBlur', 'mySelect']);
   }
 }
 
 import { RadioGroupChangeEventDetail as IRadioGroupRadioGroupChangeEventDetail } from 'component-library';
-export declare interface MyRadioGroup extends Components.MyRadioGroup {}
+export declare interface MyRadioGroup extends Components.MyRadioGroup { }
 @ProxyCmp({
   tagName: 'my-radio-group',
   customElement: MyRadioGroupCmp,
@@ -199,22 +187,20 @@ export declare interface MyRadioGroup extends Components.MyRadioGroup {}
   selector: 'my-radio-group',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['allowEmptySelection', 'name', 'value'],
-  outputs: ['myChange']
+  inputs: ['allowEmptySelection', 'name', 'value']
 })
 export class MyRadioGroup {
   /** Emitted when the value has changed. */
-  myChange!: EventEmitter<CustomEvent<IRadioGroupRadioGroupChangeEventDetail>>;
+  @Output() myChange = new EventEmitter<CustomEvent<IRadioGroupRadioGroupChangeEventDetail>>();
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['myChange']);
   }
 }
 
 import { RangeChangeEventDetail as IRangeRangeChangeEventDetail } from 'component-library';
-export declare interface MyRange extends Components.MyRange {}
+export declare interface MyRange extends Components.MyRange { }
 @ProxyCmp({
   tagName: 'my-range',
   customElement: MyRangeCmp,
@@ -224,20 +210,18 @@ export declare interface MyRange extends Components.MyRange {}
   selector: 'my-range',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  inputs: ['color', 'debounce', 'disabled', 'dualKnobs', 'max', 'min', 'mode', 'name', 'pin', 'snaps', 'step', 'ticks', 'value'],
-  outputs: ['myChange', 'myFocus', 'myBlur']
+  inputs: ['color', 'debounce', 'disabled', 'dualKnobs', 'max', 'min', 'mode', 'name', 'pin', 'snaps', 'step', 'ticks', 'value']
 })
 export class MyRange {
   /** Emitted when the value property has changed. */
-  myChange!: EventEmitter<CustomEvent<IRangeRangeChangeEventDetail>>;
+  @Output() myChange = new EventEmitter<CustomEvent<IRangeRangeChangeEventDetail>>();
   /** Emitted when the range has focus. */
-  myFocus!: EventEmitter<CustomEvent<void>>;
+  @Output() myFocus = new EventEmitter<CustomEvent<void>>();
   /** Emitted when the range loses focus. */
-  myBlur!: EventEmitter<CustomEvent<void>>;
+  @Output() myBlur = new EventEmitter<CustomEvent<void>>();
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['myChange', 'myFocus', 'myBlur']);
   }
 }

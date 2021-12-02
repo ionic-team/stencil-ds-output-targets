@@ -16,9 +16,6 @@ export const createComponentDefinition = (
   const outputs = cmpMeta.events.filter((ev) => !ev.internal).map((prop) => prop);
   const methods = cmpMeta.methods.filter((method) => !method.internal).map((prop) => prop.name);
 
-  // Process meta
-  const hasOutputs = outputs.length > 0;
-
   // Generate Angular @Directive
   const directiveOpts = [
     `selector: \'${cmpMeta.tagName}\'`,
@@ -52,22 +49,24 @@ export const createComponentDefinition = (
     });
   });
 
-  const componentEvents: string[] = [
-    '' // Empty first line
+  const lines = [
+    '', // Empty first line
+    `${[...outputsInterface].join('\n')}
+export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {}
+
+${getProxyCmp(
+      cmpMeta.tagName,
+      includeImportCustomElements,
+      inputs,
+      methods
+    )}
+@Component({
+  ${directiveOpts.join(',\n  ')}
+})
+export class ${tagNameAsPascal} {`,
   ];
 
-  // Generate outputs
   outputs.forEach((output, index) => {
-    componentEvents.push(
-`  /**
-   * ${output.docs.text} ${output.docs.tags.map((tag) => `@${tag.name} ${tag.text}`)}
-   */`);
-    /**
-     * The original attribute contains the original type defined by the devs.
-     * This regexp normalizes the reference, by removing linebreaks,
-     * replacing consecutive spaces with a single space, and adding a single space after commas.
-     **/
-
     const outputTypeRemapped = Object.entries(outputReferenceRemap).reduce((type, [src, dst]) => {
       return type
         .replace(new RegExp(`^${src}$`, 'g'), `${dst}`)
@@ -79,41 +78,25 @@ export const createComponentDefinition = (
       .replace(/\n/g, ' ')
       .replace(/\s{2,}/g, ' ')
       .replace(/,\s*/g, ', '));
-    componentEvents.push(`  ${output.name}: EventEmitter<CustomEvent<${outputTypeRemapped.trim()}>>;`);
+
+    lines.push(`  /**
+   * ${output.docs.text} ${output.docs.tags.map((tag) => `@${tag.name} ${tag.text}`)}
+   */`);
+    lines.push(
+      `  @Output() ${output.name} = new EventEmitter<CustomEvent<${outputTypeRemapped.trim()}>>();`
+    )
 
     if (index === outputs.length - 1) {
-      // Empty line to push end `}` to new line
-      componentEvents.push('\n');
+      lines.push('\n');
     }
-  });
-
-  const lines = [
-    '', // Empty first line
-    `${[...outputsInterface].join('\n')}
-export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {${componentEvents.length > 1 ? componentEvents.join('\n') : ''}}
-
-${getProxyCmp(
-  cmpMeta.tagName,
-  includeImportCustomElements,
-  inputs,
-  methods
-)}
-@Component({
-  ${directiveOpts.join(',\n  ')}
-})
-export class ${tagNameAsPascal} {`,
-  ];
+  })
 
   lines.push('  protected el: HTMLElement;');
   lines.push(`  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;`);
-  if (hasOutputs) {
-    lines.push(
-      `    proxyOutputs(this, this.el, ['${outputs.map((output) => output.name).join(`', '`)}']);`,
-    );
-  }
   lines.push(`  }`);
+
   lines.push(`}`);
 
   return lines.join('\n');
