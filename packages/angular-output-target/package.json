@@ -37,6 +37,9 @@
     "@angular/core": "8.2.14",
     "@angular/forms": "8.2.14"
   },
+  "peerDependencies": {
+    "@stencil/core": "^2.9.0"
+  },
   "jest": {
     "transform": {
       "^.+\\.(js|ts|tsx)$": "<rootDir>/test/jest.preprocessor.js"
