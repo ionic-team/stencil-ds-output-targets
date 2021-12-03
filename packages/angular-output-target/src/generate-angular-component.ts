@@ -124,7 +124,7 @@ function getProxyCmp(tagName: string, includeCustomElement: boolean, inputs: str
   const hasMethods = methods.length > 0;
 
   const proxMeta: string[] = [
-    `customElement: ${includeCustomElement ? 'define' + dashToPascalCase(tagName) : 'undefined'}`
+    `defineCustomElementFn: ${includeCustomElement ? 'define' + dashToPascalCase(tagName) : 'undefined'}`
   ];
 
   if (hasInputs) proxMeta.push(`inputs: ['${inputs.join(`', '`)}']`);
