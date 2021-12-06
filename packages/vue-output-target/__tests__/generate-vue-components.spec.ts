@@ -23,7 +23,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
       events: [],
     });
     expect(output).toEqual(`
-export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', MyComponentCmp);
+export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', defineMyComponent);
 `
   });
 

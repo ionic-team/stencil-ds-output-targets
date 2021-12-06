@@ -8,7 +8,7 @@ export const createComponentDefinition = (
   includeCustomElement: boolean = false
 ) => (cmpMeta: Pick<ComponentCompilerMeta, 'properties' | 'tagName' | 'methods' | 'events'>) => {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
-  const importAs = (includeCustomElement) ? tagNameAsPascal + 'Cmp' : 'undefined';
+  const importAs = (includeCustomElement) ? 'define' + tagNameAsPascal : 'undefined';
 
   let props: string[] = [];
 

@@ -43,11 +43,13 @@ export const defineCustomElement = (tagName: string, customElement: any) => {
 }
 
 // tslint:disable-next-line: only-arrow-functions
-export function ProxyCmp(opts: { tagName: string, customElement?: any, inputs?: any; methods?: any }) {
+export function ProxyCmp(opts: { defineCustomElementFn?: () => void, inputs?: any; methods?: any }) {
   const decorator = function (cls: any) {
-    const { tagName, customElement, inputs, methods } = opts;
+    const { defineCustomElementFn, inputs, methods } = opts;
 
-    defineCustomElement(tagName, customElement);
+    if (defineCustomElementFn !== undefined) {
+      defineCustomElementFn();
+    }
 
     if (inputs) {
       proxyInputs(cls, inputs);
