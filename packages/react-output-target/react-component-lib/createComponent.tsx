@@ -80,7 +80,7 @@ export const createReactComponent = <
         style,
       };
 
-      return React.createElement(tagName, newProps, children);
+      return <ReactComponent {...newProps}>{children}</ReactComponent>;
     }
 
     static get displayName() {
