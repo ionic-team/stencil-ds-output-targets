@@ -1,5 +1,5 @@
 import path from 'path';
-import type { OutputTargetReact, PackageJSON } from './types';
+import type { OutputTargetSolid, PackageJSON } from './types';
 import { dashToPascalCase, normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
 import type {
   CompilerCtx,
@@ -8,10 +8,10 @@ import type {
   OutputTargetDist,
 } from '@stencil/core/internal';
 
-export async function reactProxyOutput(
+export async function solidProxyOutput(
   config: Config,
   compilerCtx: CompilerCtx,
-  outputTarget: OutputTargetReact,
+  outputTarget: OutputTargetSolid,
   components: ComponentCompilerMeta[],
 ) {
   const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, components);
@@ -33,7 +33,7 @@ export function generateProxies(
   config: Config,
   components: ComponentCompilerMeta[],
   pkgData: PackageJSON,
-  outputTarget: OutputTargetReact,
+  outputTarget: OutputTargetSolid,
   rootDir: string,
 ) {
   const distTypesDir = path.dirname(pkgData.types);
@@ -43,8 +43,8 @@ export function generateProxies(
 
   const imports = `/* eslint-disable */
 /* tslint:disable */
-/* auto-generated react proxies */
-import { createReactComponent } from './react-component-lib';\n`;
+/* auto-generated solid proxies */
+import { createComponent } from './solid-component-lib';\n`;
 
   /**
    * Generate JSX import type from correct location.
@@ -114,7 +114,7 @@ import { createReactComponent } from './react-component-lib';\n`;
  */
 export function createComponentDefinition(cmpMeta: ComponentCompilerMeta, includeCustomElement: boolean = false): string[] {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
-  let template = `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}'`;
+  let template = `export const ${tagNameAsPascal} = /*@__PURE__*/createComponent<${IMPORT_TYPES}.${tagNameAsPascal}>('${cmpMeta.tagName}'`;
 
   if (includeCustomElement) {
     template += `, undefined, undefined, ${tagNameAsPascal}Cmp`;
@@ -127,12 +127,12 @@ export function createComponentDefinition(cmpMeta: ComponentCompilerMeta, includ
   ];
 }
 
-async function copyResources(config: Config, outputTarget: OutputTargetReact) {
+async function copyResources(config: Config, outputTarget: OutputTargetSolid) {
   if (!config.sys || !config.sys.copy || !config.sys.glob) {
     throw new Error('stencil is not properly initialized at this step. Notify the developer');
   }
-  const srcDirectory = path.join(__dirname, '..', 'react-component-lib');
-  const destDirectory = path.join(path.dirname(outputTarget.proxiesFile), 'react-component-lib');
+  const srcDirectory = path.join(__dirname, '..', 'solid-component-lib');
+  const destDirectory = path.join(path.dirname(outputTarget.proxiesFile), 'solid-component-lib');
 
   return config.sys.copy(
     [
@@ -147,7 +147,7 @@ async function copyResources(config: Config, outputTarget: OutputTargetReact) {
   );
 }
 
-export function getPathToCorePackageLoader(config: Config, outputTarget: OutputTargetReact) {
+export function getPathToCorePackageLoader(config: Config, outputTarget: OutputTargetSolid) {
   const basePkg = outputTarget.componentCorePackage || '';
   const distOutputTarget = config.outputTargets?.find((o) => o.type === 'dist') as OutputTargetDist;
 

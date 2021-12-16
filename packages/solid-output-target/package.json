@@ -42,11 +42,6 @@
     "@stencil/core": ">=1.8.0"
   },
   "devDependencies": {
-    "@types/react": "^16.7.0",
-    "@types/react-dom": "^16.7.0",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "react-testing-library": "^7.0.0",
     "solid-js": "^1.1.4"
   },
   "jest": {

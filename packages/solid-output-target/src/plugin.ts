@@ -1,10 +1,10 @@
 import type { Config, OutputTargetCustom } from '@stencil/core/internal';
 import { normalizePath } from './utils';
 import type { OutputTargetSolid } from './types';
-import { reactProxyOutput } from './output-react';
+import { solidProxyOutput } from './output-solid';
 import path from 'path';
 
-export const reactOutputTarget = (outputTarget: OutputTargetSolid): OutputTargetCustom => ({
+export const solidOutputTarget = (outputTarget: OutputTargetSolid): OutputTargetCustom => ({
   type: 'custom',
   name: 'solid-library',
   validate(config) {
@@ -13,7 +13,7 @@ export const reactOutputTarget = (outputTarget: OutputTargetSolid): OutputTarget
   async generator(config, compilerCtx, buildCtx) {
     const timespan = buildCtx.createTimeSpan(`generate react started`, true);
 
-    await reactProxyOutput(config, compilerCtx, outputTarget, buildCtx.components);
+    await solidProxyOutput(config, compilerCtx, outputTarget, buildCtx.components);
 
     timespan.finish(`generate react finished`);
   },

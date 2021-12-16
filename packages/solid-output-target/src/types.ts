@@ -1,6 +1,4 @@
-export interface OutputTargetSolid {}
-
-export interface OutputTargetReact extends OutputTargetSolid {
+export interface OutputTargetSolid {
   componentCorePackage?: string;
   proxiesFile: string;
   excludeComponents?: string[];

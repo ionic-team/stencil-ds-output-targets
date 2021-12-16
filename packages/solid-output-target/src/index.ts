@@ -1,2 +1,2 @@
-export { reactOutputTarget } from './plugin';
-export type { OutputTargetReact, OutputTargetSolid } from './types';
+export { solidOutputTarget } from './plugin';
+export type { OutputTargetSolid } from './types';
