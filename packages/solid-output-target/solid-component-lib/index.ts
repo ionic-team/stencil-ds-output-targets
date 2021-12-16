@@ -1,5 +1,7 @@
+import { PropsWithChildren } from 'solid-js'
+
 export function createComponent<Props>(tag: string) {
-  return (props: Props) => {
+  return (props: PropsWithChildren<Props>) => {
     const node = document.createElement(tag);
     for (const key in props) {
       if (key === 'children') {
@@ -12,7 +14,7 @@ export function createComponent<Props>(tag: string) {
           }
         });
       } else if (Object.prototype.hasOwnProperty.call(props, key)) {
-        (node as Record<string, any>)[key] = props[key];
+        (node as Record<string, any>)[key] = (props as Record<string, any>)[key];
       }
     }
     return node;
