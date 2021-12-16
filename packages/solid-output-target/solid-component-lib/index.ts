@@ -2,10 +2,15 @@ export function createComponent<Props>(tag: string) {
   return (props: Props) => {
     const node = document.createElement(tag);
     for (const key in props) {
-      if (key === 'children' && Array.isArray(props[key])) {
-        (node as Record<string, any>)[key].forEach((child: HTMLElement) => {
-          node.appendChild(child);
-        })
+      if (key === 'children') {
+        const children = Array.isArray(props[key]) ? props[key] : [props[key]];
+        (children as any[]).forEach((child) => {
+          if (child instanceof HTMLElement) {
+            node.appendChild(child);
+          } else {
+            node.innerHTML = child;
+          }
+        });
       } else if (Object.prototype.hasOwnProperty.call(props, key)) {
         (node as Record<string, any>)[key] = props[key];
       }
