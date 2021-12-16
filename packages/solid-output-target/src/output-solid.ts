@@ -44,7 +44,7 @@ export function generateProxies(
   const imports = `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated solid proxies */
-import { createComponent } from './solid-component-lib';\n`;
+import { createSolidComponent } from './solid-component-lib';\n`;
 
   /**
    * Generate JSX import type from correct location.
@@ -114,7 +114,7 @@ import { createComponent } from './solid-component-lib';\n`;
  */
 export function createComponentDefinition(cmpMeta: ComponentCompilerMeta, includeCustomElement: boolean = false): string[] {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
-  let template = `export const ${tagNameAsPascal} = /*@__PURE__*/createComponent<${IMPORT_TYPES}.${tagNameAsPascal}>('${cmpMeta.tagName}'`;
+  let template = `export const ${tagNameAsPascal} = /*@__PURE__*/createSolidComponent<${IMPORT_TYPES}.${tagNameAsPascal}>('${cmpMeta.tagName}'`;
 
   if (includeCustomElement) {
     template += `, undefined, undefined, ${tagNameAsPascal}Cmp`;

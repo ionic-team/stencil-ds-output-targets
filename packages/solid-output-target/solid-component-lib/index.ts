@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'solid-js'
 
-export function createComponent<Props>(tag: string) {
+export function createSolidComponent<Props>(tag: string) {
   return (props: PropsWithChildren<Props>) => {
     const node = document.createElement(tag);
     for (const key in props) {
