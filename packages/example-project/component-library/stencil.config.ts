@@ -1,6 +1,7 @@
 import { Config } from '@stencil/core';
 import { angularOutputTarget, ValueAccessorConfig } from '@stencil/angular-output-target';
 import { reactOutputTarget } from '@stencil/react-output-target';
+// import { solidOutputTarget } from '@stencil/solid-output-target';
 import { vueOutputTarget, ComponentModelConfig } from '@stencil/vue-output-target';
 import { svelteOutputTarget, ComponentBindingConfig } from '@stencil/svelte-output-target';
 
@@ -81,6 +82,10 @@ export const config: Config = {
       componentCorePackage: 'component-library',
       proxiesFile: '../component-library-react/src/components.ts',
     }),
+    // solidOutputTarget({
+    //   componentCorePackage: 'component-library',
+    //   proxiesFile: '../component-library-solid/src/components.ts',
+    // }),
     vueOutputTarget({
       componentCorePackage: 'component-library',
       proxiesFile: '../component-library-vue/src/proxies.ts',
