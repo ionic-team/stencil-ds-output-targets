@@ -445,10 +445,3 @@ import { DemoComponent } from 'component-library-vue';
 [npm-license-svelte-url]: https://github.com/ionic-team/stencil-ds-plugins/blob/master/packages/svelte-output-target/LICENSE.md
 [npm-license-vue ]: https://img.shields.io/npm/l/@stencil/vue-output-target.svg
 [npm-license-vue-url]: https://github.com/ionic-team/stencil-ds-plugins/blob/master/packages/vue-output-target/LICENSE.md
-
-
-
-
-
-
-
