@@ -26,7 +26,13 @@ export const createComponentDefinition = (
   let templateString = `
 export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${importTypes}.${tagNameAsPascal}>('${cmpMeta.tagName}', ${importAs}`;
 
-  const findModel = componentModelConfig && componentModelConfig.find(config => config.elements.includes(cmpMeta.tagName));
+  const findModel =
+    componentModelConfig &&
+    componentModelConfig.find((config) =>
+      Array.isArray(config.elements)
+        ? config.elements.includes(cmpMeta.tagName)
+        : config.elements === cmpMeta.tagName,
+    );
 
   if (props.length > 0) {
     templateString += `, [
