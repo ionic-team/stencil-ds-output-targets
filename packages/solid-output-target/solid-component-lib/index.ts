@@ -1,7 +1,13 @@
-import { PropsWithChildren } from 'solid-js'
+import { JSX, PropsWithChildren } from 'solid-js';
 
-export function createSolidComponent<Props>(tag: string) {
-  return (props: PropsWithChildren<Props>) => {
+export interface HTMLStencilElement extends HTMLElement {
+  componentOnReady(): Promise<this>;
+}
+
+export function createSolidComponent<PropType, ElementType extends HTMLStencilElement>(
+  tag: string,
+) {
+  return (props: PropsWithChildren<PropType & JSX.HTMLAttributes<ElementType>>): ElementType => {
     const node = document.createElement(tag);
     for (const key in props) {
       if (key === 'children') {
@@ -14,9 +20,17 @@ export function createSolidComponent<Props>(tag: string) {
           }
         });
       } else if (Object.prototype.hasOwnProperty.call(props, key)) {
-        (node as Record<string, any>)[key] = (props as Record<string, any>)[key];
+        if (
+          typeof props[key] === 'string' ||
+          typeof props[key] === 'number' ||
+          typeof props[key] === 'boolean'
+        ) {
+          node.setAttribute(key, props[key]);
+        } else {
+          (node as Record<string, any>)[key] = (props as Record<string, any>)[key];
+        }
       }
     }
-    return node;
+    return node as ElementType;
   };
 }

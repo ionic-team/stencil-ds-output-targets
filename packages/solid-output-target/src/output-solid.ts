@@ -54,12 +54,16 @@ import { createSolidComponent } from './solid-component-lib';\n`;
    */
   const generateTypeImports = () => {
     if (outputTarget.componentCorePackage !== undefined) {
-      const dirPath = outputTarget.includeImportCustomElements ? `/${outputTarget.customElementsDir || 'components'}` : '';
-      return `import type { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}${dirPath}';\n`;
+      const dirPath = outputTarget.includeImportCustomElements
+        ? `/${outputTarget.customElementsDir || 'components'}`
+        : '';
+      return `import type { ${IMPORT_TYPES} } from '${normalizePath(
+        outputTarget.componentCorePackage,
+      )}${dirPath}';\n`;
     }
 
     return `import type { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`;
-  }
+  };
 
   const typeImports = generateTypeImports();
 
@@ -73,16 +77,15 @@ import { createSolidComponent } from './solid-component-lib';\n`;
    * IonButton React Component that takes in the Web Component as a parameter.
    */
   if (outputTarget.includeImportCustomElements && outputTarget.componentCorePackage !== undefined) {
-    const cmpImports = components.map(component => {
+    const cmpImports = components.map((component) => {
       const pascalImport = dashToPascalCase(component.tagName);
 
-      return `import { ${pascalImport} as ${pascalImport}Cmp } from '${normalizePath(outputTarget.componentCorePackage!)}/${outputTarget.customElementsDir ||
-        'components'
-      }/${component.tagName}.js';`;
+      return `import { ${pascalImport} as ${pascalImport}Cmp } from '${normalizePath(
+        outputTarget.componentCorePackage!,
+      )}/${outputTarget.customElementsDir || 'components'}/${component.tagName}.js';`;
     });
 
     sourceImports = cmpImports.join('\n');
-
   } else if (outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
     sourceImports = `import { ${APPLY_POLYFILLS}, ${REGISTER_CUSTOM_ELEMENTS} } from '${pathToCorePackageLoader}';\n`;
     registerCustomElements = `${APPLY_POLYFILLS}().then(() => ${REGISTER_CUSTOM_ELEMENTS}());`;
@@ -96,7 +99,11 @@ import { createSolidComponent } from './solid-component-lib';\n`;
     typeImports,
     sourceImports,
     registerCustomElements,
-    components.map(cmpMeta => createComponentDefinition(cmpMeta, outputTarget.includeImportCustomElements)).join('\n'),
+    components
+      .map((cmpMeta) =>
+        createComponentDefinition(cmpMeta, outputTarget.includeImportCustomElements),
+      )
+      .join('\n'),
   ];
 
   return final.join('\n') + '\n';
@@ -112,9 +119,12 @@ import { createSolidComponent } from './solid-component-lib';\n`;
  * @returns An array where each entry is a string version
  * of the React component definition.
  */
-export function createComponentDefinition(cmpMeta: ComponentCompilerMeta, includeCustomElement: boolean = false): string[] {
+export function createComponentDefinition(
+  cmpMeta: ComponentCompilerMeta,
+  includeCustomElement: boolean = false,
+): string[] {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
-  let template = `export const ${tagNameAsPascal} = /*@__PURE__*/createSolidComponent<${IMPORT_TYPES}.${tagNameAsPascal}>('${cmpMeta.tagName}'`;
+  let template = `export const ${tagNameAsPascal} = /*@__PURE__*/createSolidComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}'`;
 
   if (includeCustomElement) {
     template += `, undefined, undefined, ${tagNameAsPascal}Cmp`;
@@ -122,9 +132,7 @@ export function createComponentDefinition(cmpMeta: ComponentCompilerMeta, includ
 
   template += `);`;
 
-  return [
-    template
-  ];
+  return [template];
 }
 
 async function copyResources(config: Config, outputTarget: OutputTargetSolid) {
