@@ -21,11 +21,11 @@ export function createSolidComponent<PropType, ElementType extends HTMLStencilEl
         });
       } else if (Object.prototype.hasOwnProperty.call(props, key)) {
         if (
-          typeof props[key] === 'string' ||
-          typeof props[key] === 'number' ||
-          typeof props[key] === 'boolean'
+          typeof (props as Record<string, unknown>)[key] === 'string' ||
+          typeof (props as Record<string, unknown>)[key] === 'number' ||
+          typeof (props as Record<string, unknown>)[key] === 'boolean'
         ) {
-          node.setAttribute(key, props[key]);
+          node.setAttribute(key, (props as Record<string, any>)[key]);
         } else {
           (node as Record<string, any>)[key] = (props as Record<string, any>)[key];
         }
