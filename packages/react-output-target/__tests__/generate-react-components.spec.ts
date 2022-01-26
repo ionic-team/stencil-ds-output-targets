@@ -32,7 +32,7 @@ describe('generateProxies', () => {
   const rootDir: string = '';
   const config: Config = { outputTargets: [] };
 
-  it('should include both polyfills and definCustomElements when both are true in the outputTarget', () => {
+  it('should include both polyfills and defineCustomElements when both are true in the outputTarget', () => {
     const outputTarget: OutputTargetReact = {
       componentCorePackage: 'component-library',
       proxiesFile: '../component-library-react/src/proxies.ts',
