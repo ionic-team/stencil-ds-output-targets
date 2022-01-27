@@ -4,6 +4,11 @@ import type { OutputTargetReact } from './types';
 import { reactProxyOutput } from './output-react';
 import path from 'path';
 
+/**
+ * Creates an output target for binding Stencil components to be used in a React context
+ * @param outputTarget the user-defined output target defined in a Stencil configuration file
+ * @returns an output target that can be used by the Stencil compiler
+ */
 export const reactOutputTarget = (outputTarget: OutputTargetReact): OutputTargetCustom => ({
   type: 'custom',
   name: 'react-library',
@@ -19,7 +24,14 @@ export const reactOutputTarget = (outputTarget: OutputTargetReact): OutputTarget
   },
 });
 
-export function normalizeOutputTarget(config: Config, outputTarget: any) {
+/**
+ * Normalizes the structure of a provided output target and verifies a Stencil configuration
+ * associated with the wrapper is valid
+ * @param config the configuration to validate
+ * @param outputTarget the output target to normalize
+ * @returns an output target that's been normalized
+ */
+export function normalizeOutputTarget(config: Config, outputTarget: any): OutputTargetReact {
   const results: OutputTargetReact = {
     ...outputTarget,
     excludeComponents: outputTarget.excludeComponents || [],
