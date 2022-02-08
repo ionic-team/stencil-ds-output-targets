@@ -12,12 +12,12 @@
     "access": "public"
   },
   "scripts": {
-    "prebuild": "node ../../node_modules/.bin/rimraf ./dist",
-    "build": "node ../../node_modules/.bin/tsc && npm run rollup",
-    "watch": "node ../../node_modules/.bin/tsc --watch",
-    "rollup": "node ../../node_modules/.bin/rollup -c",
+    "prebuild": "rimraf ./dist",
+    "build": "tsc && npm run rollup",
+    "watch": "tsc --watch",
+    "rollup": "rollup -c",
     "version": "npm run build",
-    "release": "node ../../node_modules/.bin/np",
+    "release": "np",
     "test": "jest"
   },
   "repository": {
@@ -31,7 +31,7 @@
     "url": "https://github.com/ionic-team/stencil-ds-output-targets/issues"
   },
   "peerDependencies": {
-    "@stencil/core": ">=1.8.0 || ^2.0.0"
+    "@stencil/core": "^2.9.0"
   },
   "devDependencies": {
     "estree-walker": "^2.0.1",

@@ -24,12 +24,6 @@ const angularValueAccessorBindings: ValueAccessorConfig[] = [
     type: 'boolean',
   },
   {
-    elementSelectors: ['my-radio'],
-    event: 'mySelect',
-    targetAttr: 'checked',
-    type: 'radio',
-  },
-  {
     elementSelectors: ['my-range', 'my-radio-group'],
     event: 'myChange',
     targetAttr: 'value',
@@ -46,11 +40,6 @@ const vueComponentModels: ComponentModelConfig[] = [
   {
     elements: ['my-checkbox'],
     event: 'myChange',
-    targetAttr: 'checked',
-  },
-  {
-    elements: ['my-radio'],
-    event: 'mySelect',
     targetAttr: 'checked',
   },
   {
@@ -72,11 +61,6 @@ const svelteComponentBindings: ComponentBindingConfig[] = [
     targetProp: 'checked',
   },
   {
-    elements: ['my-radio'],
-    event: 'mySelect',
-    targetProp: 'checked',
-  },
-  {
     elements: ['my-range', 'my-radio-group'],
     event: 'myChange',
     targetProp: 'value',
@@ -91,6 +75,7 @@ export const config: Config = {
       componentCorePackage: 'component-library',
       directivesProxyFile: '../component-library-angular/src/directives/proxies.ts',
       valueAccessorConfigs: angularValueAccessorBindings,
+      includeImportCustomElements: true
     }),
     reactOutputTarget({
       componentCorePackage: 'component-library',
@@ -107,6 +92,10 @@ export const config: Config = {
       proxiesFile: '../component-library-svelte/src/proxies.ts',
       componentBindings: svelteComponentBindings,
     }),
+    {
+      type: 'dist-custom-elements',
+      dir: 'components'
+    },
     {
       type: 'dist',
       esmLoaderPath: '../loader',

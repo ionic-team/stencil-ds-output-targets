@@ -1,4 +1,4 @@
-import { ComponentCompilerMeta, Config } from '@stencil/core/internal';
+import { ComponentCompilerMeta } from '@stencil/core/internal';
 import { generateProxies } from '../src/output-vue';
 import { PackageJSON, OutputTargetVue } from '../src/types';
 
@@ -23,20 +23,13 @@ describe('generateProxies', () => {
       `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated vue proxies */
-import Vue, { PropOptions } from 'vue';
-import { createCommonRender, createCommonMethod } from './vue-component-lib/utils';
+import { defineContainer } from './vue-component-lib/utils';
 
-import type { Components } from 'component-library';
+import type { JSX } from 'component-library';
 
 import { applyPolyfills, defineCustomElements } from 'component-library/dist/loader';
 
 applyPolyfills().then(() => defineCustomElements());
-
-const customElementTags: string[] = [
-
-];
-Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTags];
-
 
 `,
     );
@@ -55,20 +48,13 @@ Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTag
       `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated vue proxies */
-import Vue, { PropOptions } from 'vue';
-import { createCommonRender, createCommonMethod } from './vue-component-lib/utils';
+import { defineContainer } from './vue-component-lib/utils';
 
-import type { Components } from 'component-library';
+import type { JSX } from 'component-library';
 
 import { defineCustomElements } from 'component-library/dist/loader';
 
 defineCustomElements();
-
-const customElementTags: string[] = [
-
-];
-Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTags];
-
 
 `,
     );
@@ -87,18 +73,56 @@ Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTag
       `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated vue proxies */
-import Vue, { PropOptions } from 'vue';
-import { createCommonRender, createCommonMethod } from './vue-component-lib/utils';
+import { defineContainer } from './vue-component-lib/utils';
 
-import type { Components } from 'component-library';
-
+import type { JSX } from 'component-library';
 
 
 
-const customElementTags: string[] = [
 
-];
-Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTags];
+`,
+    );
+  });
+  it('should include importCustomElements if true in the outputTarget', () => {
+    const outputTarget: OutputTargetVue = {
+      componentCorePackage: 'component-library',
+      proxiesFile: '../component-library-vue/src/proxies.ts',
+      includeImportCustomElements: true,
+    };
+
+    const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
+    expect(finalText).toEqual(
+      `/* eslint-disable */
+/* tslint:disable */
+/* auto-generated vue proxies */
+import { defineContainer } from './vue-component-lib/utils';
+
+import type { JSX } from 'component-library/components';
+
+
+
+
+`,
+    );
+  });
+  it('should include importCustomElements with custom path if defined in outputTarget', () => {
+    const outputTarget: OutputTargetVue = {
+      componentCorePackage: 'component-library',
+      proxiesFile: '../component-library-vue/src/proxies.ts',
+      includeImportCustomElements: true,
+      customElementsDir: 'custom-dir/hello'
+    };
+
+    const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
+    expect(finalText).toEqual(
+      `/* eslint-disable */
+/* tslint:disable */
+/* auto-generated vue proxies */
+import { defineContainer } from './vue-component-lib/utils';
+
+import type { JSX } from 'component-library/custom-dir/hello';
+
+
 
 
 `,

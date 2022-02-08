@@ -1,69 +1,74 @@
 import { dashToPascalCase } from './utils';
-import type { ComponentCompilerMeta } from '@stencil/core/internal';
-import type { ComponentModelConfig } from './types';
+import { ComponentCompilerMeta } from '@stencil/core/internal';
+import { ComponentModelConfig } from './types';
 
 export const createComponentDefinition = (
   importTypes: string,
-  componentModelConfigs: ComponentModelConfig[] | undefined,
+  componentModelConfig: ComponentModelConfig[] | undefined,
+  includeCustomElement: boolean = false
 ) => (cmpMeta: Pick<ComponentCompilerMeta, 'properties' | 'tagName' | 'methods' | 'events'>) => {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
-  let props = '';
-  let model = '';
-  let methods = '';
+  const importAs = (includeCustomElement) ? 'define' + tagNameAsPascal : 'undefined';
+
+  let props: string[] = [];
 
   if (Array.isArray(cmpMeta.properties) && cmpMeta.properties.length > 0) {
-    const relevantPropsConfig = cmpMeta.properties
-      .map(
-        (prop) =>
-          `    ${prop.name}: {} as PropOptions<${importTypes}.${tagNameAsPascal}['${prop.name}']>,`,
-      )
-      .join('\n');
-
-    props = `
-  props: {
-${relevantPropsConfig}
-  },`;
+    props = cmpMeta.properties.map((prop) => `'${prop.name}'`);
   }
 
-  if (Array.isArray(componentModelConfigs)) {
-    const relevantModelConfig = componentModelConfigs.find((modelConfig) => {
-      if (Array.isArray(modelConfig.elements)) {
-        return modelConfig.elements.includes(cmpMeta.tagName);
-      }
+  if (Array.isArray(cmpMeta.events) && cmpMeta.events.length > 0) {
+    props = [
+      ...props,
+      ...cmpMeta.events.map((event) => `'${event.name}'`)
+    ]
+  }
 
-      return modelConfig.elements === cmpMeta.tagName;
-    });
+  let templateString = `
+export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${importTypes}.${tagNameAsPascal}>('${cmpMeta.tagName}', ${importAs}`;
 
-    if (relevantModelConfig) {
-      model = `
-  model: {
-    prop: '${relevantModelConfig.targetAttr}',
-    event: '${relevantModelConfig.event}'
-  },`;
+  const findModel = componentModelConfig && componentModelConfig.find(config => config.elements.includes(cmpMeta.tagName));
+
+  if (props.length > 0) {
+    templateString += `, [
+  ${props.length > 0 ? props.join(',\n  ') : ''}
+]`;
+  /**
+   * If there are no props,
+   * but but v-model is stil used,
+   * make sure we pass in an empty array
+   * otherwise all of the defineContainer properties
+   * will be off by one space.
+   * Note: If you are using v-model then
+   * the props array should never be empty
+   * as there must be a prop for v-model to update,
+   * but this check is there so builds do not crash.
+   */
+  } else if (findModel) {
+    templateString += `, []`
+  }
+
+
+  if (findModel) {
+    const targetProp = findModel.targetAttr;
+
+    /**
+     * If developer is trying to bind v-model support to a component's
+     * prop, but that prop was not defined, warn them of this otherwise
+     * v-model will not work as expected.
+     */
+    if (!props.includes(`'${targetProp}'`)) {
+      console.warn(`Your '${cmpMeta.tagName}' component is configured to have v-model support bound to '${targetProp}', but '${targetProp}' is not defined as a property on the component. v-model integration may not work as expected.`);
+    }
+
+    templateString += `,\n`;
+    templateString += `'${targetProp}', '${findModel.event}'`;
+
+    if (findModel.externalEvent) {
+      templateString += `, '${findModel.externalEvent}'`;
     }
   }
 
-  if (Array.isArray(cmpMeta.methods) && cmpMeta.methods.length > 0) {
-    const relevantMethodConfig = cmpMeta.methods
-      .map(
-        (method) =>
-          `    ${method.name}: createCommonMethod('${method.name}') as ${importTypes}.${tagNameAsPascal}['${method.name}'],`,
-      )
-      .join('\n');
+  templateString += `);\n`;
 
-    methods = `
-  methods: {
-${relevantMethodConfig}
-  },`;
-  }
-
-  return `
-export const ${tagNameAsPascal} = /*@__PURE__*/ Vue.extend({
-${props}
-${model}
-${methods}
-  render: createCommonRender('${cmpMeta.tagName}', [${cmpMeta.events
-    .map((e) => `'${e.name}'`)
-    .join(', ')}]),
-});\n`;
+  return templateString;
 };

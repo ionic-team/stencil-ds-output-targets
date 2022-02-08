@@ -1,6 +1,28 @@
 import { ComponentCompilerMeta, Config } from '@stencil/core/internal';
-import { generateProxies, getPathToCorePackageLoader } from '../src/output-react';
+import { createComponentDefinition, generateProxies, getPathToCorePackageLoader } from '../src/output-react';
 import { PackageJSON, OutputTargetReact } from '../src/types';
+
+describe('createComponentDefinition', () => {
+  it('should create a React component with custom element support', () => {
+    const output = createComponentDefinition({
+      properties: [],
+      tagName: 'my-component',
+      methods: [],
+      events: [],
+    }, true);
+    expect(output[0]).toEqual(`export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component', undefined, undefined, defineMyComponent);`);
+  });
+
+  it('should create a React component without custom element support', () => {
+    const output = createComponentDefinition({
+      properties: [],
+      tagName: 'my-component',
+      methods: [],
+      events: [],
+    });
+    expect(output[0]).toEqual(`export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component');`);
+  });
+});
 
 describe('generateProxies', () => {
   const components: ComponentCompilerMeta[] = [];
@@ -10,7 +32,7 @@ describe('generateProxies', () => {
   const rootDir: string = '';
   const config: Config = { outputTargets: [] };
 
-  it('should include both polyfills and definCustomElements when both are true in the outputTarget', () => {
+  it('should include both polyfills and defineCustomElements when both are true in the outputTarget', () => {
     const outputTarget: OutputTargetReact = {
       componentCorePackage: 'component-library',
       proxiesFile: '../component-library-react/src/proxies.ts',
@@ -76,6 +98,53 @@ defineCustomElements();
 import { createReactComponent } from './react-component-lib';
 
 import type { JSX } from 'component-library';
+
+
+
+
+`,
+    );
+  });
+
+  it('should include importCustomElements if true in the outputTarget', () => {
+    const outputTarget: OutputTargetReact = {
+      componentCorePackage: 'component-library',
+      proxiesFile: '../component-library-react/src/proxies.ts',
+      includeImportCustomElements: true,
+    };
+
+    const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
+    expect(finalText).toEqual(
+      `/* eslint-disable */
+/* tslint:disable */
+/* auto-generated react proxies */
+import { createReactComponent } from './react-component-lib';
+
+import type { JSX } from 'component-library/components';
+
+
+
+
+`,
+    );
+  });
+
+  it('should include importCustomElements with custom path if defined in outputTarget', () => {
+    const outputTarget: OutputTargetReact = {
+      componentCorePackage: 'component-library',
+      proxiesFile: '../component-library-react/src/proxies.ts',
+      includeImportCustomElements: true,
+      customElementsDir: 'custom-dir/hello'
+    };
+
+    const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
+    expect(finalText).toEqual(
+      `/* eslint-disable */
+/* tslint:disable */
+/* auto-generated react proxies */
+import { createReactComponent } from './react-component-lib';
+
+import type { JSX } from 'component-library/custom-dir/hello';
 
 
 

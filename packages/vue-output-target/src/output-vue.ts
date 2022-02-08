@@ -7,7 +7,7 @@ import type {
   OutputTargetDist,
 } from '@stencil/core/internal';
 import { createComponentDefinition } from './generate-vue-component';
-import { normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
+import { normalizePath, readPackageJson, relativeImport, sortBy, dashToPascalCase } from './utils';
 
 export async function vueProxyOutput(
   config: Config,
@@ -45,19 +45,34 @@ export function generateProxies(
   const imports = `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated vue proxies */
-import Vue, { PropOptions } from 'vue';
-import { createCommonRender, createCommonMethod } from './vue-component-lib/utils';\n`;
+import { defineContainer } from './vue-component-lib/utils';\n`;
 
-  const typeImports = !outputTarget.componentCorePackage
-    ? `import type { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`
-    : `import type { ${IMPORT_TYPES} } from '${normalizePath(
-        outputTarget.componentCorePackage,
-      )}';\n`;
+  const generateTypeImports = () => {
+    if (outputTarget.componentCorePackage !== undefined) {
+      const dirPath = outputTarget.includeImportCustomElements ? `/${outputTarget.customElementsDir || 'components'}` : '';
+      return `import type { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}${dirPath}';\n`;
+    }
+
+    return `import type { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`;
+  }
+
+  const typeImports = generateTypeImports();
 
   let sourceImports = '';
   let registerCustomElements = '';
 
-  if (outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
+  if (outputTarget.includeImportCustomElements && outputTarget.componentCorePackage !== undefined) {
+    const cmpImports = components.map(component => {
+      const pascalImport = dashToPascalCase(component.tagName);
+
+      return `import { defineCustomElement as define${pascalImport} } from '${normalizePath(outputTarget.componentCorePackage!)}/${outputTarget.customElementsDir ||
+        'components'
+      }/${component.tagName}.js';`;
+    });
+
+    sourceImports = cmpImports.join('\n');
+
+  } else if (outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
     sourceImports = `import { ${APPLY_POLYFILLS}, ${REGISTER_CUSTOM_ELEMENTS} } from '${pathToCorePackageLoader}';\n`;
     registerCustomElements = `${APPLY_POLYFILLS}().then(() => ${REGISTER_CUSTOM_ELEMENTS}());`;
   } else if (!outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
@@ -70,23 +85,12 @@ import { createCommonRender, createCommonMethod } from './vue-component-lib/util
     typeImports,
     sourceImports,
     registerCustomElements,
-    createIgnoredElementsString(components),
     components
-      .map(createComponentDefinition(IMPORT_TYPES, outputTarget.componentModels))
+      .map(createComponentDefinition(IMPORT_TYPES, outputTarget.componentModels, outputTarget.includeImportCustomElements))
       .join('\n'),
   ];
 
   return final.join('\n') + '\n';
-}
-
-function createIgnoredElementsString(components: ComponentCompilerMeta[]) {
-  const ignoredElements = components.map((component) => ` '${component.tagName}',`).join('\n');
-
-  return `
-const customElementTags: string[] = [
-${ignoredElements}
-];
-Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...customElementTags];\n`;
 }
 
 async function copyResources(config: Config, outputTarget: OutputTargetVue) {
@@ -128,7 +132,7 @@ export function getPathToCorePackageLoader(config: Config, outputTarget: OutputT
 }
 
 export const GENERATED_DTS = 'components.d.ts';
-const IMPORT_TYPES = 'Components';
+const IMPORT_TYPES = 'JSX';
 const REGISTER_CUSTOM_ELEMENTS = 'defineCustomElements';
 const APPLY_POLYFILLS = 'applyPolyfills';
 const DEFAULT_LOADER_DIR = '/dist/loader';

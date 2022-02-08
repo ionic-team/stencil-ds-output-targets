@@ -26,7 +26,7 @@ export function generateAngularDirectivesFile(
 import * as d from '${proxyPath}';
 
 export const DIRECTIVES = [
-${directives}
+  ${directives}
 ];
 `;
   return compilerCtx.fs.writeFile(outputTarget.directivesArrayFile, c);

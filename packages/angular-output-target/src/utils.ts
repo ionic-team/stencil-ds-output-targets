@@ -1,9 +1,6 @@
+import { Config } from '@stencil/core/internal';
 import path from 'path';
-import { promisify } from 'util';
-import fs from 'fs';
 import type { PackageJSON } from './types';
-
-const readFile = promisify(fs.readFile);
 
 export const toLowerCase = (str: string) => str.toLowerCase();
 
@@ -64,12 +61,16 @@ export function relativeImport(pathFrom: string, pathTo: string, ext?: string) {
   return normalizePath(`${relativePath}/${path.basename(pathTo, ext)}`);
 }
 
-export async function readPackageJson(rootDir: string) {
+export function isRelativePath(path: string) {
+  return path && path.startsWith('.');
+}
+
+export async function readPackageJson(config: Config, rootDir: string) {
   const pkgJsonPath = path.join(rootDir, 'package.json');
 
   let pkgJson: string;
   try {
-    pkgJson = await readFile(pkgJsonPath, 'utf8');
+    pkgJson = (await config.sys?.readFile(pkgJsonPath, 'utf8')) as string;
   } catch (e) {
     throw new Error(`Missing "package.json" file for distribution: ${pkgJsonPath}`);
   }

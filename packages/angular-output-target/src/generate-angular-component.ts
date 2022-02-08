@@ -1,4 +1,3 @@
-import path from 'path';
 import { dashToPascalCase, normalizePath } from './utils';
 import type { ComponentCompilerMeta } from '@stencil/core/internal';
 
@@ -6,6 +5,8 @@ export const createComponentDefinition = (
   componentCorePackage: string,
   distTypesDir: string,
   rootDir: string,
+  includeImportCustomElements: boolean = false,
+  customElementsDir: string = 'components'
 ) => (cmpMeta: ComponentCompilerMeta) => {
   // Collect component meta
   const inputs = [
@@ -27,42 +28,81 @@ export const createComponentDefinition = (
   if (inputs.length > 0) {
     directiveOpts.push(`inputs: ['${inputs.join(`', '`)}']`);
   }
-  if (outputs.length > 0) {
-    directiveOpts.push(`outputs: ['${outputs.map((output) => output.name).join(`', '`)}']`);
-  }
 
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
-  const typePath = path.parse(
-    path.join(
-      componentCorePackage,
-      path.join(cmpMeta.sourceFilePath, '').replace(path.join(rootDir, 'src'), distTypesDir),
-    ),
-  );
-  const importPath = normalizePath(path.join(typePath.dir, typePath.name));
-  const outputsInterface =
-    outputs.length > 0
-      ? `import { ${cmpMeta.componentClassName} as I${cmpMeta.componentClassName} } from '${importPath}';`
-      : '';
+  const outputsInterface: Set<string> = new Set();
+  const outputReferenceRemap: { [p: string]: string } = {};
+
+  outputs.forEach((output) => {
+    Object.entries(output.complexType.references).forEach(([reference, refObject]) => {
+      // Add import line for each local/import reference, and add new mapping name.
+      // `outputReferenceRemap` should be updated only if the import interface is set in outputsInterface,
+      // this will prevent global types to be remapped.
+      const remappedReference = `I${cmpMeta.componentClassName}${reference}`;
+      if (refObject.location === 'local' || refObject.location === 'import') {
+        outputReferenceRemap[reference] = remappedReference;
+        let importLocation: string = componentCorePackage;
+        if (componentCorePackage !== undefined) {
+          const dirPath = includeImportCustomElements ? `/${customElementsDir || 'components'}` : '';
+          importLocation = `${normalizePath(componentCorePackage)}${dirPath}`;
+        }
+        outputsInterface.add(`import type { ${reference} as ${remappedReference} } from '${importLocation}';`);
+      }
+    });
+  });
+
+  const componentEvents: string[] = [
+    '' // Empty first line
+  ];
+
+  // Generate outputs
+  outputs.forEach((output, index) => {
+    componentEvents.push(
+`  /**
+   * ${output.docs.text} ${output.docs.tags.map((tag) => `@${tag.name} ${tag.text}`)}
+   */`);
+    /**
+     * The original attribute contains the original type defined by the devs.
+     * This regexp normalizes the reference, by removing linebreaks,
+     * replacing consecutive spaces with a single space, and adding a single space after commas.
+     **/
+
+    const outputTypeRemapped = Object.entries(outputReferenceRemap).reduce((type, [src, dst]) => {
+      return type
+        .replace(new RegExp(`^${src}$`, 'g'), `${dst}`)
+        .replace(
+          new RegExp(`([^\\w])${src}([^\\w])`, 'g'),
+          (v, p1, p2) => [p1, dst, p2].join(''),
+        );
+    }, output.complexType.original
+      .replace(/\n/g, ' ')
+      .replace(/\s{2,}/g, ' ')
+      .replace(/,\s*/g, ', '));
+    componentEvents.push(`  ${output.name}: EventEmitter<CustomEvent<${outputTypeRemapped.trim()}>>;`);
+
+    if (index === outputs.length - 1) {
+      // Empty line to push end `}` to new line
+      componentEvents.push('\n');
+    }
+  });
 
   const lines = [
-    `
-${outputsInterface}
-export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {}
-${getProxyCmp(inputs, methods)}
+    '', // Empty first line
+    `${[...outputsInterface].join('\n')}
+export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {${componentEvents.length > 1 ? componentEvents.join('\n') : ''}}
+
+${getProxyCmp(
+  cmpMeta.tagName,
+  includeImportCustomElements,
+  inputs,
+  methods
+)}
 @Component({
   ${directiveOpts.join(',\n  ')}
 })
 export class ${tagNameAsPascal} {`,
   ];
-
-  // Generate outputs
-  outputs.forEach((output) => {
-    lines.push(
-      `  /** ${output.docs.text} ${output.docs.tags.map((tag) => `@${tag.name} ${tag.text}`)}*/`,
-    );
-    lines.push(`  ${output.name}!: I${cmpMeta.componentClassName}['${output.method}'];`);
-  });
 
   lines.push('  protected el: HTMLElement;');
   lines.push(`  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
@@ -79,14 +119,13 @@ export class ${tagNameAsPascal} {`,
   return lines.join('\n');
 };
 
-function getProxyCmp(inputs: string[], methods: string[]): string {
+function getProxyCmp(tagName: string, includeCustomElement: boolean, inputs: string[], methods: string[]): string {
   const hasInputs = inputs.length > 0;
   const hasMethods = methods.length > 0;
-  const proxMeta: string[] = [];
 
-  if (!hasInputs && !hasMethods) {
-    return '';
-  }
+  const proxMeta: string[] = [
+    `defineCustomElementFn: ${includeCustomElement ? 'define' + dashToPascalCase(tagName) : 'undefined'}`
+  ];
 
   if (hasInputs) proxMeta.push(`inputs: ['${inputs.join(`', '`)}']`);
   if (hasMethods) proxMeta.push(`methods: ['${methods.join(`', '`)}']`);
