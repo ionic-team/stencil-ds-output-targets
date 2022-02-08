@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { createElement } from 'react';
 
 import {
   attachProps,
   camelToDashCase,
   createForwardRef,
   dashToPascalCase,
-  defineCustomElement,
   isCoveredByReact,
   mergeRefs,
 } from './utils';
@@ -31,9 +30,11 @@ export const createReactComponent = <
     originalProps: StencilReactInternalProps<ElementType>,
     propsToPass: any,
   ) => ExpandedPropsTypes,
-  customElement?: any,
+  defineCustomElement?: () => void,
 ) => {
-  defineCustomElement(tagName, customElement);
+  if (defineCustomElement !== undefined) {
+    defineCustomElement();
+  }
 
   const displayName = dashToPascalCase(tagName);
   const ReactComponent = class extends React.Component<StencilReactInternalProps<ElementType>> {
@@ -88,7 +89,14 @@ export const createReactComponent = <
         style,
       };
 
-      return React.createElement(tagName, newProps, children);
+      /**
+       * We use createElement here instead of
+       * React.createElement to work around a
+       * bug in Vite (https://github.com/vitejs/vite/issues/6104).
+       * React.createElement causes all elements to be rendered
+       * as <tagname> instead of the actual Web Component.
+       */
+      return createElement(tagName, newProps, children);
     }
 
     static get displayName() {
