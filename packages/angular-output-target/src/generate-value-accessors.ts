@@ -89,7 +89,7 @@ export function createValueAccessor(srcFileContents: string, valueAccessor: Valu
 
 function copyResources(config: Config, resourcesFilesToCopy: string[], directory: string) {
   if (!config.sys || !config.sys.copy) {
-    throw new Error('stencil is not properly intialized at this step. Notify the developer');
+    throw new Error('stencil is not properly initialized at this step. Notify the developer');
   }
   const copyTasks = resourcesFilesToCopy.map((rf) => {
     return {

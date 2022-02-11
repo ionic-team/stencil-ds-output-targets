@@ -1,10 +1,12 @@
 import path from 'path';
 import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
 import type { OutputTargetAngular, PackageJSON } from './types';
-import { relativeImport, normalizePath, sortBy, readPackageJson, dashToPascalCase } from './utils';
-import { createComponentDefinition } from './generate-angular-component';
+import { relativeImport, normalizePath, sortBy, readPackageJson, dashToPascalCase, getCustomElementsDir, flattenImportCollection } from './utils';
+import { createComponentDefinition } from './component/generate-angular-component';
 import { generateAngularDirectivesFile } from './generate-angular-directives-file';
 import generateValueAccessors from './generate-value-accessors';
+import { ImportCollection } from './component/types';
+import { setComponentNamespaceImport } from './component/utils/set-component-namespace-import';
 
 export async function angularDirectiveProxyOutput(
   compilerCtx: CompilerCtx,
@@ -31,6 +33,10 @@ export async function angularDirectiveProxyOutput(
   ]);
 }
 
+/**
+ * Returns a filtered list of components excluding component tag selectors
+ * that have been referenced in the `excludeComponents` array.
+ */
 function getFilteredComponents(excludeComponents: string[] = [], cmps: ComponentCompilerMeta[]) {
   return sortBy(cmps, (cmp) => cmp.tagName).filter(
     (c) => !excludeComponents.includes(c.tagName) && !c.internal,
@@ -67,60 +73,57 @@ export function generateProxies(
   rootDir: string,
 ) {
   const distTypesDir = path.dirname(pkgData.types);
-  const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
+  const dtsFilePath = path.join(rootDir, distTypesDir, 'components.d.ts');
   const componentsTypeFile = relativeImport(outputTarget.directivesProxyFile, dtsFilePath, '.d.ts');
 
-  const imports = `/* tslint:disable */
-/* auto-generated angular directive proxies */
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, NgZone } from '@angular/core';
-import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
+  const angularCoreImports = ['ChangeDetectionStrategy', 'ChangeDetectorRef', 'Component', 'ElementRef', 'EventEmitter', 'NgZone'];
 
-  /**
-   * Generate JSX import type from correct location.
-   * When using custom elements build, we need to import from
-   * either the "components" directory or customElementsDir
-   * otherwise we risk bundlers pulling in lazy loaded imports.
-   */
-   const generateTypeImports = () => {
-    let importLocation = outputTarget.componentCorePackage ? normalizePath(outputTarget.componentCorePackage) : normalizePath(componentsTypeFile);
-    importLocation += outputTarget.includeImportCustomElements ? `/${outputTarget.customElementsDir || 'components'}` : '';
-    return `import ${outputTarget.includeImportCustomElements ? 'type ' : ''}{ ${IMPORT_TYPES} } from '${importLocation}';\n`;
+  if (outputTarget.singleComponentAngularModules) {
+    // If we are generating SCAM modules, we need to import the `NgModule` decorator.
+    // The generated Angular modules will rely on `CommonModule`.
+    angularCoreImports.push('NgModule', 'CommonModule');
   }
 
-  const typeImports = generateTypeImports();
+  const imports: ImportCollection = {};
+  const typeImports: ImportCollection = {};
 
-  let sourceImports = '';
+  imports['@angular/core'] = angularCoreImports;
 
-  /**
-   * Build an array of Custom Elements build imports and namespace them
-   * so that they do not conflict with the React wrapper names. For example,
-   * IonButton would be imported as IonButtonCmp so as to not conflict with the
-   * IonButton React Component that takes in the Web Component as a parameter.
-   */
-  if (outputTarget.includeImportCustomElements && outputTarget.componentCorePackage !== undefined) {
-    const cmpImports = components.map(component => {
-      const pascalImport = dashToPascalCase(component.tagName);
+  setComponentNamespaceImport(outputTarget, componentsTypeFile, {
+    modules: imports,
+    types: typeImports,
+  });
 
-      return `import { defineCustomElement as define${pascalImport} } from '${normalizePath(outputTarget.componentCorePackage!)}/${outputTarget.customElementsDir ||
-        'components'
-      }/${component.tagName}.js';`;
-    });
-
-    sourceImports = cmpImports.join('\n');
-
+  if (outputTarget.includeImportCustomElements) {
+    if (outputTarget.componentCorePackage !== undefined) {
+      for (const { tagName } of components) {
+        const defineCustomElementFn = `define${dashToPascalCase(tagName)}`;
+        const filePath = `${normalizePath(outputTarget.componentCorePackage!)}/${getCustomElementsDir(outputTarget.customElementsDir)}/${tagName}.js`;
+        imports[filePath] = [`defineCustomElement as ${defineCustomElementFn}`];
+      }
+    }
   }
+
+  imports['./angular-component-lib/utils'] = ['ProxyCmp', 'proxyOutputs'];
+
+  const componentClasses = components.map(createComponentDefinition(
+    outputTarget,
+    {
+      modules: imports,
+      types: typeImports
+    }
+  ));
 
   const final: string[] = [
-    imports,
-    typeImports,
-    sourceImports,
-    components
-      .map(createComponentDefinition(outputTarget.componentCorePackage!, distTypesDir, rootDir, outputTarget.includeImportCustomElements, outputTarget.customElementsDir))
-      .join('\n'),
+    `/*
+ * This file is auto-generated by @stencil/angular-output-target.
+ * Any changes you make to this file will be overwritten.
+ */`,
+    flattenImportCollection(imports),
+    flattenImportCollection(typeImports, { useTypeImport: true }),
+    componentClasses.join('\n')
   ];
 
   return final.join('\n') + '\n';
 }
 
-const GENERATED_DTS = 'components.d.ts';
-const IMPORT_TYPES = 'Components';

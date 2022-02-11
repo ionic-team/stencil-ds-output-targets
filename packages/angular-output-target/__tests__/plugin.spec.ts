@@ -16,7 +16,7 @@ describe('normalizeOutputTarget', () => {
   it('should return fail if proxiesFile is not set', () => {
     expect(() => {
       normalizeOutputTarget(config, {});
-    }).toThrow(new Error('directivesProxyFile is required'));
+    }).toThrow(new Error('`directivesProxyFile` must be set in stencil.config.ts'));
   });
 
   it('should return defaults for excludeComponents and valueAccessorConfig', () => {

@@ -7,6 +7,11 @@ export interface OutputTargetAngular {
   excludeComponents?: string[];
   includeImportCustomElements?: boolean;
   customElementsDir?: string;
+  /**
+   * `true` if each generate component wrapper should be exported in its
+   * own Angular module. Also called SCAM modules.
+   */
+  singleComponentAngularModules?: boolean;
 }
 
 export type ValueAccessorTypes = 'text' | 'radio' | 'select' | 'number' | 'boolean';

@@ -1,5 +1,6 @@
 import { Config } from '@stencil/core/internal';
 import path from 'path';
+import { ImportCollection } from './component/types';
 import type { PackageJSON } from './types';
 
 export const toLowerCase = (str: string) => str.toLowerCase();
@@ -83,6 +84,57 @@ export async function readPackageJson(config: Config, rootDir: string) {
   }
 
   return pkgData;
+}
+
+/**
+ * Returns the custom elements directory. Defaults to `components`.
+ */
+export function getCustomElementsDir(customElementsDir?: string) {
+  return customElementsDir ?? 'components';
+}
+
+export function setImportStatement(collection: ImportCollection, packageName: string, value: string) {
+  if (!collection[packageName]) {
+    collection[packageName] = [];
+  }
+  collection[packageName].push(value);
+}
+
+export function flattenImportCollection(collection: ImportCollection, options?: {
+  useTypeImport: boolean;
+}) {
+  let lastPkg = '';
+  return Object.entries(collection).map(([pkgName, imports]) => {
+    let separator = '';
+    if (lastPkg.slice(0, 1) === '@' && pkgName.slice(0, 1) !== '@') {
+      // The last package was a scoped package, but this one is not.
+      // We need to add a newline to separate the two.
+      separator = '\n';
+    }
+    lastPkg = pkgName;
+    return (
+      separator +
+      `import ${options?.useTypeImport ? 'type' : ''}{
+${imports.sort().map((importValue) => `  ${importValue}`).join(',\n')}
+} from '${pkgName}';`
+    );
+  }).join('\n');
+}
+
+export function mergeImportCollections(...collections: ImportCollection[]) {
+  const res: ImportCollection = {};
+  for (const collection of collections) {
+    for (const pkgName of Object.keys(collection)) {
+      if (!res[pkgName]) {
+        res[pkgName] = [];
+      }
+      res[pkgName] = [
+        ...res[pkgName],
+        ...collection[pkgName],
+      ];
+    }
+  }
+  return res;
 }
 
 const EXTENDED_PATH_REGEX = /^\\\\\?\\/;
