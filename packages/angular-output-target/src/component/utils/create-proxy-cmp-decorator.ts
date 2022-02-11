@@ -1,5 +1,9 @@
 import { ProxyCmpDecorator } from "../types";
 
+/**
+ * Creates the markup for the custom @ProxyCmp decorator implementation that
+ * is attached to each generated Angular component class.
+ */
 export function createProxyCmpDecorator(decorator: ProxyCmpDecorator, options: {
   includeImportCustomElements: boolean;
   tagNamePascalCase?: string

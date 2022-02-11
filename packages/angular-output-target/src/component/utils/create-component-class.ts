@@ -1,5 +1,22 @@
-import { ComponentCompilerEvent } from "@stencil/core/internal";
+import type { ComponentCompilerEvent } from "@stencil/core/internal";
 
+/**
+ * Creates the markup for the Angular component's Typescript class.
+ * @param componentClassName The name of the component class.
+ * @param outputs  The list of event names that the component emits.
+ * @returns
+ *
+ * ```ts
+ * export class MyComponent {
+ *   protected el: HTMLElement;
+ *   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+ *     c.detach();
+ *     this.el = r.nativeElement;
+ *     proxyOutputs(this, this.el, ['ionChange', 'ionFocus', 'ionBlur']);
+ *   }
+ * }
+ * ```
+ */
 export function createComponentClass(componentClassName: string, outputs: Pick<ComponentCompilerEvent, 'name'>[]) {
   const outputNames = outputs.map(output => output.name);
   return (

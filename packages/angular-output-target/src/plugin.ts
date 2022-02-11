@@ -1,6 +1,6 @@
 import type { Config, OutputTargetCustom } from '@stencil/core/internal';
 import { normalizePath } from './utils';
-import { angularDirectiveProxyOutput } from './output-angular';
+import { angularComponentProxyOutput } from './output-angular';
 import type { OutputTargetAngular } from './types';
 import path from 'path';
 
@@ -11,11 +11,11 @@ export const angularOutputTarget = (outputTarget: OutputTargetAngular): OutputTa
     return normalizeOutputTarget(config, outputTarget);
   },
   async generator(config, compilerCtx, buildCtx) {
-    const timespan = buildCtx.createTimeSpan(`generating angular component wrappers`, true);
+    const timeSpan = buildCtx.createTimeSpan(`generating angular component wrappers`, true);
 
-    await angularDirectiveProxyOutput(compilerCtx, outputTarget, buildCtx.components, config);
+    await angularComponentProxyOutput(compilerCtx, outputTarget, buildCtx.components, config);
 
-    timespan.finish(`finished generating angular component wrappers`);
+    timeSpan.finish(`finished generating angular component wrappers`);
   },
 });
 
@@ -39,7 +39,7 @@ export function normalizeOutputTarget(config: Config, outputTarget: any) {
   };
 
   if (config.rootDir == null) {
-    throw new Error('rootDir is not set and it should be set by stencil itself');
+    throw new Error('rootDir is not set and it should be set by Stencil');
   }
 
   if (outputTarget.directivesProxyFile == null) {

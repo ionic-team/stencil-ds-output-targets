@@ -10,7 +10,7 @@ describe('normalizeOutputTarget', () => {
   it('should return fail if proxiesFile is not set', () => {
     expect(() => {
       normalizeOutputTarget({}, {});
-    }).toThrow(new Error('rootDir is not set and it should be set by stencil itself'));
+    }).toThrow(new Error('rootDir is not set and it should be set by Stencil'));
   });
 
   it('should return fail if proxiesFile is not set', () => {

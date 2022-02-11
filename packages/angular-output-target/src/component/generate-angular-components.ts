@@ -9,12 +9,9 @@ import { createComponentInterface } from './utils/create-component-interface';
 import { createComponentModuleClass } from './utils/create-component-module-class';
 import { createProxyCmpDecorator } from './utils/create-proxy-cmp-decorator';
 
-export const createComponentDefinition = (
+export const createComponentDefinitions = (
   outputTarget: OutputTargetAngular,
-  importCollections: {
-    modules: ImportCollection,
-    types: ImportCollection
-  }
+  imports: ImportCollection
 ) => (cmpMeta: ComponentCompilerMeta) => {
   const {
     componentCorePackage,
@@ -45,7 +42,7 @@ export const createComponentDefinition = (
       includeImportCustomElements,
       customElementsDir,
       componentCorePackage: componentCorePackage!
-    }, importCollections.types) +
+    }, imports) +
     '\n\n' +
     createProxyCmpDecorator({ inputs }, {
       includeImportCustomElements,

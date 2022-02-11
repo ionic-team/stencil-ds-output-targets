@@ -2,19 +2,19 @@ import path from 'path';
 import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
 import type { OutputTargetAngular, PackageJSON } from './types';
 import { relativeImport, normalizePath, sortBy, readPackageJson, dashToPascalCase, getCustomElementsDir, flattenImportCollection } from './utils';
-import { createComponentDefinition } from './component/generate-angular-component';
-import { generateAngularDirectivesFile } from './generate-angular-directives-file';
+import { createComponentDefinitions } from './component/generate-angular-components';
 import generateValueAccessors from './generate-value-accessors';
 import { ImportCollection } from './component/types';
 import { setComponentNamespaceImport } from './component/utils/set-component-namespace-import';
+import { generateAngularProxyEntryPoint } from './component/generate-angular-proxy-entry-point';
 
-export async function angularDirectiveProxyOutput(
+export async function angularComponentProxyOutput(
   compilerCtx: CompilerCtx,
   outputTarget: OutputTargetAngular,
   components: ComponentCompilerMeta[],
   config: Config,
 ) {
-  const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, components);
+  const filteredComponents = getFilteredComponents(components, outputTarget.excludeComponents);
   const rootDir = config.rootDir as string;
   const pkgData = await readPackageJson(config, rootDir);
 
@@ -28,7 +28,7 @@ export async function angularDirectiveProxyOutput(
   await Promise.all([
     compilerCtx.fs.writeFile(outputTarget.directivesProxyFile, finalText),
     copyResources(config, outputTarget),
-    generateAngularDirectivesFile(compilerCtx, filteredComponents, outputTarget),
+    generateAngularProxyEntryPoint(compilerCtx, filteredComponents, outputTarget),
     generateValueAccessors(compilerCtx, filteredComponents, outputTarget, config),
   ]);
 }
@@ -36,16 +36,26 @@ export async function angularDirectiveProxyOutput(
 /**
  * Returns a filtered list of components excluding component tag selectors
  * that have been referenced in the `excludeComponents` array.
+ *
+ * @param components The list of all components from the Stencil compiler.
+ * @param excludeComponents The list of component tag selectors to exclude.
  */
-function getFilteredComponents(excludeComponents: string[] = [], cmps: ComponentCompilerMeta[]) {
-  return sortBy(cmps, (cmp) => cmp.tagName).filter(
+function getFilteredComponents(components: ComponentCompilerMeta[], excludeComponents: string[] = []) {
+  return sortBy(components, (c) => c.tagName).filter(
     (c) => !excludeComponents.includes(c.tagName) && !c.internal,
   );
 }
 
+/**
+ * Copies the contents of the `../angular-component-lib` directory to the
+ * project's destination directory.
+ *
+ * Files are copied instead of referenced from a named package to avoid
+ * having to add a `dependency` to the project's `package.json`.
+ */
 async function copyResources(config: Config, outputTarget: OutputTargetAngular) {
   if (!config.sys || !config.sys.copy || !config.sys.glob) {
-    throw new Error('stencil is not properly initialized at this step. Notify the developer');
+    throw new Error('Stencil is not properly initialized at this step. Notify the developer');
   }
   const srcDirectory = path.join(__dirname, '..', 'angular-component-lib');
   const destDirectory = path.join(
@@ -84,15 +94,11 @@ export function generateProxies(
     angularCoreImports.push('NgModule', 'CommonModule');
   }
 
-  const imports: ImportCollection = {};
-  const typeImports: ImportCollection = {};
+  const imports: ImportCollection = {
+    ['@angular/core']: angularCoreImports,
+  };
 
-  imports['@angular/core'] = angularCoreImports;
-
-  setComponentNamespaceImport(outputTarget, componentsTypeFile, {
-    modules: imports,
-    types: typeImports,
-  });
+  setComponentNamespaceImport(outputTarget, componentsTypeFile, imports);
 
   if (outputTarget.includeImportCustomElements) {
     if (outputTarget.componentCorePackage !== undefined) {
@@ -106,12 +112,9 @@ export function generateProxies(
 
   imports['./angular-component-lib/utils'] = ['ProxyCmp', 'proxyOutputs'];
 
-  const componentClasses = components.map(createComponentDefinition(
+  const componentClasses = components.map(createComponentDefinitions(
     outputTarget,
-    {
-      modules: imports,
-      types: typeImports
-    }
+    imports
   ));
 
   const final: string[] = [
@@ -120,7 +123,6 @@ export function generateProxies(
  * Any changes you make to this file will be overwritten.
  */`,
     flattenImportCollection(imports),
-    flattenImportCollection(typeImports, { useTypeImport: true }),
     componentClasses.join('\n')
   ];
 

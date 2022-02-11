@@ -1,6 +1,6 @@
 import { Config } from '@stencil/core/internal';
 import path from 'path';
-import { ImportCollection } from './component/types';
+import { ImportCollection, ImportStatement, TypeImportStatement } from './component/types';
 import type { PackageJSON } from './types';
 
 export const toLowerCase = (str: string) => str.toLowerCase();
@@ -93,16 +93,14 @@ export function getCustomElementsDir(customElementsDir?: string) {
   return customElementsDir ?? 'components';
 }
 
-export function setImportStatement(collection: ImportCollection, packageName: string, value: string) {
+export function setImportStatement(collection: ImportCollection, packageName: string, statement: ImportStatement) {
   if (!collection[packageName]) {
     collection[packageName] = [];
   }
-  collection[packageName].push(value);
+  collection[packageName].push(statement);
 }
 
-export function flattenImportCollection(collection: ImportCollection, options?: {
-  useTypeImport: boolean;
-}) {
+export function flattenImportCollection(collection: ImportCollection) {
   let lastPkg = '';
   return Object.entries(collection).map(([pkgName, imports]) => {
     let separator = '';
@@ -112,11 +110,23 @@ export function flattenImportCollection(collection: ImportCollection, options?: 
       separator = '\n';
     }
     lastPkg = pkgName;
+
+    const normalizedImports = imports.filter(x => typeof x === 'string' || typeof 'x' !== 'string' && x.typeOnly === false).sort();
+    const typedImports = imports.filter(x => typeof x !== 'string' && x.typeOnly === true).sort();
+
     return (
       separator +
-      `import ${options?.useTypeImport ? 'type' : ''}{
-${imports.sort().map((importValue) => `  ${importValue}`).join(',\n')}
+      (normalizedImports.length > 0 ? (
+        `import {
+${normalizedImports.map(i => `  ${i}`).join(',\n')}
 } from '${pkgName}';`
+      ) : '') +
+      (normalizedImports.length > 0 && typedImports.length > 0 ? '\n' : '') +
+      (typedImports.length > 0 ? (
+        `import type {
+${typedImports.map(i => `  ${(i as TypeImportStatement).value}`).join(',\n')}
+} from '${pkgName}';`
+      ) : '')
     );
   }).join('\n');
 }

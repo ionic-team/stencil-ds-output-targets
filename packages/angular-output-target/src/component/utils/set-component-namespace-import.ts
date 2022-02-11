@@ -22,17 +22,17 @@ import { getCustomElementsDir, normalizePath, setImportStatement } from "../../u
  * @param componentsTypeFile The path to the components type file (.d.ts)
  * @param importCollection The collection of imports to add to the generated output.
  */
-export function setComponentNamespaceImport(outputTarget: Pick<OutputTargetAngular, 'componentCorePackage' | 'customElementsDir' | 'includeImportCustomElements'>, componentsTypeFile: string, importCollection: {
-  modules: ImportCollection,
-  types: ImportCollection
-}) {
+export function setComponentNamespaceImport(outputTarget: Pick<OutputTargetAngular, 'componentCorePackage' | 'customElementsDir' | 'includeImportCustomElements'>, componentsTypeFile: string, imports: ImportCollection) {
   const baseModulePath = outputTarget.componentCorePackage ?
     normalizePath(outputTarget.componentCorePackage) :
     normalizePath(componentsTypeFile);
 
   if (outputTarget.includeImportCustomElements) {
-    setImportStatement(importCollection.types, `${baseModulePath}/${getCustomElementsDir(outputTarget.customElementsDir)}`, 'Components');
+    setImportStatement(imports, `${baseModulePath}/${getCustomElementsDir(outputTarget.customElementsDir)}`, {
+      value: 'Components',
+      typeOnly: true
+    });
   } else {
-    setImportStatement(importCollection.modules, baseModulePath, 'Components');
+    setImportStatement(imports, baseModulePath, 'Components');
   }
 }
