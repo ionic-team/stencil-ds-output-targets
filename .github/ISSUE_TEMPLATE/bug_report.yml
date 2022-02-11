@@ -1,5 +1,5 @@
 name: 🐛 Bug Report
-description: Create a report to help us improve Stencil
+description: Create a report to help us improve the Stencil Framework Output Targets
 title: 'bug: '
 body:
   - type: checkboxes
@@ -11,12 +11,30 @@ body:
           required: true
         - label: I agree to follow the [Code of Conduct](https://github.com/ionic-team/stencil/blob/main/CODE_OF_CONDUCT.md).
           required: true
-        - label: I have searched for [existing issues](https://github.com/ionic-team/stencil/issues) that already report this problem, without success.
+        - label: I have searched for [existing issues](https://github.com/ionic-team/stencil-ds-output-targets/issues) that already report this problem, without success.
           required: true
   - type: input
     attributes:
       label: Stencil Version
       description: The version number of Stencil where the issue is occurring.
+    validations:
+      required: true
+  - type: dropdown
+    id: Stencil Framework Output Target
+    attributes:
+      label: Stencil Framework Output Target
+      description: Which Stencil Framework Output Target are you using?
+      options:
+        - Angular
+        - React
+        - Svelte
+        - Vue
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Stencil Framework Output Target Version
+      description: Which version of Framework Output Target are you using?
     validations:
       required: true
   - type: textarea
