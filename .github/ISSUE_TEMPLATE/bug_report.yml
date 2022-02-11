@@ -40,13 +40,13 @@ body:
   - type: textarea
     attributes:
       label: Current Behavior
-      description: A clear description of what the bug is and how it manifests.
+      description: A clear description of what the bug is and how it manifests. For example, what does the incorrect output look like?
     validations:
       required: true
   - type: textarea
     attributes:
       label: Expected Behavior
-      description: A clear description of what you expected to happen.
+      description: A clear description of what you expected to happen. For example, what does the correct output look like?
     validations:
       required: true
   - type: textarea
