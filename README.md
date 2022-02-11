@@ -11,7 +11,7 @@ Unfortunately the experience of integrating web components into existing applica
 
 The plugins add additional output targets for each framework binding that is included.
 
-Here is an example project using the plugins for reference: https://github.com/ionic-team/stencil-ds-output-targets/blob/master/packages/example-project/component-library
+Here is an example project using the plugins for reference: https://github.com/ionic-team/stencil-ds-output-targets/blob/main/packages/example-project/component-library
 
 ## Getting started
 
@@ -433,8 +433,8 @@ import { MyComponent } from '@my-project/svelte';
 [npm-badge-svelte]: https://img.shields.io/npm/v/@stencil/svelte-output-target.svg
 [npm-badge-svelte-url]: https://www.npmjs.com/package/@stencil/svelte-output-target
 [npm-license-react ]: https://img.shields.io/npm/l/@stencil/react-output-target.svg
-[npm-license-react-url]: https://github.com/ionic-team/stencil-ds-plugins/blob/master/packages/react-output-target/LICENSE.md
+[npm-license-react-url]: https://github.com/ionic-team/stencil-ds-plugins/blob/main/packages/react-output-target/LICENSE.md
 [npm-license-angular ]: https://img.shields.io/npm/l/@stencil/angular-output-target.svg
-[npm-license-angular-url]: https://github.com/ionic-team/stencil-ds-plugins/blob/master/packages/angular-output-target/LICENSE.md
+[npm-license-angular-url]: https://github.com/ionic-team/stencil-ds-plugins/blob/main/packages/angular-output-target/LICENSE.md
 [npm-license-vue ]: https://img.shields.io/npm/l/@stencil/vue-output-target.svg
-[npm-license-vue-url]: https://github.com/ionic-team/stencil-ds-plugins/blob/master/packages/vue-output-target/LICENSE.md
+[npm-license-vue-url]: https://github.com/ionic-team/stencil-ds-plugins/blob/main/packages/vue-output-target/LICENSE.md
