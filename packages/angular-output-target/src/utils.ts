@@ -102,33 +102,42 @@ export function setImportStatement(collection: ImportCollection, packageName: st
 
 export function flattenImportCollection(collection: ImportCollection) {
   let lastPkg = '';
-  return Object.entries(collection).map(([pkgName, imports]) => {
-    let separator = '';
-    if (lastPkg.slice(0, 1) === '@' && pkgName.slice(0, 1) !== '@') {
-      // The last package was a scoped package, but this one is not.
-      // We need to add a newline to separate the two.
-      separator = '\n';
-    }
-    lastPkg = pkgName;
+  return Object.entries(collection)
+    .sort(([pkgA], [pkgB]) => {
+      if (!pkgA.startsWith('./') && pkgB.startsWith('./')) {
+        return -1;
+      } else if (pkgA.startsWith('./') && !pkgB.startsWith('./')) {
+        return 1;
+      }
+      return pkgA.localeCompare(pkgB)
+    })
+    .map(([pkgName, imports]) => {
+      let separator = '';
+      if (lastPkg.slice(0, 1) === '@' && pkgName.slice(0, 1) !== '@') {
+        // The last package was a scoped package, but this one is not.
+        // We need to add a newline to separate the two.
+        separator = '\n';
+      }
+      lastPkg = pkgName;
 
-    const normalizedImports = imports.filter(x => typeof x === 'string' || typeof 'x' !== 'string' && x.typeOnly === false).sort();
-    const typedImports = imports.filter(x => typeof x !== 'string' && x.typeOnly === true).sort();
+      const normalizedImports = imports.filter(x => typeof x === 'string' || typeof 'x' !== 'string' && x.typeOnly === false).sort();
+      const typedImports = imports.filter(x => typeof x !== 'string' && x.typeOnly === true).sort();
 
-    return (
-      separator +
-      (normalizedImports.length > 0 ? (
-        `import {
+      return (
+        separator +
+        (normalizedImports.length > 0 ? (
+          `import {
 ${normalizedImports.map(i => `  ${i}`).join(',\n')}
 } from '${pkgName}';`
-      ) : '') +
-      (normalizedImports.length > 0 && typedImports.length > 0 ? '\n' : '') +
-      (typedImports.length > 0 ? (
-        `import type {
+        ) : '') +
+        (normalizedImports.length > 0 && typedImports.length > 0 ? '\n' : '') +
+        (typedImports.length > 0 ? (
+          `import type {
 ${typedImports.map(i => `  ${(i as TypeImportStatement).value}`).join(',\n')}
 } from '${pkgName}';`
-      ) : '')
-    );
-  }).join('\n');
+        ) : '')
+      );
+    }).join('\n');
 }
 
 export function mergeImportCollections(...collections: ImportCollection[]) {

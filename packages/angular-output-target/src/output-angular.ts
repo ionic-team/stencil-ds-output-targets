@@ -88,15 +88,16 @@ export function generateProxies(
 
   const angularCoreImports = ['ChangeDetectionStrategy', 'ChangeDetectorRef', 'Component', 'ElementRef', 'EventEmitter', 'NgZone'];
 
-  if (outputTarget.singleComponentAngularModules) {
-    // If we are generating SCAM modules, we need to import the `NgModule` decorator.
-    // The generated Angular modules will rely on `CommonModule`.
-    angularCoreImports.push('NgModule', 'CommonModule');
-  }
-
   const imports: ImportCollection = {
     ['@angular/core']: angularCoreImports,
   };
+
+  if (outputTarget.singleComponentAngularModules) {
+    // If we are generating SCAM modules, we need to import the `NgModule` decorator.
+    // The generated Angular modules will rely on `CommonModule`.
+    imports['@angular/core'].push('NgModule');
+    imports['@angular/common'] = ['CommonModule'];
+  }
 
   setComponentNamespaceImport(outputTarget, componentsTypeFile, imports);
 

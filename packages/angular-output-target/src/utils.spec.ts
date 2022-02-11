@@ -57,11 +57,11 @@ describe('flattenImportCollection', () => {
 
     expect(res).toEqual(
       `import {
-  Components
-} from '@ionic/core';
-import {
   Example
-} from '@example/core';`
+} from '@example/core';
+import {
+  Components
+} from '@ionic/core';`
     );
   });
 
@@ -73,15 +73,31 @@ import {
     });
     expect(res).toEqual(
       `import {
-  Components
-} from '@ionic/core';
-import {
   Example
 } from '@example/core';
+import {
+  Components
+} from '@ionic/core';
 
 import {
   ProxyCmp
 } from './angular-component-lib/utils';`
+    );
+  });
+
+  it('should sort import groups alphabetically', () => {
+    const res = flattenImportCollection({
+      '@angular/core': ['NgModule'],
+      '@angular/common': ['CommonModule'],
+    });
+
+    expect(res).toEqual(
+      `import {
+  CommonModule
+} from '@angular/common';
+import {
+  NgModule
+} from '@angular/core';`
     );
   });
 
