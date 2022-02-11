@@ -1,5 +1,5 @@
 name: 💡 Feature Request
-description: Suggest an idea for Stencil
+description: Suggest an idea for the Stencil Framework Output Targets
 title: 'feat: '
 body:
   - type: checkboxes
@@ -11,7 +11,7 @@ body:
           required: true
         - label: I agree to follow the [Code of Conduct](https://github.com/ionic-team/stencil/blob/main/CODE_OF_CONDUCT.md).
           required: true
-        - label: I have searched for [existing issues](https://github.com/ionic-team/stencil/issues) that already include this feature request, without success.
+        - label: I have searched for [existing issues](https://github.com/ionic-team/stencil-ds-output-targets/issues) that already report this problem, without success.
           required: true
   - type: textarea
     attributes:
@@ -28,7 +28,7 @@ body:
   - type: textarea
     attributes:
       label: Describe Preferred Solution
-      description: A clear and concise description of what you how you want this feature to be added to Stencil.
+      description: A clear and concise description of what you how you want this feature to be added to the Stencil Framework Output Target(s).
   - type: textarea
     attributes:
       label: Describe Alternatives
