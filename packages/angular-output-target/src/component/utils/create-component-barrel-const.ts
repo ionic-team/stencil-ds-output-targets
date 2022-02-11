@@ -1,5 +1,5 @@
 import { dashToPascalCase } from "../../utils";
-import { ProxyComponentVariableName } from "../constants/component.const";
+import { ProxyVariableName } from "../constants/component.const";
 
 export function createComponentBarrelConst(componentTagNames: string[]) {
   if (componentTagNames.length === 0) {
@@ -7,7 +7,7 @@ export function createComponentBarrelConst(componentTagNames: string[]) {
   }
   return (
     `export const COMPONENTS = [
-  ${componentTagNames.map(c => `${ProxyComponentVariableName}.${dashToPascalCase(c)}`).join(',\n  ')}
+  ${componentTagNames.map(c => `${ProxyVariableName}.${dashToPascalCase(c)}`).join(',\n  ')}
 ];`
   );
 }

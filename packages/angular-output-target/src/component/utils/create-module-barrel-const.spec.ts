@@ -12,7 +12,7 @@ describe('createModuleBarrelConst', () => {
 
     expect(res).toEqual(
       `export const MODULES = [
-  ProxyModules.MyComponentModule
+  Proxies.MyComponentModule
 ];`
     );
   });
@@ -22,8 +22,8 @@ describe('createModuleBarrelConst', () => {
 
     expect(res).toEqual(
       `export const MODULES = [
-  ProxyModules.MyComponentModule,
-  ProxyModules.MyOtherComponentModule
+  Proxies.MyComponentModule,
+  Proxies.MyOtherComponentModule
 ];`
     );
   });

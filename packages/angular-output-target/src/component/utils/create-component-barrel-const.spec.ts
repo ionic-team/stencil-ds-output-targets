@@ -12,7 +12,7 @@ describe('createComponentBarrelConst', () => {
 
     expect(res).toEqual(
       `export const COMPONENTS = [
-  ProxyComponents.MyComponent
+  Proxies.MyComponent
 ];`
     );
   });
@@ -22,8 +22,8 @@ describe('createComponentBarrelConst', () => {
 
     expect(res).toEqual(
       `export const COMPONENTS = [
-  ProxyComponents.MyComponent,
-  ProxyComponents.MyOtherComponent
+  Proxies.MyComponent,
+  Proxies.MyOtherComponent
 ];`
     );
   });

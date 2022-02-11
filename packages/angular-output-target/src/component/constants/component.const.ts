@@ -1,10 +1,7 @@
 
 /**
- * The name of the variable used for the component proxies barrel file.
+ * The name of the variable used for the component proxies barrel file and
+ * when composing module proxies.
  */
-export const ProxyComponentVariableName = 'ProxyComponents';
+export const ProxyVariableName = 'Proxies';
 
-/**
- * The name of the variable used for the module proxies barrel file.
- */
-export const ProxyModuleVariableName = 'ProxyModules';

@@ -1,7 +1,7 @@
 import type { CompilerCtx, ComponentCompilerMeta } from "@stencil/core/internal";
 import type { OutputTargetAngular } from "../types";
 import { relativeImport } from "../utils";
-import { ProxyComponentVariableName } from "./constants/component.const";
+import { ProxyVariableName } from "./constants/component.const";
 import { createComponentBarrelConst } from "./utils/create-component-barrel-const";
 import { createModuleBarrelConst } from "./utils/create-module-barrel-const";
 
@@ -41,10 +41,10 @@ export function generateAngularProxyEntryPoint(compilerCtx: CompilerCtx, compone
   const componentTagNames = components.map(c => c.tagName);
 
   const output =
-    `import * as ${ProxyComponentVariableName} from '${proxyPath}';
+    `import * as ${ProxyVariableName} from '${proxyPath}';
 
 ${createComponentBarrelConst(componentTagNames)}
-${singleComponentAngularModules ? createModuleBarrelConst(componentTagNames) : ''}
+${singleComponentAngularModules ? '\n' + createModuleBarrelConst(componentTagNames) : ''}
 `.trim();
 
   return compilerCtx.fs.writeFile(directivesArrayFile, output);
