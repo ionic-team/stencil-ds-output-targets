@@ -1,38 +1,22 @@
-name: CI
+name: Build & Test
 
-on: push
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    branches:
+      - '**'
 
 jobs:
-  build-and-test-nix:
-    name: Build and Test
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 16.x
-      - uses: actions/checkout@v1
-      - name: Restore Dependency Cache
-        uses: actions/cache@v1
-        id: restore-dependencies
-        with:
-          path: node_modules
-          key: ${{ runner.OS }}-dependency-cache-${{ hashFiles('package-lock.json') }}
+  build_and_test:
+    strategy:
+      matrix:
+        os: [ 'ubuntu-latest', 'windows-latest' ]
 
-      - name: Install Dependencies
-        run: npm ci
+    name: Node 16 on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
 
-      - name: Setup Testing Environment
-        run: npm run bootstrap
-
-      - name: Build
-        run: npm run build
-
-      - name: Test
-        run: npm test
-  plugin-build-and-test-windows:
-    name: Build and Test
-    runs-on: windows-latest
     timeout-minutes: 30
     steps:
       - uses: actions/setup-node@v1

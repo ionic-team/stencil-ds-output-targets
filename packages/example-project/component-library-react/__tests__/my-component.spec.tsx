@@ -11,25 +11,45 @@ describe('MyComponent', () => {
     expect(component).toBeInTheDocument();
   });
 
-  it('should get strings as props', () => {
+  it('should render attributes as dash-case', () => {
+    const { webcomponent: myComponent } = includeWebComponent<HTMLMyComponentElement>(
+      renderWithStrictMode(<MyButton buttonType="my-button-type" />),
+    );
+    expect(myComponent.hasAttribute('buttonType')).toBe(false);
+    expect(myComponent.getAttribute('button-type')).toBe('my-button-type');
+  });
+
+  it('should get strings as props and attrs', () => {
     const { webcomponent: myComponent } = includeWebComponent<HTMLMyComponentElement>(
       renderWithStrictMode(<MyComponent first="blue" />),
     );
     expect(myComponent.first).toEqual('blue');
+    expect(myComponent.getAttribute('first')).toBe('blue');
   });
 
-  it('should get numbers as props', () => {
+  it('should get numbers as props and attrs', () => {
     const { webcomponent: myComponent } = includeWebComponent<HTMLMyComponentElement>(
       renderWithStrictMode(<MyComponent age={39} />),
     );
     expect(myComponent.age).toEqual(39);
+    expect(myComponent.getAttribute('age')).toBe('39');
   });
 
-  it('should get arrays as props', () => {
+  it('should get booleans as props and attrs', () => {
+    const { webcomponent: myComponent } = includeWebComponent<HTMLMyInputElement>(
+      renderWithStrictMode(<MyInput clearInput />),
+    );
+    expect(myComponent.clearInput).toEqual(true);
+    expect(myComponent.getAttribute('clear-input')).toBe('true');
+  });
+
+  it('should get arrays as props only', () => {
     const { webcomponent: myComponent } = includeWebComponent<HTMLMyComponentElement>(
       renderWithStrictMode(<MyComponent kidsNames={['billy', 'jane']} />),
     );
     expect(myComponent.kidsNames).toEqual(['billy', 'jane']);
+    expect(myComponent.hasAttribute('kidsNames')).toBe(false);
+    expect(myComponent.hasAttribute('kids-names')).toBe(false);
   });
 });
 
