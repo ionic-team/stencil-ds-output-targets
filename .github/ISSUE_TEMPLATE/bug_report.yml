@@ -20,7 +20,7 @@ body:
     validations:
       required: true
   - type: dropdown
-    id: Stencil Framework Output Target
+    id: stencil-framework-output-target
     attributes:
       label: Stencil Framework Output Target
       description: Which Stencil Framework Output Target are you using?
