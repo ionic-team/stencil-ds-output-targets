@@ -9,7 +9,9 @@ describe('createComponentDefinition', () => {
       tagName: 'my-component',
       methods: [],
       events: [],
-    }, true);
+    }, {
+      includeImportCustomElements: true
+    });
     expect(output[0]).toEqual(`export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component', undefined, undefined, defineMyComponent);`);
   });
 
@@ -19,8 +21,22 @@ describe('createComponentDefinition', () => {
       tagName: 'my-component',
       methods: [],
       events: [],
-    });
+    }, {});
     expect(output[0]).toEqual(`export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component');`);
+  });
+
+  it('should create a React component with a prefix', () => {
+    const output = createComponentDefinition({
+      properties: [],
+      tagName: 'my-component',
+      methods: [],
+      events: [],
+    }, {
+      componentNameFormatter: (suggestedName: string, _) => {
+        return `Prefixed${suggestedName}`;
+      },
+    });
+    expect(output[0]).toEqual(`export const PrefixedMyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component');`);
   });
 });
 
