@@ -1,6 +1,6 @@
 import path from 'path';
 import type { OutputTargetReact, PackageJSON } from './types';
-import { dashToPascalCase, normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
+import { dashToPascalCase, verifyValidComponentName, normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
 import type {
   CompilerCtx,
   ComponentCompilerMeta,
@@ -52,7 +52,9 @@ function getFilteredComponents(excludeComponents: ReadonlyArray<string> = [], cm
 function componentNameFormatter(component: ComponentCompilerMeta, outputTarget: OutputTargetReact) {
   const tagNameAsPascal = dashToPascalCase(component.tagName);
   if (outputTarget.componentNameFormatter && typeof outputTarget.componentNameFormatter === 'function') {
-    return outputTarget.componentNameFormatter(tagNameAsPascal, component);
+    const formattedName = outputTarget.componentNameFormatter(tagNameAsPascal, component);
+    verifyValidComponentName(formattedName);
+    return formattedName;
   }
   return tagNameAsPascal;
 }

@@ -133,6 +133,74 @@ export async function readPackageJson(rootDir: string): Promise<PackageJSON> {
   return pkgData;
 }
 
+/**
+ * Verify if something is a valid react component name.
+ * @param name the component name to verify
+ * @returns true if it's valid, false if it's invalid.
+ */
+export function verifyValidComponentName(name: string) {
+  if (JAVASCRIPT_RESERVED_WORDS_REGEX.test(name)) {
+    throw new Error('While verifiying the component name "'+name+'" was found to be a reserved javascript word.');
+  }
+
+  if (!VALID_COMPONENT_REGEX.test(name)) {
+    throw new Error('While verifiying the component name "'+name+'" was found to be an invalid react component name, it should match ' + VALID_COMPONENT_REGEX);
+  }
+
+}
+
 const EXTENDED_PATH_REGEX = /^\\\\\?\\/;
+const VALID_COMPONENT_REGEX = /^([A-z]|\$|_)([A-z]|[0-9]|\$|_)*$/i;
 const NON_ASCII_REGEX = /[^\x00-\x80]+/;
 const SLASH_REGEX = /\\/g;
+const JAVASCRIPT_RESERVED_WORDS = [
+  'do',
+  'if',
+  'in',
+  'for',
+  'let',
+  'new',
+  'try',
+  'var',
+  'case',
+  'else',
+  'enum',
+  'eval',
+  'false',
+  'null',
+  'this',
+  'true',
+  'void',
+  'with',
+  'await',
+  'break',
+  'catch',
+  'class',
+  'const',
+  'super',
+  'throw',
+  'while',
+  'yield',
+  'delete',
+  'export',
+  'import',
+  'public',
+  'return',
+  'static',
+  'switch',
+  'typeof',
+  'default',
+  'extends',
+  'finally',
+  'package',
+  'private',
+  'continue',
+  'debugger',
+  'function',
+  'arguments',
+  'interface',
+  'protected',
+  'implements',
+  'instanceof',
+];
+const JAVASCRIPT_RESERVED_WORDS_REGEX = new RegExp('^(?:' + JAVASCRIPT_RESERVED_WORDS.join('|') + ')$')
