@@ -1,6 +1,6 @@
 import path from 'path';
 import type { OutputTargetReact, PackageJSON } from './types';
-import { dashToPascalCase, normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
+import { dashToPascalCase, verifyValidComponentName, normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
 import type {
   CompilerCtx,
   ComponentCompilerMeta,
@@ -41,6 +41,22 @@ function getFilteredComponents(excludeComponents: ReadonlyArray<string> = [], cm
   return sortBy(cmps, (cmp) => cmp.tagName).filter(
     (c) => !excludeComponents.includes(c.tagName) && !c.internal,
   );
+}
+
+/**
+ * Formats a component's name to be used in the generated Stencil-React bindings
+ * @param component the component to format the name for
+ * @param outputTarget the output target configuration for generating the Stencil-React bindings
+ * @returns the formatted component name
+ */
+function componentNameFormatter(component: ComponentCompilerMeta, outputTarget: OutputTargetReact) {
+  const tagNameAsPascal = dashToPascalCase(component.tagName);
+  if (outputTarget.componentNameFormatter && typeof outputTarget.componentNameFormatter === 'function') {
+    const formattedName = outputTarget.componentNameFormatter(tagNameAsPascal, component);
+    verifyValidComponentName(formattedName);
+    return formattedName;
+  }
+  return tagNameAsPascal;
 }
 
 /**
@@ -118,7 +134,7 @@ import { createReactComponent } from './react-component-lib';\n`;
     typeImports,
     sourceImports,
     registerCustomElements,
-    components.map(cmpMeta => createComponentDefinition(cmpMeta, outputTarget.includeImportCustomElements)).join('\n'),
+    components.map(cmpMeta => createComponentDefinition(cmpMeta, outputTarget)).join('\n'),
   ];
 
   return final.join('\n') + '\n';
@@ -127,15 +143,16 @@ import { createReactComponent } from './react-component-lib';\n`;
 /**
  * Defines the React component that developers will import to use in their applications.
  * @param cmpMeta Meta data for a single Web Component
- * @param includeCustomElement If `true`, the Web Component instance will be passed in to createReactComponent to be
+ * @param outputTarget the output target configuration used to generate the Stencil-React bindings
  * registered with the Custom Elements Registry.
  * @returns An array where each entry is a string version of the React component definition.
  */
-export function createComponentDefinition(cmpMeta: ComponentCompilerMeta, includeCustomElement: boolean = false): ReadonlyArray<string> {
+export function createComponentDefinition(cmpMeta: ComponentCompilerMeta, outputTarget: OutputTargetReact): ReadonlyArray<string> {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
-  let template = `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}'`;
+  const componentName = componentNameFormatter(cmpMeta, outputTarget);
+  let template = `export const ${componentName} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}'`;
 
-  if (includeCustomElement) {
+  if (outputTarget.includeImportCustomElements) {
     template += `, undefined, undefined, define${tagNameAsPascal}`;
   }
 

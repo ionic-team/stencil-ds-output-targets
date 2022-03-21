@@ -1,3 +1,5 @@
+import type { ComponentCompilerMeta } from "@stencil/core/internal";
+
 /**
  * An output target configuration interface used to configure Stencil to properly generate the bindings necessary to use
  * Stencil components in a React application
@@ -11,6 +13,7 @@ export interface OutputTargetReact {
   includeDefineCustomElements?: boolean;
   includeImportCustomElements?: boolean;
   customElementsDir?: string;
+  componentNameFormatter?: (suggestedName: string, component: ComponentCompilerMeta) => string
 }
 
 /**

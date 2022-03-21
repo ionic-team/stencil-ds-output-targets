@@ -9,7 +9,9 @@ describe('createComponentDefinition', () => {
       tagName: 'my-component',
       methods: [],
       events: [],
-    }, true);
+    }, {
+      includeImportCustomElements: true
+    });
     expect(output[0]).toEqual(`export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component', undefined, undefined, defineMyComponent);`);
   });
 
@@ -19,8 +21,65 @@ describe('createComponentDefinition', () => {
       tagName: 'my-component',
       methods: [],
       events: [],
-    });
+    }, {});
     expect(output[0]).toEqual(`export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component');`);
+  });
+
+  it('should create a React component with a prefix', () => {
+    const output = createComponentDefinition({
+      properties: [],
+      tagName: 'my-component',
+      methods: [],
+      events: [],
+    }, {
+      componentNameFormatter: (suggestedName: string, _) => {
+        return `Prefixed${suggestedName}`;
+      },
+    });
+    expect(output[0]).toEqual(`export const PrefixedMyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component');`);
+  });
+
+  const validFormatters = [
+    (suggestedName: string, _) => `Prefixed${suggestedName}`,
+    (suggestedName: string, _) => `_${suggestedName}`,
+    (suggestedName: string, _) => suggestedName,
+    (suggestedName: string, _) => `$${suggestedName}$`,
+  ];
+
+  test.each(validFormatters)('should for the react component name with valid formatters', (componentNameFormatter) => {
+    createComponentDefinition({
+      properties: [],
+      tagName: 'my-component',
+      methods: [],
+      events: [],
+    }, {
+      componentNameFormatter
+    });
+  });
+
+  const invalidFormatters = [
+    (suggestedName: string, _) => `.${suggestedName}`,
+    (suggestedName: string, _) => `Test ${suggestedName}`,
+    (_suggestedName: string, _) => ``,
+    (_suggestedName: string, _) => ` `,
+    (_suggestedName: string, _) => `eval`,
+    (_suggestedName: string, _) => null,
+    (_suggestedName: string, _) => `x x`,
+    (_suggestedName: string, _) => `no-dashes`,
+  ];
+
+  test.each(invalidFormatters)('should error with an invalid react component name', (componentNameFormatter) => {
+    expect(() => {
+      createComponentDefinition({
+        properties: [],
+        tagName: 'my-component',
+        methods: [],
+        events: [],
+      }, {
+        componentNameFormatter
+      });
+
+    }).toThrowError();
   });
 });
 

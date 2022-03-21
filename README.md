@@ -200,6 +200,35 @@ If `true`, the output target will import the custom element instance and registe
 
 This is the directory where the custom elements are imported from when using the `[Custom Elements Bundle](https://stenciljs.com/docs/custom-elements)`. Defaults to the `components` directory. Only applies when `includeImportCustomElements` is `true`.
 
+### componentNameFormatter
+
+This is an optional function that will be used to format the component name. It takes two arguments, the first argument is the suggested generated name, and the second option is the component meta. By default, the component name is converted by dash-case to PascalCase.
+
+Example to remove first 3 characters:
+
+```ts
+import { Config } from '@stencil/core';
+import { reactOutputTarget } from '@stencil/react-output-target';
+
+export const config: Config = {
+  namespace: 'demo',
+  outputTargets: [
+    reactOutputTarget({
+      componentCorePackage: 'component-library',
+      proxiesFile: '../component-library-react/src/components.ts',
+      componentNameFormatter: (suggestedName: string) => {
+        return `${suggestedName.substring(3)}`;
+      },
+    }),
+    {
+      type: 'dist',
+    },
+  ],
+};
+```
+
+```
+
 ### Setup of React Component Library
 
 There is an example component library package available on Github so that you can get started. This repo will likely live as a sibling to your Stencil component library. https://github.com/ionic-team/stencil-ds-react-template
