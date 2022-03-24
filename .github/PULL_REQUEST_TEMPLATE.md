@@ -5,6 +5,7 @@ Please check if your PR fulfills the following requirements:
 - [ ] Tests for the changes have been added (for bug fixes / features)
 - [ ] Docs have been reviewed and added / updated if needed (for bug fixes / features)
 - [ ] Build (`npm run build`) was run locally for affected output targets
+- [ ] Tests (`npm test`) were run locally and passed
 
 ## Pull request type
 
