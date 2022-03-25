@@ -15,7 +15,7 @@ import {
   ComponentRef,
   OverlayEventDetail,
   OverlayInterface,
-} from '../../interfaces';
+} from '../../interface';
 
 import { eventMethod } from '../helpers';
 

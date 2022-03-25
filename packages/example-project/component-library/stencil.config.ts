@@ -71,6 +71,10 @@ export const config: Config = {
   namespace: 'component-library',
   taskQueue: 'async',
   outputTargets: [
+    {
+      type: 'dist',
+      esmLoaderPath: '../loader'
+    },
     angularOutputTarget({
       componentCorePackage: 'component-library',
       directivesProxyFile: '../component-library-angular/src/directives/proxies.ts',

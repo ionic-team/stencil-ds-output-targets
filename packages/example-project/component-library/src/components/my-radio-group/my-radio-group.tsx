@@ -9,10 +9,7 @@ import {
   Watch,
   h,
 } from '@stencil/core';
-
-export interface RadioGroupChangeEventDetail {
-  value: any;
-}
+import { RadioGroupChangeEventDetail } from './radio-group-interface';
 
 @Component({
   tag: 'my-radio-group',

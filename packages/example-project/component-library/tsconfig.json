@@ -4,23 +4,21 @@
     "allowUnreachableCode": false,
     "declaration": false,
     "experimentalDecorators": true,
-    "lib": [
-      "dom",
-      "es2017"
-    ],
+    "lib": ["dom", "es2017"],
     "moduleResolution": "node",
     "module": "esnext",
     "target": "es2017",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "jsx": "react",
-    "jsxFactory": "h"
+    "jsxFactory": "h",
+    "paths": {
+      "@stencil/angular-output-target": ["../../angular-output-target"],
+      "@stencil/react-output-target": ["../../react-output-target"],
+      "@stencil/vue-output-target": ["../../vue-output-target"],
+      "@stencil/svelte-output-target": ["../../svelte-output-target"]
+    }
   },
-  "include": [
-    "src",
-    "types/jsx.d.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src", "types/jsx.d.ts"],
+  "exclude": ["node_modules"]
 }

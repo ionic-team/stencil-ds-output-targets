@@ -2,10 +2,10 @@
   "angularCompilerOptions": {
     "annotateForClosureCompiler": true,
     "strictMetadataEmit": true,
-    "flatModuleOutFile": "core.js",
-    "flatModuleId": "@ionic/angular",
     "skipTemplateCodegen": true,
-    "fullTemplateTypeCheck": false
+    "fullTemplateTypeCheck": false,
+    "enableResourceInlining": true,
+    "compilationMode": "partial"
   },
   "compilerOptions": {
     "alwaysStrict": true,

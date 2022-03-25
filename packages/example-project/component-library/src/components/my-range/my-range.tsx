@@ -13,13 +13,7 @@ import {
 
 import { Color, StyleEventDetail } from '../element-interface';
 import { clamp, debounceEvent, renderHiddenInput } from '../helpers';
-
-export type KnobName = 'A' | 'B' | undefined;
-export type RangeValue = number | { lower: number; upper: number };
-
-export interface RangeChangeEventDetail {
-  value: RangeValue;
-}
+import { KnobName, RangeChangeEventDetail, RangeValue } from './range-interface';
 
 /**
  * @virtualProp {"ios" | "md"} mode - The mode determines which platform styles to use.

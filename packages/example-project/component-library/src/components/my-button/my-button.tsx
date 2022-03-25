@@ -9,7 +9,7 @@ import {
   h,
 } from '@stencil/core';
 
-import { Color } from '../../interfaces';
+import { Color } from '../../interface';
 import { hasShadowDom } from '../helpers';
 import { AnchorInterface, ButtonInterface } from '../element-interface';
 

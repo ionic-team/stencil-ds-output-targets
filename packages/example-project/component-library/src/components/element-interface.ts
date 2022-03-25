@@ -20,6 +20,7 @@ export type PredefinedColors =
   | 'light'
   | 'medium'
   | 'dark';
+
 export type Color = PredefinedColors | string;
 
 export interface StyleEventDetail {

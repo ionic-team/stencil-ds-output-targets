@@ -1,5 +1,10 @@
 import { EventEmitter } from '@stencil/core';
 
+export * from './components/element-interface';
+export * from './components/my-input/input-interface';
+export * from './components/my-range/range-interface';
+export * from './components/my-radio-group/radio-group-interface';
+
 // From: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
 export type AutocompleteTypes =
   | 'on'

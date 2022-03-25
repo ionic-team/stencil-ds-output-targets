@@ -12,11 +12,8 @@ import {
   h,
 } from '@stencil/core';
 
-import { AutocompleteTypes, Color, TextFieldTypes } from '../../interfaces';
-
-export interface InputChangeEventDetail {
-  value: string | number | undefined | null;
-}
+import { AutocompleteTypes, Color, TextFieldTypes } from '../../interface';
+import { InputChangeEventDetail } from './input-interface';
 
 /**
  * @virtualProp {"ios" | "md"} mode - The mode determines which platform styles to use.

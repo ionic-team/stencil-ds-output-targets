@@ -1,6 +1,6 @@
 import { EventEmitter } from '@stencil/core';
 
-import { Side } from '../interfaces';
+import { Side } from '../interface';
 
 declare const __zone_symbol__requestAnimationFrame: any;
 declare const requestAnimationFrame: any;

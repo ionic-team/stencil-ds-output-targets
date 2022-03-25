@@ -8,15 +8,15 @@
     "type": "git",
     "url": "https://github.com/ionic-team/stencil-ds-output-targets.git"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "es2015": "dist/esm/index.mjs",
-  "es2017": "dist/esm/index.mjs",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.js",
+  "es2015": "dist/esm/index.js",
+  "es2017": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
-  "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
-  "unpkg": "dist/component-library/component-library.js",
+  "collection": "dist/collection/collection-manifest.json",
   "files": [
+    "components/",
     "dist/",
     "loader/"
   ],
@@ -27,11 +27,11 @@
     "generate": "stencil generate"
   },
   "devDependencies": {
-    "@stencil/angular-output-target": "^0.0.5",
-    "@stencil/core": "^2.9.0",
+    "@stencil/angular-output-target": "^0.4.0",
+    "@stencil/core": "^2.14.0",
     "@stencil/react-output-target": "^0.3.1",
     "@stencil/svelte-output-target": "^0.0.3",
-    "@stencil/vue-output-target": "^0.4.3",
+    "@stencil/vue-output-target": "^0.6.0",
     "@types/puppeteer": "2.0.1",
     "jest-cli": "26.0.1",
     "puppeteer": "2.1.1"
