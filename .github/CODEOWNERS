@@ -16,5 +16,4 @@
 
 # Global owners
 
-* @ionic-team/framework-core
-* @ionic-team/stencil
+* @ionic-team/stencil @ionic-team/framework-core
