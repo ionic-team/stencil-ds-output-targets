@@ -2,7 +2,7 @@ import { Config } from '@stencil/core';
 import { angularOutputTarget, ValueAccessorConfig } from '@stencil/angular-output-target';
 import { reactOutputTarget } from '@stencil/react-output-target';
 import { vueOutputTarget, ComponentModelConfig } from '@stencil/vue-output-target';
-import { svelteOutputTarget, ComponentBindingConfig } from '@stencil/svelte-output-target';
+// import { svelteOutputTarget, ComponentBindingConfig } from '@stencil/svelte-output-target';
 
 const angularValueAccessorBindings: ValueAccessorConfig[] = [
   {
@@ -49,23 +49,23 @@ const vueComponentModels: ComponentModelConfig[] = [
   },
 ];
 
-const svelteComponentBindings: ComponentBindingConfig[] = [
-  {
-    elements: ['my-input', 'my-range'],
-    event: 'myChange',
-    targetProp: 'value',
-  },
-  {
-    elements: ['my-checkbox'],
-    event: 'myChange',
-    targetProp: 'checked',
-  },
-  {
-    elements: ['my-range', 'my-radio-group'],
-    event: 'myChange',
-    targetProp: 'value',
-  },
-];
+// const svelteComponentBindings: ComponentBindingConfig[] = [
+//   {
+//     elements: ['my-input', 'my-range'],
+//     event: 'myChange',
+//     targetProp: 'value',
+//   },
+//   {
+//     elements: ['my-checkbox'],
+//     event: 'myChange',
+//     targetProp: 'checked',
+//   },
+//   {
+//     elements: ['my-range', 'my-radio-group'],
+//     event: 'myChange',
+//     targetProp: 'value',
+//   },
+// ];
 
 export const config: Config = {
   namespace: 'component-library',
@@ -85,12 +85,12 @@ export const config: Config = {
       proxiesFile: '../component-library-vue/src/proxies.ts',
       componentModels: vueComponentModels,
     }),
-    svelteOutputTarget({
-      accessors: true,
-      componentCorePackage: 'component-library',
-      proxiesFile: '../component-library-svelte/src/proxies.ts',
-      componentBindings: svelteComponentBindings,
-    }),
+    // svelteOutputTarget({
+    //   accessors: true,
+    //   componentCorePackage: 'component-library',
+    //   proxiesFile: '../component-library-svelte/src/proxies.ts',
+    //   componentBindings: svelteComponentBindings,
+    // }),
     {
       type: 'dist-custom-elements',
       dir: 'components'
