@@ -1,4 +1,4 @@
-import { async, ComponentFixture } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture } from '@angular/core/testing';
 
 import { ConfigureFn, configureTests } from '../src/config.testing';
 import { DebugElement, Component } from '@angular/core';
@@ -16,14 +16,14 @@ import { ComponentLibraryModule } from '../src/index';
 class TestTextValueAccessorComponent {
   testText: string = '';
 
-  onInput() {}
+  onInput() { }
 }
 
 describe('MyInput - Text Value', () => {
   let myInputEl: DebugElement;
   let fixture: ComponentFixture<TestTextValueAccessorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     const configure: ConfigureFn = (testBed) => {
       testBed.configureTestingModule({
         imports: [FormsModule, ComponentLibraryModule],
@@ -69,7 +69,7 @@ describe('MyInput - Number Value', () => {
   let myInputEl: DebugElement;
   let fixture: ComponentFixture<TestNumberValueAccessorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     const configure: ConfigureFn = (testBed) => {
       testBed.configureTestingModule({
         imports: [FormsModule, ComponentLibraryModule],
@@ -104,14 +104,14 @@ class TestDisabledValueAccessorComponent {
     test: this.formBuilder.control({ value: 'test', disabled: true }),
   });
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder) { }
 }
 
 describe('MyInput - Disabled state', () => {
   let myInputEl: DebugElement;
   let fixture: ComponentFixture<TestDisabledValueAccessorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     const configure: ConfigureFn = (testBed) => {
       testBed.configureTestingModule({
         imports: [ReactiveFormsModule, FormsModule, ComponentLibraryModule],

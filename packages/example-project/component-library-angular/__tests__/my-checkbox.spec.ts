@@ -1,4 +1,4 @@
-import { async, ComponentFixture } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture } from '@angular/core/testing';
 
 import { ConfigureFn, configureTests } from '../src/config.testing';
 import { DebugElement, Component } from '@angular/core';
@@ -17,7 +17,7 @@ describe('MyCheckbox', () => {
   let myCheckboxEl: DebugElement;
   let fixture: ComponentFixture<TestBooleanValueAccessorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     const configure: ConfigureFn = (testBed) => {
       testBed.configureTestingModule({
         imports: [FormsModule, ComponentLibraryModule],

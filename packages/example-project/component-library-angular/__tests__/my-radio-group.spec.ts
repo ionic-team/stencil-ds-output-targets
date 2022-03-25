@@ -1,4 +1,4 @@
-import { async, ComponentFixture } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture } from '@angular/core/testing';
 
 import { ConfigureFn, configureTests } from '../src/config.testing';
 import { DebugElement, Component } from '@angular/core';
@@ -21,7 +21,7 @@ describe('MyRadioGroup', () => {
   let myRadioGroupEl: DebugElement;
   let fixture: ComponentFixture<TestRadioValueAccessorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     const configure: ConfigureFn = (testBed) => {
       testBed.configureTestingModule({
         imports: [FormsModule, ComponentLibraryModule],
