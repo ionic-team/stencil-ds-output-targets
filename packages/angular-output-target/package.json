@@ -11,8 +11,7 @@
     "angular-component-lib/"
   ],
   "publishConfig": {
-    "access": "public",
-    "directory": "dist"
+    "access": "public"
   },
   "scripts": {
     "prepublishOnly": "npm run build",
