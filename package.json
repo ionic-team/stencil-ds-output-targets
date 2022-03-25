@@ -9,8 +9,7 @@
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "test": "lerna run test",
-    "changelog": "lerna-changelog",
-    "publish": "lerna publish"
+    "changelog": "lerna-changelog"
   },
   "devDependencies": {
     "@stencil/core": "^1.17.3",
@@ -23,6 +22,7 @@
     "rimraf": "^2.6.3",
     "rollup": "^2.23.1",
     "ts-jest": "^26.2.0",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "semver": "^5.5.0"
   }
 }
