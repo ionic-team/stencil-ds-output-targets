@@ -11,9 +11,11 @@
     "angular-component-lib/"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "directory": "dist"
   },
   "scripts": {
+    "prepublishOnly": "npm run build",
     "prebuild": "rimraf ./dist && npm run test",
     "build": "tsc && npm run rollup",
     "watch": "tsc --watch",
