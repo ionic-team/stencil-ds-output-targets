@@ -13,6 +13,7 @@
     "access": "public"
   },
   "scripts": {
+    "prepublishOnly": "npm run build",
     "prebuild": "rimraf ./dist",
     "build": "tsc && npm run rollup",
     "watch": "tsc --watch",
