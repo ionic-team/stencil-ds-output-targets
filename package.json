@@ -6,16 +6,16 @@
     "url": "git+https://github.com/ionic-team/stencil-ds-output-targets.git"
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap",
+    "bootstrap": "lerna bootstrap --no-ci",
     "build": "lerna run build",
     "test": "lerna run test",
     "changelog": "lerna-changelog"
   },
   "devDependencies": {
-    "@stencil/core": "^1.17.3",
+    "@stencil/core": "^2.9.0",
     "@types/jest": "^26.0.9",
     "jest": "^26.3.0",
-    "lerna": "^3.22.1",
+    "lerna": "^4.0.0",
     "lerna-changelog": "^1.0.1",
     "np": "^6.0.2",
     "prettier": "^2.0.5",
