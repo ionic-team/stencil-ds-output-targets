@@ -13,7 +13,7 @@
   "version": "0.6.0",
   "command": {
     "publish": {
-      "ignoreChanges": ["packages/example-project/*"]
+      "ignoreChanges": ["packages/example-project/*", "**/package.json", "**/package-lock.json"]
     }
   }
 }
