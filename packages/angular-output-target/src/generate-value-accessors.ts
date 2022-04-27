@@ -25,6 +25,10 @@ export default async function generateValueAccessors(
     return;
   }
 
+  const sourcePath =
+    outputTarget.legacyValueAccessors !== true
+      ? '../resources/control-value-accessors/'
+      : '../resources/control-value-accessors-legacy/';
   const targetDir = path.dirname(outputTarget.directivesProxyFile);
 
   const normalizedValueAccessors: NormalizedValueAccessors = outputTarget.valueAccessorConfigs.reduce(
@@ -56,11 +60,7 @@ export default async function generateValueAccessors(
       const valueAccessorType = type as ValueAccessorTypes; // Object.keys converts to string
       const targetFileName = `${type}-value-accessor.ts`;
       const targetFilePath = path.join(targetDir, targetFileName);
-      const srcFilePath = path.join(
-        __dirname,
-        '../resources/control-value-accessors/',
-        targetFileName,
-      );
+      const srcFilePath = path.join(__dirname, sourcePath, targetFileName);
       const srcFileContents = await compilerCtx.fs.readFile(srcFilePath);
 
       const finalText = createValueAccessor(
@@ -71,7 +71,9 @@ export default async function generateValueAccessors(
     }),
   );
 
-  await copyResources(config, ['value-accessor.ts'], targetDir);
+  if (outputTarget.legacyValueAccessors !== true) {
+    await copyResources(config, ['value-accessor.ts'], targetDir);
+  }
 }
 
 export function createValueAccessor(srcFileContents: string, valueAccessor: ValueAccessor) {

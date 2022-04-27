@@ -4,6 +4,7 @@ export interface OutputTargetAngular {
   directivesArrayFile?: string;
   directivesUtilsFile?: string;
   valueAccessorConfigs?: ValueAccessorConfig[];
+  legacyValueAccessors?: boolean;
   excludeComponents?: string[];
   includeImportCustomElements?: boolean;
   customElementsDir?: string;

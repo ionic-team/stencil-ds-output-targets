@@ -1,11 +1,23 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-@Directive()
-export class ValueAccessor implements ControlValueAccessor {
+@Directive({
+  /* tslint:disable-next-line:directive-selector */
+  selector: '<VALUE_ACCESSOR_SELECTORS>',
+  host: {
+    '(<VALUE_ACCESSOR_EVENT>)': 'handleChangeEvent($event.target.<VALUE_ACCESSOR_TARGETATTR>)'
+  },
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: SelectValueAccessor,
+      multi: true
+    }
+  ]
+})
+export class SelectValueAccessor implements ControlValueAccessor {
 
-  protected lastValue: any;
-
+  private lastValue: any;
   private onChange: (value: any) => void = () => {/**/};
   private onTouched: () => void = () => {/**/};
 
