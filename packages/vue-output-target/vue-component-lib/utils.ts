@@ -1,6 +1,6 @@
 import { VNode, defineComponent, getCurrentInstance, h, inject, ref, Ref } from 'vue';
 
-export interface InputProps extends Object {
+export interface InputProps {
   modelValue?: string | boolean;
 }
 
