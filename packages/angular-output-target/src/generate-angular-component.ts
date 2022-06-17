@@ -56,6 +56,13 @@ export const createComponentDefinition = (
     '' // Empty first line
   ];
 
+  /**
+   * The list of @Output() bindings to generate for the component.
+   */
+  const outputBindings: string[]  = [
+    ''
+];
+
   // Generate outputs
   outputs.forEach((output, index) => {
     componentEvents.push(
@@ -87,10 +94,12 @@ export const createComponentDefinition = (
      * The name of this custom event is "ComponentTagNameCustomEvent".
      */
     componentEvents.push(`  ${output.name}: EventEmitter<${formatCustomEventInterfaceName(cmpMeta.tagName)}<${outputTypeRemapped.trim()}>>;`);
+    outputBindings.push(`  @Output() ${output.name} = new EventEmitter<${formatCustomEventInterfaceName(cmpMeta.tagName)}<${outputTypeRemapped.trim()}>>();`);
 
     if (index === outputs.length - 1) {
       // Empty line to push end `}` to new line
       componentEvents.push('\n');
+      outputBindings.push('\n');
     }
   });
 
@@ -110,7 +119,7 @@ ${getProxyCmp(
 })
 export class ${tagNameAsPascal} {`,
   ];
-
+  lines.push(...outputBindings);
   lines.push('  protected el: HTMLElement;');
   lines.push(`  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
