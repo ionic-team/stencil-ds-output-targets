@@ -1,4 +1,4 @@
-import { dashToPascalCase, normalizePath } from './utils';
+import { dashToPascalCase, formatCustomEventInterfaceName, normalizePath } from './utils';
 import type { ComponentCompilerMeta } from '@stencil/core/internal';
 
 export const createComponentDefinition = (
@@ -79,7 +79,14 @@ export const createComponentDefinition = (
       .replace(/\n/g, ' ')
       .replace(/\s{2,}/g, ' ')
       .replace(/,\s*/g, ', '));
-    componentEvents.push(`  ${output.name}: EventEmitter<CustomEvent<${outputTypeRemapped.trim()}>>;`);
+
+    /**
+     * Starting in Stencil 2.16.0, the compiler will generate a CustomEvent interface
+     * for each component with custom events.
+     *
+     * The name of this custom event is "ComponentTagNameCustomEvent".
+     */
+    componentEvents.push(`  ${output.name}: EventEmitter<${formatCustomEventInterfaceName(cmpMeta.tagName)}<${outputTypeRemapped.trim()}>>;`);
 
     if (index === outputs.length - 1) {
       // Empty line to push end `}` to new line

@@ -85,6 +85,17 @@ export async function readPackageJson(config: Config, rootDir: string) {
   return pkgData;
 }
 
+/**
+ * Returns the formatted custom event interface name for the component.
+ * With a tag of "my-cmp", it will return "MyCmpCustomEvent".
+ *
+ * @param componentTagName The tag selector of the component (i.e. my-cmp)
+ * @returns The formatted custom event interface name.
+ */
+export function formatCustomEventInterfaceName(componentTagName: string) {
+  return `${dashToPascalCase(componentTagName)}CustomEvent`;
+}
+
 const EXTENDED_PATH_REGEX = /^\\\\\?\\/;
 const NON_ASCII_REGEX = /[^\x00-\x80]+/;
 const SLASH_REGEX = /\\/g;

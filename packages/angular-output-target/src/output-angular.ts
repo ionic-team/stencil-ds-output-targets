@@ -1,7 +1,7 @@
 import path from 'path';
 import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
 import type { OutputTargetAngular, PackageJSON } from './types';
-import { relativeImport, normalizePath, sortBy, readPackageJson, dashToPascalCase } from './utils';
+import { relativeImport, normalizePath, sortBy, readPackageJson, dashToPascalCase, formatCustomEventInterfaceName } from './utils';
 import { createComponentDefinition } from './generate-angular-component';
 import { generateAngularDirectivesFile } from './generate-angular-directives-file';
 import generateValueAccessors from './generate-value-accessors';
@@ -75,19 +75,33 @@ export function generateProxies(
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, NgZone } from '@angular/core';
 import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
 
+  const importLocation = getImportPackageName(outputTarget, componentsTypeFile);
+
   /**
    * Generate JSX import type from correct location.
    * When using custom elements build, we need to import from
    * either the "components" directory or customElementsDir
    * otherwise we risk bundlers pulling in lazy loaded imports.
    */
-   const generateTypeImports = () => {
-    let importLocation = outputTarget.componentCorePackage ? normalizePath(outputTarget.componentCorePackage) : normalizePath(componentsTypeFile);
-    importLocation += outputTarget.includeImportCustomElements ? `/${outputTarget.customElementsDir || 'components'}` : '';
+  const generateTypeImports = () => {
     return `import ${outputTarget.includeImportCustomElements ? 'type ' : ''}{ ${IMPORT_TYPES} } from '${importLocation}';\n`;
   }
 
-  const typeImports = generateTypeImports();
+  /**
+   * Components that have custom events have uniquely generated interfaces as of
+   * Stencil 2.16.0. We import these interfaces so they can be used in the generate
+   * functions for the @Output() events.
+   */
+  const customEventInterfaces = components.filter(c => c.events.filter(e => !e.internal).length > 0).map(c => {
+    return formatCustomEventInterfaceName(c.tagName);
+  });
+
+  const customEventImports = `import type { ${customEventInterfaces.join(', ')} } from '${importLocation}';\n`;
+
+  const typeImports = [
+    generateTypeImports(),
+    customEventImports,
+  ];
 
   let sourceImports = '';
 
@@ -103,7 +117,7 @@ import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
 
       return `import { defineCustomElement as define${pascalImport} } from '${normalizePath(outputTarget.componentCorePackage!)}/${outputTarget.customElementsDir ||
         'components'
-      }/${component.tagName}.js';`;
+        }/${component.tagName}.js';`;
     });
 
     sourceImports = cmpImports.join('\n');
@@ -112,7 +126,7 @@ import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
 
   const final: string[] = [
     imports,
-    typeImports,
+    typeImports.join('\n'),
     sourceImports,
     components
       .map(createComponentDefinition(outputTarget.componentCorePackage!, distTypesDir, rootDir, outputTarget.includeImportCustomElements, outputTarget.customElementsDir))
@@ -122,5 +136,15 @@ import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
   return final.join('\n') + '\n';
 }
 
+/**
+ * Returns the path to import the file from.
+ */
+const getImportPackageName = (outputTarget: OutputTargetAngular, componentsTypeFile: string) => {
+  let importLocation = outputTarget.componentCorePackage ? normalizePath(outputTarget.componentCorePackage) : normalizePath(componentsTypeFile);
+  importLocation += outputTarget.includeImportCustomElements ? `/${outputTarget.customElementsDir || 'components'}` : '';
+  return importLocation;
+}
+
 const GENERATED_DTS = 'components.d.ts';
 const IMPORT_TYPES = 'Components';
+
