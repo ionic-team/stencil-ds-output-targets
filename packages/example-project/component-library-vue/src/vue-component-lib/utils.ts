@@ -1,14 +1,26 @@
 import { VNode, defineComponent, getCurrentInstance, h, inject, ref, Ref } from 'vue';
 
-export interface InputProps extends Object {
-  modelValue: string | boolean;
+export interface InputProps {
+  modelValue?: string | boolean;
 }
 
 const UPDATE_VALUE_EVENT = 'update:modelValue';
 const MODEL_VALUE = 'modelValue';
 const ROUTER_LINK_VALUE = 'routerLink';
 const NAV_MANAGER = 'navManager';
-const ROUTER_PROP_REFIX = 'router';
+const ROUTER_PROP_PREFIX = 'router';
+
+/**
+ * Starting in Vue 3.1.0, all properties are
+ * added as keys to the props object, even if
+ * they are not being used. In order to correctly
+ * account for both value props and v-model props,
+ * we need to check if the key exists for Vue <3.1.0
+ * and then check if it is not undefined for Vue >= 3.1.0.
+ * See https://github.com/vuejs/vue-next/issues/3889
+ */
+const EMPTY_PROP = Symbol();
+const DEFAULT_EMPTY_PROP = { default: EMPTY_PROP };
 
 interface NavManager<T = any> {
   navigate: (options: T) => void;
@@ -39,7 +51,7 @@ const getElementClasses = (ref: Ref<HTMLElement | undefined>, componentClasses: 
 */
 export const defineContainer = <Props>(
   name: string,
-  customElement: any,
+  defineCustomElement: any,
   componentProps: string[] = [],
   modelProp?: string,
   modelUpdateEvent?: string,
@@ -51,16 +63,12 @@ export const defineContainer = <Props>(
   * They refer to whatever properties are set on an instance of a component.
   */
 
-  if (
-    customElement !== undefined &&
-    typeof customElements !== 'undefined' &&
-    !customElements.get(name)
-  ) {
-    customElements.define(name, customElement);
+  if (defineCustomElement !== undefined) {
+    defineCustomElement();
   }
 
-  const Container = defineComponent<Props & InputProps>((props, { attrs, slots, emit }) => {
-    let modelPropValue = (props as any)[modelProp];
+  const Container = defineComponent<Props & InputProps>((props: any, { attrs, slots, emit }) => {
+    let modelPropValue = props[modelProp];
     const containerRef = ref<HTMLElement>();
     const classes = new Set(getComponentClasses(attrs.class));
     const onVnodeBeforeMount = (vnode: VNode) => {
@@ -92,16 +100,18 @@ export const defineContainer = <Props>(
     const hasRouter = currentInstance?.appContext?.provides[NAV_MANAGER];
     const navManager: NavManager | undefined = hasRouter ? inject(NAV_MANAGER) : undefined;
     const handleRouterLink = (ev: Event) => {
-      const { routerLink } = props as any;
-      if (!routerLink) return;
-
-      const routerProps = Object.keys(props).filter(p => p.startsWith(ROUTER_PROP_REFIX));
+      const { routerLink } = props;
+      if (routerLink === EMPTY_PROP) return;
 
       if (navManager !== undefined) {
         let navigationPayload: any = { event: ev };
-        routerProps.forEach(prop => {
-          navigationPayload[prop] = (props as any)[prop];
-        });
+        for (const key in props) {
+          const value = props[key];
+          if (props.hasOwnProperty(key) && key.startsWith(ROUTER_PROP_PREFIX) && value !== EMPTY_PROP) {
+            navigationPayload[key] = value;
+          }
+        }
+
         navManager.navigate(navigationPayload);
       } else {
         console.warn('Tried to navigate, but no router was found. Make sure you have mounted Vue Router.');
@@ -109,13 +119,13 @@ export const defineContainer = <Props>(
     }
 
     return () => {
-      modelPropValue = (props as any)[modelProp];
+      modelPropValue = props[modelProp];
 
       getComponentClasses(attrs.class).forEach(value => {
         classes.add(value);
       });
 
-      const oldClick = (props as any).onClick;
+      const oldClick = props.onClick;
       const handleClick = (ev: Event) => {
         if (oldClick !== undefined) {
           oldClick(ev);
@@ -125,26 +135,43 @@ export const defineContainer = <Props>(
         }
       }
 
-      let propsToAdd = {
-        ...props,
+      let propsToAdd: any = {
         ref: containerRef,
         class: getElementClasses(containerRef, classes),
         onClick: handleClick,
         onVnodeBeforeMount: (modelUpdateEvent) ? onVnodeBeforeMount : undefined
       };
 
+      /**
+       * We can use Object.entries here
+       * to avoid the hasOwnProperty check,
+       * but that would require 2 iterations
+       * where as this only requires 1.
+       */
+      for (const key in props) {
+        const value = props[key];
+        if (props.hasOwnProperty(key) && value !== EMPTY_PROP) {
+          propsToAdd[key] = value;
+        }
+      }
+
       if (modelProp) {
         /**
-         * Starting in Vue 3.1.0, all properties are
-         * added as keys to the props object, even if
-         * they are not being used. In order to correctly
-         * account for both value props and v-model props,
-         * we need to check if the key exists for Vue <3.1.0
-         * and then check if it is not undefined for Vue >= 3.1.0.
+         * If form value property was set using v-model
+         * then we should use that value.
+         * Otherwise, check to see if form value property
+         * was set as a static value (i.e. no v-model).
          */
-        propsToAdd = {
-          ...propsToAdd,
-          [modelProp]: props.hasOwnProperty(MODEL_VALUE) && props[MODEL_VALUE] !== undefined ? props.modelValue : modelPropValue
+        if (props[MODEL_VALUE] !== EMPTY_PROP) {
+          propsToAdd = {
+            ...propsToAdd,
+            [modelProp]: props[MODEL_VALUE]
+          }
+        } else if (modelPropValue !== EMPTY_PROP) {
+          propsToAdd = {
+            ...propsToAdd,
+            [modelProp]: modelPropValue
+          }
         }
       }
 
@@ -153,9 +180,17 @@ export const defineContainer = <Props>(
   });
 
   Container.displayName = name;
-  Container.props = [...componentProps, ROUTER_LINK_VALUE];
+
+  Container.props = {
+    [ROUTER_LINK_VALUE]: DEFAULT_EMPTY_PROP
+  };
+
+  componentProps.forEach(componentProp => {
+    Container.props[componentProp] = DEFAULT_EMPTY_PROP;
+  });
+
   if (modelProp) {
-    Container.props.push(MODEL_VALUE);
+    Container.props[MODEL_VALUE] = DEFAULT_EMPTY_PROP;
     Container.emits = [UPDATE_VALUE_EVENT, externalModelUpdateEvent];
   }
 
