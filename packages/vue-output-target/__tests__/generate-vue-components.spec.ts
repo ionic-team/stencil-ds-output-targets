@@ -1,4 +1,5 @@
 import { createComponentDefinition } from '../src/generate-vue-component';
+import { ComponentModelConfig } from '../src/types';
 
 describe('createComponentDefinition', () => {
 
@@ -211,4 +212,43 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
 ]);
 `);
   });
+
+  it('should not conflict with the component which starts with same tag name', () => {
+    const componentConfig: ComponentModelConfig[] = [
+      {
+        elements: 'my-list-item',
+        event: 'selectedIndexChange',
+        targetAttr: 'selectedIndex'
+      }
+    ];
+    const generateComponentDefinition = createComponentDefinition('Components', componentConfig);
+    const listItemOutput = generateComponentDefinition({
+      properties: [],
+      tagName: 'my-list-item',
+      methods: [],
+      events: [],
+    });
+    const listOutput = generateComponentDefinition({
+      properties: [],
+      tagName: 'my-list',
+      methods: [],
+      events: [],
+    });
+
+    expect(listItemOutput).toEqual(`
+export const MyListItem = /*@__PURE__*/ defineContainer<Components.MyListItem>('my-list-item', undefined, [],
+'selectedIndex', 'selectedIndexChange');
+`);
+
+    expect(listOutput).toEqual(`
+export const MyList = /*@__PURE__*/ defineContainer<Components.MyList>('my-list', undefined);
+`);
+
+expect(listOutput).not.toEqual(`
+export const MyList = /*@__PURE__*/ defineContainer<Components.MyList>('my-list', undefined, [],
+'selectedIndex', 'selectedIndexChange');
+`);
+
+  });
+
 });
