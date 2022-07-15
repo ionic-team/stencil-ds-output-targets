@@ -5,9 +5,6 @@ import type {
 import { OutputTargetSvelte } from './types';
 import { sortBy, normalizePath, dashToPascalCase } from './utils';
 import { createComponentDefinition } from './generate-svelte-component';
-import { generate$$TypeDefs, generateTypings, replaceMethodDefs } from './generate-svelte-typings';
-
-const svelte = require('svelte/compiler');
 
 const REGISTER_CUSTOM_ELEMENTS = 'defineCustomElements';
 const APPLY_POLYFILLS = 'applyPolyfills';
@@ -93,24 +90,10 @@ export function generateProxies(
     buildExports(),
   ].join('\n');
 
-  const compiledFiles = uncompiledFiles.map((file) => ({
-    name: file.name,
-    meta: file.meta,
-    content: svelte.compile(file.content, {
-      name: file.name,
-      legacy: outputTarget.legacy,
-      accessors: outputTarget.accessors,
-      css: false,
-      preserveComments: true,
-      outputFilename: file.name,
-    }).js.code,
-  }));
-
   return {
     entry,
     uncompiledEntry,
     uncompiledFiles,
-    compiledFiles,
   };
 }
 
@@ -126,27 +109,11 @@ export const svelteProxyOutput = async (
   await compilerCtx.fs.writeFile(outputTarget.proxiesFile, output.entry);
   const outputDir = path.dirname(outputTarget.proxiesFile);
   const uncompiledDir = path.resolve(outputDir, 'svelte');
-  const compiledDir = path.resolve(outputDir, 'components');
 
   await compilerCtx.fs.writeFile(path.resolve(uncompiledDir, 'index.js'), output.uncompiledEntry);
 
   await Promise.all(output.uncompiledFiles.map((file) => {
     const filePath = path.resolve(uncompiledDir, `${file.name}.svelte`);
     return compilerCtx.fs.writeFile(filePath, file.content);
-  }));
-
-  await Promise.all(output.compiledFiles.map((file) => {
-    const filePath = path.resolve(compiledDir, `${file.name}.ts`);
-    const { content, meta } = file;
-
-    return compilerCtx.fs.writeFile(
-      filePath,
-      [
-        ignoreChecks(),
-        `import { Components, JSX } from '${outputTarget.componentCorePackage}';\n`,
-        generateTypings(meta),
-        replaceMethodDefs(meta, generate$$TypeDefs(meta, content)),
-      ].join('\n'),
-    );
   }));
 };
