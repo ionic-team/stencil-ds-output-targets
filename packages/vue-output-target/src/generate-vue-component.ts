@@ -8,6 +8,8 @@ export const createComponentDefinition = (
   includeCustomElement: boolean = false
 ) => (cmpMeta: Pick<ComponentCompilerMeta, 'properties' | 'tagName' | 'methods' | 'events'>) => {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
+  const classTypeParams =
+  cmpMeta.componentClassTypeParameters.length > 0 ? `<${cmpMeta.componentClassTypeParameters.join(',')}>` : '';
   const importAs = (includeCustomElement) ? 'define' + tagNameAsPascal : 'undefined';
 
   let props: string[] = [];
@@ -24,7 +26,7 @@ export const createComponentDefinition = (
   }
 
   let templateString = `
-export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${importTypes}.${tagNameAsPascal}>('${cmpMeta.tagName}', ${importAs}`;
+export const ${tagNameAsPascal}${classTypeParams} = /*@__PURE__*/ defineContainer<${importTypes}.${tagNameAsPascal}${classTypeParams}>('${cmpMeta.tagName}', ${importAs}`;
 
   const findModel = componentModelConfig && componentModelConfig.find(config => config.elements.includes(cmpMeta.tagName));
 
