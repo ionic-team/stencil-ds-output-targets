@@ -3,4 +3,6 @@ dist/
 build/
 *.swp
 .DS_Store
+.idea/
 .vscode
+.npmrc

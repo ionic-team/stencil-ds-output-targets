@@ -1,6 +1,6 @@
 {
   "name": "@stencil/vue-output-target",
-  "version": "0.6.0",
+  "version": "0.6.2",
   "description": "Vue output target for @stencil/core components.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -13,6 +13,7 @@
     "access": "public"
   },
   "scripts": {
+    "prepublishOnly": "npm run build",
     "prebuild": "rimraf ./dist",
     "build": "tsc && npm run rollup",
     "watch": "tsc --watch",
