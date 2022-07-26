@@ -124,7 +124,8 @@ export function createComponentDefinition(
   includeCustomElement: boolean = false,
 ): string[] {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
-  let template = `export const ${tagNameAsPascal} = /*@__PURE__*/createSolidComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}'`;
+  const classTypeParams = cmpMeta.componentClassTypeParameters.length > 0 ? `<${cmpMeta.componentClassTypeParameters.join(',')}>` : '';
+  let template = `export const ${tagNameAsPascal}${classTypeParams} = /*@__PURE__*/createSolidComponent<${IMPORT_TYPES}.${tagNameAsPascal}${classTypeParams}, HTML${tagNameAsPascal}Element${classTypeParams}>('${cmpMeta.tagName}'`;
 
   if (includeCustomElement) {
     template += `, undefined, undefined, ${tagNameAsPascal}Cmp`;
