@@ -135,7 +135,7 @@ export function createComponentDefinition(cmpMeta: ComponentCompilerMeta, includ
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
   const classTypeParams =
   cmpMeta.componentClassTypeParameters.length > 0 ? `<${cmpMeta.componentClassTypeParameters.join(',')}>` : '';
-  let template = `export const ${tagNameAsPascal}${classTypeParams} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}${classTypeParams}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}'`;
+  let template = `export const ${tagNameAsPascal}${classTypeParams} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}${classTypeParams}, HTML${tagNameAsPascal}Element${classTypeParams}>('${cmpMeta.tagName}'`;
 
   if (includeCustomElement) {
     template += `, undefined, undefined, define${tagNameAsPascal}`;
