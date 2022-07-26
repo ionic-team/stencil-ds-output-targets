@@ -30,6 +30,10 @@ export const createComponentDefinition = (
   }
 
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
+  const classTypeParams =
+    cmpMeta.componentClassTypeParameters.length > 0
+      ? `<${cmpMeta.componentClassTypeParameters.join(',')}>`
+      : '';
 
   const outputsInterface: Set<string> = new Set();
   const outputReferenceRemap: { [p: string]: string } = {};
@@ -90,7 +94,7 @@ export const createComponentDefinition = (
   const lines = [
     '', // Empty first line
     `${[...outputsInterface].join('\n')}
-export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {${componentEvents.length > 1 ? componentEvents.join('\n') : ''}}
+export declare interface ${tagNameAsPascal}${classTypeParams} extends Components.${tagNameAsPascal}${classTypeParams} {${componentEvents.length > 1 ? componentEvents.join('\n') : ''}}
 
 ${getProxyCmp(
   cmpMeta.tagName,
@@ -101,7 +105,7 @@ ${getProxyCmp(
 @Component({
   ${directiveOpts.join(',\n  ')}
 })
-export class ${tagNameAsPascal} {`,
+export class ${tagNameAsPascal}${classTypeParams} {`,
   ];
 
   lines.push('  protected el: HTMLElement;');
