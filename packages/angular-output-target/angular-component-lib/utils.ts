@@ -46,14 +46,18 @@ export const defineCustomElement = (tagName: string, customElement: any) => {
 const NG_COMP_DEF = 'ɵcmp';
 
 export const clearAngularOutputBindings = (cls: any) => {
-  const instance = cls.prototype.constructor;
-  if (instance[NG_COMP_DEF]) {
-    /**
-     * With the output targets generating @Output() proxies, we need to
-     * clear the metadata (ɵcmp.outputs) so that Angular does not add its own event listener
-     * and cause duplicate event emissions for the web component events.
-     */
-    instance[NG_COMP_DEF].outputs = {};
+  if (typeof cls === 'object' && cls !== null) {
+    if (cls.prototype.constructor) {
+      const instance = cls.prototype.constructor;
+      if (instance[NG_COMP_DEF]) {
+        /**
+         * With the output targets generating @Output() proxies, we need to
+         * clear the metadata (ɵcmp.outputs) so that Angular does not add its own event listener
+         * and cause duplicate event emissions for the web component events.
+         */
+        instance[NG_COMP_DEF].outputs = {};
+      }
+    }
   }
 };
 
