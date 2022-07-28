@@ -92,7 +92,7 @@ import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
    * Stencil 2.16.0. We import these interfaces so they can be used in the generate
    * functions for the @Output() events.
    */
-  const customEventInterfaces = components.filter(c => c.events.filter(e => !e.internal).length > 0).map(c => {
+  const customEventInterfaces = components.filter(c => c.events.find(e => !e.internal) !== undefined).map(c => {
     return formatCustomEventInterfaceName(c.tagName);
   });
 
