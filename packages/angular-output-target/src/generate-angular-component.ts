@@ -61,7 +61,7 @@ export const createComponentDefinition = (
    */
   const outputBindings: string[]  = [
     ''
-];
+  ];
 
   // Generate outputs
   outputs.forEach((output, index) => {
