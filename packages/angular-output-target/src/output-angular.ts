@@ -117,7 +117,7 @@ import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
 
       return `import { defineCustomElement as define${pascalImport} } from '${normalizePath(outputTarget.componentCorePackage!)}/${outputTarget.customElementsDir ||
         'components'
-        }/${component.tagName}.js';`;
+      }/${component.tagName}.js';`;
     });
 
     sourceImports = cmpImports.join('\n');
