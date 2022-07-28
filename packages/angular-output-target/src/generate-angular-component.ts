@@ -59,9 +59,7 @@ export const createComponentDefinition = (
   /**
    * The list of @Output() bindings to generate for the component.
    */
-  const outputBindings: string[]  = [
-    ''
-  ];
+  const outputBindings: string[]  = [];
 
   // Generate outputs
   outputs.forEach((output, index) => {
@@ -119,7 +117,7 @@ ${getProxyCmp(
 })
 export class ${tagNameAsPascal} {`,
   ];
-  lines.push(...outputBindings);
+  lines.push('\n', ...outputBindings);
   lines.push('  protected el: HTMLElement;');
   lines.push(`  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
