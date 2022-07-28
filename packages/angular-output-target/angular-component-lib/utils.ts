@@ -43,6 +43,10 @@ export const defineCustomElement = (tagName: string, customElement: any) => {
   }
 }
 
+/**
+ * The Angular property name that contains the object of metadata properties
+ * for the component added by the Angular compiler.
+ */
 const NG_COMP_DEF = 'ɵcmp';
 
 export const clearAngularOutputBindings = (cls: any) => {
