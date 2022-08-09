@@ -69,10 +69,14 @@ export const createComponentDefinition = (
      **/
 
     const outputTypeRemapped = Object.entries(outputReferenceRemap).reduce((type, [src, dst]) => {
+      const regexp_src = src.replace(/\$/g,'\\$');
       return type
-        .replace(new RegExp(`^${src}$`, 'g'), `${dst}`)
+        .replace(new RegExp(`^${regexp_src}$`, 'g'), `${dst}`).replace(
+          new RegExp(`^${regexp_src}([^\\w])`, 'g'),
+          (v, p1) => [dst, p1].join(''),
+        )
         .replace(
-          new RegExp(`([^\\w])${src}([^\\w])`, 'g'),
+          new RegExp(`([^\\w])${regexp_src}([^\\w])`, 'g'),
           (v, p1, p2) => [p1, dst, p2].join(''),
         );
     }, output.complexType.original
