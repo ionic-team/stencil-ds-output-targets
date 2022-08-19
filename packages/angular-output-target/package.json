@@ -20,6 +20,9 @@
     "watch": "tsc --watch",
     "rollup": "rollup -c",
     "version": "npm run build",
+    "prettier": "npm run prettier.base -- --write",
+    "prettier.base": "prettier \"./({anguler-output-target,src,test}/**/*.{ts,tsx,js,jsx})|*.{ts,tsx,js,jsx}\"",
+    "prettier.dry-run": "npm run prettier.base -- --list-different",
     "release": "np",
     "test": "jest --passWithNoTests",
     "test.watch": "jest --watch"

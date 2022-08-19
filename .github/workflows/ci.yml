@@ -47,3 +47,7 @@ jobs:
 
       - name: Test
         run: npm test
+
+  format:
+    name: Format
+    uses: ./.github/workflows/format.yml

@@ -6,6 +6,7 @@ Please check if your PR fulfills the following requirements:
 - [ ] Docs have been reviewed and added / updated if needed (for bug fixes / features)
 - [ ] Build (`npm run build`) was run locally for affected output targets
 - [ ] Tests (`npm test`) were run locally and passed
+- [ ] Prettier (`npm run prettier`) was run locally and passed
 
 ## Pull request type
 
