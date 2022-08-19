@@ -13,10 +13,7 @@ describe('createValueAccessor', () => {
       ],
     };
 
-    const srcFilePath = path.join(
-      __dirname,
-      '../resources/control-value-accessors/text-value-accessor.ts',
-    );
+    const srcFilePath = path.join(__dirname, '../resources/control-value-accessors/text-value-accessor.ts');
     const srcFile = fs.readFileSync(srcFilePath, { encoding: 'utf-8' });
     const finalText = createValueAccessor(srcFile, valueAccessor);
     const exptectedOutput = `import { Directive, ElementRef } from '@angular/core';
