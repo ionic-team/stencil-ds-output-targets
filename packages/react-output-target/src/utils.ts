@@ -45,7 +45,7 @@ export function flatOne<T>(array: T[][]): T[] {
  * @param prop a function to look up a field on an entry in the provided array
  * @returns a shallow copy of the array, sorted by the property resolved by `prop`
  */
-export function sortBy<T>(array: ReadonlyArray<T>, prop: (item: T) => string): ReadonlyArray<T>{
+export function sortBy<T>(array: ReadonlyArray<T>, prop: (item: T) => string): ReadonlyArray<T> {
   return array.slice().sort((a, b) => {
     const nameA = prop(a);
     const nameB = prop(b);
