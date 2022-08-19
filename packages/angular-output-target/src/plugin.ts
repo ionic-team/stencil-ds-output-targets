@@ -34,21 +34,15 @@ export function normalizeOutputTarget(config: Config, outputTarget: any) {
   }
 
   if (outputTarget.directivesProxyFile && !path.isAbsolute(outputTarget.directivesProxyFile)) {
-    results.directivesProxyFile = normalizePath(
-      path.join(config.rootDir, outputTarget.directivesProxyFile),
-    );
+    results.directivesProxyFile = normalizePath(path.join(config.rootDir, outputTarget.directivesProxyFile));
   }
 
   if (outputTarget.directivesArrayFile && !path.isAbsolute(outputTarget.directivesArrayFile)) {
-    results.directivesArrayFile = normalizePath(
-      path.join(config.rootDir, outputTarget.directivesArrayFile),
-    );
+    results.directivesArrayFile = normalizePath(path.join(config.rootDir, outputTarget.directivesArrayFile));
   }
 
   if (outputTarget.directivesUtilsFile && !path.isAbsolute(outputTarget.directivesUtilsFile)) {
-    results.directivesUtilsFile = normalizePath(
-      path.join(config.rootDir, outputTarget.directivesUtilsFile),
-    );
+    results.directivesUtilsFile = normalizePath(path.join(config.rootDir, outputTarget.directivesUtilsFile));
   }
 
   return results;
