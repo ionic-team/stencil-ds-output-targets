@@ -7,11 +7,7 @@ import { By } from '@angular/platform-browser';
 import { ComponentLibraryModule } from '../src/index';
 
 @Component({
-  template: `<my-input
-    type="text"
-    [(ngModel)]="testText"
-    (myInput)="onInput($event.target.value)"
-  ></my-input>`,
+  template: `<my-input type="text" [(ngModel)]="testText" (myInput)="onInput($event.target.value)"></my-input>`,
 })
 class TestTextValueAccessorComponent {
   testText: string = '';
@@ -41,9 +37,7 @@ describe('MyInput - Text Value', () => {
   it('on myChange type="text" the bound component attribute should update', () => {
     const { componentInstance: myAngularComponent } = fixture;
     myInputEl.nativeElement.value = 'text';
-    myInputEl.nativeElement.dispatchEvent(
-      new CustomEvent('myChange', { detail: { value: 'text' } }),
-    );
+    myInputEl.nativeElement.dispatchEvent(new CustomEvent('myChange', { detail: { value: 'text' } }));
     expect(myAngularComponent.testText).toEqual('text');
   });
 
