@@ -1,7 +1,8 @@
 export interface OutputTargetAngular {
   componentCorePackage?: string;
   /**
-   * The relative path from the root directory of the Stencil library to the proxy file that will be generated.
+   * The path to the proxy file that will be generated. This can be an absolute path
+   * or a relative path from the root directory of the Stencil library.
    *
    * @deprecated Use `proxyDeclarationFile` instead. This property will be removed in an upcoming release.
    */
@@ -9,7 +10,8 @@ export interface OutputTargetAngular {
   directivesArrayFile?: string;
   directivesUtilsFile?: string;
   /**
-   * The relative path from the root directory of the Stencil library to the proxy file that will be generated.
+   * The path to the proxy file that will be generated. This can be an absolute path
+   * or a relative path from the root directory of the Stencil library.
    */
   proxyDeclarationFile: string;
   valueAccessorConfigs?: ValueAccessorConfig[];
