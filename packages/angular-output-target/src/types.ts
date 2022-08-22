@@ -18,6 +18,10 @@ export interface OutputTargetAngular {
   excludeComponents?: string[];
   includeImportCustomElements?: boolean;
   customElementsDir?: string;
+  /**
+   * `true` to generate a single component Angular module for each component.
+   */
+  createAngularModules?: boolean;
 }
 
 export type ValueAccessorTypes = 'text' | 'radio' | 'select' | 'number' | 'boolean';

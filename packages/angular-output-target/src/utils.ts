@@ -85,6 +85,15 @@ export async function readPackageJson(config: Config, rootDir: string) {
   return pkgData;
 }
 
+/**
+ * Creates an import statement for a list of named imports from @angular/core.
+ * @param imports The list of named imports.
+ * @returns The import statement as a string.
+ */
+export const createAngularCoreImportStatement = (imports: string[]) => {
+  return `import { ${imports.join(', ')} } from '@angular/core';`;
+};
+
 const EXTENDED_PATH_REGEX = /^\\\\\?\\/;
 const NON_ASCII_REGEX = /[^\x00-\x80]+/;
 const SLASH_REGEX = /\\/g;
