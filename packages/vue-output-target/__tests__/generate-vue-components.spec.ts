@@ -12,7 +12,7 @@ describe('createComponentDefinition', () => {
     });
     expect(output).toEqual(`
 export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', undefined);
-`
+`);
   });
   it('should create a Vue component with custom element support', () => {
     const generateComponentDefinition = createComponentDefinition('Components', [], true);
@@ -24,7 +24,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
     });
     expect(output).toEqual(`
 export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', defineMyComponent);
-`
+`);
   });
 
   it('should create v-model bindings', () => {
