@@ -16,7 +16,9 @@ describe('generateProxies', () => {
     };
 
     const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
-    expect(finalText.includes(`import { Components } from '../../angular-output-target/dist/types/components';`)).toBeFalsy();
+    expect(
+      finalText.includes(`import { Components } from '../../angular-output-target/dist/types/components';`)
+    ).toBeFalsy();
     expect(finalText.includes(`import { Components } from 'component-library';`)).toBeTruthy();
   });
 
@@ -27,6 +29,8 @@ describe('generateProxies', () => {
 
     const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
     expect(finalText.includes(`import { Components } from 'component-library';`)).toBeFalsy();
-    expect(finalText.includes(`import { Components } from '../../angular-output-target/dist/types/components';`)).toBeTruthy();
+    expect(
+      finalText.includes(`import { Components } from '../../angular-output-target/dist/types/components';`)
+    ).toBeTruthy();
   });
 });
