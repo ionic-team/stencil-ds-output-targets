@@ -13,19 +13,19 @@ describe('normalizeOutputTarget', () => {
     }).toThrow(new Error('rootDir is not set and it should be set by stencil itself'));
   });
 
-  it('should return fail if proxiesFile is not set', () => {
+  it('should throw an error if proxyDeclarationFile is not set', () => {
     expect(() => {
       normalizeOutputTarget(config, {});
-    }).toThrow(new Error('directivesProxyFile is required'));
+    }).toThrow(new Error('proxyDeclarationFile is required. Please set it in the Stencil config.'));
   });
 
   it('should return defaults for excludeComponents and valueAccessorConfig', () => {
     const results: OutputTargetAngular = normalizeOutputTarget(config, {
-      directivesProxyFile: '/component-library-angular/src/components.ts',
+      proxyDeclarationFile: '/component-library-angular/src/components.ts',
     });
 
     expect(results).toEqual({
-      directivesProxyFile: '/component-library-angular/src/components.ts',
+      proxyDeclarationFile: '/component-library-angular/src/components.ts',
       excludeComponents: [],
       valueAccessorConfig: [],
     } as OutputTargetAngular);

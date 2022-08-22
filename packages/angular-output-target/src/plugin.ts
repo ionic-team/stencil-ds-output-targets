@@ -29,12 +29,17 @@ export function normalizeOutputTarget(config: Config, outputTarget: any) {
   if (config.rootDir == null) {
     throw new Error('rootDir is not set and it should be set by stencil itself');
   }
-  if (outputTarget.directivesProxyFile == null) {
-    throw new Error('directivesProxyFile is required');
+
+  if (outputTarget.proxyDeclarationFile == null && outputTarget.directivesProxyFile == null) {
+    throw new Error('proxyDeclarationFile is required. Please set it in the Stencil config.');
   }
 
   if (outputTarget.directivesProxyFile && !path.isAbsolute(outputTarget.directivesProxyFile)) {
     results.directivesProxyFile = normalizePath(path.join(config.rootDir, outputTarget.directivesProxyFile));
+  }
+
+  if (outputTarget.proxyDeclarationFile && !path.isAbsolute(outputTarget.proxyDeclarationFile)) {
+    results.proxyDeclarationFile = normalizePath(path.join(config.rootDir, outputTarget.proxyDeclarationFile));
   }
 
   if (outputTarget.directivesArrayFile && !path.isAbsolute(outputTarget.directivesArrayFile)) {
