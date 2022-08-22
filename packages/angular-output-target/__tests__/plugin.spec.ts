@@ -13,7 +13,7 @@ describe('normalizeOutputTarget', () => {
     }).toThrow(new Error('rootDir is not set and it should be set by stencil itself'));
   });
 
-  it('should throw an error if proxyDeclarationFile is not set', () => {
+  it('should throw an error if proxyDeclarationFile and directivesProxyFile is not set', () => {
     expect(() => {
       normalizeOutputTarget(config, {});
     }).toThrow(new Error('proxyDeclarationFile is required. Please set it in the Stencil config.'));
