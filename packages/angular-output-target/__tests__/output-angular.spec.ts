@@ -51,6 +51,21 @@ describe('generateProxies', () => {
       );
     });
 
+    it('should throw an error if includeImportCustomElements is undefined', () => {
+      const outputTarget: OutputTargetAngular = {
+        proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
+        createAngularModules: true,
+      };
+
+      expect(() => {
+        generateProxies(components, pkgData, outputTarget, rootDir);
+      }).toThrow(
+        new Error(
+          'Generating single component Angular modules requires the "includeImportCustomElements" option to be set to true.'
+        )
+      );
+    });
+
     it('should create an Angular module for each component', () => {
       const outputTarget: OutputTargetAngular = {
         proxyDeclarationFile: '../component-library-angular/src/proxies.ts',

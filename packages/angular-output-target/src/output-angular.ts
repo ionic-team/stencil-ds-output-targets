@@ -134,7 +134,7 @@ import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
 
   if (createAngularModules) {
     // Generating Angular modules is only supported in the dist-custom-elements build
-    if (outputTarget.includeImportCustomElements === false) {
+    if (!outputTarget.includeImportCustomElements) {
       throw new Error(
         'Generating single component Angular modules requires the "includeImportCustomElements" option to be set to true.'
       );
