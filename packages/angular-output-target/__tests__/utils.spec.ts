@@ -12,4 +12,10 @@ describe('createAngularCoreImportStatement()', () => {
 
     expect(importStatement).toEqual(`import { Component, NgModule } from '@angular/core';`);
   });
+
+  it('should not create an import statement if no imports are provided', () => {
+    const importStatement = createAngularCoreImportStatement([]);
+
+    expect(importStatement).toEqual('');
+  });
 });

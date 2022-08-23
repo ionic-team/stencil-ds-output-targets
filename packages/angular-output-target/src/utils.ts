@@ -91,6 +91,9 @@ export async function readPackageJson(config: Config, rootDir: string) {
  * @returns The import statement as a string.
  */
 export const createAngularCoreImportStatement = (imports: string[]) => {
+  if (imports.length === 0) {
+    return '';
+  }
   return `import { ${imports.join(', ')} } from '@angular/core';`;
 };
 
