@@ -34,11 +34,11 @@ describe('generateProxies', () => {
     ).toBeTruthy();
   });
 
-  describe('when createAngularModules is true', () => {
+  describe('when createSingleComponentAngularModules is true', () => {
     it('should throw an error if includeImportCustomElements is false', () => {
       const outputTarget: OutputTargetAngular = {
         proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
-        createAngularModules: true,
+        createSingleComponentAngularModules: true,
         includeImportCustomElements: false,
       };
 
@@ -54,7 +54,7 @@ describe('generateProxies', () => {
     it('should throw an error if includeImportCustomElements is undefined', () => {
       const outputTarget: OutputTargetAngular = {
         proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
-        createAngularModules: true,
+        createSingleComponentAngularModules: true,
       };
 
       expect(() => {
@@ -70,7 +70,7 @@ describe('generateProxies', () => {
       const outputTarget: OutputTargetAngular = {
         proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
         includeImportCustomElements: true,
-        createAngularModules: true,
+        createSingleComponentAngularModules: true,
       };
 
       components.push({
@@ -88,12 +88,12 @@ describe('generateProxies', () => {
     });
   });
 
-  describe('when createAngularModules is false', () => {
+  describe('when createSingleComponentAngularModules is false', () => {
     it('should not create an Angular module for each component', () => {
       const outputTarget: OutputTargetAngular = {
         proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
         includeImportCustomElements: true,
-        createAngularModules: false,
+        createSingleComponentAngularModules: false,
       };
 
       components.push({

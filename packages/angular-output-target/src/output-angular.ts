@@ -70,7 +70,7 @@ export function generateProxies(
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const proxyFile = outputTarget.proxyDeclarationFile ?? outputTarget.directivesProxyFile;
   const componentsTypeFile = relativeImport(proxyFile, dtsFilePath, '.d.ts');
-  const createAngularModules = outputTarget.createAngularModules ?? false;
+  const createSingleComponentAngularModules = outputTarget.createSingleComponentAngularModules ?? false;
 
   const angularCoreImports = [
     'ChangeDetectionStrategy',
@@ -81,7 +81,7 @@ export function generateProxies(
     'NgZone',
   ];
 
-  if (createAngularModules) {
+  if (createSingleComponentAngularModules) {
     angularCoreImports.push('NgModule');
   }
 
@@ -132,7 +132,7 @@ import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
 
   const proxyModules: string[] = [];
 
-  if (createAngularModules) {
+  if (createSingleComponentAngularModules) {
     // Generating Angular modules is only supported in the dist-custom-elements build
     if (!outputTarget.includeImportCustomElements) {
       throw new Error(
