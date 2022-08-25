@@ -1,10 +1,18 @@
 import path from 'path';
 import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
 import type { OutputTargetAngular, PackageJSON } from './types';
-import { relativeImport, normalizePath, sortBy, readPackageJson, dashToPascalCase } from './utils';
+import {
+  relativeImport,
+  normalizePath,
+  sortBy,
+  readPackageJson,
+  dashToPascalCase,
+  createAngularCoreImportStatement,
+} from './utils';
 import { createComponentDefinition } from './generate-angular-component';
 import { generateAngularDirectivesFile } from './generate-angular-directives-file';
 import generateValueAccessors from './generate-value-accessors';
+import { generateAngularModules } from './generate-angular-modules';
 
 export async function angularDirectiveProxyOutput(
   compilerCtx: CompilerCtx,
@@ -62,10 +70,24 @@ export function generateProxies(
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const proxyFile = outputTarget.proxyDeclarationFile ?? outputTarget.directivesProxyFile;
   const componentsTypeFile = relativeImport(proxyFile, dtsFilePath, '.d.ts');
+  const createSingleComponentAngularModules = outputTarget.createSingleComponentAngularModules ?? false;
+
+  const angularCoreImports = [
+    'ChangeDetectionStrategy',
+    'ChangeDetectorRef',
+    'Component',
+    'ElementRef',
+    'EventEmitter',
+    'NgZone',
+  ];
+
+  if (createSingleComponentAngularModules) {
+    angularCoreImports.push('NgModule');
+  }
 
   const imports = `/* tslint:disable */
 /* auto-generated angular directive proxies */
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, NgZone } from '@angular/core';
+${createAngularCoreImportStatement(angularCoreImports)}
 import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
 
   /**
@@ -108,6 +130,18 @@ import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
     sourceImports = cmpImports.join('\n');
   }
 
+  const proxyModules: string[] = [];
+
+  if (createSingleComponentAngularModules) {
+    // Generating Angular modules is only supported in the dist-custom-elements build
+    if (!outputTarget.includeImportCustomElements) {
+      throw new Error(
+        'Generating single component Angular modules requires the "includeImportCustomElements" option to be set to true.'
+      );
+    }
+    proxyModules.push(...generateAngularModules(components.map((c) => c.tagName)));
+  }
+
   const final: string[] = [
     imports,
     typeImports,
@@ -123,6 +157,8 @@ import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
         )
       )
       .join('\n'),
+    // Add the generated Angular modules (if any)
+    ...proxyModules,
   ];
 
   return final.join('\n') + '\n';
