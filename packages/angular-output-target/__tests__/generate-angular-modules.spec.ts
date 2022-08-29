@@ -1,26 +1,13 @@
-import { generateAngularModules } from '../src/generate-angular-modules';
+import { generateAngularModuleForComponent } from '../src/generate-angular-modules';
 
-describe('generateAngularModules()', () => {
-  it('should generate an Angular module for each component', () => {
-    const components = ['my-component', 'my-other-component'];
+describe('generateAngularModuleForComponent()', () => {
+  it('should generator an Angular module for each component', () => {
+    const modules = generateAngularModuleForComponent('my-component');
 
-    const modules = generateAngularModules(components);
-
-    expect(modules).toEqual([
-      `
-@NgModule({
+    expect(modules).toEqual(`@NgModule({
   declarations: [MyComponent],
   exports: [MyComponent]
 })
-export class MyComponentModule {}
-`,
-      `
-@NgModule({
-  declarations: [MyOtherComponent],
-  exports: [MyOtherComponent]
-})
-export class MyOtherComponentModule {}
-`,
-    ]);
+export class MyComponentModule { }`);
   });
 });
