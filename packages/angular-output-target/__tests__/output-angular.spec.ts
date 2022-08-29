@@ -71,7 +71,7 @@ describe('generateProxies', () => {
         proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
         includeImportCustomElements: true,
         createSingleComponentAngularModules: true,
-        componentCorePackage: '@ionic/core'
+        componentCorePackage: '@ionic/core',
       };
 
       components.push({
@@ -95,7 +95,7 @@ describe('generateProxies', () => {
         proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
         includeImportCustomElements: true,
         createSingleComponentAngularModules: false,
-        componentCorePackage: '@ionic/core'
+        componentCorePackage: '@ionic/core',
       };
 
       components.push({

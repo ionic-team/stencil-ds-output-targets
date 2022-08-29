@@ -1,9 +1,7 @@
 import { createComponentTypeDefinition, createAngularComponentDefinition } from '../src/generate-angular-component';
 
 describe('createAngularComponentDefinition()', () => {
-
   describe('www output', () => {
-
     it('it should generate a component', () => {
       const component = createAngularComponentDefinition('my-component', [], [], [], false);
 
@@ -47,7 +45,13 @@ export class MyComponent {
     });
 
     it('it should generate a component with outputs', () => {
-      const component = createAngularComponentDefinition('my-component', [], ['my-output', 'my-other-output'], [], false);
+      const component = createAngularComponentDefinition(
+        'my-component',
+        [],
+        ['my-output', 'my-other-output'],
+        [],
+        false
+      );
 
       expect(component).toMatch(`@ProxyCmp({
 })
@@ -89,11 +93,9 @@ export class MyComponent {
   }
 }`);
     });
-
   });
 
   describe('dist-custom-elements output', () => {
-
     it('it should generate a component', () => {
       const component = createAngularComponentDefinition('my-component', [], [], [], true);
 
@@ -140,7 +142,13 @@ export class MyComponent {
     });
 
     it('it should generate a component with outputs', () => {
-      const component = createAngularComponentDefinition('my-component', [], ['my-output', 'my-other-output'], [], true);
+      const component = createAngularComponentDefinition(
+        'my-component',
+        [],
+        ['my-output', 'my-other-output'],
+        [],
+        true
+      );
       expect(component).toMatch(`@ProxyCmp({
   defineCustomElementFn: defineMyComponent
 })
@@ -183,21 +191,18 @@ export class MyComponent {
   }
 }`);
     });
-
   });
-
 });
 
 describe('createComponentTypeDefinition()', () => {
-
   let testEvents: any[] = [
     {
       name: 'myEvent',
       complexType: {
         references: {
-          'MyEvent': {
+          MyEvent: {
             location: 'import',
-          }
+          },
         },
         original: 'MyEvent',
         resolved: 'MyEvent',
@@ -207,35 +212,31 @@ describe('createComponentTypeDefinition()', () => {
         tags: [
           {
             text: 'Bar',
-            name: 'Foo'
-          }
-        ]
-      }
+            name: 'Foo',
+          },
+        ],
+      },
     },
     {
       name: 'myOtherEvent',
       complexType: {
         references: {
-          'MyOtherEvent': {
-            location: 'import'
-          }
+          MyOtherEvent: {
+            location: 'import',
+          },
         },
-        original: 'MyOtherEvent'
+        original: 'MyOtherEvent',
       },
       docs: {
         text: 'This is the other event.',
-        tags: []
-      }
-    }
+        tags: [],
+      },
+    },
   ];
 
   describe('www build', () => {
     it('should create a type definition', () => {
-      const definition = createComponentTypeDefinition('MyComponent',
-        testEvents,
-        '@ionic/core',
-        false
-      );
+      const definition = createComponentTypeDefinition('MyComponent', testEvents, '@ionic/core', false);
 
       expect(definition).toEqual(
         `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core';
@@ -250,16 +251,16 @@ export interface MyComponent extends Components.MyComponent {
    * This is the other event.
    */
   myOtherEvent: EventEmitter<CustomEvent<IMyComponentMyOtherEvent>>;
-}`);
+}`
+      );
     });
-  })
+  });
 
   describe('custom elements build', () => {
-
     describe('with a custom elements directory provided', () => {
-
       it('should create a type definition', () => {
-        const definition = createComponentTypeDefinition('MyComponent',
+        const definition = createComponentTypeDefinition(
+          'MyComponent',
           testEvents,
           '@ionic/core',
           true,
@@ -279,18 +280,14 @@ export interface MyComponent extends Components.MyComponent {
    * This is the other event.
    */
   myOtherEvent: EventEmitter<CustomEvent<IMyComponentMyOtherEvent>>;
-}`);
+}`
+        );
       });
-
     });
 
     describe('without a custom elements directory provided', () => {
       it('should create a type definition', () => {
-        const definition = createComponentTypeDefinition('MyComponent',
-          testEvents,
-          '@ionic/core',
-          true
-        );
+        const definition = createComponentTypeDefinition('MyComponent', testEvents, '@ionic/core', true);
 
         expect(definition).toEqual(
           `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core/components';
@@ -305,11 +302,9 @@ export interface MyComponent extends Components.MyComponent {
    * This is the other event.
    */
   myOtherEvent: EventEmitter<CustomEvent<IMyComponentMyOtherEvent>>;
-}`);
+}`
+        );
       });
     });
-
   });
-
-
 });

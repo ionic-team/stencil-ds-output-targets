@@ -106,16 +106,21 @@ export const createImportStatement = (imports: string[], module: string) => {
  * @param options The options for generating the import statements (e.g. whether to import from the custom elements directory).
  * @returns The import statements as an array of strings.
  */
-export const createComponentEventTypeImports = (componentTagName: string, events: ComponentCompilerEvent[], options: {
-  componentCorePackage: string;
-  includeImportCustomElements?: boolean;
-  customElementsDir?: string;
-}) => {
+export const createComponentEventTypeImports = (
+  componentTagName: string,
+  events: ComponentCompilerEvent[],
+  options: {
+    componentCorePackage: string;
+    includeImportCustomElements?: boolean;
+    customElementsDir?: string;
+  }
+) => {
   const { componentCorePackage, includeImportCustomElements, customElementsDir } = options;
   const imports: string[] = [];
   const namedImports: { [key in string]: boolean } = {};
 
-  const importPathName = normalizePath(componentCorePackage) + (includeImportCustomElements ? `/${customElementsDir || 'components'}` : '');
+  const importPathName =
+    normalizePath(componentCorePackage) + (includeImportCustomElements ? `/${customElementsDir || 'components'}` : '');
 
   events.forEach((event) => {
     Object.entries(event.complexType.references).forEach(([typeName, refObject]) => {
@@ -131,8 +136,7 @@ export const createComponentEventTypeImports = (componentTagName: string, events
   });
 
   return imports.join('\n');
-
-}
+};
 
 const EXTENDED_PATH_REGEX = /^\\\\\?\\/;
 const NON_ASCII_REGEX = /[^\x00-\x80]+/;

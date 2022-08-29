@@ -81,16 +81,13 @@ export function generateProxies(
     'Component',
     'ElementRef',
     'EventEmitter',
-    'NgZone'
+    'NgZone',
   ];
 
   /**
    * The collection of named imports from the angular-component-lib/utils.
    */
-  const componentLibImports = [
-    'ProxyCmp',
-    'proxyOutputs'
-  ];
+  const componentLibImports = ['ProxyCmp', 'proxyOutputs'];
 
   if (createSingleComponentAngularModules) {
     angularCoreImports.push('NgModule');
@@ -114,8 +111,9 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
     importLocation += outputTarget.includeImportCustomElements
       ? `/${outputTarget.customElementsDir || 'components'}`
       : '';
-    return `import ${outputTarget.includeImportCustomElements ? 'type ' : ''
-      }{ ${IMPORT_TYPES} } from '${importLocation}';\n`;
+    return `import ${
+      outputTarget.includeImportCustomElements ? 'type ' : ''
+    }{ ${IMPORT_TYPES} } from '${importLocation}';\n`;
   };
 
   const typeImports = generateTypeImports();
@@ -139,7 +137,6 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
 
     sourceImports = cmpImports.join('\n');
   }
-
 
   if (createSingleComponentAngularModules) {
     // Generating Angular modules is only supported in the dist-custom-elements build
@@ -184,16 +181,27 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
       methods.push(...cmpMeta.methods.filter(filterInternalProps).map(mapPropName));
     }
 
-
     /**
      * For each component, we need to generate:
      * 1. The @Component decorated class
      * 2. Optionally the @NgModule decorated class (if createSingleComponentAngularModules is true)
      * 3. The component interface (using declaration merging for types).
      */
-    const componentDefinition = createAngularComponentDefinition(cmpMeta.tagName, inputs, outputs, methods, includeImportCustomElements);
+    const componentDefinition = createAngularComponentDefinition(
+      cmpMeta.tagName,
+      inputs,
+      outputs,
+      methods,
+      includeImportCustomElements
+    );
     const moduleDefinition = generateAngularModuleForComponent(cmpMeta.tagName);
-    const componentTypeDefinition = createComponentTypeDefinition(tagNameAsPascal, cmpMeta.events, componentCorePackage!, includeImportCustomElements, customElementsDir);
+    const componentTypeDefinition = createComponentTypeDefinition(
+      tagNameAsPascal,
+      cmpMeta.events,
+      componentCorePackage!,
+      includeImportCustomElements,
+      customElementsDir
+    );
 
     output.push(
       componentDefinition,
@@ -203,15 +211,9 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
       componentTypeDefinition,
       '\n'
     );
-
   }
 
-  const final: string[] = [
-    imports,
-    typeImports,
-    sourceImports,
-    ...output,
-  ];
+  const final: string[] = [imports, typeImports, sourceImports, ...output];
 
   return final.join('\n') + '\n';
 }

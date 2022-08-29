@@ -11,7 +11,13 @@ import { createComponentEventTypeImports, dashToPascalCase } from './utils';
  * @param includeImportCustomElements Whether to define the component as a custom element.
  * @returns The component declaration as a string.
  */
-export const createAngularComponentDefinition = (tagName: string, inputs: string[], outputs: string[], methods: string[], includeImportCustomElements = false) => {
+export const createAngularComponentDefinition = (
+  tagName: string,
+  inputs: string[],
+  outputs: string[],
+  methods: string[],
+  includeImportCustomElements = false
+) => {
   const tagNameAsPascal = dashToPascalCase(tagName);
   const defineCustomElementFn = `define${tagNameAsPascal}`;
 
@@ -52,13 +58,17 @@ export class ${tagNameAsPascal} {
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
-    this.el = r.nativeElement;${hasOutputs ? `
-    proxyOutputs(this, this.el, [${formattedOutputs}]);` : ''}
+    this.el = r.nativeElement;${
+      hasOutputs
+        ? `
+    proxyOutputs(this, this.el, [${formattedOutputs}]);`
+        : ''
+    }
   }
-}`
+}`;
 
   return output;
-}
+};
 
 const formatOutputType = (componentTagName: string, event: ComponentCompilerEvent) => {
   /**
@@ -80,7 +90,7 @@ const formatOutputType = (componentTagName: string, event: ComponentCompilerEven
         .replace(/\s{2,}/g, ' ')
         .replace(/,\s*/g, ', ')
     );
-}
+};
 
 /**
  * Creates a formatted comment block based on the JS doc comment.
@@ -88,13 +98,13 @@ const formatOutputType = (componentTagName: string, event: ComponentCompilerEven
  * @returns The formatted comment block as a string.
  */
 const createDocComment = (doc: CompilerJsDoc) => {
-  if (!doc || doc.text.trim().length === 0 && doc.tags.length === 0) {
+  if (!doc || (doc.text.trim().length === 0 && doc.tags.length === 0)) {
     return '';
   }
   return `/**
-   * ${doc.text}${doc.tags.length > 0 ? ' ' : ''}${doc.tags.map(tag => `@${tag.name} ${tag.text}`)}
+   * ${doc.text}${doc.tags.length > 0 ? ' ' : ''}${doc.tags.map((tag) => `@${tag.name} ${tag.text}`)}
    */`;
-}
+};
 
 /**
  * Creates the component interface type definition.
@@ -105,20 +115,27 @@ const createDocComment = (doc: CompilerJsDoc) => {
  * @param customElementsDir The custom elements directory.
  * @returns The component interface type definition as a string.
  */
-export const createComponentTypeDefinition = (tagNameAsPascal: string, events: ComponentCompilerEvent[], componentCorePackage: string, includeImportCustomElements = false, customElementsDir?: string) => {
+export const createComponentTypeDefinition = (
+  tagNameAsPascal: string,
+  events: ComponentCompilerEvent[],
+  componentCorePackage: string,
+  includeImportCustomElements = false,
+  customElementsDir?: string
+) => {
   const typeDefinition = `${createComponentEventTypeImports(tagNameAsPascal, events, {
     componentCorePackage,
     includeImportCustomElements,
-    customElementsDir
+    customElementsDir,
   })}
 
 export interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {
 ${events
-      .map((event) => {
-        return `  ${createDocComment(event.docs)}
+  .map((event) => {
+    return `  ${createDocComment(event.docs)}
   ${event.name}: EventEmitter<CustomEvent<${formatOutputType(tagNameAsPascal, event)}>>;`;
-      }).join('\n')}
+  })
+  .join('\n')}
 }`;
 
   return typeDefinition;
-}
+};
