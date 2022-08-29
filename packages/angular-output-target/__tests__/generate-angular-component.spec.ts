@@ -95,7 +95,7 @@ export class MyComponent {
     });
   });
 
-  describe('dist-custom-elements output', () => {
+  describe('custom elements output', () => {
     it('it should generate a component', () => {
       const component = createAngularComponentDefinition('my-component', [], [], [], true);
 
@@ -256,7 +256,7 @@ export interface MyComponent extends Components.MyComponent {
     });
   });
 
-  describe('custom elements build', () => {
+  describe('custom elements output', () => {
     describe('with a custom elements directory provided', () => {
       it('should create a type definition', () => {
         const definition = createComponentTypeDefinition(
