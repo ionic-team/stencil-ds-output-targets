@@ -1,6 +1,6 @@
 import type { CompilerJsDoc, ComponentCompilerEvent } from '@stencil/core/internal';
 
-import { createComponentEventTypeImports, dashToPascalCase } from './utils';
+import { createComponentEventTypeImports, dashToPascalCase, formatToQuotedList } from './utils';
 
 /**
  * Creates an Angular component declaration from formatted Stencil compiler metadata.
@@ -26,11 +26,11 @@ export const createAngularComponentDefinition = (
   const hasMethods = methods.length > 0;
 
   // Formats the input strings into comma separated, single quoted values.
-  const formattedInputs = inputs.map((input) => `'${input}'`).join(', ');
+  const formattedInputs = formatToQuotedList(inputs);
   // Formats the output strings into comma separated, single quoted values.
-  const formattedOutputs = outputs.map((output) => `'${output}'`).join(', ');
+  const formattedOutputs = formatToQuotedList(outputs);
   // Formats the method strings into comma separated, single quoted values.
-  const formattedMethods = methods.map((method) => `'${method}'`).join(', ');
+  const formattedMethods = formatToQuotedList(methods);
 
   const proxyCmpOptions = [];
 

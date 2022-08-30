@@ -1,4 +1,4 @@
-import { createImportStatement, createComponentEventTypeImports } from '../src/utils';
+import { createImportStatement, createComponentEventTypeImports, formatToQuotedList } from '../src/utils';
 
 describe('createImportStatement()', () => {
   it('should create an import statement', () => {
@@ -84,5 +84,12 @@ import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/compo
         );
       });
     });
+  });
+});
+
+describe('formatToQuotedList', () => {
+  it('should format an array of strings', () => {
+    const res = formatToQuotedList(['a', 'b', 'c']);
+    expect(res).toEqual(`'a', 'b', 'c'`);
   });
 });

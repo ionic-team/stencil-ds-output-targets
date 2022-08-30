@@ -86,6 +86,13 @@ export async function readPackageJson(config: Config, rootDir: string) {
 }
 
 /**
+ * Formats an array of strings to a string of quoted, comma separated values.
+ * @param list The list of unformatted strings to format
+ * @returns The formatted array of strings. (e.g. ['foo', 'bar']) => `'foo', 'bar'`
+ */
+export const formatToQuotedList = (list: readonly string[]) => list.map((item) => `'${item}'`).join(', ');
+
+/**
  * Creates an import statement for a list of named imports from a module.
  * @param imports The list of named imports.
  * @param module The module to import from.
