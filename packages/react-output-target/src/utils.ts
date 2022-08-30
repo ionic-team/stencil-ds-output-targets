@@ -23,22 +23,6 @@ export const dashToPascalCase = (str: string): string =>
     .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
     .join('');
 
-// TODO(STENCIL-356): Investigate removing this unused function
-/**
- * Flattens a two-dimensional array into a one dimensional array
- * @param array the array to flatten
- * @returns the flattened array
- */
-export function flatOne<T>(array: T[][]): T[] {
-  if (array.flat) {
-    return array.flat(1);
-  }
-  return array.reduce((result, item) => {
-    result.push(...item);
-    return result;
-  }, [] as T[]);
-}
-
 /**
  * Sorts a provided array by a property belonging to an item that exists on each item in the array
  * @param array the array to sort
