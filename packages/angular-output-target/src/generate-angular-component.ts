@@ -70,7 +70,13 @@ export class ${tagNameAsPascal} {
   return output;
 };
 
-const formatOutputType = (componentTagName: string, event: ComponentCompilerEvent) => {
+/**
+ * Sanitizes and formats the component event type.
+ * @param componentClassName The class name of the component (e.g. 'MyComponent')
+ * @param event The Stencil component event.
+ * @returns The sanitized event type as a string.
+ */
+const formatOutputType = (componentClassName: string, event: ComponentCompilerEvent) => {
   /**
    * The original attribute contains the original type defined by the devs.
    * This regexp normalizes the reference, by removing linebreaks,
@@ -80,7 +86,7 @@ const formatOutputType = (componentTagName: string, event: ComponentCompilerEven
     .filter(([_, refObject]) => refObject.location === 'local' || refObject.location === 'import')
     .reduce(
       (type, [src, dst]) => {
-        const renamedType = `I${componentTagName}${type}`;
+        const renamedType = `I${componentClassName}${type}`;
         return renamedType
           .replace(new RegExp(`^${src}$`, 'g'), `${dst}`)
           .replace(new RegExp(`([^\\w])${src}([^\\w])`, 'g'), (v, p1, p2) => [p1, dst, p2].join(''));
