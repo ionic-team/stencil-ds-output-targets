@@ -3,11 +3,12 @@ import type { CompilerJsDoc, ComponentCompilerEvent } from '@stencil/core/intern
 import { createComponentEventTypeImports, dashToPascalCase } from './utils';
 
 /**
- * Creates an Angular component declaration.
+ * Creates an Angular component declaration from formatted Stencil compiler metadata.
+ *
  * @param tagName The tag name of the component.
- * @param inputs The inputs of the component.
- * @param outputs The outputs of the component.
- * @param methods The methods of the component.
+ * @param inputs The inputs of the Stencil component (e.g. ['myInput']).
+ * @param outputs The outputs/events of the Stencil component. (e.g. ['myOutput']).
+ * @param methods The methods of the Stencil component. (e.g. ['myMethod']).
  * @param includeImportCustomElements Whether to define the component as a custom element.
  * @returns The component declaration as a string.
  */
