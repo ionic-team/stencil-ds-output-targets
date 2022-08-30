@@ -117,7 +117,7 @@ const createDocComment = (doc: CompilerJsDoc) => {
  */
 export const createComponentTypeDefinition = (
   tagNameAsPascal: string,
-  events: ComponentCompilerEvent[],
+  events: readonly ComponentCompilerEvent[],
   componentCorePackage: string,
   includeImportCustomElements = false,
   customElementsDir?: string

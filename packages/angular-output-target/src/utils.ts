@@ -108,7 +108,7 @@ export const createImportStatement = (imports: string[], module: string) => {
  */
 export const createComponentEventTypeImports = (
   componentTagName: string,
-  events: ComponentCompilerEvent[],
+  events: readonly ComponentCompilerEvent[],
   options: {
     componentCorePackage: string;
     includeImportCustomElements?: boolean;
