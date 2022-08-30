@@ -117,7 +117,7 @@ export const createComponentEventTypeImports = (
 ) => {
   const { componentCorePackage, includeImportCustomElements, customElementsDir } = options;
   const imports: string[] = [];
-  const namedImports: { [key in string]: boolean } = {};
+  const namedImports: Set<string> = new Set();
 
   const importPathName =
     normalizePath(componentCorePackage) + (includeImportCustomElements ? `/${customElementsDir || 'components'}` : '');
@@ -127,9 +127,9 @@ export const createComponentEventTypeImports = (
       if (refObject.location === 'local' || refObject.location === 'import') {
         const newTypeName = `I${componentTagName}${typeName}`;
         // Prevents duplicate imports for the same type.
-        if (namedImports[newTypeName] === undefined) {
+        if (!namedImports.has(newTypeName)) {
           imports.push(`import type { ${typeName} as ${newTypeName} } from '${importPathName}';`);
-          namedImports[newTypeName] = true;
+          namedImports.add(newTypeName);
         }
       }
     });
