@@ -146,7 +146,7 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
     }
   }
 
-  let output = [];
+  const output = [];
 
   const filterInternalProps = (prop: { name: string; internal: boolean }) => !prop.internal;
   const mapPropName = (prop: { name: string }) => prop.name;
