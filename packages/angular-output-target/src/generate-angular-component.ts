@@ -20,7 +20,6 @@ export const createAngularComponentDefinition = (
   includeImportCustomElements = false
 ) => {
   const tagNameAsPascal = dashToPascalCase(tagName);
-  const defineCustomElementFn = `define${tagNameAsPascal}`;
 
   const hasInputs = inputs.length > 0;
   const hasOutputs = outputs.length > 0;
@@ -35,7 +34,9 @@ export const createAngularComponentDefinition = (
 
   const proxyCmpOptions = [];
 
-  if (includeImportCustomElements && defineCustomElementFn) {
+  if (includeImportCustomElements) {
+    const defineCustomElementFn = `define${tagNameAsPascal}`;
+
     proxyCmpOptions.push(`\n  defineCustomElementFn: ${defineCustomElementFn}`);
   }
 
