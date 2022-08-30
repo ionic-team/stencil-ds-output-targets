@@ -14,9 +14,9 @@ import { createComponentEventTypeImports, dashToPascalCase } from './utils';
  */
 export const createAngularComponentDefinition = (
   tagName: string,
-  inputs: string[],
-  outputs: string[],
-  methods: string[],
+  inputs: readonly string[],
+  outputs: readonly string[],
+  methods: readonly string[],
   includeImportCustomElements = false
 ) => {
   const tagNameAsPascal = dashToPascalCase(tagName);
