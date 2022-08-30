@@ -146,7 +146,7 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
     }
   }
 
-  const output = [];
+  const proxyFileOutput = [];
 
   const filterInternalProps = (prop: { name: string; internal: boolean }) => !prop.internal;
   const mapPropName = (prop: { name: string }) => prop.name;
@@ -202,7 +202,7 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
       customElementsDir
     );
 
-    output.push(
+    proxyFileOutput.push(
       componentDefinition,
       '\n',
       createSingleComponentAngularModules ? moduleDefinition : '',
@@ -212,7 +212,7 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
     );
   }
 
-  const final: string[] = [imports, typeImports, sourceImports, ...output];
+  const final: string[] = [imports, typeImports, sourceImports, ...proxyFileOutput];
 
   return final.join('\n') + '\n';
 }
