@@ -76,8 +76,8 @@ export function generateProxies(
    * The collection of named imports from @angular/core.
    */
   const angularCoreImports = [
-    'ChangeDetectorRef',
     'ChangeDetectionStrategy',
+    'ChangeDetectorRef',
     'Component',
     'ElementRef',
     'EventEmitter',
@@ -111,9 +111,8 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
     importLocation += outputTarget.includeImportCustomElements
       ? `/${outputTarget.customElementsDir || 'components'}`
       : '';
-    return `import ${
-      outputTarget.includeImportCustomElements ? 'type ' : ''
-    }{ ${IMPORT_TYPES} } from '${importLocation}';\n`;
+    return `import ${outputTarget.includeImportCustomElements ? 'type ' : ''
+      }{ ${IMPORT_TYPES} } from '${importLocation}';\n`;
   };
 
   const typeImports = generateTypeImports();
