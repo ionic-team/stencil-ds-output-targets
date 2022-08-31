@@ -37,7 +37,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       - name: Setup Testing Environment
         run: npm run bootstrap
