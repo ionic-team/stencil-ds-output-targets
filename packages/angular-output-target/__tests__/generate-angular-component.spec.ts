@@ -232,6 +232,21 @@ describe('createComponentTypeDefinition()', () => {
         tags: [],
       },
     },
+    {
+      name: 'myDoclessEvent',
+      complexType: {
+        references: {
+          MyDoclessEvent: {
+            location: 'import',
+          },
+        },
+        original: 'MyDoclessEvent',
+      },
+      docs: {
+        text: '',
+        tags: [],
+      },
+    },
   ];
 
   describe('www build', () => {
@@ -241,6 +256,7 @@ describe('createComponentTypeDefinition()', () => {
       expect(definition).toEqual(
         `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core';
 import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core';
+import type { MyDoclessEvent as IMyComponentMyDoclessEvent } from '@ionic/core';
 
 export interface MyComponent extends Components.MyComponent {
   /**
@@ -251,6 +267,8 @@ export interface MyComponent extends Components.MyComponent {
    * This is the other event.
    */
   myOtherEvent: EventEmitter<CustomEvent<IMyComponentMyOtherEvent>>;
+
+  myDoclessEvent: EventEmitter<CustomEvent<IMyComponentMyDoclessEvent>>;
 }`
       );
     });
@@ -270,6 +288,7 @@ export interface MyComponent extends Components.MyComponent {
         expect(definition).toEqual(
           `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core/custom-elements';
 import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/custom-elements';
+import type { MyDoclessEvent as IMyComponentMyDoclessEvent } from '@ionic/core/custom-elements';
 
 export interface MyComponent extends Components.MyComponent {
   /**
@@ -280,6 +299,8 @@ export interface MyComponent extends Components.MyComponent {
    * This is the other event.
    */
   myOtherEvent: EventEmitter<CustomEvent<IMyComponentMyOtherEvent>>;
+
+  myDoclessEvent: EventEmitter<CustomEvent<IMyComponentMyDoclessEvent>>;
 }`
         );
       });
@@ -292,6 +313,7 @@ export interface MyComponent extends Components.MyComponent {
         expect(definition).toEqual(
           `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core/components';
 import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/components';
+import type { MyDoclessEvent as IMyComponentMyDoclessEvent } from '@ionic/core/components';
 
 export interface MyComponent extends Components.MyComponent {
   /**
@@ -302,6 +324,8 @@ export interface MyComponent extends Components.MyComponent {
    * This is the other event.
    */
   myOtherEvent: EventEmitter<CustomEvent<IMyComponentMyOtherEvent>>;
+
+  myDoclessEvent: EventEmitter<CustomEvent<IMyComponentMyDoclessEvent>>;
 }`
         );
       });

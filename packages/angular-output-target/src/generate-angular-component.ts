@@ -106,7 +106,7 @@ const formatOutputType = (componentClassName: string, event: ComponentCompilerEv
  * @returns The formatted comment block as a string.
  */
 const createDocComment = (doc: CompilerJsDoc) => {
-  if (!doc || (doc.text.trim().length === 0 && doc.tags.length === 0)) {
+  if (doc.text.trim().length === 0 && doc.tags.length === 0) {
     return '';
   }
   return `/**
@@ -139,7 +139,8 @@ export const createComponentTypeDefinition = (
 export interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {
 ${events
   .map((event) => {
-    return `  ${createDocComment(event.docs)}
+    const comment = createDocComment(event.docs);
+    return `${comment.length > 0 ? `  ${comment}` : ''}
   ${event.name}: EventEmitter<CustomEvent<${formatOutputType(tagNameAsPascal, event)}>>;`;
   })
   .join('\n')}
