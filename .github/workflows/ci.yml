@@ -48,6 +48,13 @@ jobs:
       - name: Test
         run: npm test
 
+      - name: Git status check
+        # here we check that there are no changed / new files from our test
+        # run. we use `git status`, grep out the build zip (downloaded above),
+        # and check if there are more than 0 lines in the output.
+        run: if [[ $(git status --short | wc -l) -ne 0 ]]; then STATUS=$(git status --verbose); printf "%s" "$STATUS"; git diff | cat; exit 1; fi
+        shell: bash
+
   format:
     name: Format
     uses: ./.github/workflows/format.yml
