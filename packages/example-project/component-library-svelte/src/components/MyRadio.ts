@@ -162,10 +162,6 @@ function instance($$self, $$props, $$invalidate) {
 	const onEvent = e => {
 		e.stopPropagation();
 		dispatch(e.type, e.detail);
-
-		if (e.type === "mySelect") {
-			checked = e.detail;
-		}
 	};
 
 	let { $$slots = {}, $$scope } = $$props;
