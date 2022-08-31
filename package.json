@@ -6,7 +6,8 @@
     "url": "git+https://github.com/ionic-team/stencil-ds-output-targets.git"
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap --no-ci",
+    "bootstrap": "lerna bootstrap",
+    "bootstrap-no-ci": "lerna bootstrap --no-ci",
     "build": "lerna run build",
     "prettier": "lerna run prettier",
     "prettier.dry-run": "lerna run prettier.dry-run",
