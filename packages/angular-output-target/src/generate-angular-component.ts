@@ -48,6 +48,13 @@ export const createAngularComponentDefinition = (
     proxyCmpOptions.push(`\n  methods: [${formattedMethods}]`);
   }
 
+  /**
+   * Notes on the generated output:
+   * - We disable @angular-eslint/no-inputs-metadata-property, so that
+   * Angular does not complain about the inputs property. The output target
+   * uses the inputs property to define the inputs of the component instead of
+   * having to use the @Input decorator (and manually define the type and default value).
+   */
   const output = `@ProxyCmp({${proxyCmpOptions.join(',')}\n})
 @Component({
   selector: '${tagName}',
