@@ -4,6 +4,10 @@ export interface OutputTargetAngular {
    * This is used to generate the import statements.
    */
   componentCorePackage: string;
+  /**
+   * @deprecated Use `proxyDeclarationFile` instead. This property has been replaced.
+   */
+  directivesProxyFile?: string; // TODO: Remove this type once the example project uses the local dep vs. remote.
   directivesArrayFile?: string;
   directivesUtilsFile?: string;
   /**
