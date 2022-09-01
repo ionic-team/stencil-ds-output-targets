@@ -73,7 +73,7 @@ export const config: Config = {
   outputTargets: [
     angularOutputTarget({
       componentCorePackage: 'component-library',
-      proxyDeclarationFile: '../component-library-angular/src/directives/proxies.ts',
+      directivesProxyFile: '../component-library-angular/src/directives/proxies.ts',
       valueAccessorConfigs: angularValueAccessorBindings,
       includeImportCustomElements: true
     }),
