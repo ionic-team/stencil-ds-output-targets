@@ -5,25 +5,16 @@ import { dashToPascalCase } from './utils';
  * @param componentTagName The tag name of the Stencil component.
  * @returns The Angular module declaration as a string.
  */
-const createAngularModuleForComponent = (componentTagName: string) => {
+export const generateAngularModuleForComponent = (componentTagName: string) => {
   const tagNameAsPascal = dashToPascalCase(componentTagName);
+  const componentClassName = `${tagNameAsPascal}`;
+  const moduleClassName = `${tagNameAsPascal}Module`;
 
-  const moduleDefinition = `
-@NgModule({
-  declarations: [${tagNameAsPascal}],
-  exports: [${tagNameAsPascal}]
+  const moduleDefinition = `@NgModule({
+  declarations: [${componentClassName}],
+  exports: [${componentClassName}]
 })
-export class ${tagNameAsPascal}Module {}
-`;
+export class ${moduleClassName} { }`;
 
   return moduleDefinition;
-};
-
-/**
- * Creates an Angular module for each component.
- * @param componentTagNames The tag names of the components to create modules for.
- * @returns An array of Angular modules.
- */
-export const generateAngularModules = (componentTagNames: string[]) => {
-  return componentTagNames.map(createAngularModuleForComponent);
 };

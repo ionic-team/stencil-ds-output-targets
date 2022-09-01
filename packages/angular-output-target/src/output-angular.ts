@@ -7,12 +7,12 @@ import {
   sortBy,
   readPackageJson,
   dashToPascalCase,
-  createAngularCoreImportStatement,
+  createImportStatement,
 } from './utils';
-import { createComponentDefinition } from './generate-angular-component';
+import { createAngularComponentDefinition, createComponentTypeDefinition } from './generate-angular-component';
 import { generateAngularDirectivesFile } from './generate-angular-directives-file';
 import generateValueAccessors from './generate-value-accessors';
-import { generateAngularModules } from './generate-angular-modules';
+import { generateAngularModuleForComponent } from './generate-angular-modules';
 
 export async function angularDirectiveProxyOutput(
   compilerCtx: CompilerCtx,
@@ -72,6 +72,9 @@ export function generateProxies(
   const componentsTypeFile = relativeImport(proxyFile, dtsFilePath, '.d.ts');
   const createSingleComponentAngularModules = outputTarget.createSingleComponentAngularModules ?? false;
 
+  /**
+   * The collection of named imports from @angular/core.
+   */
   const angularCoreImports = [
     'ChangeDetectionStrategy',
     'ChangeDetectorRef',
@@ -81,15 +84,20 @@ export function generateProxies(
     'NgZone',
   ];
 
+  /**
+   * The collection of named imports from the angular-component-lib/utils.
+   */
+  const componentLibImports = ['ProxyCmp', 'proxyOutputs'];
+
   if (createSingleComponentAngularModules) {
     angularCoreImports.push('NgModule');
   }
 
   const imports = `/* tslint:disable */
 /* auto-generated angular directive proxies */
-${createAngularCoreImportStatement(angularCoreImports)}
-import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
+${createImportStatement(angularCoreImports, '@angular/core')}
 
+${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n`;
   /**
    * Generate JSX import type from correct location.
    * When using custom elements build, we need to import from
@@ -130,8 +138,6 @@ import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
     sourceImports = cmpImports.join('\n');
   }
 
-  const proxyModules: string[] = [];
-
   if (createSingleComponentAngularModules) {
     // Generating Angular modules is only supported in the dist-custom-elements build
     if (!outputTarget.includeImportCustomElements) {
@@ -139,27 +145,75 @@ import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';\n`;
         'Generating single component Angular modules requires the "includeImportCustomElements" option to be set to true.'
       );
     }
-    proxyModules.push(...generateAngularModules(components.map((c) => c.tagName)));
   }
 
-  const final: string[] = [
-    imports,
-    typeImports,
-    sourceImports,
-    components
-      .map(
-        createComponentDefinition(
-          outputTarget.componentCorePackage!,
-          distTypesDir,
-          rootDir,
-          outputTarget.includeImportCustomElements,
-          outputTarget.customElementsDir
-        )
-      )
-      .join('\n'),
-    // Add the generated Angular modules (if any)
-    ...proxyModules,
-  ];
+  const proxyFileOutput = [];
+
+  const filterInternalProps = (prop: { name: string; internal: boolean }) => !prop.internal;
+  const mapPropName = (prop: { name: string }) => prop.name;
+
+  const { includeImportCustomElements, componentCorePackage, customElementsDir } = outputTarget;
+
+  for (let cmpMeta of components) {
+    const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
+
+    const inputs: string[] = [];
+
+    if (cmpMeta.properties) {
+      inputs.push(...cmpMeta.properties.filter(filterInternalProps).map(mapPropName));
+    }
+
+    if (cmpMeta.virtualProperties) {
+      inputs.push(...cmpMeta.virtualProperties.map(mapPropName));
+    }
+
+    inputs.sort();
+
+    const outputs: string[] = [];
+
+    if (cmpMeta.events) {
+      outputs.push(...cmpMeta.events.filter(filterInternalProps).map(mapPropName));
+    }
+
+    const methods: string[] = [];
+
+    if (cmpMeta.methods) {
+      methods.push(...cmpMeta.methods.filter(filterInternalProps).map(mapPropName));
+    }
+
+    /**
+     * For each component, we need to generate:
+     * 1. The @Component decorated class
+     * 2. Optionally the @NgModule decorated class (if createSingleComponentAngularModules is true)
+     * 3. The component interface (using declaration merging for types).
+     */
+    const componentDefinition = createAngularComponentDefinition(
+      cmpMeta.tagName,
+      inputs,
+      outputs,
+      methods,
+      includeImportCustomElements
+    );
+    const moduleDefinition = generateAngularModuleForComponent(cmpMeta.tagName);
+    const componentTypeDefinition = createComponentTypeDefinition(
+      tagNameAsPascal,
+      cmpMeta.events,
+      componentCorePackage!,
+      includeImportCustomElements,
+      customElementsDir
+    );
+
+    proxyFileOutput.push(
+      componentDefinition,
+      '\n',
+      createSingleComponentAngularModules ? moduleDefinition : '',
+      '\n',
+      componentTypeDefinition,
+      '\n'
+    );
+  }
+
+  const final: string[] = [imports, typeImports, sourceImports, ...proxyFileOutput];
 
   return final.join('\n') + '\n';
 }

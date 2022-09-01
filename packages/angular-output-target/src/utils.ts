@@ -1,4 +1,4 @@
-import { Config } from '@stencil/core/internal';
+import { ComponentCompilerEvent, Config } from '@stencil/core/internal';
 import path from 'path';
 import type { PackageJSON } from './types';
 
@@ -86,15 +86,63 @@ export async function readPackageJson(config: Config, rootDir: string) {
 }
 
 /**
- * Creates an import statement for a list of named imports from @angular/core.
+ * Formats an array of strings to a string of quoted, comma separated values.
+ * @param list The list of unformatted strings to format
+ * @returns The formatted array of strings. (e.g. ['foo', 'bar']) => `'foo', 'bar'`
+ */
+export const formatToQuotedList = (list: readonly string[]) => list.map((item) => `'${item}'`).join(', ');
+
+/**
+ * Creates an import statement for a list of named imports from a module.
  * @param imports The list of named imports.
+ * @param module The module to import from.
+ *
  * @returns The import statement as a string.
  */
-export const createAngularCoreImportStatement = (imports: string[]) => {
+export const createImportStatement = (imports: string[], module: string) => {
   if (imports.length === 0) {
     return '';
   }
-  return `import { ${imports.join(', ')} } from '@angular/core';`;
+  return `import { ${imports.join(', ')} } from '${module}';`;
+};
+
+/**
+ * Creates the collection of import statements for a component based on the component's events type dependencies.
+ * @param componentTagName The tag name of the component (pascal case).
+ * @param events The events compiler metadata.
+ * @param options The options for generating the import statements (e.g. whether to import from the custom elements directory).
+ * @returns The import statements as an array of strings.
+ */
+export const createComponentEventTypeImports = (
+  componentTagName: string,
+  events: readonly ComponentCompilerEvent[],
+  options: {
+    componentCorePackage: string;
+    includeImportCustomElements?: boolean;
+    customElementsDir?: string;
+  }
+) => {
+  const { componentCorePackage, includeImportCustomElements, customElementsDir } = options;
+  const imports: string[] = [];
+  const namedImports: Set<string> = new Set();
+
+  const importPathName =
+    normalizePath(componentCorePackage) + (includeImportCustomElements ? `/${customElementsDir || 'components'}` : '');
+
+  events.forEach((event) => {
+    Object.entries(event.complexType.references).forEach(([typeName, refObject]) => {
+      if (refObject.location === 'local' || refObject.location === 'import') {
+        const newTypeName = `I${componentTagName}${typeName}`;
+        // Prevents duplicate imports for the same type.
+        if (!namedImports.has(newTypeName)) {
+          imports.push(`import type { ${typeName} as ${newTypeName} } from '${importPathName}';`);
+          namedImports.add(newTypeName);
+        }
+      }
+    });
+  });
+
+  return imports.join('\n');
 };
 
 const EXTENDED_PATH_REGEX = /^\\\\\?\\/;
