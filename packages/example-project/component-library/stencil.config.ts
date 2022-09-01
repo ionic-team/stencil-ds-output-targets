@@ -76,7 +76,7 @@ export const config: Config = {
       proxyDeclarationFile: '../component-library-angular/src/directives/proxies.ts',
       valueAccessorConfigs: angularValueAccessorBindings,
       includeImportCustomElements: true
-    }),
+    } as any), // TODO remove this type cast once the angular output target is updated
     reactOutputTarget({
       componentCorePackage: 'component-library',
       proxiesFile: '../component-library-react/src/components.ts',
