@@ -15,7 +15,7 @@ This is a comprehensive list of the breaking changes introduced in the releases 
 
 <h4 id="version-0.5-angular-config-options">Config Options</h4>
 
-The Angular output targets renamed the `directivesProxyFile` config option with `proxyDeclarationFile`. Replace update your Angular output target usage to the new property.
+The config option `directivesProxyFile` has been replaced with `proxyDeclarationFile`. Developers should update their `stencil.config.ts` with the following:
 
 ```diff
   outputTargets: [
