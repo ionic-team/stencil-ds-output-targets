@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b70a8d0d-1363-4d0c-b90d-f0b7597cc05b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-angular/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/example-project/component-library-angular/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-react/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/example-project/component-library-react/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/__tests__/my-checkbox.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/__tests__/my-component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/setupTests.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/src/components/MyButton.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/src/components/MyCheckbox.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/src/components/MyComponent.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/src/components/MyInput.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/src/components/MyPopover.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/src/components/MyRadio.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/src/components/MyRadioGroup.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/src/components/MyRange.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/src/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/src/proxies.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/src/svelte/MyButton.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/src/svelte/MyCheckbox.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/src/svelte/MyComponent.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/src/svelte/MyInput.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/src/svelte/MyPopover.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/src/svelte/MyRadio.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/src/svelte/MyRadioGroup.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/src/svelte/MyRange.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/src/svelte/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-svelte/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-vue/__tests__/my-checkbox.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-vue/__tests__/my-component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-vue/__tests__/my-input.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-vue/__tests__/my-radio-group.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-vue/__tests__/my-radio.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-vue/__tests__/my-range.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-vue/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-vue/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-vue/setupTests.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-vue/src/components.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-vue/src/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-vue/src/proxies.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-vue/src/vue-component-lib/utils.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library-vue/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/example-project/component-library/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/example-project/component-library/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/example-project/component-library/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/react-output-target/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/packages/react-output-target/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/react-output-target/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/react-output-target/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/react-output-target/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/react-output-target/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/react-output-target/react-component-lib/createComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/react-output-target/react-component-lib/createComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/react-output-target/react-component-lib/createOverlayComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/react-output-target/react-component-lib/createOverlayComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/react-output-target/react-component-lib/utils/attachProps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/react-output-target/react-component-lib/utils/attachProps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/react-output-target/react-component-lib/utils/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/react-output-target/react-component-lib/utils/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/react-output-target/src/output-react.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/react-output-target/src/output-react.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/react-output-target/src/plugin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/react-output-target/src/plugin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/react-output-target/src/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/react-output-target/src/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/react-output-target/src/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/react-output-target/src/utils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/svelte-output-target/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/svelte-output-target/package-lock.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/package-lock.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/package.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/packages/angular-output-target/package.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/packages/example-project/component-library-angular/package.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/packages/example-project/component-library-react/package.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/packages/example-project/component-library-react/tsconfig.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/packages/example-project/component-library/package.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/packages/example-project/component-library/stencil.config.ts" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/packages/react-output-target/package.json" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
+    <dismissed value="$PROJECT_DIR$/packages/angular-output-target/package.json" />
+  </component>
+  <component name="ProjectId" id="2E4LwL51pjM3YpuEdRTxWHaj4KH" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/klaushougesen/_repos/consulting/lahi/github/stencil-ds-plugins",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "/Users/klaushougesen/_repos/consulting/lahi/github/stencil-ds-plugins/node_modules/prettier",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "ts.external.directory.path": "/Users/klaushougesen/_repos/consulting/lahi/github/stencil-ds-plugins/node_modules/typescript/lib",
+    "two.files.diff.last.used.folder": "/Users/klaushougesen/_repos/consulting/lahi/github/stencil-ds-output-targets/packages/example-project",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b70a8d0d-1363-4d0c-b90d-f0b7597cc05b" name="Changes" comment="" />
+      <created>1661850147373</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1661850147373</updated>
+      <workItem from="1661850148548" duration="13525000" />
+      <workItem from="1661932391202" duration="38609000" />
+      <workItem from="1662121891731" duration="1634000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="9d3fabd5-d59c-4305-95f9-c9f16579e7b6">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="9d3fabd5-d59c-4305-95f9-c9f16579e7b6" value="TOOL_WINDOW" />
+      </map>
+    </option>
+  </component>
+</project>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createElement } from 'react';
 
 import {
   attachProps,
@@ -23,16 +23,20 @@ export const createReactComponent = <
   ElementType extends HTMLStencilElement,
   ContextStateType = {},
   ExpandedPropsTypes = {}
->(
+  >(
   tagName: string,
   ReactComponentContext?: React.Context<ContextStateType>,
   manipulatePropsFunction?: (
     originalProps: StencilReactInternalProps<ElementType>,
     propsToPass: any,
   ) => ExpandedPropsTypes,
+  defineCustomElement?: () => void,
 ) => {
-  const displayName = dashToPascalCase(tagName);
+  if (defineCustomElement !== undefined) {
+    defineCustomElement();
+  }
 
+  const displayName = dashToPascalCase(tagName);
   const ReactComponent = class extends React.Component<StencilReactInternalProps<ElementType>> {
     componentEl!: ElementType;
 
@@ -60,8 +64,7 @@ export const createReactComponent = <
 
         if (name.indexOf('on') === 0 && name[2] === name[2].toUpperCase()) {
           const eventName = name.substring(2).toLowerCase();
-
-          if (typeof document !== 'undefined' && isCoveredByReact(eventName, document)) {
+          if (typeof document !== 'undefined' && isCoveredByReact(eventName)) {
             acc[name] = value;
           }
         } else {
@@ -80,13 +83,20 @@ export const createReactComponent = <
         propsToPass = manipulatePropsFunction(this.props, propsToPass);
       }
 
-      let newProps: Omit<StencilReactInternalProps<ElementType>, 'forwardedRef'> = {
+      const newProps: Omit<StencilReactInternalProps<ElementType>, 'forwardedRef'> = {
         ...propsToPass,
         ref: mergeRefs(forwardedRef, this.setComponentElRef),
         style,
       };
 
-      return React.createElement(tagName, newProps, children);
+      /**
+       * We use createElement here instead of
+       * React.createElement to work around a
+       * bug in Vite (https://github.com/vitejs/vite/issues/6104).
+       * React.createElement causes all elements to be rendered
+       * as <tagname> instead of the actual Web Component.
+       */
+      return createElement(tagName, newProps, children);
     }
 
     static get displayName() {
