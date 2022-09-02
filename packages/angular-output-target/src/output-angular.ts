@@ -23,12 +23,11 @@ export async function angularDirectiveProxyOutput(
   const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, components);
   const rootDir = config.rootDir as string;
   const pkgData = await readPackageJson(config, rootDir);
-  const proxyFile = outputTarget.proxyDeclarationFile ?? outputTarget.directivesProxyFile;
 
   const finalText = generateProxies(filteredComponents, pkgData, outputTarget, config.rootDir as string);
 
   await Promise.all([
-    compilerCtx.fs.writeFile(proxyFile, finalText),
+    compilerCtx.fs.writeFile(outputTarget.proxyDeclarationFile, finalText),
     copyResources(config, outputTarget),
     generateAngularDirectivesFile(compilerCtx, filteredComponents, outputTarget),
     generateValueAccessors(compilerCtx, filteredComponents, outputTarget, config),
@@ -44,8 +43,7 @@ async function copyResources(config: Config, outputTarget: OutputTargetAngular) 
     throw new Error('stencil is not properly initialized at this step. Notify the developer');
   }
   const srcDirectory = path.join(__dirname, '..', 'angular-component-lib');
-  const proxyFile = outputTarget.proxyDeclarationFile ?? outputTarget.directivesProxyFile;
-  const destDirectory = path.join(path.dirname(proxyFile), 'angular-component-lib');
+  const destDirectory = path.join(path.dirname(outputTarget.proxyDeclarationFile), 'angular-component-lib');
 
   return config.sys.copy(
     [
@@ -68,8 +66,7 @@ export function generateProxies(
 ) {
   const distTypesDir = path.dirname(pkgData.types);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
-  const proxyFile = outputTarget.proxyDeclarationFile ?? outputTarget.directivesProxyFile;
-  const componentsTypeFile = relativeImport(proxyFile, dtsFilePath, '.d.ts');
+  const componentsTypeFile = relativeImport(outputTarget.proxyDeclarationFile, dtsFilePath, '.d.ts');
   const createSingleComponentAngularModules = outputTarget.createSingleComponentAngularModules ?? false;
 
   /**
@@ -131,7 +128,7 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
       const pascalImport = dashToPascalCase(component.tagName);
 
       return `import { defineCustomElement as define${pascalImport} } from '${normalizePath(
-        outputTarget.componentCorePackage!
+        outputTarget.componentCorePackage
       )}/${outputTarget.customElementsDir || 'components'}/${component.tagName}.js';`;
     });
 
@@ -198,7 +195,7 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
     const componentTypeDefinition = createComponentTypeDefinition(
       tagNameAsPascal,
       cmpMeta.events,
-      componentCorePackage!,
+      componentCorePackage,
       includeImportCustomElements,
       customElementsDir
     );

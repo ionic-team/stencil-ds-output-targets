@@ -22,8 +22,7 @@ export default async function generateValueAccessors(
     return;
   }
 
-  const proxyFile = outputTarget.proxyDeclarationFile ?? outputTarget.directivesProxyFile;
-  const targetDir = path.dirname(proxyFile);
+  const targetDir = path.dirname(outputTarget.proxyDeclarationFile);
 
   const normalizedValueAccessors: NormalizedValueAccessors = outputTarget.valueAccessorConfigs.reduce(
     (allAccessors, va) => {
