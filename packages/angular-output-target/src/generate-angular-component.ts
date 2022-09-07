@@ -67,10 +67,11 @@ export class ${tagNameAsPascal} {
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
-    this.el = r.nativeElement;${hasOutputs
-      ? `
+    this.el = r.nativeElement;${
+      hasOutputs
+        ? `
     proxyOutputs(this, this.el, [${formattedOutputs}]);`
-      : ''
+        : ''
     }
   }
 }`;
@@ -136,25 +137,29 @@ export const createComponentTypeDefinition = (
   includeImportCustomElements = false,
   customElementsDir?: string
 ) => {
-  const publicEvents = events.filter(ev => !ev.internal);
+  const publicEvents = events.filter((ev) => !ev.internal);
 
   const eventTypeImports = createComponentEventTypeImports(tagNameAsPascal, publicEvents, {
     componentCorePackage,
     includeImportCustomElements,
     customElementsDir,
   });
-  const eventTypes = publicEvents
-    .map((event) => {
-      const comment = createDocComment(event.docs);
-      return `${comment.length > 0 ? `  ${comment}` : ''}
+  const eventTypes = publicEvents.map((event) => {
+    const comment = createDocComment(event.docs);
+    return `${comment.length > 0 ? `  ${comment}` : ''}
   ${event.name}: EventEmitter<CustomEvent<${formatOutputType(tagNameAsPascal, event)}>>;`;
-    });
+  });
   const interfaceDeclaration = `export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {`;
 
-  const typeDefinition = (eventTypeImports.length > 0 ? `${eventTypeImports + '\n\n'}` : '')
-    + `${interfaceDeclaration}${eventTypes.length === 0 ? '}' : `
+  const typeDefinition =
+    (eventTypeImports.length > 0 ? `${eventTypeImports + '\n\n'}` : '') +
+    `${interfaceDeclaration}${
+      eventTypes.length === 0
+        ? '}'
+        : `
 ${eventTypes.join('\n')}
-}`}`;
+}`
+    }`;
 
   return typeDefinition;
 };
