@@ -7,16 +7,17 @@ export const generateTypings = (meta: ComponentCompilerMeta) => {
 
   const types = `
 interface ${name}Props {
-  ${
-  meta.properties
+  ${meta.properties
     .map((prop) => `\n  /** ${prop.docs.text} */\n  ${prop.name}?: Components.${name}["${prop.name}"]`)
     .join('\n  ')}
 }
 
 interface ${name}Events {
-  ${
-  meta.events
-    .map((event) => `\n  /** ${event.docs.text} */\n  ${event.name}: Parameters<JSX.${name}["${jsxEventName(event.name)}"]>[0]`)
+  ${meta.events
+    .map(
+      (event) =>
+        `\n  /** ${event.docs.text} */\n  ${event.name}: Parameters<JSX.${name}["${jsxEventName(event.name)}"]>[0]`
+    )
     .join('\n  ')}
 }
 
@@ -51,12 +52,12 @@ export const replaceMethodDefs = (meta: ComponentCompilerMeta, source: string) =
 
   newSource = source.replace('get getWebComponent() {', `get getWebComponent(): HTML${name}Element | undefined {`);
 
-  meta
-    .methods
-    .forEach((method) => {
-      newSource = newSource
-        .replace(`get ${method.name}() {`, `\n  /** ${method.docs.text} */\n get ${method.name}(): Components.${name}["${method.name}"] {`);
-    });
+  meta.methods.forEach((method) => {
+    newSource = newSource.replace(
+      `get ${method.name}() {`,
+      `\n  /** ${method.docs.text} */\n get ${method.name}(): Components.${name}["${method.name}"] {`
+    );
+  });
 
   return newSource;
 };

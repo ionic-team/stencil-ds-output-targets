@@ -14,21 +14,22 @@ const NON_ASCII_REGEX = /[^\x00-\x80]+/;
 
 export const toLowerCase = (str: string) => str.toLowerCase();
 
-export const dashToCamelCase = (str: string) => str
-  .replace(/-([a-z])/g, (_, up) => up.toUpperCase());
+export const dashToCamelCase = (str: string) => str.replace(/-([a-z])/g, (_, up) => up.toUpperCase());
 
-export const dashToPascalCase = (str: string) => toLowerCase(str)
-  .split('-')
-  .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
-  .join('');
+export const dashToPascalCase = (str: string) =>
+  toLowerCase(str)
+    .split('-')
+    .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
+    .join('');
 
-export const sortBy = <T>(array: T[], prop: (item: T) => string) => array.slice().sort((a, b) => {
-  const nameA = prop(a);
-  const nameB = prop(b);
-  if (nameA < nameB) return -1;
-  if (nameA > nameB) return 1;
-  return 0;
-});
+export const sortBy = <T>(array: T[], prop: (item: T) => string) =>
+  array.slice().sort((a, b) => {
+    const nameA = prop(a);
+    const nameB = prop(b);
+    if (nameA < nameB) return -1;
+    if (nameA > nameB) return 1;
+    return 0;
+  });
 
 export function normalizePath(str: string) {
   if (typeof str !== 'string') {
