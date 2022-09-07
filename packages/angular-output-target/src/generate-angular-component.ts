@@ -58,8 +58,8 @@ export const createAngularComponentDefinition = (
   const output = `@ProxyCmp({${proxyCmpOptions.join(',')}\n})
 @Component({
   selector: '${tagName}',
-  template: '<ng-content></ng-content>',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: [${formattedInputs}],
 })
@@ -67,11 +67,10 @@ export class ${tagNameAsPascal} {
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
-    this.el = r.nativeElement;${
-      hasOutputs
-        ? `
+    this.el = r.nativeElement;${hasOutputs
+      ? `
     proxyOutputs(this, this.el, [${formattedOutputs}]);`
-        : ''
+      : ''
     }
   }
 }`;
@@ -137,21 +136,25 @@ export const createComponentTypeDefinition = (
   includeImportCustomElements = false,
   customElementsDir?: string
 ) => {
-  const typeDefinition = `${createComponentEventTypeImports(tagNameAsPascal, events, {
+  const publicEvents = events.filter(ev => !ev.internal);
+
+  const eventTypeImports = createComponentEventTypeImports(tagNameAsPascal, publicEvents, {
     componentCorePackage,
     includeImportCustomElements,
     customElementsDir,
-  })}
-
-export interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {
-${events
-  .map((event) => {
-    const comment = createDocComment(event.docs);
-    return `${comment.length > 0 ? `  ${comment}` : ''}
+  });
+  const eventTypes = publicEvents
+    .map((event) => {
+      const comment = createDocComment(event.docs);
+      return `${comment.length > 0 ? `  ${comment}` : ''}
   ${event.name}: EventEmitter<CustomEvent<${formatOutputType(tagNameAsPascal, event)}>>;`;
-  })
-  .join('\n')}
-}`;
+    });
+  const interfaceDeclaration = `export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {`;
+
+  const typeDefinition = (eventTypeImports.length > 0 ? `${eventTypeImports + '\n\n'}` : '')
+    + `${interfaceDeclaration}${eventTypes.length === 0 ? '}' : `
+${eventTypes.join('\n')}
+}`}`;
 
   return typeDefinition;
 };

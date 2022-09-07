@@ -108,9 +108,8 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
     importLocation += outputTarget.includeImportCustomElements
       ? `/${outputTarget.customElementsDir || 'components'}`
       : '';
-    return `import ${
-      outputTarget.includeImportCustomElements ? 'type ' : ''
-    }{ ${IMPORT_TYPES} } from '${importLocation}';\n`;
+    return `import ${outputTarget.includeImportCustomElements ? 'type ' : ''
+      }{ ${IMPORT_TYPES} } from '${importLocation}';\n`;
   };
 
   const typeImports = generateTypeImports();
@@ -200,14 +199,11 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
       customElementsDir
     );
 
-    proxyFileOutput.push(
-      componentDefinition,
-      '\n',
-      createSingleComponentAngularModules ? moduleDefinition : '',
-      '\n',
-      componentTypeDefinition,
-      '\n'
-    );
+    proxyFileOutput.push(componentDefinition, '\n');
+    if (createSingleComponentAngularModules) {
+      proxyFileOutput.push(moduleDefinition, '\n');
+    }
+    proxyFileOutput.push(componentTypeDefinition, '\n');
   }
 
   const final: string[] = [imports, typeImports, sourceImports, ...proxyFileOutput];

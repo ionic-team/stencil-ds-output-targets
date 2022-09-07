@@ -9,8 +9,8 @@ describe('createAngularComponentDefinition()', () => {
 })
 @Component({
   selector: 'my-component',
-  template: '<ng-content></ng-content>',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: [],
 })
@@ -30,8 +30,8 @@ export class MyComponent {
 })
 @Component({
   selector: 'my-component',
-  template: '<ng-content></ng-content>',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: ['my-input', 'my-other-input'],
 })
@@ -57,8 +57,8 @@ export class MyComponent {
 })
 @Component({
   selector: 'my-component',
-  template: '<ng-content></ng-content>',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: [],
 })
@@ -80,8 +80,8 @@ export class MyComponent {
 })
 @Component({
   selector: 'my-component',
-  template: '<ng-content></ng-content>',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: [],
 })
@@ -104,8 +104,8 @@ export class MyComponent {
 })
 @Component({
   selector: 'my-component',
-  template: '<ng-content></ng-content>',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: [],
 })
@@ -127,8 +127,8 @@ export class MyComponent {
 })
 @Component({
   selector: 'my-component',
-  template: '<ng-content></ng-content>',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: ['my-input', 'my-other-input'],
 })
@@ -154,8 +154,8 @@ export class MyComponent {
 })
 @Component({
   selector: 'my-component',
-  template: '<ng-content></ng-content>',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: [],
 })
@@ -178,8 +178,8 @@ export class MyComponent {
 })
 @Component({
   selector: 'my-component',
-  template: '<ng-content></ng-content>',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: [],
 })
@@ -258,7 +258,7 @@ describe('createComponentTypeDefinition()', () => {
 import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core';
 import type { MyDoclessEvent as IMyComponentMyDoclessEvent } from '@ionic/core';
 
-export interface MyComponent extends Components.MyComponent {
+export declare interface MyComponent extends Components.MyComponent {
   /**
    * This is an example event. @Foo Bar
    */
@@ -290,7 +290,7 @@ export interface MyComponent extends Components.MyComponent {
 import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/custom-elements';
 import type { MyDoclessEvent as IMyComponentMyDoclessEvent } from '@ionic/core/custom-elements';
 
-export interface MyComponent extends Components.MyComponent {
+export declare interface MyComponent extends Components.MyComponent {
   /**
    * This is an example event. @Foo Bar
    */
@@ -315,7 +315,7 @@ export interface MyComponent extends Components.MyComponent {
 import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/components';
 import type { MyDoclessEvent as IMyComponentMyDoclessEvent } from '@ionic/core/components';
 
-export interface MyComponent extends Components.MyComponent {
+export declare interface MyComponent extends Components.MyComponent {
   /**
    * This is an example event. @Foo Bar
    */
