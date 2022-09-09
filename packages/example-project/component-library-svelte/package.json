@@ -9,7 +9,10 @@
     "url": "https://github.com/ionic-team/ionic.git"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "prettier": "npm run prettier.base -- --write",
+    "prettier.base": "prettier \"./({src,__tests__}/**/*.{ts,tsx,js,jsx})|*.{ts,tsx,js,jsx}\"",
+    "prettier.dry-run": "npm run prettier.base -- --list-different"
   },
   "dependencies": {
     "component-library": "^0.0.4"

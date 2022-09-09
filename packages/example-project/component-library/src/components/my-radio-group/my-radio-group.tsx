@@ -1,14 +1,4 @@
-import {
-  Component,
-  ComponentInterface,
-  Element,
-  Event,
-  EventEmitter,
-  Host,
-  Prop,
-  Watch,
-  h,
-} from '@stencil/core';
+import { Component, ComponentInterface, Element, Event, EventEmitter, Host, Prop, Watch, h } from '@stencil/core';
 
 export interface RadioGroupChangeEventDetail {
   value: any;

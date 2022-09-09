@@ -291,18 +291,7 @@ export class Range implements ComponentInterface {
   };
 
   render() {
-    const {
-      min,
-      max,
-      step,
-      el,
-      handleKeyboard,
-      pressedKnob,
-      disabled,
-      pin,
-      ratioLower,
-      ratioUpper,
-    } = this;
+    const { min, max, step, el, handleKeyboard, pressedKnob, disabled, pin, ratioLower, ratioUpper } = this;
 
     const barStart = `${ratioLower * 100}%`;
     const barEnd = `${100 - ratioUpper * 100}%`;
@@ -349,7 +338,8 @@ export class Range implements ComponentInterface {
           'range-disabled': disabled,
           'range-pressed': pressedKnob !== undefined,
           'range-has-pin': pin,
-        }}>
+        }}
+      >
         <slot name="start"></slot>
         <div class="range-slider">
           {ticks.map((tick) => (
@@ -365,12 +355,7 @@ export class Range implements ComponentInterface {
           ))}
 
           <div class="range-bar" role="presentation" part="bar" />
-          <div
-            class="range-bar range-bar-active"
-            role="presentation"
-            style={barStyle}
-            part="bar-active"
-          />
+          <div class="range-bar range-bar-active" role="presentation" style={barStyle} part="bar-active" />
 
           {renderKnob(isRTL, {
             knob: 'A',
@@ -418,7 +403,7 @@ interface RangeKnob {
 
 const renderKnob = (
   isRTL: boolean,
-  { knob, value, ratio, min, max, disabled, pressed, pin, handleKeyboard }: RangeKnob,
+  { knob, value, ratio, min, max, disabled, pressed, pin, handleKeyboard }: RangeKnob
 ) => {
   const start = isRTL ? 'right' : 'left';
 
@@ -458,7 +443,8 @@ const renderKnob = (
       aria-valuemin={min}
       aria-valuemax={max}
       aria-disabled={disabled ? 'true' : null}
-      aria-valuenow={value}>
+      aria-valuenow={value}
+    >
       {pin && (
         <div class="range-pin" role="presentation" part="pin">
           {Math.round(value)}

@@ -35,9 +35,7 @@ describe('MyCheckbox', () => {
   it('myChange updates the bound component attribute should update', () => {
     const { componentInstance: myAngularComponent } = fixture;
     myCheckboxEl.nativeElement.checked = true;
-    myCheckboxEl.nativeElement.dispatchEvent(
-      new CustomEvent('myChange', { detail: { value: true } }),
-    );
+    myCheckboxEl.nativeElement.dispatchEvent(new CustomEvent('myChange', { detail: { value: true } }));
     expect(myAngularComponent.itemIsChecked).toEqual(true);
   });
 });
