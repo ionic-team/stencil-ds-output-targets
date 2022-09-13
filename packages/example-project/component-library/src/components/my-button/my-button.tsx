@@ -1,13 +1,4 @@
-import {
-  Component,
-  ComponentInterface,
-  Element,
-  Event,
-  EventEmitter,
-  Host,
-  Prop,
-  h,
-} from '@stencil/core';
+import { Component, ComponentInterface, Element, Event, EventEmitter, Host, Prop, h } from '@stencil/core';
 
 import { Color } from '../../interfaces';
 import { hasShadowDom } from '../helpers';
@@ -153,19 +144,7 @@ export class Button implements ComponentInterface, AnchorInterface, ButtonInterf
   };
 
   render() {
-    const {
-      buttonType,
-      type,
-      disabled,
-      rel,
-      target,
-      size,
-      href,
-      expand,
-      hasIconOnly,
-      shape,
-      strong,
-    } = this;
+    const { buttonType, type, disabled, rel, target, size, href, expand, hasIconOnly, shape, strong } = this;
     const finalSize = size === undefined && this.inItem ? 'small' : size;
     const TagType = href === undefined ? 'button' : ('a' as any);
     const attrs =
@@ -197,13 +176,9 @@ export class Button implements ComponentInterface, AnchorInterface, ButtonInterf
           'button-disabled': disabled,
           'my-activatable': true,
           'my-focusable': true,
-        }}>
-        <TagType
-          {...attrs}
-          class="button-native"
-          disabled={disabled}
-          onFocus={this.onFocus}
-          onBlur={this.onBlur}>
+        }}
+      >
+        <TagType {...attrs} class="button-native" disabled={disabled} onFocus={this.onFocus} onBlur={this.onBlur}>
           <span class="button-inner">
             <slot name="icon-only"></slot>
             <slot name="start"></slot>

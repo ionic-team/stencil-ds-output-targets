@@ -14,7 +14,10 @@
     "build": "npm run clean && npm run compile",
     "clean": "rimraf dist",
     "compile": "npm run tsc",
-    "tsc": "tsc -p ."
+    "tsc": "tsc -p .",
+    "prettier": "npm run prettier.base -- --write",
+    "prettier.base": "prettier \"./({src,__tests__}/**/*.{ts,tsx,js,jsx})|*.{ts,tsx,js,jsx}\"",
+    "prettier.dry-run": "npm run prettier.base -- --list-different"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",

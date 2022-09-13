@@ -42,11 +42,7 @@ export function createControllerComponent<
       if (prevProps.isOpen !== this.props.isOpen && this.props.isOpen === true) {
         this.present(prevProps);
       }
-      if (
-        this.controller &&
-        prevProps.isOpen !== this.props.isOpen &&
-        this.props.isOpen === false
-      ) {
+      if (this.controller && prevProps.isOpen !== this.props.isOpen && this.props.isOpen === false) {
         await this.controller.dismiss();
       }
     }

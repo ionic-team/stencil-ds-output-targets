@@ -142,15 +142,12 @@ export class Radio implements ComponentInterface {
           interactive: true,
           'radio-checked': checked,
           'radio-disabled': disabled,
-        }}>
+        }}
+      >
         <div class="radio-icon" part="container">
           <div class="radio-inner" part="mark" />
         </div>
-        <button
-          type="button"
-          onFocus={this.onFocus}
-          onBlur={this.onBlur}
-          disabled={disabled}></button>
+        <button type="button" onFocus={this.onFocus} onBlur={this.onBlur} disabled={disabled}></button>
       </Host>
     );
   }
