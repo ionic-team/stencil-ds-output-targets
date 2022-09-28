@@ -27,7 +27,6 @@ body:
       options:
         - Angular
         - React
-        - Svelte
         - Vue
     validations:
       required: true
