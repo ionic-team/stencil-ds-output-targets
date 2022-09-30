@@ -31,7 +31,7 @@ import { applyPolyfills, defineCustomElements } from 'component-library/dist/loa
 
 applyPolyfills().then(() => defineCustomElements());
 
-`,
+`
     );
   });
 
@@ -56,7 +56,7 @@ import { defineCustomElements } from 'component-library/dist/loader';
 
 defineCustomElements();
 
-`,
+`
     );
   });
 
@@ -80,7 +80,7 @@ import type { JSX } from 'component-library';
 
 
 
-`,
+`
     );
   });
   it('should include importCustomElements if true in the outputTarget', () => {
@@ -102,7 +102,7 @@ import type { JSX } from 'component-library/components';
 
 
 
-`,
+`
     );
   });
   it('should include importCustomElements with custom path if defined in outputTarget', () => {
@@ -110,7 +110,7 @@ import type { JSX } from 'component-library/components';
       componentCorePackage: 'component-library',
       proxiesFile: '../component-library-vue/src/proxies.ts',
       includeImportCustomElements: true,
-      customElementsDir: 'custom-dir/hello'
+      customElementsDir: 'custom-dir/hello',
     };
 
     const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
@@ -125,7 +125,7 @@ import type { JSX } from 'component-library/custom-dir/hello';
 
 
 
-`,
+`
     );
   });
 });

@@ -1,7 +1,6 @@
 import { createComponentDefinition } from '../src/generate-vue-component';
 
 describe('createComponentDefinition', () => {
-
   it('should create a Vue component with the render method using createCommonRender', () => {
     const generateComponentDefinition = createComponentDefinition('Components', []);
     const output = generateComponentDefinition({
@@ -28,12 +27,14 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
   });
 
   it('should create v-model bindings', () => {
-    const generateComponentDefinition = createComponentDefinition('Components', [{
-      elements: ['my-component'],
-      event: 'v-ionChange',
-      externalEvent: 'ionChange',
-      targetAttr: 'value'
-    }]);
+    const generateComponentDefinition = createComponentDefinition('Components', [
+      {
+        elements: ['my-component'],
+        event: 'v-ionChange',
+        externalEvent: 'ionChange',
+        targetAttr: 'value',
+      },
+    ]);
     const output = generateComponentDefinition({
       properties: [
         {
@@ -87,12 +88,14 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
   });
 
   it('should add router and v-model bindings', () => {
-    const generateComponentDefinition = createComponentDefinition('Components', [{
-      elements: ['my-component'],
-      event: 'v-ionChange',
-      externalEvent: 'ionChange',
-      targetAttr: 'value'
-    }]);
+    const generateComponentDefinition = createComponentDefinition('Components', [
+      {
+        elements: ['my-component'],
+        event: 'v-ionChange',
+        externalEvent: 'ionChange',
+        targetAttr: 'value',
+      },
+    ]);
     const output = generateComponentDefinition({
       tagName: 'my-component',
       properties: [

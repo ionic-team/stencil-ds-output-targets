@@ -18,6 +18,9 @@
     "lint.ts": "tslint --project .",
     "lint.fix": "tslint --project . --fix",
     "prerelease": "npm run validate && np prerelease --yolo --any-branch --tag next",
+    "prettier": "npm run prettier.base -- --write",
+    "prettier.base": "prettier \"./({scripts,src,__tests__}/**/*.{ts,tsx,js,jsx})|*.{ts,tsx,js,jsx}\"",
+    "prettier.dry-run": "npm run prettier.base -- --list-different",
     "test": "jest",
     "tsc": "tsc -p .",
     "validate": "npm i && npm run lint && npm run test && npm run build"

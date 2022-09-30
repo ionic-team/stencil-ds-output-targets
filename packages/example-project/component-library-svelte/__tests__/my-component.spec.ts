@@ -22,6 +22,6 @@ describe('MyComponent', () => {
     });
 
     expect(component.kidsNames).toEqual(arr);
-    expect((getWebComponent(container)).kidsNames).toEqual(arr);
+    expect(getWebComponent(container).kidsNames).toEqual(arr);
   });
 });

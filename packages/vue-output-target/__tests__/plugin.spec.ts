@@ -29,7 +29,7 @@ describe('normalizeOutputTarget', () => {
       excludeComponents: [],
       componentModels: [],
       includePolyfills: true,
-      includeDefineCustomElements: true
+      includeDefineCustomElements: true,
     } as OutputTargetVue);
   });
 
