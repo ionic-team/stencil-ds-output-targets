@@ -33,5 +33,4 @@ describe('generateProxies', () => {
       finalText.includes(`import { Components } from '../../angular-output-target/dist/types/components';`)
     ).toBeTruthy();
   });
-
 });
