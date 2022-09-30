@@ -67,7 +67,7 @@ export function generateProxies(
   const distTypesDir = path.dirname(pkgData.types);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.proxyDeclarationFile, dtsFilePath, '.d.ts');
-  const createSingleComponentAngularModules = outputTarget.createSingleComponentAngularModules ?? false;
+  const includeSingleComponentAngularModules = outputTarget.includeSingleComponentAngularModules ?? false;
 
   /**
    * The collection of named imports from @angular/core.
@@ -86,7 +86,7 @@ export function generateProxies(
    */
   const componentLibImports = ['ProxyCmp', 'proxyOutputs'];
 
-  if (createSingleComponentAngularModules) {
+  if (includeSingleComponentAngularModules) {
     angularCoreImports.push('NgModule');
   }
 
@@ -135,7 +135,7 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
     sourceImports = cmpImports.join('\n');
   }
 
-  if (createSingleComponentAngularModules) {
+  if (includeSingleComponentAngularModules) {
     // Generating Angular modules is only supported in the dist-custom-elements build
     if (!outputTarget.includeImportCustomElements) {
       throw new Error(
@@ -181,7 +181,7 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
     /**
      * For each component, we need to generate:
      * 1. The @Component decorated class
-     * 2. Optionally the @NgModule decorated class (if createSingleComponentAngularModules is true)
+     * 2. Optionally the @NgModule decorated class (if includeSingleComponentAngularModules is true)
      * 3. The component interface (using declaration merging for types).
      */
     const componentDefinition = createAngularComponentDefinition(
@@ -201,7 +201,7 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
     );
 
     proxyFileOutput.push(componentDefinition, '\n');
-    if (createSingleComponentAngularModules) {
+    if (includeSingleComponentAngularModules) {
       proxyFileOutput.push(moduleDefinition, '\n');
     }
     proxyFileOutput.push(componentTypeDefinition, '\n');

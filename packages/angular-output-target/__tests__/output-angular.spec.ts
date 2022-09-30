@@ -34,11 +34,11 @@ describe('generateProxies', () => {
     ).toBeTruthy();
   });
 
-  describe('when createSingleComponentAngularModules is true', () => {
+  describe('when includeSingleComponentAngularModules is true', () => {
     it('should throw an error if includeImportCustomElements is false', () => {
       const outputTarget: OutputTargetAngular = {
         proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
-        createSingleComponentAngularModules: true,
+        includeSingleComponentAngularModules: true,
         includeImportCustomElements: false,
       };
 
@@ -54,7 +54,7 @@ describe('generateProxies', () => {
     it('should throw an error if includeImportCustomElements is undefined', () => {
       const outputTarget: OutputTargetAngular = {
         proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
-        createSingleComponentAngularModules: true,
+        includeSingleComponentAngularModules: true,
       };
 
       expect(() => {
@@ -66,11 +66,11 @@ describe('generateProxies', () => {
       );
     });
 
-    it('should create an Angular module for each component', () => {
+    it('should include an Angular module for each component', () => {
       const outputTarget: OutputTargetAngular = {
         proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
         includeImportCustomElements: true,
-        createSingleComponentAngularModules: true,
+        includeSingleComponentAngularModules: true,
         componentCorePackage: '@ionic/core',
       };
 
@@ -89,12 +89,12 @@ describe('generateProxies', () => {
     });
   });
 
-  describe('when createSingleComponentAngularModules is false', () => {
-    it('should not create an Angular module for each component', () => {
+  describe('when includeSingleComponentAngularModules is false', () => {
+    it('should not include an Angular module for each component', () => {
       const outputTarget: OutputTargetAngular = {
         proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
         includeImportCustomElements: true,
-        createSingleComponentAngularModules: false,
+        includeSingleComponentAngularModules: false,
         componentCorePackage: '@ionic/core',
       };
 

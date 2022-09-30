@@ -22,7 +22,7 @@ export interface OutputTargetAngular {
   /**
    * `true` to generate a single component Angular module for each component.
    */
-  createSingleComponentAngularModules?: boolean;
+  includeSingleComponentAngularModules?: boolean;
 }
 
 export type ValueAccessorTypes = 'text' | 'radio' | 'select' | 'number' | 'boolean';
