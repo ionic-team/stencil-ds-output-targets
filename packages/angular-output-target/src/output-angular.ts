@@ -26,7 +26,7 @@ export async function angularDirectiveProxyOutput(
   const finalText = generateProxies(filteredComponents, pkgData, outputTarget, config.rootDir as string);
 
   await Promise.all([
-    compilerCtx.fs.writeFile(outputTarget.proxyDeclarationFile, finalText),
+    compilerCtx.fs.writeFile(outputTarget.directivesProxyFile, finalText),
     copyResources(config, outputTarget),
     generateAngularDirectivesFile(compilerCtx, filteredComponents, outputTarget),
     generateValueAccessors(compilerCtx, filteredComponents, outputTarget, config),
@@ -42,7 +42,7 @@ async function copyResources(config: Config, outputTarget: OutputTargetAngular) 
     throw new Error('stencil is not properly initialized at this step. Notify the developer');
   }
   const srcDirectory = path.join(__dirname, '..', 'angular-component-lib');
-  const destDirectory = path.join(path.dirname(outputTarget.proxyDeclarationFile), 'angular-component-lib');
+  const destDirectory = path.join(path.dirname(outputTarget.directivesProxyFile), 'angular-component-lib');
 
   return config.sys.copy(
     [
@@ -65,7 +65,7 @@ export function generateProxies(
 ) {
   const distTypesDir = path.dirname(pkgData.types);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
-  const componentsTypeFile = relativeImport(outputTarget.proxyDeclarationFile, dtsFilePath, '.d.ts');
+  const componentsTypeFile = relativeImport(outputTarget.directivesProxyFile, dtsFilePath, '.d.ts');
 
   /**
    * The collection of named imports from @angular/core.

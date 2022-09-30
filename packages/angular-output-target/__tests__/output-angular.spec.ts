@@ -12,7 +12,7 @@ describe('generateProxies', () => {
   it('should use types from the component-library when it is provided to the config', () => {
     const outputTarget: OutputTargetAngular = {
       componentCorePackage: 'component-library',
-      proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
+      directivesProxyFile: '../component-library-angular/src/proxies.ts',
     };
 
     const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
@@ -24,7 +24,7 @@ describe('generateProxies', () => {
 
   it('should use a relative path to types when a component-library is not provided', () => {
     const outputTarget: OutputTargetAngular = {
-      proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
+      directivesProxyFile: '../component-library-angular/src/proxies.ts',
     } as OutputTargetAngular;
 
     const finalText = generateProxies(components, pkgData, outputTarget, rootDir);

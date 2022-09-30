@@ -30,16 +30,12 @@ export function normalizeOutputTarget(config: Config, outputTarget: OutputTarget
     throw new Error('rootDir is not set and it should be set by stencil itself');
   }
 
-  if ((outputTarget as any).directivesProxyFile !== undefined) {
-    throw new Error('directivesProxyFile has been removed. Use proxyDeclarationFile instead.');
+  if (outputTarget.directivesProxyFile == null) {
+    throw new Error('directivesProxyFile is required. Please set it in the Stencil config.');
   }
 
-  if (outputTarget.proxyDeclarationFile == null) {
-    throw new Error('proxyDeclarationFile is required. Please set it in the Stencil config.');
-  }
-
-  if (outputTarget.proxyDeclarationFile && !path.isAbsolute(outputTarget.proxyDeclarationFile)) {
-    results.proxyDeclarationFile = normalizePath(path.join(config.rootDir, outputTarget.proxyDeclarationFile));
+  if (outputTarget.directivesProxyFile && !path.isAbsolute(outputTarget.directivesProxyFile)) {
+    results.directivesProxyFile = normalizePath(path.join(config.rootDir, outputTarget.directivesProxyFile));
   }
 
   if (outputTarget.directivesArrayFile && !path.isAbsolute(outputTarget.directivesArrayFile)) {

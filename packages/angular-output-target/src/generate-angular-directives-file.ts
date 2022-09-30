@@ -12,7 +12,7 @@ export function generateAngularDirectivesFile(
     return Promise.resolve();
   }
 
-  const proxyPath = relativeImport(outputTarget.directivesArrayFile, outputTarget.proxyDeclarationFile, '.ts');
+  const proxyPath = relativeImport(outputTarget.directivesArrayFile, outputTarget.directivesProxyFile, '.ts');
   const directives = components
     .map((cmpMeta) => dashToPascalCase(cmpMeta.tagName))
     .map((className) => `d.${className}`)
