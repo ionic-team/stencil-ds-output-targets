@@ -25,7 +25,7 @@ describe('generateProxies', () => {
   it('should use a relative path to types when a component-library is not provided', () => {
     const outputTarget: OutputTargetAngular = {
       proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
-    };
+    } as OutputTargetAngular;
 
     const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
     expect(finalText.includes(`import { Components } from 'component-library';`)).toBeFalsy();
@@ -34,82 +34,4 @@ describe('generateProxies', () => {
     ).toBeTruthy();
   });
 
-  describe('when includeSingleComponentAngularModules is true', () => {
-    it('should throw an error if includeImportCustomElements is false', () => {
-      const outputTarget: OutputTargetAngular = {
-        proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
-        includeSingleComponentAngularModules: true,
-        includeImportCustomElements: false,
-      };
-
-      expect(() => {
-        generateProxies(components, pkgData, outputTarget, rootDir);
-      }).toThrow(
-        new Error(
-          'Generating single component Angular modules requires the "includeImportCustomElements" option to be set to true.'
-        )
-      );
-    });
-
-    it('should throw an error if includeImportCustomElements is undefined', () => {
-      const outputTarget: OutputTargetAngular = {
-        proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
-        includeSingleComponentAngularModules: true,
-      };
-
-      expect(() => {
-        generateProxies(components, pkgData, outputTarget, rootDir);
-      }).toThrow(
-        new Error(
-          'Generating single component Angular modules requires the "includeImportCustomElements" option to be set to true.'
-        )
-      );
-    });
-
-    it('should include an Angular module for each component', () => {
-      const outputTarget: OutputTargetAngular = {
-        proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
-        includeImportCustomElements: true,
-        includeSingleComponentAngularModules: true,
-        componentCorePackage: '@ionic/core',
-      };
-
-      components.push({
-        tagName: 'my-component',
-        componentClassName: 'MyComponent',
-        properties: [],
-        virtualProperties: [],
-        events: [],
-        methods: [],
-      } as unknown as ComponentCompilerMeta);
-
-      const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
-
-      expect(finalText.includes('export class MyComponentModule')).toBeTruthy();
-    });
-  });
-
-  describe('when includeSingleComponentAngularModules is false', () => {
-    it('should not include an Angular module for each component', () => {
-      const outputTarget: OutputTargetAngular = {
-        proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
-        includeImportCustomElements: true,
-        includeSingleComponentAngularModules: false,
-        componentCorePackage: '@ionic/core',
-      };
-
-      components.push({
-        tagName: 'my-component',
-        componentClassName: 'MyComponent',
-        properties: [],
-        virtualProperties: [],
-        events: [],
-        methods: [],
-      } as unknown as ComponentCompilerMeta);
-
-      const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
-
-      expect(finalText.includes('export class MyComponentModule')).toBeFalsy();
-    });
-  });
 });
