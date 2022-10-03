@@ -19,18 +19,19 @@ export const angularOutputTarget = (outputTarget: OutputTargetAngular): OutputTa
   },
 });
 
-export function normalizeOutputTarget(config: Config, outputTarget: any) {
+export function normalizeOutputTarget(config: Config, outputTarget: OutputTargetAngular) {
   const results: OutputTargetAngular = {
     ...outputTarget,
     excludeComponents: outputTarget.excludeComponents || [],
-    valueAccessorConfig: outputTarget.valueAccessorConfig || [],
+    valueAccessorConfigs: outputTarget.valueAccessorConfigs || [],
   };
 
   if (config.rootDir == null) {
     throw new Error('rootDir is not set and it should be set by stencil itself');
   }
+
   if (outputTarget.directivesProxyFile == null) {
-    throw new Error('directivesProxyFile is required');
+    throw new Error('directivesProxyFile is required. Please set it in the Stencil config.');
   }
 
   if (outputTarget.directivesProxyFile && !path.isAbsolute(outputTarget.directivesProxyFile)) {
