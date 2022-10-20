@@ -13,6 +13,8 @@ describe('createAngularComponentDefinition()', () => {
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: [],
+  // eslint-disable-next-line @angular-eslint/no-outputs-metadata-property
+  outputs: [],
 })
 export class MyComponent {
   protected el: HTMLElement;
@@ -34,6 +36,8 @@ export class MyComponent {
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: ['my-input', 'my-other-input'],
+  // eslint-disable-next-line @angular-eslint/no-outputs-metadata-property
+  outputs: [],
 })
 export class MyComponent {
   protected el: HTMLElement;
@@ -61,6 +65,8 @@ export class MyComponent {
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: [],
+  // eslint-disable-next-line @angular-eslint/no-outputs-metadata-property
+  outputs: ['my-output', 'my-other-output'],
 })
 export class MyComponent {
   protected el: HTMLElement;
@@ -84,6 +90,8 @@ export class MyComponent {
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: [],
+  // eslint-disable-next-line @angular-eslint/no-outputs-metadata-property
+  outputs: [],
 })
 export class MyComponent {
   protected el: HTMLElement;
@@ -108,6 +116,8 @@ export class MyComponent {
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: [],
+  // eslint-disable-next-line @angular-eslint/no-outputs-metadata-property
+  outputs: [],
 })
 export class MyComponent {
   protected el: HTMLElement;
@@ -131,6 +141,8 @@ export class MyComponent {
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: ['my-input', 'my-other-input'],
+  // eslint-disable-next-line @angular-eslint/no-outputs-metadata-property
+  outputs: [],
 })
 export class MyComponent {
   protected el: HTMLElement;
@@ -158,6 +170,8 @@ export class MyComponent {
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: [],
+  // eslint-disable-next-line @angular-eslint/no-outputs-metadata-property
+  outputs: ['my-output', 'my-other-output'],
 })
 export class MyComponent {
   protected el: HTMLElement;
@@ -182,6 +196,8 @@ export class MyComponent {
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: [],
+  // eslint-disable-next-line @angular-eslint/no-outputs-metadata-property
+  outputs: [],
 })
 export class MyComponent {
   protected el: HTMLElement;
