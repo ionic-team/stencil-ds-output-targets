@@ -149,8 +149,14 @@ export const createComponentTypeDefinition = (
   });
   const eventTypes = publicEvents.map((event) => {
     const comment = createDocComment(event.docs);
+    let eventName = event.name;
+    if (event.name.indexOf('-') !== -1) {
+      // If an event name includes a dash, we need to wrap it in quotes.
+      // https://github.com/ionic-team/stencil-ds-output-targets/issues/212
+      eventName = `'${event.name}'`;
+    }
     return `${comment.length > 0 ? `  ${comment}` : ''}
-  ${event.name}: EventEmitter<CustomEvent<${formatOutputType(tagNameAsPascal, event)}>>;`;
+  ${eventName}: EventEmitter<CustomEvent<${formatOutputType(tagNameAsPascal, event)}>>;`;
   });
   const interfaceDeclaration = `export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {`;
 
