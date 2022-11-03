@@ -1,3 +1,4 @@
+import { ComponentCompilerEvent } from '@stencil/core/internal';
 import { createComponentTypeDefinition, createAngularComponentDefinition } from '../src/generate-angular-component';
 
 describe('createAngularComponentDefinition()', () => {
@@ -48,7 +49,32 @@ export class MyComponent {
       const component = createAngularComponentDefinition(
         'my-component',
         [],
-        ['my-output', 'my-other-output'],
+        [
+          {
+            name: 'myOutput',
+            complexType: {
+              references: {
+                MyEvent: {
+                  location: 'import',
+                },
+              },
+              original: 'MyEvent',
+              resolved: 'MyEvent',
+            },
+          } as any,
+          {
+            name: 'myOtherOutput',
+            complexType: {
+              references: {
+                MyOtherOutput: {
+                  location: 'import',
+                },
+              },
+              original: 'MyEvent',
+              resolved: 'MyEvent',
+            },
+          } as any,
+        ],
         [],
         false
       );
@@ -63,11 +89,13 @@ export class MyComponent {
   inputs: [],
 })
 export class MyComponent {
+  @Output() myOutput: EventEmitter<CustomEvent<IMyComponentMyEvent>> = new EventEmitter();
+  @Output() myOtherOutput: EventEmitter<CustomEvent<IMyComponentMyEvent>> = new EventEmitter();
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['my-output', 'my-other-output']);
+    proxyOutputs(this, this.el, ['myOutput', 'myOtherOutput']);
   }
 }`);
     });
@@ -145,7 +173,32 @@ export class MyComponent {
       const component = createAngularComponentDefinition(
         'my-component',
         [],
-        ['my-output', 'my-other-output'],
+        [
+          {
+            name: 'myOutput',
+            complexType: {
+              references: {
+                MyEvent: {
+                  location: 'import',
+                },
+              },
+              original: 'MyEvent',
+              resolved: 'MyEvent',
+            },
+          } as any,
+          {
+            name: 'myOtherOutput',
+            complexType: {
+              references: {
+                MyOtherOutput: {
+                  location: 'import',
+                },
+              },
+              original: 'MyEvent',
+              resolved: 'MyEvent',
+            },
+          } as any,
+        ],
         [],
         true
       );
@@ -160,11 +213,13 @@ export class MyComponent {
   inputs: [],
 })
 export class MyComponent {
+  @Output() myOutput: EventEmitter<CustomEvent<IMyComponentMyEvent>> = new EventEmitter();
+  @Output() myOtherOutput: EventEmitter<CustomEvent<IMyComponentMyEvent>> = new EventEmitter();
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['my-output', 'my-other-output']);
+    proxyOutputs(this, this.el, ['myOutput', 'myOtherOutput']);
   }
 }`);
     });

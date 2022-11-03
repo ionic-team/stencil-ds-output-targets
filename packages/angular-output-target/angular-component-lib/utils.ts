@@ -36,6 +36,28 @@ export const defineCustomElement = (tagName: string, customElement: any) => {
   }
 };
 
+/**
+ * The Angular property name that contains the object of metadata properties
+ * for the component added by the Angular compiler.
+ */
+const NG_COMP_DEF = 'ɵcmp';
+
+export const clearAngularOutputBindings = (cls: any) => {
+  if (typeof cls === 'function' && cls !== null) {
+    if (cls.prototype.constructor) {
+      const instance = cls.prototype.constructor;
+      if (instance[NG_COMP_DEF]) {
+        /**
+         * With the output targets generating @Output() proxies, we need to
+         * clear the metadata (ɵcmp.outputs) so that Angular does not add its own event listener
+         * and cause duplicate event emissions for the web component events.
+         */
+        instance[NG_COMP_DEF].outputs = {};
+      }
+    }
+  }
+};
+
 // tslint:disable-next-line: only-arrow-functions
 export function ProxyCmp(opts: { defineCustomElementFn?: () => void; inputs?: any; methods?: any }) {
   const decorator = function (cls: any) {
@@ -44,6 +66,8 @@ export function ProxyCmp(opts: { defineCustomElementFn?: () => void; inputs?: an
     if (defineCustomElementFn !== undefined) {
       defineCustomElementFn();
     }
+
+    clearAngularOutputBindings(cls);
 
     if (inputs) {
       proxyInputs(cls, inputs);

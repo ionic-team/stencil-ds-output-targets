@@ -15,7 +15,7 @@ import { createComponentEventTypeImports, dashToPascalCase, formatToQuotedList }
 export const createAngularComponentDefinition = (
   tagName: string,
   inputs: readonly string[],
-  outputs: readonly string[],
+  outputs: readonly ComponentCompilerEvent[],
   methods: readonly string[],
   includeImportCustomElements = false
 ) => {
@@ -28,9 +28,11 @@ export const createAngularComponentDefinition = (
   // Formats the input strings into comma separated, single quoted values.
   const formattedInputs = formatToQuotedList(inputs);
   // Formats the output strings into comma separated, single quoted values.
-  const formattedOutputs = formatToQuotedList(outputs);
+  const formattedOutputs = formatToQuotedList(outputs.map((event) => event.name));
   // Formats the method strings into comma separated, single quoted values.
   const formattedMethods = formatToQuotedList(methods);
+  // The collection of @Output() decorators for the component.
+  const outputDecorators = outputs.map((event) => createAngularOutputDecorator(tagName, event));
 
   const proxyCmpOptions = [];
 
@@ -48,35 +50,60 @@ export const createAngularComponentDefinition = (
     proxyCmpOptions.push(`\n  methods: [${formattedMethods}]`);
   }
 
-  /**
-   * Notes on the generated output:
-   * - We disable @angular-eslint/no-inputs-metadata-property, so that
-   * Angular does not complain about the inputs property. The output target
-   * uses the inputs property to define the inputs of the component instead of
-   * having to use the @Input decorator (and manually define the type and default value).
-   */
-  const output = `@ProxyCmp({${proxyCmpOptions.join(',')}\n})
-@Component({
-  selector: '${tagName}',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>',
-  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: [${formattedInputs}],
-})
-export class ${tagNameAsPascal} {
-  protected el: HTMLElement;
-  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
-    c.detach();
-    this.el = r.nativeElement;${
-      hasOutputs
-        ? `
-    proxyOutputs(this, this.el, [${formattedOutputs}]);`
-        : ''
+  const output = [
+    `@ProxyCmp({${proxyCmpOptions.join(',')}\n})`,
+    `@Component({`,
+    `  selector: '${tagName}',`,
+    `  changeDetection: ChangeDetectionStrategy.OnPush,`,
+    `  template: '<ng-content></ng-content>',`,
+    /**
+     * We disable @angular-eslint/no-inputs-metadata-property, so that
+     * Angular does not complain about the inputs property. The output target
+     * uses the inputs property to define the inputs of the component instead of
+     * having to use the @Input decorator (and manually define the type and default value).
+     */
+    `  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property`,
+    `  inputs: [${formattedInputs}],`,
+    `})`,
+    `export class ${tagNameAsPascal} {`,
+  ];
+
+  if (outputDecorators.length > 0) {
+    for (let outputDecorator of outputDecorators) {
+      output.push(`  ${outputDecorator}`);
     }
   }
-}`;
 
-  return output;
+  output.push(`  protected el: HTMLElement;`);
+  output.push(`  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {`);
+  output.push(`    c.detach();`);
+  output.push(`    this.el = r.nativeElement;`);
+  if (hasOutputs) {
+    output.push(`    proxyOutputs(this, this.el, [${formattedOutputs}]);`);
+  }
+  output.push(`  }`);
+  output.push(`}`);
+
+  return output.join('\n');
+};
+
+/**
+ * Creates an `@Output()` decorator for a custom event on a Stencil component.
+ * @param tagName The tag name of the component.
+ * @param event The Stencil component event.
+ * @returns The `@Output()` decorator as a string.
+ */
+const createAngularOutputDecorator = (tagName: string, event: ComponentCompilerEvent) => {
+  const tagNameAsPascal = dashToPascalCase(tagName);
+  // When updating to Stencil 3.0, the component custom event generic will be
+  // exported by default and can be referenced here with:
+  // const customEvent = `${tagNameAsPascal}CustomEvent`;
+  const customEventType = `CustomEvent`;
+  const eventType = formatOutputType(tagNameAsPascal, event);
+
+  const outputType = `${customEventType}<${eventType}>`;
+
+  return `@Output() ${event.name}: EventEmitter<${outputType}> = new EventEmitter();`;
 };
 
 /**

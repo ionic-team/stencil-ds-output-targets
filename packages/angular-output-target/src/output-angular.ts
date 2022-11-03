@@ -1,5 +1,5 @@
 import path from 'path';
-import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
+import type { CompilerCtx, ComponentCompilerEvent, ComponentCompilerMeta, Config } from '@stencil/core/internal';
 import type { OutputTargetAngular, PackageJSON } from './types';
 import {
   relativeImport,
@@ -77,6 +77,7 @@ export function generateProxies(
     'ElementRef',
     'EventEmitter',
     'NgZone',
+    'Output',
   ];
 
   /**
@@ -151,10 +152,10 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
 
     inputs.sort();
 
-    const outputs: string[] = [];
+    const outputs: ComponentCompilerEvent[] = [];
 
     if (cmpMeta.events) {
-      outputs.push(...cmpMeta.events.filter(filterInternalProps).map(mapPropName));
+      outputs.push(...cmpMeta.events.filter(filterInternalProps));
     }
 
     const methods: string[] = [];
