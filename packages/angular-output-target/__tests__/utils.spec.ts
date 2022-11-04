@@ -89,7 +89,8 @@ import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/compo
 
 describe('formatToQuotedList', () => {
   it('should format an array of strings', () => {
-    const res = formatToQuotedList(['a', 'b', 'c']);
-    expect(res).toEqual(`'a', 'b', 'c'`);
+    expect(formatToQuotedList(['a', 'b', 'c'])).toEqual(`'a', 'b', 'c'`);
+    expect(formatToQuotedList(['a'])).toEqual(`'a'`);
+    expect(formatToQuotedList([])).toEqual('');
   });
 });

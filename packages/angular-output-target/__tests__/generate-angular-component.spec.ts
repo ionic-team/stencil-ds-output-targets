@@ -2,7 +2,7 @@ import { createComponentTypeDefinition, createAngularComponentDefinition } from 
 
 describe('createAngularComponentDefinition()', () => {
   describe('www output', () => {
-    it('it should generate a component', () => {
+    it('generates a component', () => {
       const component = createAngularComponentDefinition('my-component', [], [], [], false);
 
       expect(component).toEqual(`@ProxyCmp({
@@ -23,7 +23,7 @@ export class MyComponent {
 }`);
     });
 
-    it('it should generate a component with inputs', () => {
+    it('generates a component with inputs', () => {
       const component = createAngularComponentDefinition('my-component', ['my-input', 'my-other-input'], [], [], false);
       expect(component).toMatch(`@ProxyCmp({
   inputs: ['my-input', 'my-other-input']
@@ -44,7 +44,7 @@ export class MyComponent {
 }`);
     });
 
-    it('it should generate a component with outputs', () => {
+    it('generates a component with outputs', () => {
       const component = createAngularComponentDefinition(
         'my-component',
         [],
@@ -72,7 +72,7 @@ export class MyComponent {
 }`);
     });
 
-    it('it should generate a component with methods', () => {
+    it('generates a component with methods', () => {
       const component = createAngularComponentDefinition('my-component', [], [], ['myMethod', 'myOtherMethod'], false);
 
       expect(component).toMatch(`@ProxyCmp({
@@ -96,7 +96,7 @@ export class MyComponent {
   });
 
   describe('custom elements output', () => {
-    it('it should generate a component', () => {
+    it('generates a component', () => {
       const component = createAngularComponentDefinition('my-component', [], [], [], true);
 
       expect(component).toEqual(`@ProxyCmp({
@@ -118,7 +118,7 @@ export class MyComponent {
 }`);
     });
 
-    it('it should generate a component with inputs', () => {
+    it('generates a component with inputs', () => {
       const component = createAngularComponentDefinition('my-component', ['my-input', 'my-other-input'], [], [], true);
 
       expect(component).toEqual(`@ProxyCmp({
@@ -141,7 +141,7 @@ export class MyComponent {
 }`);
     });
 
-    it('it should generate a component with outputs', () => {
+    it('generates a component with outputs', () => {
       const component = createAngularComponentDefinition(
         'my-component',
         [],
@@ -169,7 +169,7 @@ export class MyComponent {
 }`);
     });
 
-    it('it should generate a component with methods', () => {
+    it('generates a component with methods', () => {
       const component = createAngularComponentDefinition('my-component', [], [], ['myMethod', 'myOtherMethod'], true);
 
       expect(component).toMatch(`@ProxyCmp({
@@ -250,7 +250,7 @@ describe('createComponentTypeDefinition()', () => {
   ];
 
   describe('www build', () => {
-    it('should create a type definition', () => {
+    it('creates a type definition', () => {
       const definition = createComponentTypeDefinition('MyComponent', testEvents, '@ionic/core', false);
 
       expect(definition).toEqual(
@@ -276,7 +276,7 @@ export declare interface MyComponent extends Components.MyComponent {
 
   describe('custom elements output', () => {
     describe('with a custom elements directory provided', () => {
-      it('should create a type definition', () => {
+      it('creates a type definition', () => {
         const definition = createComponentTypeDefinition(
           'MyComponent',
           testEvents,
@@ -307,7 +307,7 @@ export declare interface MyComponent extends Components.MyComponent {
     });
 
     describe('without a custom elements directory provided', () => {
-      it('should create a type definition', () => {
+      it('creates a type definition', () => {
         const definition = createComponentTypeDefinition('MyComponent', testEvents, '@ionic/core', true);
 
         expect(definition).toEqual(

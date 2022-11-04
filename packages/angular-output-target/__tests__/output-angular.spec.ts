@@ -25,7 +25,7 @@ describe('generateProxies', () => {
   it('should use a relative path to types when a component-library is not provided', () => {
     const outputTarget: OutputTargetAngular = {
       proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
-    };
+    } as OutputTargetAngular;
 
     const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
     expect(finalText.includes(`import { Components } from 'component-library';`)).toBeFalsy();
@@ -40,7 +40,7 @@ describe('generateProxies', () => {
         proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
         includeSingleComponentAngularModules: true,
         includeImportCustomElements: false,
-      };
+      } as OutputTargetAngular;
 
       expect(() => {
         generateProxies(components, pkgData, outputTarget, rootDir);
@@ -55,7 +55,7 @@ describe('generateProxies', () => {
       const outputTarget: OutputTargetAngular = {
         proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
         includeSingleComponentAngularModules: true,
-      };
+      } as OutputTargetAngular;
 
       expect(() => {
         generateProxies(components, pkgData, outputTarget, rootDir);

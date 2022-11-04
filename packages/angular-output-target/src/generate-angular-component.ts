@@ -96,9 +96,12 @@ const formatOutputType = (componentClassName: string, event: ComponentCompilerEv
     .reduce(
       (type, [src, dst]) => {
         const renamedType = `I${componentClassName}${type}`;
-        return renamedType
-          .replace(new RegExp(`^${src}$`, 'g'), `${dst}`)
-          .replace(new RegExp(`([^\\w])${src}([^\\w])`, 'g'), (v, p1, p2) => [p1, dst, p2].join(''));
+        return (
+          renamedType
+            .replace(new RegExp(`^${src}$`, 'g'), `${dst}`)
+            // Capture all instances of the `src` field surrounded by non-word characters on each side and join them.
+            .replace(new RegExp(`([^\\w])${src}([^\\w])`, 'g'), (v, p1, p2) => [p1, dst, p2].join(''))
+        );
       },
       event.complexType.original
         .replace(/\n/g, ' ')
