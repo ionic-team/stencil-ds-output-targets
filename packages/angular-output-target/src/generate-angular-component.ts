@@ -31,8 +31,6 @@ export const createAngularComponentDefinition = (
   const formattedOutputs = formatToQuotedList(outputs.map((event) => event.name));
   // Formats the method strings into comma separated, single quoted values.
   const formattedMethods = formatToQuotedList(methods);
-  // The collection of @Output() decorators for the component.
-  const outputDecorators = outputs.map((event) => createAngularOutputDecorator(tagName, event));
 
   const proxyCmpOptions = [];
 
@@ -68,9 +66,9 @@ export const createAngularComponentDefinition = (
     `export class ${tagNameAsPascal} {`,
   ];
 
-  if (outputDecorators.length > 0) {
-    for (let outputDecorator of outputDecorators) {
-      output.push(`  ${outputDecorator}`);
+  if (hasOutputs) {
+    for (let compilerEvent of outputs) {
+      output.push(`  ${createAngularOutputDecorator(tagName, compilerEvent)}`);
     }
   }
 
