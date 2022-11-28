@@ -247,6 +247,21 @@ describe('createComponentTypeDefinition()', () => {
         tags: [],
       },
     },
+    {
+      name: 'my-kebab-event',
+      complexType: {
+        references: {
+          MyKebabEvent: {
+            location: 'import',
+          },
+        },
+        original: 'MyKebabEvent',
+      },
+      docs: {
+        text: '',
+        tags: [],
+      },
+    },
   ];
 
   describe('www build', () => {
@@ -257,6 +272,7 @@ describe('createComponentTypeDefinition()', () => {
         `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core';
 import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core';
 import type { MyDoclessEvent as IMyComponentMyDoclessEvent } from '@ionic/core';
+import type { MyKebabEvent as IMyComponentMyKebabEvent } from '@ionic/core';
 
 export declare interface MyComponent extends Components.MyComponent {
   /**
@@ -269,6 +285,8 @@ export declare interface MyComponent extends Components.MyComponent {
   myOtherEvent: EventEmitter<CustomEvent<IMyComponentMyOtherEvent>>;
 
   myDoclessEvent: EventEmitter<CustomEvent<IMyComponentMyDoclessEvent>>;
+
+  'my-kebab-event': EventEmitter<CustomEvent<IMyComponentMyKebabEvent>>;
 }`
       );
     });
@@ -289,6 +307,7 @@ export declare interface MyComponent extends Components.MyComponent {
           `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core/custom-elements';
 import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/custom-elements';
 import type { MyDoclessEvent as IMyComponentMyDoclessEvent } from '@ionic/core/custom-elements';
+import type { MyKebabEvent as IMyComponentMyKebabEvent } from '@ionic/core/custom-elements';
 
 export declare interface MyComponent extends Components.MyComponent {
   /**
@@ -301,6 +320,8 @@ export declare interface MyComponent extends Components.MyComponent {
   myOtherEvent: EventEmitter<CustomEvent<IMyComponentMyOtherEvent>>;
 
   myDoclessEvent: EventEmitter<CustomEvent<IMyComponentMyDoclessEvent>>;
+
+  'my-kebab-event': EventEmitter<CustomEvent<IMyComponentMyKebabEvent>>;
 }`
         );
       });
@@ -314,6 +335,7 @@ export declare interface MyComponent extends Components.MyComponent {
           `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core/components';
 import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/components';
 import type { MyDoclessEvent as IMyComponentMyDoclessEvent } from '@ionic/core/components';
+import type { MyKebabEvent as IMyComponentMyKebabEvent } from '@ionic/core/components';
 
 export declare interface MyComponent extends Components.MyComponent {
   /**
@@ -326,6 +348,8 @@ export declare interface MyComponent extends Components.MyComponent {
   myOtherEvent: EventEmitter<CustomEvent<IMyComponentMyOtherEvent>>;
 
   myDoclessEvent: EventEmitter<CustomEvent<IMyComponentMyDoclessEvent>>;
+
+  'my-kebab-event': EventEmitter<CustomEvent<IMyComponentMyKebabEvent>>;
 }`
         );
       });
