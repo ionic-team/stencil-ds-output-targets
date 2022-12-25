@@ -134,7 +134,9 @@ export function createComponentDefinition(
   includeCustomElement: boolean = false
 ): ReadonlyArray<string> {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
-  let template = `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}'`;
+  const classTypeParams =
+  cmpMeta.componentClassTypeParameters.length > 0 ? `<${cmpMeta.componentClassTypeParameters.join(',')}>` : '';
+  let template = `export const ${tagNameAsPascal}${classTypeParams} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}${classTypeParams}, HTML${tagNameAsPascal}Element${classTypeParams}>('${cmpMeta.tagName}'`;
 
   if (includeCustomElement) {
     template += `, undefined, undefined, define${tagNameAsPascal}`;
