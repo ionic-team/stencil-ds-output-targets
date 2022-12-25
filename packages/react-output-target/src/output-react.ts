@@ -1,13 +1,7 @@
 import path from 'path';
 import type { OutputTargetReact, PackageJSON } from './types';
 import { dashToPascalCase, normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
-import type {
-  CompilerCtx,
-  ComponentCompilerMeta,
-  Config,
-  CopyResults,
-  OutputTargetDist,
-} from '@stencil/core/internal';
+import type { CompilerCtx, ComponentCompilerMeta, Config, CopyResults, OutputTargetDist } from '@stencil/core/internal';
 
 /**
  * Generate and write the Stencil-React bindings to disc
@@ -20,7 +14,7 @@ export async function reactProxyOutput(
   config: Config,
   compilerCtx: CompilerCtx,
   outputTarget: OutputTargetReact,
-  components: ReadonlyArray<ComponentCompilerMeta>,
+  components: ReadonlyArray<ComponentCompilerMeta>
 ): Promise<void> {
   const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, components);
   const rootDir = config.rootDir as string;
@@ -37,10 +31,11 @@ export async function reactProxyOutput(
  * @param cmps a list of components
  * @returns the filtered list of components
  */
-function getFilteredComponents(excludeComponents: ReadonlyArray<string> = [], cmps: readonly ComponentCompilerMeta[]): ReadonlyArray<ComponentCompilerMeta> {
-  return sortBy(cmps, (cmp) => cmp.tagName).filter(
-    (c) => !excludeComponents.includes(c.tagName) && !c.internal,
-  );
+function getFilteredComponents(
+  excludeComponents: ReadonlyArray<string> = [],
+  cmps: readonly ComponentCompilerMeta[]
+): ReadonlyArray<ComponentCompilerMeta> {
+  return sortBy(cmps, (cmp) => cmp.tagName).filter((c) => !excludeComponents.includes(c.tagName) && !c.internal);
 }
 
 /**
@@ -57,7 +52,7 @@ export function generateProxies(
   components: ReadonlyArray<ComponentCompilerMeta>,
   pkgData: PackageJSON,
   outputTarget: OutputTargetReact,
-  rootDir: string,
+  rootDir: string
 ): string {
   const distTypesDir = path.dirname(pkgData.types);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
@@ -77,12 +72,14 @@ import { createReactComponent } from './react-component-lib';\n`;
    */
   const generateTypeImports = () => {
     if (outputTarget.componentCorePackage !== undefined) {
-      const dirPath = outputTarget.includeImportCustomElements ? `/${outputTarget.customElementsDir || 'components'}` : '';
+      const dirPath = outputTarget.includeImportCustomElements
+        ? `/${outputTarget.customElementsDir || 'components'}`
+        : '';
       return `import type { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}${dirPath}';\n`;
     }
 
     return `import type { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`;
-  }
+  };
 
   const typeImports = generateTypeImports();
 
@@ -95,16 +92,15 @@ import { createReactComponent } from './react-component-lib';\n`;
    * Component that takes in the Web Component as a parameter.
    */
   if (outputTarget.includeImportCustomElements && outputTarget.componentCorePackage !== undefined) {
-    const cmpImports = components.map(component => {
+    const cmpImports = components.map((component) => {
       const pascalImport = dashToPascalCase(component.tagName);
 
-      return `import { defineCustomElement as define${pascalImport} } from '${normalizePath(outputTarget.componentCorePackage!)}/${outputTarget.customElementsDir ||
-        'components'
-      }/${component.tagName}.js';`;
+      return `import { defineCustomElement as define${pascalImport} } from '${normalizePath(
+        outputTarget.componentCorePackage!
+      )}/${outputTarget.customElementsDir || 'components'}/${component.tagName}.js';`;
     });
 
     sourceImports = cmpImports.join('\n');
-
   } else if (outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
     sourceImports = `import { ${APPLY_POLYFILLS}, ${REGISTER_CUSTOM_ELEMENTS} } from '${pathToCorePackageLoader}';\n`;
     registerCustomElements = `${APPLY_POLYFILLS}().then(() => ${REGISTER_CUSTOM_ELEMENTS}());`;
@@ -118,7 +114,9 @@ import { createReactComponent } from './react-component-lib';\n`;
     typeImports,
     sourceImports,
     registerCustomElements,
-    components.map(cmpMeta => createComponentDefinition(cmpMeta, outputTarget.includeImportCustomElements)).join('\n'),
+    components
+      .map((cmpMeta) => createComponentDefinition(cmpMeta, outputTarget.includeImportCustomElements))
+      .join('\n'),
   ];
 
   return final.join('\n') + '\n';
@@ -131,7 +129,10 @@ import { createReactComponent } from './react-component-lib';\n`;
  * registered with the Custom Elements Registry.
  * @returns An array where each entry is a string version of the React component definition.
  */
-export function createComponentDefinition(cmpMeta: ComponentCompilerMeta, includeCustomElement: boolean = false): ReadonlyArray<string> {
+export function createComponentDefinition(
+  cmpMeta: ComponentCompilerMeta,
+  includeCustomElement: boolean = false
+): ReadonlyArray<string> {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
   const classTypeParams =
   cmpMeta.componentClassTypeParameters.length > 0 ? `<${cmpMeta.componentClassTypeParameters.join(',')}>` : '';
@@ -143,9 +144,7 @@ export function createComponentDefinition(cmpMeta: ComponentCompilerMeta, includ
 
   template += `);`;
 
-  return [
-    template
-  ];
+  return [template];
 }
 
 /**
@@ -171,7 +170,7 @@ async function copyResources(config: Config, outputTarget: OutputTargetReact): P
         warn: false,
       },
     ],
-    srcDirectory,
+    srcDirectory
   );
 }
 
@@ -191,9 +190,7 @@ export function getPathToCorePackageLoader(config: Config, outputTarget: OutputT
       : null;
 
   const distRelEsmLoaderPath =
-    config.rootDir && distAbsEsmLoaderPath
-      ? path.relative(config.rootDir, distAbsEsmLoaderPath)
-      : null;
+    config.rootDir && distAbsEsmLoaderPath ? path.relative(config.rootDir, distAbsEsmLoaderPath) : null;
 
   const loaderDir = outputTarget.loaderDir || distRelEsmLoaderPath || DEFAULT_LOADER_DIR;
   return normalizePath(path.join(basePkg, loaderDir));

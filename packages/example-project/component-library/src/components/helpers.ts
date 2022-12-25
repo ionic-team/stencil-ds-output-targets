@@ -49,7 +49,7 @@ export const renderHiddenInput = (
   container: HTMLElement,
   name: string,
   value: string | undefined | null,
-  disabled: boolean,
+  disabled: boolean
 ) => {
   if (always || hasShadowDom(container)) {
     let input = container.querySelector('input.aux-input') as HTMLInputElement | null;
@@ -146,11 +146,7 @@ export const eventMethod = <T>(element: HTMLElement, eventName: string): Promise
   return promise;
 };
 
-export const onceEvent = (
-  element: HTMLElement,
-  eventName: string,
-  callback: (ev: Event) => void,
-) => {
+export const onceEvent = (element: HTMLElement, eventName: string, callback: (ev: Event) => void) => {
   const handler = (ev: Event) => {
     element.removeEventListener(eventName, handler);
     callback(ev);

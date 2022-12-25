@@ -58,16 +58,7 @@ export type AutocompleteTypes =
   | 'url'
   | 'photo';
 
-export type TextFieldTypes =
-  | 'date'
-  | 'email'
-  | 'number'
-  | 'password'
-  | 'search'
-  | 'tel'
-  | 'text'
-  | 'url'
-  | 'time';
+export type TextFieldTypes = 'date' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url' | 'time';
 export type Side = 'start' | 'end';
 export type PredefinedColors =
   | 'primary'

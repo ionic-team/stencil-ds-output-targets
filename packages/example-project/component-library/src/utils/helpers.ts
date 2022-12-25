@@ -11,7 +11,7 @@ export const renderHiddenInput = (
   container: HTMLElement,
   name: string,
   value: string | undefined | null,
-  disabled: boolean,
+  disabled: boolean
 ) => {
   if (always || hasShadowDom(container)) {
     let input = container.querySelector('input.aux-input') as HTMLInputElement | null;

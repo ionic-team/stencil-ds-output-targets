@@ -1,14 +1,4 @@
-import {
-  Component,
-  ComponentInterface,
-  Element,
-  Event,
-  EventEmitter,
-  Host,
-  Prop,
-  Watch,
-  h,
-} from '@stencil/core';
+import { Component, ComponentInterface, Element, Event, EventEmitter, Host, Prop, Watch, h } from '@stencil/core';
 
 import { CheckboxChangeEventDetail, Color, StyleEventDetail } from '../element-interface';
 import { findItemLabel, renderHiddenInput } from '../../utils/helpers';
@@ -158,7 +148,8 @@ export class Checkbox implements ComponentInterface {
           'checkbox-disabled': disabled,
           'checkbox-indeterminate': indeterminate,
           interactive: true,
-        }}>
+        }}
+      >
         <svg class="checkbox-icon" viewBox="0 0 24 24" part="container">
           {path}
         </svg>
@@ -167,7 +158,8 @@ export class Checkbox implements ComponentInterface {
           onFocus={this.onFocus}
           onBlur={this.onBlur}
           disabled={this.disabled}
-          ref={(btnEl) => (this.buttonEl = btnEl)}></button>
+          ref={(btnEl) => (this.buttonEl = btnEl)}
+        ></button>
       </Host>
     );
   }

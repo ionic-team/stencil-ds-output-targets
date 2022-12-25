@@ -13,7 +13,7 @@ describe('MyComponent', () => {
 
   it('should render attributes as dash-case', () => {
     const { webcomponent: myComponent } = includeWebComponent<HTMLMyComponentElement>(
-      renderWithStrictMode(<MyButton buttonType="my-button-type" />),
+      renderWithStrictMode(<MyButton buttonType="my-button-type" />)
     );
     expect(myComponent.hasAttribute('buttonType')).toBe(false);
     expect(myComponent.getAttribute('button-type')).toBe('my-button-type');
@@ -21,7 +21,7 @@ describe('MyComponent', () => {
 
   it('should get strings as props and attrs', () => {
     const { webcomponent: myComponent } = includeWebComponent<HTMLMyComponentElement>(
-      renderWithStrictMode(<MyComponent first="blue" />),
+      renderWithStrictMode(<MyComponent first="blue" />)
     );
     expect(myComponent.first).toEqual('blue');
     expect(myComponent.getAttribute('first')).toBe('blue');
@@ -29,7 +29,7 @@ describe('MyComponent', () => {
 
   it('should get numbers as props and attrs', () => {
     const { webcomponent: myComponent } = includeWebComponent<HTMLMyComponentElement>(
-      renderWithStrictMode(<MyComponent age={39} />),
+      renderWithStrictMode(<MyComponent age={39} />)
     );
     expect(myComponent.age).toEqual(39);
     expect(myComponent.getAttribute('age')).toBe('39');
@@ -37,7 +37,7 @@ describe('MyComponent', () => {
 
   it('should get booleans as props and attrs', () => {
     const { webcomponent: myComponent } = includeWebComponent<HTMLMyInputElement>(
-      renderWithStrictMode(<MyInput clearInput />),
+      renderWithStrictMode(<MyInput clearInput />)
     );
     expect(myComponent.clearInput).toEqual(true);
     expect(myComponent.getAttribute('clear-input')).toBe('true');
@@ -45,7 +45,7 @@ describe('MyComponent', () => {
 
   it('should get arrays as props only', () => {
     const { webcomponent: myComponent } = includeWebComponent<HTMLMyComponentElement>(
-      renderWithStrictMode(<MyComponent kidsNames={['billy', 'jane']} />),
+      renderWithStrictMode(<MyComponent kidsNames={['billy', 'jane']} />)
     );
     expect(myComponent.kidsNames).toEqual(['billy', 'jane']);
     expect(myComponent.hasAttribute('kidsNames')).toBe(false);
@@ -57,7 +57,7 @@ describe('createComponent - ref', () => {
   test('should pass ref on to web component instance', () => {
     const myButtonRef: React.RefObject<any> = React.createRef();
     const { webcomponent: myButtonItem } = includeWebComponent<HTMLMyButtonElement>(
-      renderWithStrictMode(<MyButton ref={myButtonRef}>ButtonNameA</MyButton>),
+      renderWithStrictMode(<MyButton ref={myButtonRef}>ButtonNameA</MyButton>)
     );
     expect(myButtonRef.current).toEqual(myButtonItem);
   });
@@ -68,7 +68,7 @@ describe('createComponent - events', () => {
     const FakeOnClick = jest.fn((e) => e);
 
     const { webcomponent } = includeWebComponent<HTMLMyButtonElement>(
-      renderWithStrictMode(<MyButton onClick={FakeOnClick}>ButtonNameA</MyButton>),
+      renderWithStrictMode(<MyButton onClick={FakeOnClick}>ButtonNameA</MyButton>)
     );
     fireEvent.click(webcomponent);
     expect(FakeOnClick).toBeCalledTimes(1);
@@ -79,7 +79,7 @@ describe('createComponent - events', () => {
     const FakeFocus = jest.fn();
 
     const { webcomponent } = includeWebComponent<HTMLMyInputElement>(
-      renderWithStrictMode(<MyInput ref={myInputRef} onMyFocus={FakeFocus} />),
+      renderWithStrictMode(<MyInput ref={myInputRef} onMyFocus={FakeFocus} />)
     );
     const attachedEvents = (webcomponent as any).__events;
     expect(Object.keys(attachedEvents)).toContain('myFocus');

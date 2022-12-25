@@ -1,21 +1,6 @@
-import {
-  Component,
-  ComponentInterface,
-  Element,
-  Event,
-  EventEmitter,
-  Host,
-  Method,
-  Prop,
-  h,
-} from '@stencil/core';
+import { Component, ComponentInterface, Element, Event, EventEmitter, Host, Method, Prop, h } from '@stencil/core';
 
-import {
-  ComponentProps,
-  ComponentRef,
-  OverlayEventDetail,
-  OverlayInterface,
-} from '../../interfaces';
+import { ComponentProps, ComponentRef, OverlayEventDetail, OverlayInterface } from '../../interfaces';
 
 import { eventMethod } from '../helpers';
 
@@ -160,7 +145,8 @@ export class Popover implements ComponentInterface, OverlayInterface {
           'popover-translucent': this.translucent,
         }}
         onIonDismiss={this.onDismiss}
-        onIonBackdropTap={this.onBackdropTap}>
+        onIonBackdropTap={this.onBackdropTap}
+      >
         <my-backdrop tappable={this.backdropDismiss} visible={this.showBackdrop} />
         <div class="popover-wrapper">
           <div class="popover-arrow"></div>

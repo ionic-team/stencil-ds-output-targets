@@ -35,9 +35,7 @@ describe('MyRadio', () => {
   it('on mySelect checked the bound component attribute should update', () => {
     const { componentInstance: myAngularComponent } = fixture;
     myRadioEl.nativeElement.checked = true;
-    myRadioEl.nativeElement.dispatchEvent(
-      new CustomEvent('mySelect', { detail: { checked: true } }),
-    );
+    myRadioEl.nativeElement.dispatchEvent(new CustomEvent('mySelect', { detail: { checked: true } }));
     expect(myAngularComponent.isChecked).toEqual(true);
   });
 });
