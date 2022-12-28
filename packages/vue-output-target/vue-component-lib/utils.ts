@@ -155,7 +155,7 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
        */
       for (const key in props) {
         const value = props[key];
-        if (props.hasOwnProperty(key) && value !== EMPTY_PROP || key.startsWith(ARIA_PROP_PREFIX)) {
+        if ((props.hasOwnProperty(key) && value !== EMPTY_PROP) || key.startsWith(ARIA_PROP_PREFIX)) {
           propsToAdd[key] = value;
         }
       }
