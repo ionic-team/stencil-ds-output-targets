@@ -9,7 +9,7 @@ const MODEL_VALUE = 'modelValue';
 const ROUTER_LINK_VALUE = 'routerLink';
 const NAV_MANAGER = 'navManager';
 const ROUTER_PROP_PREFIX = 'router';
-
+const ARIA_PROP_PREFIX = 'aria';
 /**
  * Starting in Vue 3.1.0, all properties are
  * added as keys to the props object, even if
@@ -155,7 +155,7 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
        */
       for (const key in props) {
         const value = props[key];
-        if (props.hasOwnProperty(key) && value !== EMPTY_PROP) {
+        if (props.hasOwnProperty(key) && value !== EMPTY_PROP || key.startsWith(ARIA_PROP_PREFIX)) {
           propsToAdd[key] = value;
         }
       }
