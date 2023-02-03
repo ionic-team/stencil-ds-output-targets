@@ -1,6 +1,6 @@
 import path from 'path';
 import type { OutputTargetReact, PackageJSON } from './types';
-import { dashToPascalCase, normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
+import { dashToPascalCase, normalizePath, readPackageJson, relativeImport, sortBy } from './utils.js';
 import type { CompilerCtx, ComponentCompilerMeta, Config, CopyResults, OutputTargetDist } from '@stencil/core/internal';
 
 /**
@@ -62,7 +62,7 @@ export function generateProxies(
   const imports = `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated react proxies */
-import { createReactComponent } from './react-component-lib';\n`;
+import { createReactComponent } from './react-component-lib/index.js';\n`;
 
   /**
    * Generate JSX import type from correct location.
