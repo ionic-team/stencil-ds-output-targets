@@ -12,7 +12,7 @@ describe('generateProxies', () => {
   it('should use types from the component-library when it is provided to the config', () => {
     const outputTarget: OutputTargetAngular = {
       componentCorePackage: 'component-library',
-      proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
+      directivesProxyFile: '../component-library-angular/src/proxies.ts',
     };
 
     const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
@@ -24,7 +24,7 @@ describe('generateProxies', () => {
 
   it('should use a relative path to types when a component-library is not provided', () => {
     const outputTarget: OutputTargetAngular = {
-      proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
+      directivesProxyFile: '../component-library-angular/src/proxies.ts',
     } as OutputTargetAngular;
 
     const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
@@ -37,7 +37,7 @@ describe('generateProxies', () => {
   describe('when includeSingleComponentAngularModules is true', () => {
     it('should throw an error if includeImportCustomElements is false', () => {
       const outputTarget: OutputTargetAngular = {
-        proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
+        directivesProxyFile: '../component-library-angular/src/proxies.ts',
         includeSingleComponentAngularModules: true,
         includeImportCustomElements: false,
       } as OutputTargetAngular;
@@ -53,7 +53,7 @@ describe('generateProxies', () => {
 
     it('should throw an error if includeImportCustomElements is undefined', () => {
       const outputTarget: OutputTargetAngular = {
-        proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
+        directivesProxyFile: '../component-library-angular/src/proxies.ts',
         includeSingleComponentAngularModules: true,
       } as OutputTargetAngular;
 
@@ -68,7 +68,7 @@ describe('generateProxies', () => {
 
     it('should include an Angular module for each component', () => {
       const outputTarget: OutputTargetAngular = {
-        proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
+        directivesProxyFile: '../component-library-angular/src/proxies.ts',
         includeImportCustomElements: true,
         includeSingleComponentAngularModules: true,
         componentCorePackage: '@ionic/core',
@@ -92,7 +92,7 @@ describe('generateProxies', () => {
   describe('when includeSingleComponentAngularModules is false', () => {
     it('should not include an Angular module for each component', () => {
       const outputTarget: OutputTargetAngular = {
-        proxyDeclarationFile: '../component-library-angular/src/proxies.ts',
+        directivesProxyFile: '../component-library-angular/src/proxies.ts',
         includeImportCustomElements: true,
         includeSingleComponentAngularModules: false,
         componentCorePackage: '@ionic/core',

@@ -5,21 +5,19 @@ export interface OutputTargetAngular {
    */
   componentCorePackage: string;
   /**
-   * @deprecated Use `proxyDeclarationFile` instead. This property has been replaced.
-   */
-  directivesProxyFile?: string; // TODO: Remove this type once the example project uses the local dep vs. remote.
-  directivesArrayFile?: string;
-  directivesUtilsFile?: string;
-  /**
    * The path to the proxy file that will be generated. This can be an absolute path
    * or a relative path from the root directory of the Stencil library.
    */
-  proxyDeclarationFile: string;
+  directivesProxyFile: string;
+  directivesArrayFile?: string;
+  directivesUtilsFile?: string;
   valueAccessorConfigs?: ValueAccessorConfig[];
   excludeComponents?: string[];
   includeImportCustomElements?: boolean;
   customElementsDir?: string;
   /**
+   * @experimental
+   *
    * `true` to generate a single component Angular module for each component.
    */
   includeSingleComponentAngularModules?: boolean;
