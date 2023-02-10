@@ -43,7 +43,9 @@ export function normalizeOutputTarget(config: Config, outputTarget: OutputTarget
   }
 
   if (outputTarget.includeSingleComponentAngularModules !== undefined) {
-    console.warn('**Experimental**: includeSingleComponentAngularModules is a developer preview feature and may change or be removed in the future.');
+    console.warn(
+      '**Experimental**: includeSingleComponentAngularModules is a developer preview feature and may change or be removed in the future.'
+    );
   }
 
   return results;
