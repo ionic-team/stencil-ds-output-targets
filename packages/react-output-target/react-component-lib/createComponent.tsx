@@ -70,7 +70,7 @@ export const createReactComponent = <
           }
         }
         return acc;
-      }, {});
+      }, {} as ExpandedPropsTypes);
 
       if (manipulatePropsFunction) {
         propsToPass = manipulatePropsFunction(this.props, propsToPass);
