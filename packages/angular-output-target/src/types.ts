@@ -10,7 +10,6 @@ export interface OutputTargetAngular {
    */
   directivesProxyFile: string;
   directivesArrayFile?: string;
-  directivesUtilsFile?: string;
   valueAccessorConfigs?: ValueAccessorConfig[];
   excludeComponents?: string[];
   includeImportCustomElements?: boolean;
