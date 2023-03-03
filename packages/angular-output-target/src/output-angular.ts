@@ -12,6 +12,7 @@ import {
 import { createAngularComponentDefinition, createComponentTypeDefinition } from './generate-angular-component';
 import { generateAngularDirectivesFile } from './generate-angular-directives-file';
 import generateValueAccessors from './generate-value-accessors';
+import { generateAngularModuleForComponent } from './generate-angular-modules';
 
 export async function angularDirectiveProxyOutput(
   compilerCtx: CompilerCtx,
@@ -66,6 +67,7 @@ export function generateProxies(
   const distTypesDir = path.dirname(pkgData.types);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.directivesProxyFile, dtsFilePath, '.d.ts');
+  const includeSingleComponentAngularModules = outputTarget.includeSingleComponentAngularModules ?? false;
 
   /**
    * The collection of named imports from @angular/core.
@@ -83,6 +85,10 @@ export function generateProxies(
    * The collection of named imports from the angular-component-lib/utils.
    */
   const componentLibImports = ['ProxyCmp', 'proxyOutputs'];
+
+  if (includeSingleComponentAngularModules) {
+    angularCoreImports.push('NgModule');
+  }
 
   const imports = `/* tslint:disable */
 /* auto-generated angular directive proxies */
@@ -129,6 +135,15 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
     sourceImports = cmpImports.join('\n');
   }
 
+  if (includeSingleComponentAngularModules) {
+    // Generating Angular modules is only supported in the dist-custom-elements build
+    if (!outputTarget.includeImportCustomElements) {
+      throw new Error(
+        'Generating single component Angular modules requires the "includeImportCustomElements" option to be set to true.'
+      );
+    }
+  }
+
   const proxyFileOutput = [];
 
   const filterInternalProps = (prop: { name: string; internal: boolean }) => !prop.internal;
@@ -166,7 +181,8 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
     /**
      * For each component, we need to generate:
      * 1. The @Component decorated class
-     * 2. The component interface (using declaration merging for types).
+     * 2. Optionally the @NgModule decorated class (if includeSingleComponentAngularModules is true)
+     * 3. The component interface (using declaration merging for types).
      */
     const componentDefinition = createAngularComponentDefinition(
       cmpMeta.tagName,
@@ -175,6 +191,7 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
       methods,
       includeImportCustomElements
     );
+    const moduleDefinition = generateAngularModuleForComponent(cmpMeta.tagName);
     const componentTypeDefinition = createComponentTypeDefinition(
       tagNameAsPascal,
       cmpMeta.events,
@@ -184,6 +201,9 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
     );
 
     proxyFileOutput.push(componentDefinition, '\n');
+    if (includeSingleComponentAngularModules) {
+      proxyFileOutput.push(moduleDefinition, '\n');
+    }
     proxyFileOutput.push(componentTypeDefinition, '\n');
   }
 
