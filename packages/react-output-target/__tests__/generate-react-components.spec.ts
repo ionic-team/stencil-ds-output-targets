@@ -4,13 +4,18 @@ import { PackageJSON, OutputTargetReact } from '../src/types';
 
 describe('createComponentDefinition', () => {
   it('should create a React component with custom element support', () => {
-    const output = createComponentDefinition({
-      properties: [],
-      tagName: 'my-component',
-      methods: [],
-      events: [],
-    }, true);
-    expect(output[0]).toEqual(`export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component', undefined, undefined, defineMyComponent);`);
+    const output = createComponentDefinition(
+      {
+        properties: [],
+        tagName: 'my-component',
+        methods: [],
+        events: [],
+      },
+      true
+    );
+    expect(output[0]).toEqual(
+      `export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component', undefined, undefined, defineMyComponent);`
+    );
   });
 
   it('should create a React component without custom element support', () => {
@@ -20,7 +25,9 @@ describe('createComponentDefinition', () => {
       methods: [],
       events: [],
     });
-    expect(output[0]).toEqual(`export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component');`);
+    expect(output[0]).toEqual(
+      `export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component');`
+    );
   });
 });
 
@@ -32,7 +39,7 @@ describe('generateProxies', () => {
   const rootDir: string = '';
   const config: Config = { outputTargets: [] };
 
-  it('should include both polyfills and definCustomElements when both are true in the outputTarget', () => {
+  it('should include both polyfills and defineCustomElements when both are true in the outputTarget', () => {
     const outputTarget: OutputTargetReact = {
       componentCorePackage: 'component-library',
       proxiesFile: '../component-library-react/src/proxies.ts',
@@ -53,7 +60,7 @@ import { applyPolyfills, defineCustomElements } from 'component-library/dist/loa
 
 applyPolyfills().then(() => defineCustomElements());
 
-`,
+`
     );
   });
 
@@ -78,7 +85,7 @@ import { defineCustomElements } from 'component-library/dist/loader';
 
 defineCustomElements();
 
-`,
+`
     );
   });
 
@@ -102,7 +109,7 @@ import type { JSX } from 'component-library';
 
 
 
-`,
+`
     );
   });
 
@@ -125,7 +132,7 @@ import type { JSX } from 'component-library/components';
 
 
 
-`,
+`
     );
   });
 
@@ -134,7 +141,7 @@ import type { JSX } from 'component-library/components';
       componentCorePackage: 'component-library',
       proxiesFile: '../component-library-react/src/proxies.ts',
       includeImportCustomElements: true,
-      customElementsDir: 'custom-dir/hello'
+      customElementsDir: 'custom-dir/hello',
     };
 
     const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
@@ -149,7 +156,7 @@ import type { JSX } from 'component-library/custom-dir/hello';
 
 
 
-`,
+`
     );
   });
 });

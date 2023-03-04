@@ -16,12 +16,9 @@ export default async function generateValueAccessors(
   compilerCtx: CompilerCtx,
   components: ComponentCompilerMeta[],
   outputTarget: OutputTargetAngular,
-  config: Config,
+  config: Config
 ) {
-  if (
-    !Array.isArray(outputTarget.valueAccessorConfigs) ||
-    outputTarget.valueAccessorConfigs.length === 0
-  ) {
+  if (!Array.isArray(outputTarget.valueAccessorConfigs) || outputTarget.valueAccessorConfigs.length === 0) {
     return;
   }
 
@@ -29,9 +26,7 @@ export default async function generateValueAccessors(
 
   const normalizedValueAccessors: NormalizedValueAccessors = outputTarget.valueAccessorConfigs.reduce(
     (allAccessors, va) => {
-      const elementSelectors = Array.isArray(va.elementSelectors)
-        ? va.elementSelectors
-        : [va.elementSelectors];
+      const elementSelectors = Array.isArray(va.elementSelectors) ? va.elementSelectors : [va.elementSelectors];
       const type = va.type;
       let allElementSelectors: string[] = [];
       let allEventTargets: [string, string][] = [];
@@ -48,7 +43,7 @@ export default async function generateValueAccessors(
         },
       };
     },
-    {} as NormalizedValueAccessors,
+    {} as NormalizedValueAccessors
   );
 
   await Promise.all(
@@ -56,19 +51,12 @@ export default async function generateValueAccessors(
       const valueAccessorType = type as ValueAccessorTypes; // Object.keys converts to string
       const targetFileName = `${type}-value-accessor.ts`;
       const targetFilePath = path.join(targetDir, targetFileName);
-      const srcFilePath = path.join(
-        __dirname,
-        '../resources/control-value-accessors/',
-        targetFileName,
-      );
+      const srcFilePath = path.join(__dirname, '../resources/control-value-accessors/', targetFileName);
       const srcFileContents = await compilerCtx.fs.readFile(srcFilePath);
 
-      const finalText = createValueAccessor(
-        srcFileContents,
-        normalizedValueAccessors[valueAccessorType],
-      );
+      const finalText = createValueAccessor(srcFileContents, normalizedValueAccessors[valueAccessorType]);
       await compilerCtx.fs.writeFile(targetFilePath, finalText);
-    }),
+    })
   );
 
   await copyResources(config, ['value-accessor.ts'], targetDir);
@@ -78,8 +66,8 @@ export function createValueAccessor(srcFileContents: string, valueAccessor: Valu
   const hostContents = valueAccessor.eventTargets.map((listItem) =>
     VALUE_ACCESSOR_EVENTTARGETS.replace(VALUE_ACCESSOR_EVENT, listItem[0]).replace(
       VALUE_ACCESSOR_TARGETATTR,
-      listItem[1],
-    ),
+      listItem[1]
+    )
   );
 
   return srcFileContents

@@ -1,13 +1,6 @@
-import React from 'react';
+import React, { createElement } from 'react';
 
-import {
-  attachProps,
-  createForwardRef,
-  dashToPascalCase,
-  defineCustomElement,
-  isCoveredByReact,
-  mergeRefs,
-} from './utils';
+import { attachProps, camelToDashCase, createForwardRef, dashToPascalCase, isCoveredByReact, mergeRefs } from './utils';
 
 export interface HTMLStencilElement extends HTMLElement {
   componentOnReady(): Promise<this>;
@@ -28,11 +21,13 @@ export const createReactComponent = <
   ReactComponentContext?: React.Context<ContextStateType>,
   manipulatePropsFunction?: (
     originalProps: StencilReactInternalProps<ElementType>,
-    propsToPass: any,
+    propsToPass: any
   ) => ExpandedPropsTypes,
-  customElement?: any,
+  defineCustomElement?: () => void
 ) => {
-  defineCustomElement(tagName, customElement);
+  if (defineCustomElement !== undefined) {
+    defineCustomElement();
+  }
 
   const displayName = dashToPascalCase(tagName);
   const ReactComponent = class extends React.Component<StencilReactInternalProps<ElementType>> {
@@ -57,14 +52,22 @@ export const createReactComponent = <
     render() {
       const { children, forwardedRef, style, className, ref, ...cProps } = this.props;
 
-      let propsToPass = Object.keys(cProps).reduce((acc, name) => {
+      let propsToPass = Object.keys(cProps).reduce((acc: any, name) => {
+        const value = (cProps as any)[name];
+
         if (name.indexOf('on') === 0 && name[2] === name[2].toUpperCase()) {
           const eventName = name.substring(2).toLowerCase();
           if (typeof document !== 'undefined' && isCoveredByReact(eventName)) {
-            (acc as any)[name] = (cProps as any)[name];
+            acc[name] = value;
           }
         } else {
-          (acc as any)[name] = (cProps as any)[name];
+          // we should only render strings, booleans, and numbers as attrs in html.
+          // objects, functions, arrays etc get synced via properties on mount.
+          const type = typeof value;
+
+          if (type === 'string' || type === 'boolean' || type === 'number') {
+            acc[camelToDashCase(name)] = value;
+          }
         }
         return acc;
       }, {});
@@ -79,7 +82,14 @@ export const createReactComponent = <
         style,
       };
 
-      return React.createElement(tagName, newProps, children);
+      /**
+       * We use createElement here instead of
+       * React.createElement to work around a
+       * bug in Vite (https://github.com/vitejs/vite/issues/6104).
+       * React.createElement causes all elements to be rendered
+       * as <tagname> instead of the actual Web Component.
+       */
+      return createElement(tagName, newProps, children);
     }
 
     static get displayName() {

@@ -1,6 +1,6 @@
 {
   "name": "@stencil/react-output-target",
-  "version": "0.2.1",
+  "version": "0.3.1",
   "description": "React output target for @stencil/core components.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -13,11 +13,15 @@
     "access": "public"
   },
   "scripts": {
+    "prepublishOnly": "npm run build",
     "prebuild": "rimraf ./dist",
     "build": "tsc && npm run rollup",
     "watch": "tsc --watch",
     "rollup": "rollup -c",
     "version": "npm run build",
+    "prettier": "npm run prettier.base -- --write",
+    "prettier.base": "prettier \"./({react-component-lib,src,test,__tests__}/**/*.{ts,tsx,js,jsx})|*.{ts,tsx,js,jsx}\"",
+    "prettier.dry-run": "npm run prettier.base -- --list-different",
     "release": "np",
     "test": "jest"
   },

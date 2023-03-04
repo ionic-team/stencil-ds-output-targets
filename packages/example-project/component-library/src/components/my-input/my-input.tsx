@@ -314,7 +314,8 @@ export class Input implements ComponentInterface {
         class={{
           'has-value': this.hasValue(),
           'has-focus': this.hasFocus,
-        }}>
+        }}
+      >
         <input
           class="native-input"
           ref={(input) => (this.nativeInput = input)}
