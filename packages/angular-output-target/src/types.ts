@@ -10,11 +10,16 @@ export interface OutputTargetAngular {
    */
   directivesProxyFile: string;
   directivesArrayFile?: string;
-  directivesUtilsFile?: string;
   valueAccessorConfigs?: ValueAccessorConfig[];
   excludeComponents?: string[];
   includeImportCustomElements?: boolean;
   customElementsDir?: string;
+  /**
+   * @experimental
+   *
+   * `true` to generate a single component Angular module for each component.
+   */
+  includeSingleComponentAngularModules?: boolean;
 }
 
 export type ValueAccessorTypes = 'text' | 'radio' | 'select' | 'number' | 'boolean';

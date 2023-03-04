@@ -42,8 +42,10 @@ export function normalizeOutputTarget(config: Config, outputTarget: OutputTarget
     results.directivesArrayFile = normalizePath(path.join(config.rootDir, outputTarget.directivesArrayFile));
   }
 
-  if (outputTarget.directivesUtilsFile && !path.isAbsolute(outputTarget.directivesUtilsFile)) {
-    results.directivesUtilsFile = normalizePath(path.join(config.rootDir, outputTarget.directivesUtilsFile));
+  if (outputTarget.includeSingleComponentAngularModules !== undefined) {
+    console.warn(
+      '**Experimental**: includeSingleComponentAngularModules is a developer preview feature and may change or be removed in the future.'
+    );
   }
 
   return results;
