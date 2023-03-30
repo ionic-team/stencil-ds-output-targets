@@ -25,7 +25,7 @@ export const createComponentDefinition =
     const componentType = `${importTypes}.${tagNameAsPascal}`;
     const findModel =
       componentModelConfig && componentModelConfig.find((config) => config.elements.includes(cmpMeta.tagName));
-    const modelType = findModel !== undefined ? `, ${componentType}.${findModel.targetAttr}` : '';
+    const modelType = findModel !== undefined ? `, ${componentType}["${findModel.targetAttr}"]` : '';
 
     let templateString = `
 export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${componentType}${modelType}>('${cmpMeta.tagName}', ${importAs}`;
