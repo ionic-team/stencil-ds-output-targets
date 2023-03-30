@@ -36,7 +36,7 @@ export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${componentType}
 ]`;
       /**
        * If there are no props,
-       * but but v-model is still used,
+       * but v-model is still used,
        * make sure we pass in an empty array
        * otherwise all of the defineContainer properties
        * will be off by one space.
