@@ -22,11 +22,13 @@ export const createComponentDefinition =
       props = [...props, ...cmpMeta.events.map((event) => `'${event.name}'`)];
     }
 
-    let templateString = `
-export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${importTypes}.${tagNameAsPascal}>('${cmpMeta.tagName}', ${importAs}`;
+    const componentType = `${importTypes}.${tagNameAsPascal}`;
+    const findModel = componentModelConfig && componentModelConfig.find((config) => config.elements.includes(cmpMeta.tagName));
+    const modelType = findModel !== undefined ? `, ${componentType}.${findModel.targetAttr}` : '';
 
-    const findModel =
-      componentModelConfig && componentModelConfig.find((config) => config.elements.includes(cmpMeta.tagName));
+    let templateString = `
+export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${componentType}${modelType}>('${cmpMeta.tagName}', ${importAs}`;
+
 
     if (props.length > 0) {
       templateString += `, [
@@ -34,7 +36,7 @@ export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${importTypes}.$
 ]`;
       /**
        * If there are no props,
-       * but but v-model is stil used,
+       * but but v-model is still used,
        * make sure we pass in an empty array
        * otherwise all of the defineContainer properties
        * will be off by one space.

@@ -54,7 +54,7 @@ const getElementClasses = (
  * @prop externalModelUpdateEvent - The external event to fire from your Vue component when modelUpdateEvent fires. This is used for ensuring that v-model references have been
  * correctly updated when a user's event callback fires.
  */
-export const defineContainer = <Props, VModelType = string | number | boolean>(
+export const defineContainer = <Props, VModelType = any>(
   name: string,
   defineCustomElement: any,
   componentProps: string[] = [],
