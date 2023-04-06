@@ -1,7 +1,7 @@
 {
-  "name": "@stencil/react-output-target",
-  "version": "0.5.0",
-  "description": "React output target for @stencil/core components.",
+  "name": "react-output-target",
+  "version": "0.0.9",
+  "description": "Custom React output target for @stencil/core components.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,37 +13,31 @@
     "access": "public"
   },
   "scripts": {
-    "prepublishOnly": "npm run build",
     "prebuild": "rimraf ./dist",
     "build": "tsc && npm run rollup",
     "watch": "tsc --watch",
     "rollup": "rollup -c",
     "version": "npm run build",
-    "prettier": "npm run prettier.base -- --write",
-    "prettier.base": "prettier \"./({react-component-lib,src,test,__tests__}/**/*.{ts,tsx,js,jsx})|*.{ts,tsx,js,jsx}\"",
-    "prettier.dry-run": "npm run prettier.base -- --list-different",
     "release": "np",
     "test": "jest"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ionic-team/stencil-ds-output-targets.git"
-  },
-  "author": "Ionic Team",
-  "homepage": "https://stenciljs.com/",
+  "author": "Arvind",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ionic-team/stencil-ds-output-targets/issues"
-  },
   "peerDependencies": {
-    "@stencil/core": "^2.9.0 || ^3.0.0"
+    "@stencil/core": ">=2.9.0"
   },
   "devDependencies": {
     "@types/react": "^16.7.0",
     "@types/react-dom": "^16.7.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
-    "react-testing-library": "^7.0.0"
+    "react-testing-library": "^7.0.0",
+    "np": "^6.0.2",
+    "prettier": "^2.0.5",
+    "rimraf": "^2.6.3",
+    "rollup": "^2.23.1",
+    "ts-jest": "^26.2.0",
+    "typescript": "^3.9.7"
   },
   "jest": {
     "transform": {
@@ -58,6 +52,5 @@
       "jsx"
     ],
     "testURL": "http://localhost"
-  },
-  "gitHead": "a3588e905186a0e86e7f88418fd5b2f9531b55e0"
+  }
 }

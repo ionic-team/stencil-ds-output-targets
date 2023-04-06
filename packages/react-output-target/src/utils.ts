@@ -5,31 +5,25 @@ import type { PackageJSON } from './types';
 
 const readFile = promisify(fs.readFile);
 
-/**
- * Send a string to lowercase
- * @param str the string to lowercase
- * @returns the lowercased string
- */
 export const toLowerCase = (str: string) => str.toLowerCase();
 
-/**
- * Convert a string using dash-case to PascalCase
- * @param str the string to convert to PascalCase
- * @returns the PascalCased string
- */
-export const dashToPascalCase = (str: string): string =>
+export const dashToPascalCase = (str: string) =>
   toLowerCase(str)
     .split('-')
     .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
     .join('');
 
-/**
- * Sorts a provided array by a property belonging to an item that exists on each item in the array
- * @param array the array to sort
- * @param prop a function to look up a field on an entry in the provided array
- * @returns a shallow copy of the array, sorted by the property resolved by `prop`
- */
-export function sortBy<T>(array: ReadonlyArray<T>, prop: (item: T) => string): ReadonlyArray<T> {
+export function flatOne<T>(array: T[][]): T[] {
+  if (array.flat) {
+    return array.flat(1);
+  }
+  return array.reduce((result, item) => {
+    result.push(...item);
+    return result;
+  }, [] as T[]);
+}
+
+export function sortBy<T>(array: T[], prop: (item: T) => string) {
   return array.slice().sort((a, b) => {
     const nameA = prop(a);
     const nameB = prop(b);
@@ -39,12 +33,7 @@ export function sortBy<T>(array: ReadonlyArray<T>, prop: (item: T) => string): R
   });
 }
 
-/**
- * Normalize a path
- * @param str the path to normalize
- * @returns the normalized path
- */
-export function normalizePath(str: string): string {
+export function normalizePath(str: string) {
   // Convert Windows backslash paths to slash paths: foo\\bar ➔ foo/bar
   // https://github.com/sindresorhus/slash MIT
   // By Sindre Sorhus
@@ -75,14 +64,7 @@ export function normalizePath(str: string): string {
   return str;
 }
 
-/**
- * Generate the relative import from `pathFrom` to `pathTo`
- * @param pathFrom the path that shall be used as the origin in determining the relative path
- * @param pathTo the path that shall be used as the destination in determining the relative path
- * @param ext an extension to remove from the final path
- * @returns the derived relative import
- */
-export function relativeImport(pathFrom: string, pathTo: string, ext?: string): string {
+export function relativeImport(pathFrom: string, pathTo: string, ext?: string) {
   let relativePath = path.relative(path.dirname(pathFrom), path.dirname(pathTo));
   if (relativePath === '') {
     relativePath = '.';
@@ -92,12 +74,7 @@ export function relativeImport(pathFrom: string, pathTo: string, ext?: string): 
   return normalizePath(`${relativePath}/${path.basename(pathTo, ext)}`);
 }
 
-/**
- * Attempts to read a `package.json` file at the provided directory.
- * @param rootDir the directory to search for the `package.json` file to read
- * @returns the read and parsed `package.json` file
- */
-export async function readPackageJson(rootDir: string): Promise<PackageJSON> {
+export async function readPackageJson(rootDir: string) {
   const pkgJsonPath = path.join(rootDir, 'package.json');
 
   let pkgJson: string;

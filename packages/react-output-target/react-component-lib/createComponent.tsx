@@ -1,12 +1,21 @@
-import React, { createElement } from 'react';
+import React, { createElement } from "react";
 
-import { attachProps, camelToDashCase, createForwardRef, dashToPascalCase, isCoveredByReact, mergeRefs } from './utils';
+import {
+  attachProps,
+  camelToDashCase,
+  createForwardRef,
+  dashToPascalCase,
+  defineCustomElement,
+  isCoveredByReact,
+  mergeRefs,
+} from "./utils";
 
 export interface HTMLStencilElement extends HTMLElement {
   componentOnReady(): Promise<this>;
 }
 
-interface StencilReactInternalProps<ElementType> extends React.HTMLAttributes<ElementType> {
+interface StencilReactInternalProps<ElementType>
+  extends React.HTMLAttributes<ElementType> {
   forwardedRef: React.RefObject<ElementType>;
   ref?: React.Ref<any>;
 }
@@ -23,14 +32,17 @@ export const createReactComponent = <
     originalProps: StencilReactInternalProps<ElementType>,
     propsToPass: any
   ) => ExpandedPropsTypes,
-  defineCustomElement?: () => void
+  customElement?: any,
+  defineCustomElementDeps?: any
 ) => {
-  if (defineCustomElement !== undefined) {
-    defineCustomElement();
-  }
+  defineCustomElement(tagName, customElement);
 
+  // define custom elements for dependent components
+  if (defineCustomElementDeps) defineCustomElementDeps();
   const displayName = dashToPascalCase(tagName);
-  const ReactComponent = class extends React.Component<StencilReactInternalProps<ElementType>> {
+  const ReactComponent = class extends React.Component<
+    StencilReactInternalProps<ElementType>
+  > {
     componentEl!: ElementType;
 
     setComponentElRef = (element: ElementType) => {
@@ -50,14 +62,15 @@ export const createReactComponent = <
     }
 
     render() {
-      const { children, forwardedRef, style, className, ref, ...cProps } = this.props;
+      const { children, forwardedRef, style, className, ref, ...cProps } =
+        this.props;
 
       let propsToPass = Object.keys(cProps).reduce((acc: any, name) => {
         const value = (cProps as any)[name];
 
-        if (name.indexOf('on') === 0 && name[2] === name[2].toUpperCase()) {
+        if (name.indexOf("on") === 0 && name[2] === name[2].toUpperCase()) {
           const eventName = name.substring(2).toLowerCase();
-          if (typeof document !== 'undefined' && isCoveredByReact(eventName)) {
+          if (typeof document !== "undefined" && isCoveredByReact(eventName)) {
             acc[name] = value;
           }
         } else {
@@ -65,18 +78,21 @@ export const createReactComponent = <
           // objects, functions, arrays etc get synced via properties on mount.
           const type = typeof value;
 
-          if (type === 'string' || type === 'boolean' || type === 'number') {
+          if (type === "string" || type === "boolean" || type === "number") {
             acc[camelToDashCase(name)] = value;
           }
         }
         return acc;
-      }, {} as ExpandedPropsTypes);
+      }, {});
 
       if (manipulatePropsFunction) {
         propsToPass = manipulatePropsFunction(this.props, propsToPass);
       }
 
-      const newProps: Omit<StencilReactInternalProps<ElementType>, 'forwardedRef'> = {
+      const newProps: Omit<
+        StencilReactInternalProps<ElementType>,
+        "forwardedRef"
+      > = {
         ...propsToPass,
         ref: mergeRefs(forwardedRef, this.setComponentElRef),
         style,

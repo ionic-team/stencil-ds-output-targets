@@ -4,11 +4,6 @@ import type { OutputTargetReact } from './types';
 import { reactProxyOutput } from './output-react';
 import path from 'path';
 
-/**
- * Creates an output target for binding Stencil components to be used in a React context
- * @param outputTarget the user-defined output target defined in a Stencil configuration file
- * @returns an output target that can be used by the Stencil compiler
- */
 export const reactOutputTarget = (outputTarget: OutputTargetReact): OutputTargetCustom => ({
   type: 'custom',
   name: 'react-library',
@@ -24,14 +19,7 @@ export const reactOutputTarget = (outputTarget: OutputTargetReact): OutputTarget
   },
 });
 
-/**
- * Normalizes the structure of a provided output target and verifies a Stencil configuration
- * associated with the wrapper is valid
- * @param config the configuration to validate
- * @param outputTarget the output target to normalize
- * @returns an output target that's been normalized
- */
-export function normalizeOutputTarget(config: Config, outputTarget: any): OutputTargetReact {
+export function normalizeOutputTarget(config: Config, outputTarget: any) {
   const results: OutputTargetReact = {
     ...outputTarget,
     excludeComponents: outputTarget.excludeComponents || [],
@@ -47,15 +35,11 @@ export function normalizeOutputTarget(config: Config, outputTarget: any): Output
   }
 
   if (outputTarget.includeDefineCustomElements && outputTarget.includeImportCustomElements) {
-    throw new Error(
-      'includeDefineCustomElements cannot be used at the same time as includeImportCustomElements since includeDefineCustomElements is used for lazy loading components. Set `includeDefineCustomElements: false` in your React output target config to resolve this.'
-    );
+    throw new Error('includeDefineCustomElements cannot be used at the same time as includeImportCustomElements since includeDefineCustomElements is used for lazy loading components. Set `includeDefineCustomElements: false` in your React output target config to resolve this.');
   }
 
   if (outputTarget.includeImportCustomElements && outputTarget.includePolyfills) {
-    throw new Error(
-      'includePolyfills cannot be used at the same time as includeImportCustomElements. Set `includePolyfills: false` in your React output target config to resolve this.'
-    );
+    throw new Error('includePolyfills cannot be used at the same time as includeImportCustomElements. Set `includePolyfills: false` in your React output target config to resolve this.')
   }
 
   if (outputTarget.directivesProxyFile && !path.isAbsolute(outputTarget.directivesProxyFile)) {
