@@ -7,3 +7,4 @@ build/
 .vscode
 .npmrc
 *.tgz
+*.lerna_backup
