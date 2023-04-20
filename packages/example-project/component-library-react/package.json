@@ -54,5 +54,8 @@
       "node_modules",
       "dist"
     ]
+  },
+  "volta": {
+    "extends": "../../package.json"
   }
 }
