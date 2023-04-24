@@ -37,5 +37,8 @@
     "@types/puppeteer": "2.0.1",
     "jest-cli": "26.0.1",
     "puppeteer": "2.1.1"
+  },
+  "volta": {
+    "extends": "../../../package.json"
   }
 }

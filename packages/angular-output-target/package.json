@@ -58,5 +58,8 @@
     ],
     "testURL": "http://localhost"
   },
-  "gitHead": "a3588e905186a0e86e7f88418fd5b2f9531b55e0"
+  "gitHead": "a3588e905186a0e86e7f88418fd5b2f9531b55e0",
+  "volta": {
+    "extends": "../../package.json"
+  }
 }
