@@ -30,3 +30,7 @@ npm run build
 This will generate all necessary builds in the example projects. You can then either publish the packages to npm or a private package manager, or use `npm pack` to start using the builds in a local project for testing purposes where you manually place the package in the project `node_modules` folder.
 
 For example, if you have an Angular project, run `npm pack` in `packages/example-project/component-library` and `packages/example-project/component-library-angular`. Since the framework component libraries depend on the Stencil project, you will need to provide the `component-library` package in your project `node_modules` folder.
+
+#### Node Versions
+
+This project uses [Volta](https://volta.sh/) to automatically manage what npm and node versions are used when developing. If you don't use Volta, don't worry about it... just check the root `package.json` for what version of node and npm is currently being used.
