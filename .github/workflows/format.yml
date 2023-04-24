@@ -13,10 +13,10 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # v2.4.0
 
-      - name: Use Node 16
-        uses: actions/setup-node@56337c425554a6be30cdef71bf441f15be286854 # v3.1.1
+      - name: Use Node
+        uses: actions/setup-node@3
         with:
-          node-version: 16
+          node-version-file: '../package.json'
           cache: 'npm'
 
       - name: Install Dependencies

@@ -10,9 +10,9 @@ jobs:
       version: ${{ steps.dev-build.outputs.version }}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version-file: '../package.json'
       - name: Install Dependencies
         run: npm ci --no-package-lock && lerna bootstrap --ignore-scripts -- --legacy-peer-deps
         shell: bash
