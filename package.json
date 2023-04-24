@@ -28,5 +28,9 @@
     "ts-jest": "^26.2.0",
     "typescript": "^3.9.7"
   },
-  "prettier": "@ionic/prettier-config"
+  "prettier": "@ionic/prettier-config",
+  "volta": {
+    "node": "18.14.1",
+    "npm": "9.3.1"
+  }
 }

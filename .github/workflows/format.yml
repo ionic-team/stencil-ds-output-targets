@@ -11,12 +11,12 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
       - name: Checkout Code
-        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # v2.4.0
+        uses: actions/checkout@v2
 
       - name: Use Node
-        uses: actions/setup-node@3
+        uses: actions/setup-node@v3
         with:
-          node-version-file: '../package.json'
+          node-version-file: './package.json'
           cache: 'npm'
 
       - name: Install Dependencies

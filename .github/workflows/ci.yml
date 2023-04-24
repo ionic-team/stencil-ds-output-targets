@@ -19,10 +19,11 @@ jobs:
 
     timeout-minutes: 30
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
       - uses: actions/setup-node@v3
         with:
-          node-version-file: '../package.json'
-      - uses: actions/checkout@v1
+          node-version-file: './package.json'
       - name: Restore Dependency Cache
         uses: actions/cache@v3
         env:
