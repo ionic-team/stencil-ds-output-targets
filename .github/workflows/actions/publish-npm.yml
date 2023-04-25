@@ -1,0 +1,44 @@
+name: 'Release'
+description: 'Releases a package'
+inputs:
+  scope:
+    description: 'The package to release. Must match a package specified in lerna.json.'
+  version:
+    description: 'The type of version to release.'
+  tag:
+    description: 'The tag to publish to on NPM (DRY RUN).'
+  preid:
+    description: 'The prerelease identifier used when doing a prerelease.'
+  working-directory:
+    required: true
+    description: 'The directory of the package to deploy.'
+  token:
+    description: 'The NPM authentication token required to publish.'
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+    - name: Install Dependencies
+      run: lerna bootstrap --include-dependencies --scope ${{ inputs.scope }} --ignore-scripts -- --legacy-peer-deps
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+    - name: Update Version
+      run: lerna version ${{ inputs.version }} --yes --exact --no-changelog --no-push --no-git-tag-version --preid=${{ inputs.preid }}
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+    - name: Run Build
+      run: npm run build
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+    - name: Prepare NPM Token
+      run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
+      working-directory: ${{ inputs.working-directory }}
+      shell: bash
+      env:
+        NPM_TOKEN: ${{ inputs.token }}
+    - name: Publish to NPM (DRY RUN)
+      run: npm publish --tag ${{ inputs.tag }} --dry-run
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}

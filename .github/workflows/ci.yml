@@ -37,7 +37,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       - name: Setup Testing Environment
         run: npm run bootstrap
@@ -47,7 +47,6 @@ jobs:
 
       - name: Test
         run: npm test
-
   format:
     name: Format
     uses: ./.github/workflows/format.yml

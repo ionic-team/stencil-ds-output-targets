@@ -1,0 +1,71 @@
+name: 'Production Release'
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        required: true
+        type: choice
+        description: Which package should be published?
+        options:
+          - vue
+          - angular
+          - react
+      version:
+        required: true
+        type: choice
+        description: Which version should be published?
+        options:
+          - patch
+          - minor
+          - major
+          - prepatch
+          - preminor
+          - premajor
+          - prerelease
+      tag:
+        required: true
+        type: choice
+        description: Which npm tag should this be published to?
+        options:
+          - latest
+          - next
+      preid:
+        type: choice
+        description: Which prerelease identifier should be used? This is only needed when version is "prepatch", "preminor", "premajor", or "prerelease".
+        options:
+          - ''
+          - alpha
+          - beta
+          - rc
+          - next
+
+jobs:
+  prod-build:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.prod-build.outputs.version }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - name: Install Dependencies
+        run: npm ci && lerna bootstrap --ignore-scripts -- --legacy-peer-deps
+        shell: bash
+      - name: Prepare NPM Token
+        run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
+        shell: bash
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - uses: ./.github/workflows/actions/publish-npm
+        with:
+          version: ${{ inputs.version }} # "patch", "minor", "major", "prepatch", "preminor", "premajor", "prerelease"
+          tag: ${{ inputs.tag }} # "latest" or "next"
+          preid: ${{ inputs.preid }} # Only needed when version is "prepatch", "preminor", "premajor", or "prerelease"
+          scope: "@stencil/${{ inputs.package }}-output-target"
+          # Look at package.json's name
+          # Coupled to project structure. Update this when adding a new output target.
+          # Examples: vue-output-target, angular-output-target, react-output-target
+          working-directory: "./packages/${{ inputs.package }}-output-target" # Follow the repo structure
+          token: ${{ secrets.NPM_TOKEN }} # Private, accessible by team leads
