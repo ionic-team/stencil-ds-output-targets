@@ -34,3 +34,13 @@ For example, if you have an Angular project, run `npm pack` in `packages/example
 #### Node Versions
 
 This project uses [Volta](https://volta.sh/) to automatically manage what npm and node versions are used when developing. If you don't use Volta, don't worry about it... just check the root `package.json` for what version of node and npm is currently being used.
+
+### Deploying
+
+There is a manual workflow task called "Production Release" within the GitHub Actions workflows directory. We currently do not release all packages that have been changed at once. You will need to deploy each package (vue, react, angular) individually.
+
+You'll need to fill out a few bits of information when you submit the deploy workflow:
+1. Which package should be published (Currently `vue`, `react`, or `angular`).
+2. What version should be published.
+3. What npm tag it should be published under (`next` or `latest`)
+4. Any preid, like `alpha` or `rc`
