@@ -25,7 +25,7 @@ runs:
       shell: bash
       working-directory: ${{ inputs.working-directory }}
     - name: Update Version
-      run: lerna version ${{ inputs.version }} --yes --exact --no-changelog --no-push --no-git-tag-version --preid=${{ inputs.preid }}
+      run: lerna version ${{ inputs.version }} --yes --exact --no-changelog --no-git-tag-version --preid=${{ inputs.preid }}
       shell: bash
       working-directory: ${{ inputs.working-directory }}
     - name: Run Build
@@ -38,7 +38,7 @@ runs:
       shell: bash
       env:
         NPM_TOKEN: ${{ inputs.token }}
-    - name: Publish to NPM (DRY RUN)
-      run: npm publish --tag ${{ inputs.tag }} --dry-run
+    - name: Publish to NPM
+      run: npm publish --tag ${{ inputs.tag }}
       shell: bash
       working-directory: ${{ inputs.working-directory }}
