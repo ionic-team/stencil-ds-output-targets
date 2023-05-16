@@ -1,4 +1,4 @@
-import { ComponentCompilerMeta } from '@stencil/core/internal';
+import { ComponentCompilerEventComplexType, ComponentCompilerMeta } from '@stencil/core/internal';
 import { generateProxies } from '../src/output-angular';
 import { PackageJSON, OutputTargetAngular } from '../src/types';
 
@@ -32,6 +32,83 @@ describe('generateProxies', () => {
     expect(
       finalText.includes(`import { Components } from '../../angular-output-target/dist/types/components';`)
     ).toBeTruthy();
+  });
+
+  it('should include output related imports when there is component with not internal event', () => {
+    const outputTarget: OutputTargetAngular = {
+      componentCorePackage: 'component-library',
+      directivesProxyFile: '../component-library-angular/src/proxies.ts',
+    } as OutputTargetAngular;
+    const components = [
+      {
+        tagName: 'component-with-event',
+        hasEvent: true,
+        events: [
+          {
+            name: 'fake-external-event-name',
+            internal: false,
+            docs: {
+              text: '',
+              tags: [],
+            },
+            complexType: {
+              original: '',
+              resolved: '',
+              references: { fakeReference: { location: 'local' } },
+            } as ComponentCompilerEventComplexType,
+          },
+        ],
+      },
+    ] as ComponentCompilerMeta[];
+
+    const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
+    expect(
+      finalText.includes(
+        `import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, NgZone } from '@angular/core';`
+      )
+    ).toBeTruthy();
+    expect(finalText.includes(`import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';`)).toBeTruthy();
+  });
+
+  it('should not include output related imports when there is component with no events or internal ones', () => {
+    const outputTarget: OutputTargetAngular = {
+      componentCorePackage: 'component-library',
+      directivesProxyFile: '../component-library-angular/src/proxies.ts',
+    } as OutputTargetAngular;
+    const components = [
+      {
+        tagName: 'component-without-events',
+        hasEvent: false,
+        events: [],
+      },
+      {
+        tagName: 'component-with-internal-event',
+        hasEvent: true,
+        events: [
+          {
+            name: 'fake-internal-event-name',
+            internal: true,
+            docs: {
+              text: '',
+              tags: [],
+            },
+            complexType: {
+              original: '',
+              resolved: '',
+              references: { fakeReference: { location: 'local' } },
+            } as ComponentCompilerEventComplexType,
+          },
+        ],
+      },
+    ] as ComponentCompilerMeta[];
+
+    const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
+    expect(
+      finalText.includes(
+        `import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, NgZone } from '@angular/core';`
+      )
+    ).toBeTruthy();
+    expect(finalText.includes(`import { ProxyCmp } from './angular-component-lib/utils';`)).toBeTruthy();
   });
 
   describe('when includeSingleComponentAngularModules is true', () => {

@@ -68,23 +68,27 @@ export function generateProxies(
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.directivesProxyFile, dtsFilePath, '.d.ts');
   const includeSingleComponentAngularModules = outputTarget.includeSingleComponentAngularModules ?? false;
+  const includeOutputImports = components.some((component) => component.events.some((event) => !event.internal));
 
   /**
    * The collection of named imports from @angular/core.
    */
-  const angularCoreImports = [
-    'ChangeDetectionStrategy',
-    'ChangeDetectorRef',
-    'Component',
-    'ElementRef',
-    'EventEmitter',
-    'NgZone',
-  ];
+  const angularCoreImports = ['ChangeDetectionStrategy', 'ChangeDetectorRef', 'Component', 'ElementRef'];
+
+  if (includeOutputImports) {
+    angularCoreImports.push('EventEmitter');
+  }
+
+  angularCoreImports.push('NgZone');
 
   /**
    * The collection of named imports from the angular-component-lib/utils.
    */
-  const componentLibImports = ['ProxyCmp', 'proxyOutputs'];
+  const componentLibImports = ['ProxyCmp'];
+
+  if (includeOutputImports) {
+    componentLibImports.push('proxyOutputs');
+  }
 
   if (includeSingleComponentAngularModules) {
     angularCoreImports.push('NgModule');
