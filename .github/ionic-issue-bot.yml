@@ -26,7 +26,6 @@ comment:
 
 
         If you have already provided a code snippet and are seeing this message, it is likely that the code snippet was not enough for our team to reproduce the issue.
-
   dryRun: false
 
 closeAndLock:
@@ -63,13 +62,25 @@ noReply:
   lock: true
   dryRun: false
 
-noReproduction:
+stale:
   days: 14
   maxIssuesPerRun: 100
-  label: "ionitron: needs reproduction"
-  responseLabel: triage
+  exemptLabels:
+    - dependencies
+    - documentation
+    - help wanted
+    - internal
+    - 'needs: reply' # allow the `noReply` configuration above to handle these issues
+    - 'package: angular'
+    - 'package: react'
+    - 'package: vue'
+    - triage
+    - 'type: bug'
+    - 'type: feature'
+  exemptAssigned: true
   exemptProjects: true
   exemptMilestones: true
+  label: 'ionitron: stale issue'
   message: >
     Thanks for the issue! This issue is being closed due to the lack of a code reproduction. If this is still
     an issue with the latest version of the output targets, please create a new issue and ensure the
