@@ -42,7 +42,7 @@
     "@angular/forms": "8.2.14"
   },
   "peerDependencies": {
-    "@stencil/core": "^2.9.0 || ^3.0.0"
+    "@stencil/core": ">=2.0.0 || >=3 || >= 4.0.0-beta.0 || >= 4.0.0"
   },
   "jest": {
     "transform": {
