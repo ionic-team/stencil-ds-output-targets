@@ -71,7 +71,7 @@ export const transformReactEventName = (eventNameSuffix: string) => {
       return 'dblclick';
   }
   return eventNameSuffix;
-}
+};
 
 /**
  * Checks if an event is supported in the current execution environment.
