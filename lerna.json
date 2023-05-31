@@ -9,7 +9,7 @@
     "packages/example-project/component-library-vue",
     "packages/example-project/component-library-svelte"
   ],
-  "version": "0.5.0",
+  "version": "independent",
   "command": {
     "publish": {
       "ignoreChanges": ["packages/example-project/*", "**/package.json", "**/package-lock.json"]
