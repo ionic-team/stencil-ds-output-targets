@@ -36,7 +36,7 @@
     "url": "https://github.com/ionic-team/stencil-ds-output-targets/issues"
   },
   "peerDependencies": {
-    "@stencil/core": "^2.9.0 || ^3.0.0"
+    "@stencil/core": ">=2.0.0 || >=3 || >= 4.0.0-beta.0 || >= 4.0.0"
   },
   "devDependencies": {
     "@types/react": "^16.7.0",
