@@ -39,8 +39,11 @@ This project uses [Volta](https://volta.sh/) to automatically manage what npm an
 
 There is a manual workflow task called "Production Release" within the GitHub Actions workflows directory. We currently do not release all packages that have been changed at once. You will need to deploy each package (vue, react, angular) individually.
 
+> Do not bump the package version before running the Github Action release. The release workflow will bump the version for you. You will be responsible for committing the version bump manually after the release workflow has completed.
+
 You'll need to fill out a few bits of information when you submit the deploy workflow:
 1. Which package should be published (Currently `vue`, `react`, or `angular`).
 2. What version should be published.
 3. What npm tag it should be published under (`next` or `latest`)
 4. Any preid, like `alpha` or `rc`
+5. After the release has been published, you will need to manually bump the version in the `package.json` and `package-lock.json` files and commit the change.
