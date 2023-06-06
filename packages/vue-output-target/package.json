@@ -1,6 +1,6 @@
 {
   "name": "@stencil/vue-output-target",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "description": "Vue output target for @stencil/core components.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -36,7 +36,7 @@
     "url": "https://github.com/ionic-team/stencil-ds-output-targets/issues"
   },
   "peerDependencies": {
-    "@stencil/core": "^2.9.0 || ^3.0.0"
+    "@stencil/core": ">=2.0.0 || >=3 || >= 4.0.0-beta.0 || >= 4.0.0"
   },
   "jest": {
     "transform": {
