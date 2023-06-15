@@ -5,6 +5,9 @@ import { defineContainer } from './vue-component-lib/utils';
 
 import type { JSX } from 'component-library';
 
+
+
+
 export const MyButton = /*@__PURE__*/ defineContainer<JSX.MyButton>('my-button', [
   'color',
   'buttonType',
@@ -20,17 +23,27 @@ export const MyButton = /*@__PURE__*/ defineContainer<JSX.MyButton>('my-button',
   'target',
   'type',
   'myFocus',
-  'myBlur',
+  'myBlur'
 ]);
 
-export const MyCheckbox = /*@__PURE__*/ defineContainer<JSX.MyCheckbox>(
-  'my-checkbox',
-  ['color', 'name', 'checked', 'indeterminate', 'disabled', 'value', 'myChange', 'myFocus', 'myBlur', 'myStyle'],
-  {
-    modelProp: 'checked',
-    modelUpdateEvent: 'myChange',
-  }
-);
+
+export const MyCheckbox = /*@__PURE__*/ defineContainer<JSX.MyCheckbox>('my-checkbox', [
+  'color',
+  'name',
+  'checked',
+  'indeterminate',
+  'disabled',
+  'value',
+  'myChange',
+  'myFocus',
+  'myBlur',
+  'myStyle'
+],
+{
+  "modelProp": "checked",
+  "modelUpdateEvent": "myChange"
+});
+
 
 export const MyComponent = /*@__PURE__*/ defineContainer<JSX.MyComponent>('my-component', [
   'first',
@@ -38,48 +51,47 @@ export const MyComponent = /*@__PURE__*/ defineContainer<JSX.MyComponent>('my-co
   'last',
   'age',
   'kidsNames',
-  'myCustomEvent',
+  'myCustomEvent'
 ]);
 
-export const MyInput = /*@__PURE__*/ defineContainer<JSX.MyInput>(
-  'my-input',
-  [
-    'color',
-    'accept',
-    'autocapitalize',
-    'autocomplete',
-    'autocorrect',
-    'autofocus',
-    'clearInput',
-    'clearOnEdit',
-    'disabled',
-    'enterkeyhint',
-    'inputmode',
-    'max',
-    'maxlength',
-    'min',
-    'minlength',
-    'multiple',
-    'name',
-    'pattern',
-    'placeholder',
-    'readonly',
-    'required',
-    'spellcheck',
-    'step',
-    'size',
-    'type',
-    'value',
-    'myInput',
-    'myChange',
-    'myBlur',
-    'myFocus',
-  ],
-  {
-    modelProp: 'value',
-    modelUpdateEvent: 'myChange',
-  }
-);
+
+export const MyInput = /*@__PURE__*/ defineContainer<JSX.MyInput>('my-input', [
+  'color',
+  'accept',
+  'autocapitalize',
+  'autocomplete',
+  'autocorrect',
+  'autofocus',
+  'clearInput',
+  'clearOnEdit',
+  'disabled',
+  'enterkeyhint',
+  'inputmode',
+  'max',
+  'maxlength',
+  'min',
+  'minlength',
+  'multiple',
+  'name',
+  'pattern',
+  'placeholder',
+  'readonly',
+  'required',
+  'spellcheck',
+  'step',
+  'size',
+  'type',
+  'value',
+  'myInput',
+  'myChange',
+  'myBlur',
+  'myFocus'
+],
+{
+  "modelProp": "value",
+  "modelUpdateEvent": "myChange"
+});
+
 
 export const MyPopover = /*@__PURE__*/ defineContainer<JSX.MyPopover>('my-popover', [
   'component',
@@ -94,8 +106,9 @@ export const MyPopover = /*@__PURE__*/ defineContainer<JSX.MyPopover>('my-popove
   'myPopoverDidPresent',
   'myPopoverWillPresent',
   'myPopoverWillDismiss',
-  'myPopoverDidDismiss',
+  'myPopoverDidDismiss'
 ]);
+
 
 export const MyRadio = /*@__PURE__*/ defineContainer<JSX.MyRadio>('my-radio', [
   'color',
@@ -105,40 +118,42 @@ export const MyRadio = /*@__PURE__*/ defineContainer<JSX.MyRadio>('my-radio', [
   'myStyle',
   'myFocus',
   'myBlur',
-  'mySelect',
+  'mySelect'
 ]);
 
-export const MyRadioGroup = /*@__PURE__*/ defineContainer<JSX.MyRadioGroup>(
-  'my-radio-group',
-  ['allowEmptySelection', 'name', 'value', 'myChange'],
-  {
-    modelProp: 'value',
-    modelUpdateEvent: 'myChange',
-  }
-);
 
-export const MyRange = /*@__PURE__*/ defineContainer<JSX.MyRange>(
-  'my-range',
-  [
-    'color',
-    'debounce',
-    'name',
-    'dualKnobs',
-    'min',
-    'max',
-    'pin',
-    'snaps',
-    'step',
-    'ticks',
-    'disabled',
-    'value',
-    'myChange',
-    'myStyle',
-    'myFocus',
-    'myBlur',
-  ],
-  {
-    modelProp: 'value',
-    modelUpdateEvent: 'myChange',
-  }
-);
+export const MyRadioGroup = /*@__PURE__*/ defineContainer<JSX.MyRadioGroup>('my-radio-group', [
+  'allowEmptySelection',
+  'name',
+  'value',
+  'myChange'
+],
+{
+  "modelProp": "value",
+  "modelUpdateEvent": "myChange"
+});
+
+
+export const MyRange = /*@__PURE__*/ defineContainer<JSX.MyRange>('my-range', [
+  'color',
+  'debounce',
+  'name',
+  'dualKnobs',
+  'min',
+  'max',
+  'pin',
+  'snaps',
+  'step',
+  'ticks',
+  'disabled',
+  'value',
+  'myChange',
+  'myStyle',
+  'myFocus',
+  'myBlur'
+],
+{
+  "modelProp": "value",
+  "modelUpdateEvent": "myChange"
+});
+
