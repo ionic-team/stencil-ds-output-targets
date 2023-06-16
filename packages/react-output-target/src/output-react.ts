@@ -2,6 +2,7 @@ import path from 'path';
 import type { OutputTargetReact, PackageJSON } from './types';
 import { dashToPascalCase, normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
 import type { CompilerCtx, ComponentCompilerMeta, Config, CopyResults, OutputTargetDist } from '@stencil/core/internal';
+import fs from 'fs';
 
 /**
  * Generate and write the Stencil-React bindings to disc
@@ -19,7 +20,7 @@ export async function reactProxyOutput(
   const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, components);
   const rootDir = config.rootDir as string;
   const pkgData = await readPackageJson(rootDir);
-
+  //here
   const finalText = generateProxies(config, filteredComponents, pkgData, outputTarget, rootDir);
   await compilerCtx.fs.writeFile(outputTarget.proxiesFile, finalText);
   await copyResources(config, outputTarget);
@@ -58,11 +59,6 @@ export function generateProxies(
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.proxiesFile, dtsFilePath, '.d.ts');
   const pathToCorePackageLoader = getPathToCorePackageLoader(config, outputTarget);
-
-  const imports = `/* eslint-disable */
-/* tslint:disable */
-/* auto-generated react proxies */
-import { createReactComponent } from './react-component-lib';\n`;
 
   /**
    * Generate JSX import type from correct location.
@@ -110,12 +106,12 @@ import { createReactComponent } from './react-component-lib';\n`;
   }
 
   const final: ReadonlyArray<string> = [
-    imports,
-    typeImports,
     sourceImports,
     registerCustomElements,
     components
-      .map((cmpMeta) => createComponentDefinition(cmpMeta, outputTarget.includeImportCustomElements))
+      .map((cmpMeta) =>
+        createComponentDefinition(cmpMeta, outputTarget.includeImportCustomElements, outputTarget, typeImports)
+      )
       .join('\n'),
   ];
 
@@ -131,16 +127,51 @@ import { createReactComponent } from './react-component-lib';\n`;
  */
 export function createComponentDefinition(
   cmpMeta: ComponentCompilerMeta,
-  includeCustomElement: boolean = false
+  includeCustomElement: boolean = false,
+  outputTarget: OutputTargetReact,
+  typeImports: String
 ): ReadonlyArray<string> {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
-  let template = `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}'`;
+  let template = '';
 
-  if (includeCustomElement) {
-    template += `, undefined, undefined, define${tagNameAsPascal}`;
+  if (!includeCustomElement) {
+    template = `// @ts-nocheck
+/* eslint-disable */
+/* tslint:disable */
+/* auto-generated react proxies */
+import { createReactComponent } from './react-component-lib';\n
+${typeImports}
+`;
+
+    template += `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}'`;
+    template += `);`;
+
+    fs.writeFileSync(path.join(path.dirname(outputTarget.proxiesFile), `${tagNameAsPascal}.ts`), template);
+
+    template = `export { ${tagNameAsPascal} } from './${tagNameAsPascal}'`;
   }
 
-  template += `);`;
+  if (includeCustomElement) {
+    template = `// @ts-nocheck
+/* eslint-disable */
+/* tslint:disable */
+/* auto-generated react proxies */
+import { createReactComponent } from './react-component-lib';\n
+${typeImports}
+`;
+
+    template += `import { ${tagNameAsPascal} as ${tagNameAsPascal}Cmp, defineCustomElement as defineCustomElement${tagNameAsPascal} } from '${normalizePath(
+      outputTarget.componentCorePackage!
+    )}/${outputTarget.customElementsDir || 'components'}/${cmpMeta.tagName}.js';\n`;
+
+    template += `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}'`;
+    template += `, undefined, undefined, ${tagNameAsPascal}Cmp, defineCustomElement${tagNameAsPascal}`;
+    template += `);\n`;
+
+    fs.writeFileSync(path.join(path.dirname(outputTarget.proxiesFile), `${tagNameAsPascal}.ts`), template);
+
+    template = `import { ${tagNameAsPascal} } from './${tagNameAsPascal}'`;
+  }
 
   return [template];
 }
