@@ -14,52 +14,40 @@ interface NavManager<T = any> {
   navigate: (options: T) => void;
 }
 
+interface ComponentOptions {
+  modelProp?: string;
+  modelUpdateEvent?: string | string[];
+  externalModelUpdateEvent?: string;
+}
+
 const getComponentClasses = (classes: unknown) => {
   return (classes as string)?.split(' ') || [];
 };
 
-const getElementClasses = (
-  ref: Ref<HTMLElement | undefined>,
-  componentClasses: Set<string>,
-  defaultClasses: string[] = []
-) => {
-  return [...Array.from(ref.value?.classList || []), ...defaultClasses].filter(
-    (c: string, i, self) => !componentClasses.has(c) && self.indexOf(c) === i
-  );
+const getElementClasses = (ref: Ref<HTMLElement | undefined>, componentClasses: Set<string>, defaultClasses: string[] = []) => {
+  return [ ...Array.from(ref.value?.classList || []), ...defaultClasses ]
+    .filter((c: string, i, self) => !componentClasses.has(c) && self.indexOf(c) === i);
 };
 
 /**
- * Create a callback to define a Vue component wrapper around a Web Component.
- *
- * @prop name - The component tag name (i.e. `ion-button`)
- * @prop componentProps - An array of properties on the
- * component. These usually match up with the @Prop definitions
- * in each component's TSX file.
- * @prop customElement - An option custom element instance to pass
- * to customElements.define. Only set if `includeImportCustomElements: true` in your config.
- * @prop modelProp - The prop that v-model binds to (i.e. value)
- * @prop modelUpdateEvent - The event that is fired from your Web Component when the value changes (i.e. ionChange)
- * @prop externalModelUpdateEvent - The external event to fire from your Vue component when modelUpdateEvent fires. This is used for ensuring that v-model references have been
- * correctly updated when a user's event callback fires.
- */
-export const defineContainer = <Props>(
-  name: string,
-  customElement: any,
-  componentProps: string[] = [],
-  modelProp?: string,
-  modelUpdateEvent?: string,
-  externalModelUpdateEvent?: string
-) => {
+* Create a callback to define a Vue component wrapper around a Web Component.
+*
+* @prop name - The component tag name (i.e. `ion-button`)
+* @prop componentProps - An array of properties on the
+* component. These usually match up with the @Prop definitions
+* in each component's TSX file.
+* @prop componentOptions - An object that defines additional
+* options for the component such as router or v-model
+* integrations.
+*/
+export const defineContainer = <Props>(name: string, componentProps: string[] = [], componentOptions: ComponentOptions = {}) => {
+  const { modelProp, modelUpdateEvent, externalModelUpdateEvent } = componentOptions;
+
   /**
-   * Create a Vue component wrapper around a Web Component.
-   * Note: The `props` here are not all properties on a component.
-   * They refer to whatever properties are set on an instance of a component.
-   */
-
-  if (customElement !== undefined && typeof customElements !== 'undefined' && !customElements.get(name)) {
-    customElements.define(name, customElement);
-  }
-
+  * Create a Vue component wrapper around a Web Component.
+  * Note: The `props` here are not all properties on a component.
+  * They refer to whatever properties are set on an instance of a component.
+  */
   const Container = defineComponent<Props & InputProps>((props, { attrs, slots, emit }) => {
     let modelPropValue = (props as any)[modelProp];
     const containerRef = ref<HTMLElement>();
@@ -81,9 +69,7 @@ export const defineContainer = <Props>(
              * native web component, but the v-model will
              * not have been updated yet.
              */
-            if (externalModelUpdateEvent) {
-              emit(externalModelUpdateEvent, e);
-            }
+            emit(externalModelUpdateEvent, e);
           });
         });
       }
@@ -96,23 +82,23 @@ export const defineContainer = <Props>(
       const { routerLink } = props as any;
       if (!routerLink) return;
 
-      const routerProps = Object.keys(props).filter((p) => p.startsWith(ROUTER_PROP_REFIX));
+      const routerProps = Object.keys(props).filter(p => p.startsWith(ROUTER_PROP_REFIX));
 
       if (navManager !== undefined) {
         let navigationPayload: any = { event: ev };
-        routerProps.forEach((prop) => {
+        routerProps.forEach(prop => {
           navigationPayload[prop] = (props as any)[prop];
         });
         navManager.navigate(navigationPayload);
       } else {
         console.warn('Tried to navigate, but no router was found. Make sure you have mounted Vue Router.');
       }
-    };
+    }
 
     return () => {
       modelPropValue = (props as any)[modelProp];
 
-      getComponentClasses(attrs.class).forEach((value) => {
+      getComponentClasses(attrs.class).forEach(value => {
         classes.add(value);
       });
 
@@ -124,14 +110,14 @@ export const defineContainer = <Props>(
         if (!ev.defaultPrevented) {
           handleRouterLink(ev);
         }
-      };
+      }
 
       let propsToAdd = {
         ...props,
         ref: containerRef,
         class: getElementClasses(containerRef, classes),
         onClick: handleClick,
-        onVnodeBeforeMount: modelUpdateEvent ? onVnodeBeforeMount : undefined,
+        onVnodeBeforeMount: (modelUpdateEvent && externalModelUpdateEvent) ? onVnodeBeforeMount : undefined
       };
 
       if (modelProp) {
@@ -145,13 +131,12 @@ export const defineContainer = <Props>(
          */
         propsToAdd = {
           ...propsToAdd,
-          [modelProp]:
-            props.hasOwnProperty(MODEL_VALUE) && props[MODEL_VALUE] !== undefined ? props.modelValue : modelPropValue,
-        };
+          [modelProp]: props.hasOwnProperty(MODEL_VALUE) && props[MODEL_VALUE] !== undefined ? props.modelValue : modelPropValue
+        }
       }
 
       return h(name, propsToAdd, slots.default && slots.default());
-    };
+    }
   });
 
   Container.displayName = name;
