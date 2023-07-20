@@ -27,6 +27,7 @@ export const config: Config = {
   outputTargets: [
     angularOutputTarget({
       componentCorePackage: 'component-library',
+      outputType: "component",
       directivesProxyFile: '../component-library-angular/src/directives/proxies.ts',
       directivesArrayFile: '../component-library-angular/src/directives/index.ts',
     }),
