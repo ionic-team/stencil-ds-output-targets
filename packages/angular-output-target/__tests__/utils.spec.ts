@@ -60,27 +60,12 @@ import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core';`
       it('should create an import statement for each event', () => {
         const imports = createComponentEventTypeImports('MyComponent', testEvents, {
           componentCorePackage: '@ionic/core',
-          includeImportCustomElements: true,
           customElementsDir: 'custom-elements',
         });
 
         expect(imports).toEqual(
           `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core/custom-elements';
 import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/custom-elements';`
-        );
-      });
-    });
-
-    describe('without custom elements dir', () => {
-      it('should create an import statement for each event', () => {
-        const imports = createComponentEventTypeImports('MyComponent', testEvents, {
-          componentCorePackage: '@ionic/core',
-          includeImportCustomElements: true,
-        });
-
-        expect(imports).toEqual(
-          `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core/components';
-import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/components';`
         );
       });
     });

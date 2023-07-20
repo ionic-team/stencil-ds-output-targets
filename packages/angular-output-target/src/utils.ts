@@ -118,16 +118,15 @@ export const createComponentEventTypeImports = (
   events: readonly ComponentCompilerEvent[],
   options: {
     componentCorePackage: string;
-    includeImportCustomElements?: boolean;
     customElementsDir?: string;
   }
 ) => {
-  const { componentCorePackage, includeImportCustomElements, customElementsDir } = options;
+  const { componentCorePackage, customElementsDir } = options;
   const imports: string[] = [];
   const namedImports: Set<string> = new Set();
+  const isCustomElementsBuild = customElementsDir !== undefined;
 
-  const importPathName =
-    normalizePath(componentCorePackage) + (includeImportCustomElements ? `/${customElementsDir || 'components'}` : '');
+  const importPathName = normalizePath(componentCorePackage) + (isCustomElementsBuild ? `/${customElementsDir}` : '');
 
   events.forEach((event) => {
     Object.entries(event.complexType.references).forEach(([typeName, refObject]) => {

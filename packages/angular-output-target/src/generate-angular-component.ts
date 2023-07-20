@@ -129,7 +129,6 @@ const createDocComment = (doc: CompilerJsDoc) => {
  * @param tagNameAsPascal The tag name as PascalCase.
  * @param events The events to generate the interface properties for.
  * @param componentCorePackage The component core package.
- * @param includeImportCustomElements Whether to include the import for the custom element definition.
  * @param customElementsDir The custom elements directory.
  * @returns The component interface type definition as a string.
  */
@@ -137,14 +136,12 @@ export const createComponentTypeDefinition = (
   tagNameAsPascal: string,
   events: readonly ComponentCompilerEvent[],
   componentCorePackage: string,
-  includeImportCustomElements = false,
   customElementsDir?: string
 ) => {
   const publicEvents = events.filter((ev) => !ev.internal);
 
   const eventTypeImports = createComponentEventTypeImports(tagNameAsPascal, publicEvents, {
     componentCorePackage,
-    includeImportCustomElements,
     customElementsDir,
   });
   const eventTypes = publicEvents.map((event) => {
