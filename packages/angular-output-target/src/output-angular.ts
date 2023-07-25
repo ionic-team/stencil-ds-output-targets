@@ -68,6 +68,7 @@ export function generateProxies(
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.directivesProxyFile, dtsFilePath, '.d.ts');
   const includeSingleComponentAngularModules = outputTarget.outputType === 'scam';
+  const includeSingleComponentAngularComponents = outputTarget.outputType === 'standalone';
   const isCustomElementsBuild = outputTarget.customElementsDir !== undefined;
   const includeOutputImports = components.some((component) => component.events.some((event) => !event.internal));
 
@@ -136,10 +137,14 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
     sourceImports = cmpImports.join('\n');
   }
 
-  if (includeSingleComponentAngularModules) {
-    // Generating Angular modules is only supported in the dist-custom-elements build
-    if (!isCustomElementsBuild) {
+  if (!isCustomElementsBuild) {
+    if (includeSingleComponentAngularModules) {
+      // Generating Angular modules is only supported in the dist-custom-elements build
       throw new Error('Generating single component Angular modules requires the "customElementsDir" option to be set.');
+    }
+    if (includeSingleComponentAngularComponents) {
+      // Generates Angular standalone components is only supported in the dist-custom-elements build
+      throw new Error('Generating standalone Angular components requires the "customElementsDir" option to be set.');
     }
   }
 

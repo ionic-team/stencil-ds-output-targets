@@ -172,4 +172,19 @@ describe('generateProxies', () => {
       expect(finalText.includes('export class MyComponentModule')).toBeFalsy();
     });
   });
+
+  describe('when outputType is standalone', () => {
+    it('should throw an error if customElementsDir is undefined', () => {
+      const outputTarget: OutputTargetAngular = {
+        directivesProxyFile: '../component-library-angular/src/proxies.ts',
+        outputType: 'standalone',
+      } as OutputTargetAngular;
+
+      expect(() => {
+        generateProxies(components, pkgData, outputTarget, rootDir);
+      }).toThrow(
+        new Error('Generating standalone Angular components requires the "customElementsDir" option to be set.')
+      );
+    });
+  });
 });
