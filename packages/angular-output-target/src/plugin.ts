@@ -42,5 +42,17 @@ export function normalizeOutputTarget(config: Config, outputTarget: OutputTarget
     results.directivesArrayFile = normalizePath(path.join(config.rootDir, outputTarget.directivesArrayFile));
   }
 
+  if ((outputTarget as any).includeSingleComponentAngularModules !== undefined) {
+    throw new Error(
+      "The 'includeSingleComponentAngularModules' option has been removed. Please use 'outputType' instead."
+    );
+  }
+
+  if (outputTarget.outputType === 'scam') {
+    console.warn(
+      '**Experimental**: outputType: "scam" is a developer preview feature and may change or be removed in the future.'
+    );
+  }
+
   return results;
 }
