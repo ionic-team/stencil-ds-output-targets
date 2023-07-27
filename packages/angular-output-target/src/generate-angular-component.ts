@@ -10,6 +10,7 @@ import { createComponentEventTypeImports, dashToPascalCase, formatToQuotedList }
  * @param outputs The outputs/events of the Stencil component. (e.g. ['myOutput']).
  * @param methods The methods of the Stencil component. (e.g. ['myMethod']).
  * @param includeImportCustomElements Whether to define the component as a custom element.
+ * @param standalone Whether to define the component as a standalone component.
  * @returns The component declaration as a string.
  */
 export const createAngularComponentDefinition = (
@@ -17,7 +18,8 @@ export const createAngularComponentDefinition = (
   inputs: readonly string[],
   outputs: readonly string[],
   methods: readonly string[],
-  includeImportCustomElements = false
+  includeImportCustomElements = false,
+  standalone = false
 ) => {
   const tagNameAsPascal = dashToPascalCase(tagName);
 
@@ -48,6 +50,12 @@ export const createAngularComponentDefinition = (
     proxyCmpOptions.push(`\n  methods: [${formattedMethods}]`);
   }
 
+  let standaloneOption = '';
+
+  if (standalone && includeImportCustomElements) {
+    standaloneOption = `\n  standalone: true`;
+  }
+
   /**
    * Notes on the generated output:
    * - We disable @angular-eslint/no-inputs-metadata-property, so that
@@ -61,7 +69,7 @@ export const createAngularComponentDefinition = (
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: [${formattedInputs}],
+  inputs: [${formattedInputs}],${standaloneOption}
 })
 export class ${tagNameAsPascal} {
   protected el: HTMLElement;
@@ -129,7 +137,6 @@ const createDocComment = (doc: CompilerJsDoc) => {
  * @param tagNameAsPascal The tag name as PascalCase.
  * @param events The events to generate the interface properties for.
  * @param componentCorePackage The component core package.
- * @param includeImportCustomElements Whether to include the import for the custom element definition.
  * @param customElementsDir The custom elements directory.
  * @returns The component interface type definition as a string.
  */
@@ -137,14 +144,12 @@ export const createComponentTypeDefinition = (
   tagNameAsPascal: string,
   events: readonly ComponentCompilerEvent[],
   componentCorePackage: string,
-  includeImportCustomElements = false,
   customElementsDir?: string
 ) => {
   const publicEvents = events.filter((ev) => !ev.internal);
 
   const eventTypeImports = createComponentEventTypeImports(tagNameAsPascal, publicEvents, {
     componentCorePackage,
-    includeImportCustomElements,
     customElementsDir,
   });
   const eventTypes = publicEvents.map((event) => {

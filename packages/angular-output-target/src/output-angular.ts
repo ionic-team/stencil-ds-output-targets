@@ -67,7 +67,10 @@ export function generateProxies(
   const distTypesDir = path.dirname(pkgData.types);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.directivesProxyFile, dtsFilePath, '.d.ts');
-  const includeSingleComponentAngularModules = outputTarget.includeSingleComponentAngularModules ?? false;
+  const includeSingleComponentAngularModules = outputTarget.outputType === 'scam';
+  const includeSingleComponentAngularComponents = outputTarget.outputType === 'standalone';
+  const isCustomElementsBuild = outputTarget.customElementsDir !== undefined;
+  const isStandaloneBuild = outputTarget.outputType === 'standalone';
   const includeOutputImports = components.some((component) => component.events.some((event) => !event.internal));
 
   /**
@@ -109,12 +112,8 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
     let importLocation = outputTarget.componentCorePackage
       ? normalizePath(outputTarget.componentCorePackage)
       : normalizePath(componentsTypeFile);
-    importLocation += outputTarget.includeImportCustomElements
-      ? `/${outputTarget.customElementsDir || 'components'}`
-      : '';
-    return `import ${
-      outputTarget.includeImportCustomElements ? 'type ' : ''
-    }{ ${IMPORT_TYPES} } from '${importLocation}';\n`;
+    importLocation += isCustomElementsBuild ? `/${outputTarget.customElementsDir}` : '';
+    return `import ${isCustomElementsBuild ? 'type ' : ''}{ ${IMPORT_TYPES} } from '${importLocation}';\n`;
   };
 
   const typeImports = generateTypeImports();
@@ -127,24 +126,26 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
    * IonButton would be imported as IonButtonCmp so as to not conflict with the
    * IonButton React Component that takes in the Web Component as a parameter.
    */
-  if (outputTarget.includeImportCustomElements && outputTarget.componentCorePackage !== undefined) {
+  if (isCustomElementsBuild && outputTarget.componentCorePackage !== undefined) {
     const cmpImports = components.map((component) => {
       const pascalImport = dashToPascalCase(component.tagName);
 
       return `import { defineCustomElement as define${pascalImport} } from '${normalizePath(
         outputTarget.componentCorePackage
-      )}/${outputTarget.customElementsDir || 'components'}/${component.tagName}.js';`;
+      )}/${outputTarget.customElementsDir}/${component.tagName}.js';`;
     });
 
     sourceImports = cmpImports.join('\n');
   }
 
-  if (includeSingleComponentAngularModules) {
-    // Generating Angular modules is only supported in the dist-custom-elements build
-    if (!outputTarget.includeImportCustomElements) {
-      throw new Error(
-        'Generating single component Angular modules requires the "includeImportCustomElements" option to be set to true.'
-      );
+  if (!isCustomElementsBuild) {
+    if (includeSingleComponentAngularModules) {
+      // Generating Angular modules is only supported in the dist-custom-elements build
+      throw new Error('Generating single component Angular modules requires the "customElementsDir" option to be set.');
+    }
+    if (includeSingleComponentAngularComponents) {
+      // Generates Angular standalone components is only supported in the dist-custom-elements build
+      throw new Error('Generating standalone Angular components requires the "customElementsDir" option to be set.');
     }
   }
 
@@ -153,7 +154,7 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
   const filterInternalProps = (prop: { name: string; internal: boolean }) => !prop.internal;
   const mapPropName = (prop: { name: string }) => prop.name;
 
-  const { includeImportCustomElements, componentCorePackage, customElementsDir } = outputTarget;
+  const { componentCorePackage, customElementsDir } = outputTarget;
 
   for (let cmpMeta of components) {
     const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
@@ -193,14 +194,14 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
       inputs,
       outputs,
       methods,
-      includeImportCustomElements
+      isCustomElementsBuild,
+      isStandaloneBuild
     );
     const moduleDefinition = generateAngularModuleForComponent(cmpMeta.tagName);
     const componentTypeDefinition = createComponentTypeDefinition(
       tagNameAsPascal,
       cmpMeta.events,
       componentCorePackage,
-      includeImportCustomElements,
       customElementsDir
     );
 
