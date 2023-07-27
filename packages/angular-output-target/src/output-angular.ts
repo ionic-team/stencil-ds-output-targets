@@ -70,6 +70,7 @@ export function generateProxies(
   const includeSingleComponentAngularModules = outputTarget.outputType === 'scam';
   const includeSingleComponentAngularComponents = outputTarget.outputType === 'standalone';
   const isCustomElementsBuild = outputTarget.customElementsDir !== undefined;
+  const isStandaloneBuild = outputTarget.outputType === 'standalone';
   const includeOutputImports = components.some((component) => component.events.some((event) => !event.internal));
 
   /**
@@ -193,7 +194,8 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
       inputs,
       outputs,
       methods,
-      isCustomElementsBuild
+      isCustomElementsBuild,
+      isStandaloneBuild
     );
     const moduleDefinition = generateAngularModuleForComponent(cmpMeta.tagName);
     const componentTypeDefinition = createComponentTypeDefinition(
