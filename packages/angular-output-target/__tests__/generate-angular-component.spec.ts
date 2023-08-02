@@ -289,7 +289,7 @@ describe('createComponentTypeDefinition()', () => {
 
   describe('www build', () => {
     it('creates a type definition', () => {
-      const definition = createComponentTypeDefinition('MyComponent', testEvents, '@ionic/core');
+      const definition = createComponentTypeDefinition('component', 'MyComponent', testEvents, '@ionic/core');
 
       expect(definition).toEqual(
         `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core';
@@ -318,7 +318,13 @@ export declare interface MyComponent extends Components.MyComponent {
   describe('custom elements output', () => {
     describe('with a custom elements directory provided', () => {
       it('creates a type definition', () => {
-        const definition = createComponentTypeDefinition('MyComponent', testEvents, '@ionic/core', 'custom-elements');
+        const definition = createComponentTypeDefinition(
+          'standalone',
+          'MyComponent',
+          testEvents,
+          '@ionic/core',
+          'custom-elements'
+        );
 
         expect(definition).toEqual(
           `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core/custom-elements';

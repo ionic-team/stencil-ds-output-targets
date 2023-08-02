@@ -66,11 +66,11 @@ export function generateProxies(
 ) {
   const distTypesDir = path.dirname(pkgData.types);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
+  const { outputType } = outputTarget;
   const componentsTypeFile = relativeImport(outputTarget.directivesProxyFile, dtsFilePath, '.d.ts');
-  const includeSingleComponentAngularModules = outputTarget.outputType === 'scam';
-  const includeSingleComponentAngularComponents = outputTarget.outputType === 'standalone';
-  const isCustomElementsBuild = outputTarget.customElementsDir !== undefined;
-  const isStandaloneBuild = outputTarget.outputType === 'standalone';
+  const includeSingleComponentAngularModules = outputType === 'scam';
+  const isCustomElementsBuild = outputType === 'scam' || outputType === 'standalone';
+  const isStandaloneBuild = outputType === 'standalone';
   const includeOutputImports = components.some((component) => component.events.some((event) => !event.internal));
 
   /**
@@ -138,17 +138,6 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
     sourceImports = cmpImports.join('\n');
   }
 
-  if (!isCustomElementsBuild) {
-    if (includeSingleComponentAngularModules) {
-      // Generating Angular modules is only supported in the dist-custom-elements build
-      throw new Error('Generating single component Angular modules requires the "customElementsDir" option to be set.');
-    }
-    if (includeSingleComponentAngularComponents) {
-      // Generates Angular standalone components is only supported in the dist-custom-elements build
-      throw new Error('Generating standalone Angular components requires the "customElementsDir" option to be set.');
-    }
-  }
-
   const proxyFileOutput = [];
 
   const filterInternalProps = (prop: { name: string; internal: boolean }) => !prop.internal;
@@ -199,6 +188,7 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
     );
     const moduleDefinition = generateAngularModuleForComponent(cmpMeta.tagName);
     const componentTypeDefinition = createComponentTypeDefinition(
+      outputType,
       tagNameAsPascal,
       cmpMeta.events,
       componentCorePackage,
