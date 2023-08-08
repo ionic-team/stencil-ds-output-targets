@@ -1,6 +1,7 @@
 import path from 'path';
 import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
-import { OutputType, type OutputTargetAngular, type PackageJSON } from './types';
+import { OutputType } from './types';
+import type { OutputTargetAngular, PackageJSON } from './types';
 import {
   relativeImport,
   normalizePath,
