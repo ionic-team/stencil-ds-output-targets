@@ -25,7 +25,7 @@ export function normalizeOutputTarget(config: Config, outputTarget: OutputTarget
     excludeComponents: outputTarget.excludeComponents || [],
     valueAccessorConfigs: outputTarget.valueAccessorConfigs || [],
     customElementsDir: outputTarget.customElementsDir || 'components',
-    outputType: outputTarget.outputType || OutputType.Component
+    outputType: outputTarget.outputType || OutputType.Component,
   };
 
   if (config.rootDir == null) {
