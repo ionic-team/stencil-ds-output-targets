@@ -8,6 +8,7 @@ import {
   readPackageJson,
   dashToPascalCase,
   createImportStatement,
+  isOutputTypeCustomElementsBuild,
 } from './utils';
 import { createAngularComponentDefinition, createComponentTypeDefinition } from './generate-angular-component';
 import { generateAngularDirectivesFile } from './generate-angular-directives-file';
@@ -69,7 +70,7 @@ export function generateProxies(
   const { outputType } = outputTarget;
   const componentsTypeFile = relativeImport(outputTarget.directivesProxyFile, dtsFilePath, '.d.ts');
   const includeSingleComponentAngularModules = outputType === 'scam';
-  const isCustomElementsBuild = outputType === 'scam' || outputType === 'standalone';
+  const isCustomElementsBuild = isOutputTypeCustomElementsBuild(outputType);
   const isStandaloneBuild = outputType === 'standalone';
   const includeOutputImports = components.some((component) => component.events.some((event) => !event.internal));
 
@@ -122,9 +123,9 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
 
   /**
    * Build an array of Custom Elements build imports and namespace them
-   * so that they do not conflict with the React wrapper names. For example,
+   * so that they do not conflict with the Angular wrapper names. For example,
    * IonButton would be imported as IonButtonCmp so as to not conflict with the
-   * IonButton React Component that takes in the Web Component as a parameter.
+   * IonButton Angular Component that takes in the Web Component as a parameter.
    */
   if (isCustomElementsBuild && outputTarget.componentCorePackage !== undefined) {
     const cmpImports = components.map((component) => {
