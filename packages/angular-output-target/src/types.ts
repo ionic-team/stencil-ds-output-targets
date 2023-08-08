@@ -4,7 +4,11 @@
  * - `scam` - Generate a Single Component Angular Module for each component.
  * - `standalone` - Generate a component with the `standalone` flag set to `true`.
  */
-export type OutputType = 'component' | 'scam' | 'standalone';
+export enum OutputType {
+  Component = 'component',
+  Scam = 'scam',
+  Standalone = 'standalone',
+}
 
 export interface OutputTargetAngular {
   /**

@@ -1,6 +1,6 @@
 import path from 'path';
 import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
-import type { OutputTargetAngular, PackageJSON } from './types';
+import { OutputType, type OutputTargetAngular, type PackageJSON } from './types';
 import {
   relativeImport,
   normalizePath,
@@ -69,9 +69,9 @@ export function generateProxies(
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const { outputType } = outputTarget;
   const componentsTypeFile = relativeImport(outputTarget.directivesProxyFile, dtsFilePath, '.d.ts');
-  const includeSingleComponentAngularModules = outputType === 'scam';
+  const includeSingleComponentAngularModules = outputType === OutputType.Scam;
   const isCustomElementsBuild = isOutputTypeCustomElementsBuild(outputType);
-  const isStandaloneBuild = outputType === 'standalone';
+  const isStandaloneBuild = outputType === OutputType.Standalone;
   const includeOutputImports = components.some((component) => component.events.some((event) => !event.internal));
 
   /**

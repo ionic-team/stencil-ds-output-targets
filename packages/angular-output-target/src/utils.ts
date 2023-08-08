@@ -1,6 +1,6 @@
 import { ComponentCompilerEvent, Config } from '@stencil/core/internal';
 import path from 'path';
-import type { OutputType, PackageJSON } from './types';
+import { OutputType, PackageJSON } from './types';
 
 export const toLowerCase = (str: string) => str.toLowerCase();
 
@@ -112,7 +112,7 @@ export const createImportStatement = (imports: string[], module: string) => {
  * @returns `true` if the output type is for the custom elements build.
  */
 export const isOutputTypeCustomElementsBuild = (outputType: OutputType) => {
-  return outputType === 'standalone' || outputType === 'scam';
+  return outputType === OutputType.Standalone || outputType === OutputType.Scam;
 };
 
 /**
