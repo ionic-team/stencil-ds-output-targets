@@ -1,6 +1,7 @@
 import type { CompilerJsDoc, ComponentCompilerEvent } from '@stencil/core/internal';
 
 import { createComponentEventTypeImports, dashToPascalCase, formatToQuotedList } from './utils';
+import type { OutputType } from './types';
 
 /**
  * Creates an Angular component declaration from formatted Stencil compiler metadata.
@@ -134,6 +135,7 @@ const createDocComment = (doc: CompilerJsDoc) => {
 
 /**
  * Creates the component interface type definition.
+ * @param outputType The output type.
  * @param tagNameAsPascal The tag name as PascalCase.
  * @param events The events to generate the interface properties for.
  * @param componentCorePackage The component core package.
@@ -141,6 +143,7 @@ const createDocComment = (doc: CompilerJsDoc) => {
  * @returns The component interface type definition as a string.
  */
 export const createComponentTypeDefinition = (
+  outputType: OutputType,
   tagNameAsPascal: string,
   events: readonly ComponentCompilerEvent[],
   componentCorePackage: string,
@@ -151,6 +154,7 @@ export const createComponentTypeDefinition = (
   const eventTypeImports = createComponentEventTypeImports(tagNameAsPascal, publicEvents, {
     componentCorePackage,
     customElementsDir,
+    outputType,
   });
   const eventTypes = publicEvents.map((event) => {
     const comment = createDocComment(event.docs);

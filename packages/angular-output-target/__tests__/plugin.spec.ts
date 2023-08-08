@@ -24,10 +24,19 @@ describe('normalizeOutputTarget', () => {
       directivesProxyFile: '/component-library-angular/src/components.ts',
     } as OutputTargetAngular);
 
-    expect(results).toEqual({
-      directivesProxyFile: '/component-library-angular/src/components.ts',
-      excludeComponents: [],
-      valueAccessorConfigs: [],
-    });
+    expect(results.excludeComponents).toEqual([]);
+    expect(results.valueAccessorConfigs).toEqual([]);
+  });
+
+  it('should return defaults for outputType', () => {
+    const results = normalizeOutputTarget(config, { directivesProxyFile: '' } as OutputTargetAngular);
+
+    expect(results.outputType).toEqual('component');
+  });
+
+  it('should return defaults for customElementsDir', () => {
+    const results = normalizeOutputTarget(config, { directivesProxyFile: '' } as OutputTargetAngular);
+
+    expect(results.customElementsDir).toEqual('components');
   });
 });

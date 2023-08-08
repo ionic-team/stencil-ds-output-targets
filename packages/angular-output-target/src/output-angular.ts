@@ -1,5 +1,6 @@
 import path from 'path';
 import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
+import { OutputType } from './types';
 import type { OutputTargetAngular, PackageJSON } from './types';
 import {
   relativeImport,
@@ -8,6 +9,7 @@ import {
   readPackageJson,
   dashToPascalCase,
   createImportStatement,
+  isOutputTypeCustomElementsBuild,
 } from './utils';
 import { createAngularComponentDefinition, createComponentTypeDefinition } from './generate-angular-component';
 import { generateAngularDirectivesFile } from './generate-angular-directives-file';
@@ -66,11 +68,11 @@ export function generateProxies(
 ) {
   const distTypesDir = path.dirname(pkgData.types);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
+  const { outputType } = outputTarget;
   const componentsTypeFile = relativeImport(outputTarget.directivesProxyFile, dtsFilePath, '.d.ts');
-  const includeSingleComponentAngularModules = outputTarget.outputType === 'scam';
-  const includeSingleComponentAngularComponents = outputTarget.outputType === 'standalone';
-  const isCustomElementsBuild = outputTarget.customElementsDir !== undefined;
-  const isStandaloneBuild = outputTarget.outputType === 'standalone';
+  const includeSingleComponentAngularModules = outputType === OutputType.Scam;
+  const isCustomElementsBuild = isOutputTypeCustomElementsBuild(outputType);
+  const isStandaloneBuild = outputType === OutputType.Standalone;
   const includeOutputImports = components.some((component) => component.events.some((event) => !event.internal));
 
   /**
@@ -122,9 +124,9 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
 
   /**
    * Build an array of Custom Elements build imports and namespace them
-   * so that they do not conflict with the React wrapper names. For example,
+   * so that they do not conflict with the Angular wrapper names. For example,
    * IonButton would be imported as IonButtonCmp so as to not conflict with the
-   * IonButton React Component that takes in the Web Component as a parameter.
+   * IonButton Angular Component that takes in the Web Component as a parameter.
    */
   if (isCustomElementsBuild && outputTarget.componentCorePackage !== undefined) {
     const cmpImports = components.map((component) => {
@@ -136,17 +138,6 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
     });
 
     sourceImports = cmpImports.join('\n');
-  }
-
-  if (!isCustomElementsBuild) {
-    if (includeSingleComponentAngularModules) {
-      // Generating Angular modules is only supported in the dist-custom-elements build
-      throw new Error('Generating single component Angular modules requires the "customElementsDir" option to be set.');
-    }
-    if (includeSingleComponentAngularComponents) {
-      // Generates Angular standalone components is only supported in the dist-custom-elements build
-      throw new Error('Generating standalone Angular components requires the "customElementsDir" option to be set.');
-    }
   }
 
   const proxyFileOutput = [];
@@ -199,6 +190,7 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
     );
     const moduleDefinition = generateAngularModuleForComponent(cmpMeta.tagName);
     const componentTypeDefinition = createComponentTypeDefinition(
+      outputType,
       tagNameAsPascal,
       cmpMeta.events,
       componentCorePackage,

@@ -1,6 +1,7 @@
 import type { Config, OutputTargetCustom } from '@stencil/core/internal';
 import { normalizePath } from './utils';
 import { angularDirectiveProxyOutput } from './output-angular';
+import { OutputType } from './types';
 import type { OutputTargetAngular } from './types';
 import path from 'path';
 
@@ -24,6 +25,8 @@ export function normalizeOutputTarget(config: Config, outputTarget: OutputTarget
     ...outputTarget,
     excludeComponents: outputTarget.excludeComponents || [],
     valueAccessorConfigs: outputTarget.valueAccessorConfigs || [],
+    customElementsDir: outputTarget.customElementsDir || 'components',
+    outputType: outputTarget.outputType || OutputType.Component,
   };
 
   if (config.rootDir == null) {
@@ -48,9 +51,9 @@ export function normalizeOutputTarget(config: Config, outputTarget: OutputTarget
     );
   }
 
-  if (outputTarget.outputType === 'scam') {
+  if (outputTarget.outputType === OutputType.Scam) {
     console.warn(
-      '**Experimental**: outputType: "scam" is a developer preview feature and may change or be removed in the future.'
+      `**Experimental**: outputType: "${OutputType.Scam}" is a developer preview feature and may change or be removed in the future.`
     );
   }
 
