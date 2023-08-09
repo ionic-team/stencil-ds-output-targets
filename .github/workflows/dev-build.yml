@@ -18,7 +18,7 @@ jobs:
         run: npm ci
         shell: bash
       - name: Install Dependencies
-        run: npx lerna bootstrap --ignore-script -- --legacy-peer-deps
+        run: npx lerna bootstrap --ignore-scripts -- --legacy-peer-deps
         shell: bash
       - name: Prepare NPM Token
         run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
