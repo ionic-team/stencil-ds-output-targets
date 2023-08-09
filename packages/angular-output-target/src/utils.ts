@@ -2,6 +2,12 @@ import { ComponentCompilerEvent, Config } from '@stencil/core/internal';
 import path from 'path';
 import { OutputType, PackageJSON } from './types';
 
+export const OutputTypes: { [key: string]: OutputType } = {
+  Component: 'component',
+  Scam: 'scam',
+  Standalone: 'standalone',
+};
+
 export const toLowerCase = (str: string) => str.toLowerCase();
 
 export const dashToPascalCase = (str: string) =>
@@ -112,7 +118,7 @@ export const createImportStatement = (imports: string[], module: string) => {
  * @returns `true` if the output type is for the custom elements build.
  */
 export const isOutputTypeCustomElementsBuild = (outputType: OutputType) => {
-  return outputType === OutputType.Standalone || outputType === OutputType.Scam;
+  return outputType === OutputTypes.Standalone || outputType === OutputTypes.Scam;
 };
 
 /**

@@ -1,6 +1,5 @@
 import path from 'path';
 import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
-import { OutputType } from './types';
 import type { OutputTargetAngular, PackageJSON } from './types';
 import {
   relativeImport,
@@ -10,6 +9,7 @@ import {
   dashToPascalCase,
   createImportStatement,
   isOutputTypeCustomElementsBuild,
+  OutputTypes,
 } from './utils';
 import { createAngularComponentDefinition, createComponentTypeDefinition } from './generate-angular-component';
 import { generateAngularDirectivesFile } from './generate-angular-directives-file';
@@ -70,9 +70,9 @@ export function generateProxies(
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const { outputType } = outputTarget;
   const componentsTypeFile = relativeImport(outputTarget.directivesProxyFile, dtsFilePath, '.d.ts');
-  const includeSingleComponentAngularModules = outputType === OutputType.Scam;
-  const isCustomElementsBuild = isOutputTypeCustomElementsBuild(outputType);
-  const isStandaloneBuild = outputType === OutputType.Standalone;
+  const includeSingleComponentAngularModules = outputType === OutputTypes.Scam;
+  const isCustomElementsBuild = isOutputTypeCustomElementsBuild(outputType!);
+  const isStandaloneBuild = outputType === OutputTypes.Standalone;
   const includeOutputImports = components.some((component) => component.events.some((event) => !event.internal));
 
   /**
@@ -190,7 +190,7 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
     );
     const moduleDefinition = generateAngularModuleForComponent(cmpMeta.tagName);
     const componentTypeDefinition = createComponentTypeDefinition(
-      outputType,
+      outputType!,
       tagNameAsPascal,
       cmpMeta.events,
       componentCorePackage,

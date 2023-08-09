@@ -4,11 +4,7 @@
  * - `scam` - Generate a Single Component Angular Module for each component.
  * - `standalone` - Generate a component with the `standalone` flag set to `true`.
  */
-export enum OutputType {
-  Component = 'component',
-  Scam = 'scam',
-  Standalone = 'standalone',
-}
+export type OutputType = 'component' | 'scam' | 'standalone';
 
 export interface OutputTargetAngular {
   /**
@@ -31,7 +27,7 @@ export interface OutputTargetAngular {
    * - `scam` - @experimental Generate a Single Component Angular Module for each component.
    * - `standalone` - Generate a component with the `standalone` flag set to `true`.
    */
-  outputType: OutputType;
+  outputType?: OutputType;
 }
 
 export type ValueAccessorTypes = 'text' | 'radio' | 'select' | 'number' | 'boolean';
