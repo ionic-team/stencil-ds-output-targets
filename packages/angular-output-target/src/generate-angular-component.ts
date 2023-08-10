@@ -109,7 +109,17 @@ const formatOutputType = (componentClassName: string, event: ComponentCompilerEv
           renamedType
             .replace(new RegExp(`^${src}$`, 'g'), `${dst}`)
             // Capture all instances of the `src` field surrounded by non-word characters on each side and join them.
-            .replace(new RegExp(`([^\\w])${src}([^\\w])`, 'g'), (v, p1, p2) => [p1, dst, p2].join(''))
+            .replace(new RegExp(`([^\\w])${src}([^\\w])`, 'g'), (v, p1, p2) => {
+              if (dst?.location === 'import') {
+                /**
+                 * Replaces a complex type reference within a generic type.
+                 * For example, remapping a type like `EventEmitter<CustomEvent<MyEvent<T>>>` to
+                 * `EventEmitter<CustomEvent<IMyComponentMyEvent<IMyComponentT>>`.
+                 */
+                return [p1, `I${componentClassName}${v.substring(1, v.length - 1)}`, p2].join('');
+              }
+              return [p1, dst, p2].join('');
+            })
         );
       },
       event.complexType.original
