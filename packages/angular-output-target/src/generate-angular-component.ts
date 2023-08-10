@@ -118,7 +118,7 @@ const formatOutputType = (componentClassName: string, event: ComponentCompilerEv
                 /**
                  * Replaces a complex type reference within a generic type.
                  * For example, remapping a type like `EventEmitter<CustomEvent<MyEvent<T>>>` to
-                 * `EventEmitter<CustomEvent<IMyComponentMyEvent<IMyComponentT>>`.
+                 * `EventEmitter<CustomEvent<IMyComponentMyEvent<IMyComponentT>>>`.
                  */
                 return [p1, `I${componentClassName}${v.substring(1, v.length - 1)}`, p2].join('');
               }
