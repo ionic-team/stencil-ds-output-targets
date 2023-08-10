@@ -1,3 +1,11 @@
+/**
+ * The type of output that can be generated with the Angular output target.
+ * - `component` - Generate many component wrappers tied to a single Angular module (lazy/hydrated approach).
+ * - `scam` - Generate a Single Component Angular Module for each component.
+ * - `standalone` - Generate a component with the `standalone` flag set to `true`.
+ */
+export type OutputType = 'component' | 'scam' | 'standalone';
+
 export interface OutputTargetAngular {
   /**
    * The package name of the component library.
@@ -12,14 +20,14 @@ export interface OutputTargetAngular {
   directivesArrayFile?: string;
   valueAccessorConfigs?: ValueAccessorConfig[];
   excludeComponents?: string[];
-  includeImportCustomElements?: boolean;
   customElementsDir?: string;
   /**
-   * @experimental
-   *
-   * `true` to generate a single component Angular module for each component.
+   * The type of output that should be generated.
+   * - `component` - Generate many component wrappers tied to a single Angular module (lazy/hydrated approach).
+   * - `scam` - **Experimental** - Generate a Single Component Angular Module for each component.
+   * - `standalone` - Generate a component with the `standalone` flag set to `true`.
    */
-  includeSingleComponentAngularModules?: boolean;
+  outputType?: OutputType;
 }
 
 export type ValueAccessorTypes = 'text' | 'radio' | 'select' | 'number' | 'boolean';

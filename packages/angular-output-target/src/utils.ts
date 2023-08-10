@@ -1,6 +1,12 @@
 import { ComponentCompilerEvent, Config } from '@stencil/core/internal';
 import path from 'path';
-import type { PackageJSON } from './types';
+import { OutputType, PackageJSON } from './types';
+
+export const OutputTypes: { [key: string]: OutputType } = {
+  Component: 'component',
+  Scam: 'scam',
+  Standalone: 'standalone',
+};
 
 export const toLowerCase = (str: string) => str.toLowerCase();
 
@@ -107,6 +113,15 @@ export const createImportStatement = (imports: string[], module: string) => {
 };
 
 /**
+ * Checks if the outputType is for the custom elements build.
+ * @param outputType The output type.
+ * @returns `true` if the output type is for the custom elements build.
+ */
+export const isOutputTypeCustomElementsBuild = (outputType: OutputType) => {
+  return outputType === OutputTypes.Standalone || outputType === OutputTypes.Scam;
+};
+
+/**
  * Creates the collection of import statements for a component based on the component's events type dependencies.
  * @param componentTagName The tag name of the component (pascal case).
  * @param events The events compiler metadata.
@@ -118,16 +133,16 @@ export const createComponentEventTypeImports = (
   events: readonly ComponentCompilerEvent[],
   options: {
     componentCorePackage: string;
-    includeImportCustomElements?: boolean;
     customElementsDir?: string;
+    outputType: OutputType;
   }
 ) => {
-  const { componentCorePackage, includeImportCustomElements, customElementsDir } = options;
+  const { componentCorePackage, customElementsDir } = options;
   const imports: string[] = [];
   const namedImports: Set<string> = new Set();
+  const isCustomElementsBuild = isOutputTypeCustomElementsBuild(options.outputType);
 
-  const importPathName =
-    normalizePath(componentCorePackage) + (includeImportCustomElements ? `/${customElementsDir || 'components'}` : '');
+  const importPathName = normalizePath(componentCorePackage) + (isCustomElementsBuild ? `/${customElementsDir}` : '');
 
   events.forEach((event) => {
     Object.entries(event.complexType.references).forEach(([typeName, refObject]) => {

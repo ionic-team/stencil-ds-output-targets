@@ -1,4 +1,9 @@
-import { createImportStatement, createComponentEventTypeImports, formatToQuotedList } from '../src/utils';
+import {
+  createImportStatement,
+  createComponentEventTypeImports,
+  formatToQuotedList,
+  isOutputTypeCustomElementsBuild,
+} from '../src/utils';
 
 describe('createImportStatement()', () => {
   it('should create an import statement', () => {
@@ -46,6 +51,7 @@ describe('createComponentEventTypeImports()', () => {
     it('should create an import statement for each event', () => {
       const imports = createComponentEventTypeImports('MyComponent', testEvents, {
         componentCorePackage: '@ionic/core',
+        outputType: 'component',
       });
 
       expect(imports).toEqual(
@@ -58,29 +64,25 @@ import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core';`
   describe('custom elements output', () => {
     describe('with custom elements dir', () => {
       it('should create an import statement for each event', () => {
-        const imports = createComponentEventTypeImports('MyComponent', testEvents, {
+        const scamImports = createComponentEventTypeImports('MyComponent', testEvents, {
           componentCorePackage: '@ionic/core',
-          includeImportCustomElements: true,
           customElementsDir: 'custom-elements',
+          outputType: 'scam',
         });
 
-        expect(imports).toEqual(
+        const standaloneImports = createComponentEventTypeImports('MyComponent', testEvents, {
+          componentCorePackage: '@ionic/core',
+          customElementsDir: 'custom-elements',
+          outputType: 'standalone',
+        });
+
+        expect(scamImports).toEqual(
           `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core/custom-elements';
 import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/custom-elements';`
         );
-      });
-    });
-
-    describe('without custom elements dir', () => {
-      it('should create an import statement for each event', () => {
-        const imports = createComponentEventTypeImports('MyComponent', testEvents, {
-          componentCorePackage: '@ionic/core',
-          includeImportCustomElements: true,
-        });
-
-        expect(imports).toEqual(
-          `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core/components';
-import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/components';`
+        expect(standaloneImports).toEqual(
+          `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core/custom-elements';
+import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/custom-elements';`
         );
       });
     });
@@ -92,5 +94,15 @@ describe('formatToQuotedList', () => {
     expect(formatToQuotedList(['a', 'b', 'c'])).toEqual(`'a', 'b', 'c'`);
     expect(formatToQuotedList(['a'])).toEqual(`'a'`);
     expect(formatToQuotedList([])).toEqual('');
+  });
+});
+
+describe('isOutputTypeCustomElementsBuild', () => {
+  it('should return true if the output type is standalone or scam', () => {
+    expect(isOutputTypeCustomElementsBuild('standalone')).toEqual(true);
+    expect(isOutputTypeCustomElementsBuild('scam')).toEqual(true);
+  });
+  it('should return false if the output type is component', () => {
+    expect(isOutputTypeCustomElementsBuild('component')).toEqual(false);
   });
 });
