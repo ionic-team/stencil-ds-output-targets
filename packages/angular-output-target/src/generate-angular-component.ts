@@ -95,6 +95,7 @@ export class ${tagNameAsPascal} {
  * @returns The sanitized event type as a string.
  */
 const formatOutputType = (componentClassName: string, event: ComponentCompilerEvent) => {
+  const prefix = `I${componentClassName}`;
   /**
    * The original attribute contains the original type defined by the devs.
    * This regexp normalizes the reference, by removing linebreaks,
@@ -104,7 +105,10 @@ const formatOutputType = (componentClassName: string, event: ComponentCompilerEv
     .filter(([_, refObject]) => refObject.location === 'local' || refObject.location === 'import')
     .reduce(
       (type, [src, dst]) => {
-        const renamedType = `I${componentClassName}${type}`;
+        let renamedType = type;
+        if (!type.startsWith(prefix)) {
+          renamedType = `I${componentClassName}${type}`;
+        }
         return (
           renamedType
             .replace(new RegExp(`^${src}$`, 'g'), `${dst}`)

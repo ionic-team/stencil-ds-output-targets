@@ -360,7 +360,7 @@ import type { Currency as IMyComponentCurrency } from '@ionic/core';
 
 export declare interface MyComponent extends Components.MyComponent {
 
-  myChange: EventEmitter<CustomEvent<IMyComponentIMyComponentMyEvent<IMyComponentCurrency>>>;
+  myChange: EventEmitter<CustomEvent<IMyComponentMyEvent<IMyComponentCurrency>>>;
 }`
       );
     });
