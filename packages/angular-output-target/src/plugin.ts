@@ -4,22 +4,24 @@ import { angularDirectiveProxyOutput } from './output-angular';
 import type { OutputTargetAngular } from './types';
 import path from 'path';
 
-let validatedOutputTarget: OutputTargetAngular;
+export const angularOutputTarget = (outputTarget: OutputTargetAngular): OutputTargetCustom => {
+  let validatedOutputTarget: OutputTargetAngular;
 
-export const angularOutputTarget = (outputTarget: OutputTargetAngular): OutputTargetCustom => ({
-  type: 'custom',
-  name: 'angular-library',
-  validate(config) {
-    validatedOutputTarget = normalizeOutputTarget(config, outputTarget);
-  },
-  async generator(config, compilerCtx, buildCtx) {
-    const timespan = buildCtx.createTimeSpan(`generate angular proxies started`, true);
+  return {
+    type: 'custom',
+    name: 'angular-library',
+    validate(config) {
+      validatedOutputTarget = normalizeOutputTarget(config, outputTarget);
+    },
+    async generator(config, compilerCtx, buildCtx) {
+      const timespan = buildCtx.createTimeSpan(`generate angular proxies started`, true);
 
-    await angularDirectiveProxyOutput(compilerCtx, validatedOutputTarget, buildCtx.components, config);
+      await angularDirectiveProxyOutput(compilerCtx, validatedOutputTarget, buildCtx.components, config);
 
-    timespan.finish(`generate angular proxies finished`);
-  },
-});
+      timespan.finish(`generate angular proxies finished`);
+    },
+  };
+};
 
 export function normalizeOutputTarget(config: Config, outputTarget: OutputTargetAngular) {
   const results: OutputTargetAngular = {
