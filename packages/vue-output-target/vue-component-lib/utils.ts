@@ -1,6 +1,12 @@
 // @ts-nocheck
 // It's easier and safer for Volar to disable typechecking and let the return type inference do its job.
-import { VNode, defineComponent, getCurrentInstance, h, inject, ref, Ref } from 'vue';
+import { VNode, defineComponent, getCurrentInstance, h, inject, ref, Ref, StyleValue } from 'vue';
+
+export interface ComponentExtensionType {
+  style?: StyleValue
+  class?: any
+  slot?: string
+}
 
 export interface InputProps<T> {
   modelValue?: T;
@@ -74,7 +80,7 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
     defineCustomElement();
   }
 
-  const Container = defineComponent<Props & InputProps<VModelType>>((props, { attrs, slots, emit }) => {
+  const Container = defineComponent<Props & ComponentExtensionType & InputProps<VModelType>>((props, { attrs, slots, emit }) => {
     let modelPropValue = props[modelProp];
     const containerRef = ref<HTMLElement>();
     const classes = new Set(getComponentClasses(attrs.class));
