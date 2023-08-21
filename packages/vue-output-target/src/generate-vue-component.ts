@@ -13,6 +13,7 @@ export const createComponentDefinition =
     const importAs = includeCustomElement ? 'define' + tagNameAsPascal : 'undefined';
 
     let props: string[] = [];
+    let emits: string[] = [];
 
     if (Array.isArray(cmpMeta.properties) && cmpMeta.properties.length > 0) {
       props = cmpMeta.properties.map((prop) => `'${prop.name}'`);
@@ -20,6 +21,7 @@ export const createComponentDefinition =
 
     if (Array.isArray(cmpMeta.events) && cmpMeta.events.length > 0) {
       props = [...props, ...cmpMeta.events.map((event) => `'${event.name}'`)];
+      emits = cmpMeta.events.map((event) => `'${event.name}'`);
     }
 
     const componentType = `${importTypes}.${tagNameAsPascal}`;
@@ -36,6 +38,25 @@ export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${componentType}
 ]`;
       /**
        * If there are no props,
+       * but v-model is still used,
+       * make sure we pass in an empty array
+       * otherwise all of the defineContainer properties
+       * will be off by one space.
+       * Note: If you are using v-model then
+       * the props array should never be empty
+       * as there must be a prop for v-model to update,
+       * but this check is there so builds do not crash.
+       */
+    } else if (emits.length > 0) {
+      templateString += `, []`;
+    }
+
+    if (emits.length > 0) {
+      templateString += `, [
+  ${emits.length > 0 ? emits.join(',\n  ') : ''}
+]`;
+      /**
+       * If there are no Emits,
        * but v-model is still used,
        * make sure we pass in an empty array
        * otherwise all of the defineContainer properties
