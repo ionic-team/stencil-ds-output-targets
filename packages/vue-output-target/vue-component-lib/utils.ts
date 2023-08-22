@@ -6,6 +6,7 @@ export interface ComponentExtensionType {
   style?: StyleValue
   class?: any
   slot?: string
+  [key: string]: any
 }
 
 export interface InputProps<T> {
