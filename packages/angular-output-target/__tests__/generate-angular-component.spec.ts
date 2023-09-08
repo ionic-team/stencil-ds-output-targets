@@ -313,6 +313,57 @@ export declare interface MyComponent extends Components.MyComponent {
 }`
       );
     });
+
+    it('rewrites complex nested generic types within custom events', () => {
+      // Issue: https://github.com/ionic-team/stencil-ds-output-targets/issues/369
+      const definition = createComponentTypeDefinition(
+        'component',
+        'MyComponent',
+        [
+          {
+            name: 'myChange',
+            method: 'myChange',
+            bubbles: true,
+            cancelable: true,
+            composed: true,
+            docs: {
+              tags: [],
+              text: '',
+            },
+            complexType: {
+              original: 'MyEvent<Currency>',
+              resolved: 'MyEvent<Currency>',
+              references: {
+                MyEvent: {
+                  location: 'import',
+                  path: '../../types/MyEvent',
+                  // Stencil v4.0.3+ only
+                  id: 'src/types/MyEvent.ts::MyEvent',
+                } as any,
+                Currency: {
+                  location: 'import',
+                  path: '../../types/Currency',
+                  // Stencil v4.0.3+ only
+                  id: 'src/types/Currency.ts::Currency',
+                } as any,
+              },
+            },
+            internal: false,
+          },
+        ],
+        '@ionic/core'
+      );
+
+      expect(definition).toEqual(
+        `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core';
+import type { Currency as IMyComponentCurrency } from '@ionic/core';
+
+export declare interface MyComponent extends Components.MyComponent {
+
+  myChange: EventEmitter<CustomEvent<IMyComponentMyEvent<IMyComponentCurrency>>>;
+}`
+      );
+    });
   });
 
   describe('custom elements output', () => {

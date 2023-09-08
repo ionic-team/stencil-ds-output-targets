@@ -95,6 +95,7 @@ export class ${tagNameAsPascal} {
  * @returns The sanitized event type as a string.
  */
 const formatOutputType = (componentClassName: string, event: ComponentCompilerEvent) => {
+  const prefix = `I${componentClassName}`;
   /**
    * The original attribute contains the original type defined by the devs.
    * This regexp normalizes the reference, by removing linebreaks,
@@ -104,12 +105,25 @@ const formatOutputType = (componentClassName: string, event: ComponentCompilerEv
     .filter(([_, refObject]) => refObject.location === 'local' || refObject.location === 'import')
     .reduce(
       (type, [src, dst]) => {
-        const renamedType = `I${componentClassName}${type}`;
+        let renamedType = type;
+        if (!type.startsWith(prefix)) {
+          renamedType = `I${componentClassName}${type}`;
+        }
         return (
           renamedType
             .replace(new RegExp(`^${src}$`, 'g'), `${dst}`)
             // Capture all instances of the `src` field surrounded by non-word characters on each side and join them.
-            .replace(new RegExp(`([^\\w])${src}([^\\w])`, 'g'), (v, p1, p2) => [p1, dst, p2].join(''))
+            .replace(new RegExp(`([^\\w])${src}([^\\w])`, 'g'), (v, p1, p2) => {
+              if (dst?.location === 'import') {
+                /**
+                 * Replaces a complex type reference within a generic type.
+                 * For example, remapping a type like `EventEmitter<CustomEvent<MyEvent<T>>>` to
+                 * `EventEmitter<CustomEvent<IMyComponentMyEvent<IMyComponentT>>>`.
+                 */
+                return [p1, `I${componentClassName}${v.substring(1, v.length - 1)}`, p2].join('');
+              }
+              return [p1, dst, p2].join('');
+            })
         );
       },
       event.complexType.original
