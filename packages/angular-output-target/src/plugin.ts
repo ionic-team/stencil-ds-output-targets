@@ -54,11 +54,5 @@ export function normalizeOutputTarget(config: Config, outputTarget: OutputTarget
     );
   }
 
-  if (outputTarget.outputType === OutputTypes.Scam) {
-    console.warn(
-      `**Experimental**: outputType: "${OutputTypes.Scam}" is a developer preview feature and may change or be removed in the future.`
-    );
-  }
-
   return results;
 }
