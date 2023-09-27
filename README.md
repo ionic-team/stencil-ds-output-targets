@@ -15,9 +15,14 @@ Here is an example project using the plugins for reference: https://github.com/i
 
 Detailed information for each output target can be found in each package's README.
 
-## Local development
+# Maintainance Status
 
-### Getting started
+This project is currently maintained for the purposes of supporting the Ionic Framework.
+At this time, only new issues & pull requests that support the Ionic Framework will be prioritized.
+
+# Local development
+
+## Getting started
 
 To set up this project and prepare the example project to be used in your own projects run the following commands.
 
@@ -31,11 +36,11 @@ This will generate all necessary builds in the example projects. You can then ei
 
 For example, if you have an Angular project, run `npm pack` in `packages/example-project/component-library` and `packages/example-project/component-library-angular`. Since the framework component libraries depend on the Stencil project, you will need to provide the `component-library` package in your project `node_modules` folder.
 
-#### Node Versions
+### Node Versions
 
 This project uses [Volta](https://volta.sh/) to automatically manage what npm and node versions are used when developing. If you don't use Volta, don't worry about it... just check the root `package.json` for what version of node and npm is currently being used.
 
-### Deploying
+## Deploying
 
 There is a manual workflow task called "Production Release" within the GitHub Actions workflows directory. We currently do not release all packages that have been changed at once. You will need to deploy each package (vue, react, angular) individually.
 
