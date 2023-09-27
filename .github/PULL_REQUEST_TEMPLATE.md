@@ -1,7 +1,7 @@
 ## Pull request checklist
 
 <!-- Please note that this repository is largely maintained for the purposes of supporting the Ionic Framework -->
-<!-- As a result, we may not immediately get around to reviewing pull requests that do not support the Framework (or at all) -->
+<!-- As a result, we may not immediately (or ever) get around to reviewing pull requests that do not support the Framework -->
 
 Please check if your PR fulfills the following requirements:
 
