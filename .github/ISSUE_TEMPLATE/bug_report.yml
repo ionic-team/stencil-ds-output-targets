@@ -2,6 +2,11 @@ name: 🐛 Bug Report
 description: Create a report to help us improve the Stencil Framework Output Targets
 title: 'bug: '
 body:
+  - type: markdown
+    attributes:
+      value: |
+        At this time, this repository is maintained on an as-needed basis for the Ionic Framework.
+        As a result, we may not immediately get around to resolving your issue.
   - type: checkboxes
     attributes:
       label: Prerequisites
