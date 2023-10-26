@@ -32,14 +32,13 @@ jobs:
         run: |
           echo "HASH=1$(git log -1 --format=%H | cut -c 1-7)" >> $GITHUB_ENV
           echo "TIMESTAMP=1$(date +%s)" >> $GITHUB_ENV
-          echo "CURRENT_VERSION=$(node ./.scripts/bump-version.js)" >> $GITHUB_ENV
         shell: bash
       - name: Create Dev Build
         run: |
-          HUSKY_SKIP_HOOKS=1 lerna publish $(echo "${{ env.CURRENT_VERSION }}")-dev.$(echo "${{ env.TIMESTAMP }}").$(echo "${{ env.HASH }}") --no-verify-access --yes --force-publish='*' --dist-tag dev --no-git-tag-version --no-push --exact
+          HUSKY_SKIP_HOOKS=1 lerna publish 0.0.1-dev.$(echo "${{ env.TIMESTAMP }}").$(echo "${{ env.HASH }}") --no-verify-access --yes --force-publish='*' --dist-tag dev --no-git-tag-version --no-push --exact
         shell: bash
       - id: dev-build
-        run: echo "::set-output name=version::$(echo "${{ env.CURRENT_VERSION }}")-dev.$(echo "${{ env.TIMESTAMP }}").$(echo "${{ env.HASH }}")"
+        run: echo "::set-output name=version::0.0.1-dev.$(echo "${{ env.TIMESTAMP }}").$(echo "${{ env.HASH }}")"
   get-build:
     name: Get your dev build!
     runs-on: ubuntu-latest
