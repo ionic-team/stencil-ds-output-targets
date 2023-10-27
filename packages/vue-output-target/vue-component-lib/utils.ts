@@ -184,7 +184,7 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
 
     if (modelProp) {
       Container.props[MODEL_VALUE] = DEFAULT_EMPTY_PROP;
-      Container.emits = [UPDATE_VALUE_EVENT, externalModelUpdateEvent];
+      Container.emits = [UPDATE_VALUE_EVENT];
     }
   }
 
