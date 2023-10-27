@@ -75,6 +75,17 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
     let modelPropValue = props[modelProp];
     const containerRef = ref<HTMLElement>();
     const classes = new Set(getComponentClasses(attrs.class));
+
+    /**
+     * This directive is responsible for updating any reactive
+     * reference associated with v-model on the component.
+     * This code must be run inside of the "created" callback.
+     * Since the following listener callbacks as well as any potential
+     * event callback defined in the developer's app are set on
+     * the same element, we need to make sure the following callbacks
+     * are set first so they fire first. If the developer's callback fires first
+     * then the reactive reference will not have been updated yet.
+     */
     const vModelDirective = {
       created(el: HTMLElement) {
         const eventsNames = Array.isArray(modelUpdateEvent) ? modelUpdateEvent : [modelUpdateEvent];
@@ -166,6 +177,10 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
         }
       }
 
+      /**
+       * vModelDirective is only needed on components that support v-model.
+       * As a result, we conditionally call withDirectives with v-model components.
+       */
       const node = h(name, propsToAdd, slots.default && slots.default());
       return modelProp === undefined ? node : withDirectives(node, [vModelDirective]);
     };
