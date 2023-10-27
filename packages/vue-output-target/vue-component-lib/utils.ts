@@ -87,7 +87,7 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
      * then the reactive reference will not have been updated yet.
      */
     const vModelDirective = {
-      created(el: HTMLElement) {
+      created: (el: HTMLElement) => {
         const eventsNames = Array.isArray(modelUpdateEvent) ? modelUpdateEvent : [modelUpdateEvent];
         eventsNames.forEach((eventName: string) => {
           el.addEventListener(eventName.toLowerCase(), (e: Event) => {
