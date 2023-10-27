@@ -72,17 +72,6 @@ export interface ComponentModelConfig {
    * of the `v-model` reference is based off.
    */
   targetAttr: string;
-
-  /**
-   * (optional) The event to emit from the Vue component
-   * wrapper. When listening directly to the `event` emitted
-   * from the Web Component, the `v-model` reference has not
-   * yet had a chance to update. By setting `externalEvent`,
-   * your Web Component can emit `event`, the Vue output target
-   * can update the `v-model` reference, and then emit `externalEvent`,
-   * notifying the end user that `v-model` has changed. Defaults to `event`.
-   */
-  externalEvent?: string;
 }
 ```
 
@@ -94,8 +83,7 @@ vueOutputTarget({
   componentModels: [
     {
       elements: ['my-input', 'my-textarea'],
-      event: 'v-on-change',
-      externalEvent: 'on-change',
+      event: 'on-change',
       targetAttr: 'value'
     }
   ]

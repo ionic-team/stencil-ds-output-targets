@@ -30,8 +30,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
     const generateComponentDefinition = createComponentDefinition('Components', [
       {
         elements: ['my-component'],
-        event: 'v-ionChange',
-        externalEvent: 'ionChange',
+        event: 'ionChange',
         targetAttr: 'value',
       },
     ]);
@@ -83,7 +82,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent,
   'value',
   'ionChange'
 ],
-'value', 'v-ionChange', 'ionChange');
+'value', 'ionChange');
 `);
   });
 
@@ -91,8 +90,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent,
     const generateComponentDefinition = createComponentDefinition('Components', [
       {
         elements: ['my-component'],
-        event: 'v-ionChange',
-        externalEvent: 'ionChange',
+        event: 'ionChange',
         targetAttr: 'value',
       },
     ]);
@@ -143,7 +141,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent,
   'value',
   'ionChange'
 ],
-'value', 'v-ionChange', 'ionChange');
+'value', 'ionChange');
 `);
   });
 
