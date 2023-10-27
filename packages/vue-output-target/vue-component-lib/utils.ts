@@ -181,7 +181,7 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
        * As a result, we conditionally call withDirectives with v-model components.
        */
       const node = h(name, propsToAdd, slots.default && slots.default());
-      return modelProp === undefined ? node : withDirectives(node, [vModelDirective]);
+      return modelProp === undefined ? node : withDirectives(node, [[vModelDirective]]);
     };
   });
 
