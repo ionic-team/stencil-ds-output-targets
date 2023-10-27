@@ -141,7 +141,6 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
         ref: containerRef,
         class: getElementClasses(containerRef, classes),
         onClick: handleClick,
-        onVnodeBeforeMount: modelUpdateEvent ? onVnodeBeforeMount : undefined,
       };
 
       /**
