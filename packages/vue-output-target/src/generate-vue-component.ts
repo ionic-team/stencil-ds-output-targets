@@ -65,10 +65,6 @@ export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${componentType}
 
       templateString += `,\n`;
       templateString += `'${targetProp}', '${findModel.event}'`;
-
-      if (findModel.externalEvent) {
-        templateString += `, '${findModel.externalEvent}'`;
-      }
     }
 
     templateString += `);\n`;
