@@ -15,7 +15,7 @@ Here is an example project using the plugins for reference: https://github.com/i
 
 Detailed information for each output target can be found in each package's README.
 
-# Maintainance Status
+# Maintenance Status
 
 This project is currently maintained for the purposes of supporting the Ionic Framework.
 At this time, only new issues & pull requests that support the Ionic Framework will be prioritized.
