@@ -107,8 +107,23 @@ const formatOutputType = (componentClassName: string, event: ComponentCompilerEv
       (type, [src, dst]) => {
         let renamedType = type;
         if (!type.startsWith(prefix)) {
-          renamedType = `I${componentClassName}${type}`;
+          if (type.startsWith('{') && type.endsWith('}')) {
+            /**
+             * If the type starts with { and ends with }, it is an inline type.
+             * For example, `{ a: string }`.
+             * We don't need to rename these types, so we return the original type.
+             */
+            renamedType = type;
+          } else {
+            /**
+             * If the type does not start with { and end with }, it is a reference type.
+             * For example, `MyType`.
+             * We need to rename these types, so we prepend the prefix.
+             */
+            renamedType = `I${componentClassName}${type}`;
+          }
         }
+
         return (
           renamedType
             .replace(new RegExp(`^${src}$`, 'g'), `${dst}`)

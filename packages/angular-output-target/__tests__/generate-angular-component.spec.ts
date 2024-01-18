@@ -350,6 +350,28 @@ export declare interface MyComponent extends Components.MyComponent {
             },
             internal: false,
           },
+          {
+            name: "mySwipe",
+            method: "mySwipe",
+            bubbles: true,
+            cancelable: true,
+            composed: true,
+            docs: {
+              tags: [],
+              text: ""
+            },
+            complexType: {
+              original: "{ side: Side }",
+              resolved: "{ side: Side; }",
+              references: {
+                Side: {
+                  location: "import",
+                  path: "../../interfaces"
+                }
+              }
+            },
+            internal: false
+          }
         ],
         '@ionic/core'
       );
@@ -361,6 +383,7 @@ import type { Currency as IMyComponentCurrency } from '@ionic/core';
 export declare interface MyComponent extends Components.MyComponent {
 
   myChange: EventEmitter<CustomEvent<IMyComponentMyEvent<IMyComponentCurrency>>>;
+  mySwipe: EventEmitter<CustomEvent<{ side: IMyComponentSide }>>;
 }`
       );
     });
