@@ -379,10 +379,12 @@ export declare interface MyComponent extends Components.MyComponent {
       expect(definition).toEqual(
         `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core';
 import type { Currency as IMyComponentCurrency } from '@ionic/core';
+import type { Side as IMyComponentSide } from '@ionic/core';
 
 export declare interface MyComponent extends Components.MyComponent {
 
   myChange: EventEmitter<CustomEvent<IMyComponentMyEvent<IMyComponentCurrency>>>;
+
   mySwipe: EventEmitter<CustomEvent<{ side: IMyComponentSide }>>;
 }`
       );
