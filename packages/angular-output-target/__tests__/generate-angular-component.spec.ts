@@ -351,27 +351,27 @@ export declare interface MyComponent extends Components.MyComponent {
             internal: false,
           },
           {
-            name: "mySwipe",
-            method: "mySwipe",
+            name: 'mySwipe',
+            method: 'mySwipe',
             bubbles: true,
             cancelable: true,
             composed: true,
             docs: {
               tags: [],
-              text: ""
+              text: '',
             },
             complexType: {
-              original: "{ side: Side }",
-              resolved: "{ side: Side; }",
+              original: '{ side: Side }',
+              resolved: '{ side: Side; }',
               references: {
                 Side: {
-                  location: "import",
-                  path: "../../interfaces"
-                }
-              }
+                  location: 'import',
+                  path: '../../interfaces',
+                },
+              },
             },
-            internal: false
-          }
+            internal: false,
+          },
         ],
         '@ionic/core'
       );
