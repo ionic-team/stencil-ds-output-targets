@@ -26,6 +26,14 @@ comment:
 
 
         If you have already provided a code snippet and are seeing this message, it is likely that the code snippet was not enough for our team to reproduce the issue.
+    - label: "triage"
+      message: >
+        Thanks for the issue!
+
+
+        This project is currently maintained for the purposes of supporting the Ionic Framework.
+        At this time, only new issues & pull requests that support the Ionic Framework will be prioritized.
+        For the latest updates regarding the maintenance status of this project, please see [this section of the project's README](https://github.com/ionic-team/stencil-ds-output-targets#maintenance-status)
   dryRun: false
 
 closeAndLock:
