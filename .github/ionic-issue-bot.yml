@@ -31,7 +31,7 @@ comment:
         Thanks for the issue!
 
 
-        This project is currently maintained for the purposes of supporting the Ionic Framework.
+        This project is currently maintained for the purposes of supporting Ionic Framework.
         At this time, only new issues & pull requests that support the Ionic Framework will be prioritized.
         For the latest updates regarding the maintenance status of this project, please see [this section of the project's README](https://github.com/ionic-team/stencil-ds-output-targets#maintenance-status)
   dryRun: false
