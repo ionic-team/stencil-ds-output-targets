@@ -1,7 +1,7 @@
 import type { Config, OutputTargetCustom } from '@stencil/core/internal';
-import { normalizePath } from './utils';
+import { normalizePath } from './utils.js';
 import type { OutputTargetVue } from './types';
-import { vueProxyOutput } from './output-vue';
+import { vueProxyOutput } from './output-vue.js';
 import path from 'path';
 
 export const vueOutputTarget = (outputTarget: OutputTargetVue): OutputTargetCustom => ({

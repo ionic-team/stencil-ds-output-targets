@@ -1,8 +1,8 @@
 import path from 'path';
 import type { OutputTargetVue, PackageJSON } from './types';
 import type { CompilerCtx, ComponentCompilerMeta, Config, OutputTargetDist } from '@stencil/core/internal';
-import { createComponentDefinition } from './generate-vue-component';
-import { normalizePath, readPackageJson, relativeImport, sortBy, dashToPascalCase } from './utils';
+import { createComponentDefinition } from './generate-vue-component.js';
+import { normalizePath, readPackageJson, relativeImport, sortBy, dashToPascalCase } from './utils.js';
 
 export async function vueProxyOutput(
   config: Config,
@@ -40,7 +40,7 @@ export function generateProxies(
   const imports = `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated vue proxies */
-import { defineContainer } from './vue-component-lib/utils';\n`;
+import { defineContainer } from './vue-component-lib/utils.js';\n`;
 
   const generateTypeImports = () => {
     if (outputTarget.componentCorePackage !== undefined) {
@@ -50,7 +50,7 @@ import { defineContainer } from './vue-component-lib/utils';\n`;
       return `import type { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}${dirPath}';\n`;
     }
 
-    return `import type { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`;
+    return `import type { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}.js';\n`;
   };
 
   const typeImports = generateTypeImports();
