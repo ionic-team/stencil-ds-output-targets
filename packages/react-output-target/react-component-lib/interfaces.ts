@@ -1,4 +1,6 @@
 // General types important to applications using stencil built components
+import type { CSSProperties } from "react";
+
 export interface EventEmitter<T = any> {
   emit: (data?: T) => CustomEvent<T>;
 }
@@ -6,7 +8,7 @@ export interface EventEmitter<T = any> {
 export interface StyleReactProps {
   class?: string;
   className?: string;
-  style?: { [key: string]: any };
+  style?: CSSProperties;
 }
 
 export interface OverlayEventDetail<T = any> {
