@@ -62,7 +62,8 @@ export function generateProxies(
   const imports = `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated react proxies */
-import { createReactComponent } from './react-component-lib';\n`;
+import { createReactComponent, setCustomTagNameTransformer } from './react-component-lib';
+\n`;
 
   /**
    * Generate JSX import type from correct location.
@@ -117,6 +118,7 @@ import { createReactComponent } from './react-component-lib';\n`;
     components
       .map((cmpMeta) => createComponentDefinition(cmpMeta, outputTarget.includeImportCustomElements))
       .join('\n'),
+    `export { setCustomTagNameTransformer };`,
   ];
 
   return final.join('\n') + '\n';

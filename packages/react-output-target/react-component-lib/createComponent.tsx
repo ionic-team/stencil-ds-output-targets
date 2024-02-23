@@ -1,6 +1,14 @@
 import React, { createElement } from 'react';
 
-import { attachProps, camelToDashCase, createForwardRef, dashToPascalCase, isCoveredByReact, mergeRefs } from './utils';
+import {
+  attachProps,
+  camelToDashCase,
+  createForwardRef,
+  dashToPascalCase,
+  isCoveredByReact,
+  mergeRefs,
+  tagNameTransformer
+} from './utils';
 
 export interface HTMLStencilElement extends HTMLElement {
   componentOnReady(): Promise<this>;
@@ -82,6 +90,8 @@ export const createReactComponent = <
         style,
       };
 
+      const newTagName = typeof tagNameTransformer === 'function' ? tagNameTransformer(tagName) : tagName;
+
       /**
        * We use createElement here instead of
        * React.createElement to work around a
@@ -89,7 +99,7 @@ export const createReactComponent = <
        * React.createElement causes all elements to be rendered
        * as <tagname> instead of the actual Web Component.
        */
-      return createElement(tagName, newProps, children);
+      return createElement(newTagName, newProps, children);
     }
 
     static get displayName() {
