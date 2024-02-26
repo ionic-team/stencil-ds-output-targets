@@ -52,7 +52,8 @@ describe('generateProxies', () => {
       `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated react proxies */
-import { createReactComponent } from './react-component-lib';
+import { createReactComponent, setCustomTagNameTransformer } from './react-component-lib';
+
 
 import type { JSX } from 'component-library';
 
@@ -60,6 +61,7 @@ import { applyPolyfills, defineCustomElements } from 'component-library/dist/loa
 
 applyPolyfills().then(() => defineCustomElements());
 
+export { setCustomTagNameTransformer };
 `
     );
   });
@@ -77,7 +79,8 @@ applyPolyfills().then(() => defineCustomElements());
       `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated react proxies */
-import { createReactComponent } from './react-component-lib';
+import { createReactComponent, setCustomTagNameTransformer } from './react-component-lib';
+
 
 import type { JSX } from 'component-library';
 
@@ -85,6 +88,7 @@ import { defineCustomElements } from 'component-library/dist/loader';
 
 defineCustomElements();
 
+export { setCustomTagNameTransformer };
 `
     );
   });
@@ -102,13 +106,15 @@ defineCustomElements();
       `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated react proxies */
-import { createReactComponent } from './react-component-lib';
+import { createReactComponent, setCustomTagNameTransformer } from './react-component-lib';
+
 
 import type { JSX } from 'component-library';
 
 
 
 
+export { setCustomTagNameTransformer };
 `
     );
   });
@@ -125,13 +131,15 @@ import type { JSX } from 'component-library';
       `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated react proxies */
-import { createReactComponent } from './react-component-lib';
+import { createReactComponent, setCustomTagNameTransformer } from './react-component-lib';
+
 
 import type { JSX } from 'component-library/components';
 
 
 
 
+export { setCustomTagNameTransformer };
 `
     );
   });
@@ -149,13 +157,15 @@ import type { JSX } from 'component-library/components';
       `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated react proxies */
-import { createReactComponent } from './react-component-lib';
+import { createReactComponent, setCustomTagNameTransformer } from './react-component-lib';
+
 
 import type { JSX } from 'component-library/custom-dir/hello';
 
 
 
 
+export { setCustomTagNameTransformer };
 `
     );
   });
