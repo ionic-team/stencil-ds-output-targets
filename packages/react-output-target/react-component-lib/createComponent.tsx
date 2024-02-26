@@ -7,7 +7,7 @@ import {
   dashToPascalCase,
   isCoveredByReact,
   mergeRefs,
-  tagNameTransformer
+  tagNameTransformer,
 } from './utils';
 
 export interface HTMLStencilElement extends HTMLElement {
