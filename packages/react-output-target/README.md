@@ -1,4 +1,4 @@
-# @stencil/react-output-target
+# @public-ui/stencil-react-output-target
 
 Stencil can generate React class component wrappers for your web components. This allows your Stencil components to be used within a React application. The benefits of using Stencil's component wrappers over the standard web components include:
 
@@ -12,7 +12,7 @@ For a detailed guide on how to add the react output target to a project, visit: 
 ## Installation
 
 ```bash
-npm install @stencil/react-output-target
+npm install @public-ui/stencil-react-output-target
 ```
 
 ## Usage
@@ -21,7 +21,7 @@ In your `stencil.config.ts` add the following configuration to the `outputTarget
 
 ```ts
 import { Config } from '@stencil/core';
-import { reactOutputTarget } from '@stencil/react-output-target';
+import { reactOutputTarget } from '@public-ui/stencil-react-output-target';
 
 export const config: Config = {
   namespace: 'demo',

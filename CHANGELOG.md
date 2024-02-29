@@ -1,4 +1,4 @@
-## @stencil/vue-output-target@0.0.1 (2020-06-26)
+## @public-ui/stencil-vue-output-target@0.0.1 (2020-06-26)
 
 #### :rocket: Enhancement
 
@@ -29,7 +29,7 @@
 - Josh Thomas ([@jthoms1](https://github.com/jthoms1))
 - Răzvan Geangu ([@razvangeangu](https://github.com/razvangeangu))
 
-## @stencil/react-output-target@0.0.7 (2020-06-26)
+## @public-ui/stencil-react-output-target@0.0.7 (2020-06-26)
 
 #### :rocket: Enhancement
 
@@ -60,7 +60,7 @@
 - Josh Thomas ([@jthoms1](https://github.com/jthoms1))
 - Răzvan Geangu ([@razvangeangu](https://github.com/razvangeangu))
 
-## @stencil/angular-output-target@0.0.3 (2020-06-26)
+## @public-ui/stencil-angular-output-target@0.0.3 (2020-06-26)
 
 #### :rocket: Enhancement
 

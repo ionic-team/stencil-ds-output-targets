@@ -1,5 +1,5 @@
 {
-  "name": "@stencil/angular-output-target",
+  "name": "@public-ui/stencil-angular-output-target",
   "version": "0.8.4",
   "description": "Angular output target for @stencil/core components.",
   "main": "dist/index.cjs.js",
@@ -29,13 +29,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ionic-team/stencil-ds-output-targets.git"
+    "url": "git+https://github.com/public-ui/stencil-ds-output-targets.git"
   },
-  "author": "Ionic Team",
+  "authors": [
+    "Ionic Team",
+    {
+      "name": "Informationstechnikzentrum Bund",
+      "email": "kolibri@itzbund.de"
+    }
+  ],
   "homepage": "https://stenciljs.com/",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ionic-team/stencil-ds-output-targets/issues"
+    "url": "https://github.com/public-ui/stencil-ds-output-targets/issues"
   },
   "devDependencies": {
     "@angular/core": "8.2.14",
