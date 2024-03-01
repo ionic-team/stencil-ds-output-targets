@@ -1,6 +1,6 @@
 {
   "name": "@public-ui/stencil-solid-output-target",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Solid output target for @stencil/core components.",
   "publishConfig": {
     "access": "public"
