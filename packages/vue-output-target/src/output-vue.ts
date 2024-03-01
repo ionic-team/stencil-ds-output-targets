@@ -40,7 +40,8 @@ export function generateProxies(
   const imports = `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated vue proxies */
-import { defineContainer } from './vue-component-lib/utils';\n`;
+import { defineContainer } from './vue-component-lib/utils';
+import { setTagNameTransformer } from './vue-component-lib/tagNameTransformer';\n`;
 
   const generateTypeImports = () => {
     if (outputTarget.componentCorePackage !== undefined) {
@@ -86,6 +87,7 @@ import { defineContainer } from './vue-component-lib/utils';\n`;
         createComponentDefinition(IMPORT_TYPES, outputTarget.componentModels, outputTarget.includeImportCustomElements)
       )
       .join('\n'),
+    `export { setTagNameTransformer };`,
   ];
 
   return final.join('\n') + '\n';
