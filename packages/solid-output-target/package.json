@@ -43,7 +43,6 @@
     "unbuild": "2.0.0"
   },
 	"sideEffects": false,
-	"type": "module",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
@@ -57,5 +56,19 @@
 	"files": [
     "dist",
     "solid-component-lib"
-	]
+	],
+  "jest": {
+    "transform": {
+      "^.+\\.(js|ts|tsx)$": "<rootDir>/test/jest.preprocessor.js"
+    },
+    "testRegex": "(\\.(test|spec))\\.(ts?|tsx?|jsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json",
+      "jsx"
+    ],
+    "testURL": "http://localhost"
+  }
 }
