@@ -4,13 +4,18 @@ import { PackageJSON, OutputTargetSolid } from '../src/types';
 
 describe('createComponentDefinition', () => {
   it('should create a Solid component with custom element support', () => {
-    const output = createComponentDefinition({
-      properties: [],
-      tagName: 'my-component',
-      methods: [],
-      events: [],
-    }, true);
-    expect(output[0]).toEqual(`export const MyComponent = /*@__PURE__*/createSolidComponent<JSX.MyComponent>('my-component', undefined, undefined, MyComponentCmp);`);
+    const output = createComponentDefinition(
+      {
+        properties: [],
+        tagName: 'my-component',
+        methods: [],
+        events: [],
+      },
+      true
+    );
+    expect(output[0]).toEqual(
+      `export const MyComponent = /*@__PURE__*/createSolidComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component', undefined, undefined, MyComponentCmp);`
+    );
   });
 
   it('should create a Solid component without custom element support', () => {
@@ -20,7 +25,9 @@ describe('createComponentDefinition', () => {
       methods: [],
       events: [],
     });
-    expect(output[0]).toEqual(`export const MyComponent = /*@__PURE__*/createSolidComponent<JSX.MyComponent>('my-component');`);
+    expect(output[0]).toEqual(
+      `export const MyComponent = /*@__PURE__*/createSolidComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component');`
+    );
   });
 });
 
@@ -47,13 +54,17 @@ describe('generateProxies', () => {
 /* auto-generated solid proxies */
 import { createSolidComponent } from './solid-component-lib';
 
+
+
+export { setTagNameTransformer } from './solid-component-lib/tagNameTransformer';
+
 import type { JSX } from 'component-library';
 
 import { applyPolyfills, defineCustomElements } from 'component-library/dist/loader';
 
 applyPolyfills().then(() => defineCustomElements());
 
-`,
+`
     );
   });
 
@@ -72,13 +83,17 @@ applyPolyfills().then(() => defineCustomElements());
 /* auto-generated solid proxies */
 import { createSolidComponent } from './solid-component-lib';
 
+
+
+export { setTagNameTransformer } from './solid-component-lib/tagNameTransformer';
+
 import type { JSX } from 'component-library';
 
 import { defineCustomElements } from 'component-library/dist/loader';
 
 defineCustomElements();
 
-`,
+`
     );
   });
 
@@ -97,12 +112,16 @@ defineCustomElements();
 /* auto-generated solid proxies */
 import { createSolidComponent } from './solid-component-lib';
 
+
+
+export { setTagNameTransformer } from './solid-component-lib/tagNameTransformer';
+
 import type { JSX } from 'component-library';
 
 
 
 
-`,
+`
     );
   });
 
@@ -120,12 +139,16 @@ import type { JSX } from 'component-library';
 /* auto-generated solid proxies */
 import { createSolidComponent } from './solid-component-lib';
 
+
+
+export { setTagNameTransformer } from './solid-component-lib/tagNameTransformer';
+
 import type { JSX } from 'component-library/components';
 
 
 
 
-`,
+`
     );
   });
 
@@ -134,7 +157,7 @@ import type { JSX } from 'component-library/components';
       componentCorePackage: 'component-library',
       proxiesFile: '../component-library-solid/src/proxies.ts',
       includeImportCustomElements: true,
-      customElementsDir: 'custom-dir/hello'
+      customElementsDir: 'custom-dir/hello',
     };
 
     const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
@@ -144,12 +167,16 @@ import type { JSX } from 'component-library/components';
 /* auto-generated solid proxies */
 import { createSolidComponent } from './solid-component-lib';
 
+
+
+export { setTagNameTransformer } from './solid-component-lib/tagNameTransformer';
+
 import type { JSX } from 'component-library/custom-dir/hello';
 
 
 
 
-`,
+`
     );
   });
 });

@@ -1,15 +1,14 @@
 import { JSX, PropsWithChildren } from 'solid-js';
-import { CONFIG } from './config';
+import { tagNameTransformer } from './tagNameTransformer';
 
 export interface HTMLStencilElement extends HTMLElement {
   componentOnReady(): Promise<this>;
 }
 
-export function createSolidComponent<PropType, ElementType extends HTMLStencilElement>(
-  tag: string,
-) {
+export function createSolidComponent<PropType, ElementType extends HTMLStencilElement>(tag: string) {
   return (props: PropsWithChildren<PropType & JSX.HTMLAttributes<ElementType>>): ElementType => {
-    const node = document.createElement(CONFIG.transformTagName(tag));
+    const newTagName = typeof tagNameTransformer === 'function' ? tagNameTransformer(tag) : tag;
+    const node = document.createElement(newTagName);
     for (const key in props) {
       if (key === 'children') {
         const children = Array.isArray(props[key]) ? props[key] : [props[key]];

@@ -1,18 +1,13 @@
 import path from 'path';
 import type { OutputTargetSolid, PackageJSON } from './types';
 import { dashToPascalCase, normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
-import type {
-  CompilerCtx,
-  ComponentCompilerMeta,
-  Config,
-  OutputTargetDist,
-} from '@stencil/core/internal';
+import type { CompilerCtx, ComponentCompilerMeta, Config, OutputTargetDist } from '@stencil/core/internal';
 
 export async function solidProxyOutput(
   config: Config,
   compilerCtx: CompilerCtx,
   outputTarget: OutputTargetSolid,
-  components: ComponentCompilerMeta[],
+  components: ComponentCompilerMeta[]
 ) {
   const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, components);
   const rootDir = config.rootDir as string;
@@ -24,9 +19,7 @@ export async function solidProxyOutput(
 }
 
 function getFilteredComponents(excludeComponents: string[] = [], cmps: ComponentCompilerMeta[]) {
-  return sortBy(cmps, (cmp) => cmp.tagName).filter(
-    (c) => !excludeComponents.includes(c.tagName) && !c.internal,
-  );
+  return sortBy(cmps, (cmp) => cmp.tagName).filter((c) => !excludeComponents.includes(c.tagName) && !c.internal);
 }
 
 export function generateProxies(
@@ -34,7 +27,7 @@ export function generateProxies(
   components: ComponentCompilerMeta[],
   pkgData: PackageJSON,
   outputTarget: OutputTargetSolid,
-  rootDir: string,
+  rootDir: string
 ) {
   const distTypesDir = path.dirname(pkgData.types);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
@@ -46,7 +39,7 @@ export function generateProxies(
 /* auto-generated solid proxies */
 import { createSolidComponent } from './solid-component-lib';\n
 \n
-export { configAdapter } from './solid-component-lib/config';\n`;
+export { setTagNameTransformer } from './solid-component-lib/tagNameTransformer';\n`;
 
   /**
    * Generate JSX import type from correct location.
@@ -59,9 +52,7 @@ export { configAdapter } from './solid-component-lib/config';\n`;
       const dirPath = outputTarget.includeImportCustomElements
         ? `/${outputTarget.customElementsDir || 'components'}`
         : '';
-      return `import type { ${IMPORT_TYPES} } from '${normalizePath(
-        outputTarget.componentCorePackage,
-      )}${dirPath}';\n`;
+      return `import type { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}${dirPath}';\n`;
     }
 
     return `import type { ${IMPORT_TYPES} } from '${normalizePath(componentsTypeFile)}';\n`;
@@ -83,7 +74,7 @@ export { configAdapter } from './solid-component-lib/config';\n`;
       const pascalImport = dashToPascalCase(component.tagName);
 
       return `import { ${pascalImport} as ${pascalImport}Cmp } from '${normalizePath(
-        outputTarget.componentCorePackage!,
+        outputTarget.componentCorePackage!
       )}/${outputTarget.customElementsDir || 'components'}/${component.tagName}.js';`;
     });
 
@@ -102,9 +93,7 @@ export { configAdapter } from './solid-component-lib/config';\n`;
     sourceImports,
     registerCustomElements,
     components
-      .map((cmpMeta) =>
-        createComponentDefinition(cmpMeta, outputTarget.includeImportCustomElements),
-      )
+      .map((cmpMeta) => createComponentDefinition(cmpMeta, outputTarget.includeImportCustomElements))
       .join('\n'),
   ];
 
@@ -123,7 +112,7 @@ export { configAdapter } from './solid-component-lib/config';\n`;
  */
 export function createComponentDefinition(
   cmpMeta: ComponentCompilerMeta,
-  includeCustomElement: boolean = false,
+  includeCustomElement: boolean = false
 ): string[] {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
   let template = `export const ${tagNameAsPascal} = /*@__PURE__*/createSolidComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}'`;
@@ -153,7 +142,7 @@ async function copyResources(config: Config, outputTarget: OutputTargetSolid) {
         warn: false,
       },
     ],
-    srcDirectory,
+    srcDirectory
   );
 }
 
@@ -167,9 +156,7 @@ export function getPathToCorePackageLoader(config: Config, outputTarget: OutputT
       : null;
 
   const distRelEsmLoaderPath =
-    config.rootDir && distAbsEsmLoaderPath
-      ? path.relative(config.rootDir, distAbsEsmLoaderPath)
-      : null;
+    config.rootDir && distAbsEsmLoaderPath ? path.relative(config.rootDir, distAbsEsmLoaderPath) : null;
 
   const loaderDir = outputTarget.loaderDir || distRelEsmLoaderPath || DEFAULT_LOADER_DIR;
   return normalizePath(path.join(basePkg, loaderDir));
