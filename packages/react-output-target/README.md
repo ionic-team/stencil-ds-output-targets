@@ -50,3 +50,12 @@ export const config: Config = {
 | `includeDefineCustomElements` | If `true`, all Web Components will automatically be registered with the Custom Elements Registry. This can only be used when lazy loading Web Components and will not work when `includeImportCustomElements` is `true`.                                                                                                         |
 | `includeImportCustomElements` | If `true`, the output target will import the custom element instance and register it with the Custom Elements Registry when the component is imported inside of a user's app. This can only be used with the [Custom Elements Bundle](https://stenciljs.com/docs/custom-elements) and will not work with lazy loaded components. |
 | `customElementsDir`           | This is the directory where the custom elements are imported from when using the [Custom Elements Bundle](https://stenciljs.com/docs/custom-elements). Defaults to the `components` directory. Only applies when `includeImportCustomElements` is `true`.                                                                        |
+
+## Runtime Config Options
+
+If you want to use custom tag names, you can use the `setTagNameTransformer` function to define a function which transforms the tag names.
+
+```tsx
+import { setTagNameTransformer } from '<your-library>/react';
+setTagNameTransformer((tagName: string) => `${tagName}-v2`);
+````
