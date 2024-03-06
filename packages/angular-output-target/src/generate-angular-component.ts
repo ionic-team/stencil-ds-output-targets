@@ -57,6 +57,18 @@ export const createAngularComponentDefinition = (
     standaloneOption = `\n  standalone: true`;
   }
 
+  const inputFields = hasInputs ? inputs.map((input) => `  ${input}: any;`).join('\n') : '';
+  const inputAttributes = hasInputs ? inputs.map((input) => `[${input}]="${input}"`).join(' ') : '';
+
+  // fixme tagname
+  const template = `<kol-ng-placeholder
+    ${inputAttributes}
+    *replaceTag="'kol-alert-v2'"
+    #replaceTagHost
+  >
+    <ng-content></ng-content>
+  </kol-ng-placeholder>`;
+
   /**
    * Notes on the generated output:
    * - We disable @angular-eslint/no-inputs-metadata-property, so that
@@ -67,21 +79,24 @@ export const createAngularComponentDefinition = (
   const output = `@ProxyCmp({${proxyCmpOptions.join(',')}\n})
 @Component({
   selector: '${tagName}',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>',
+  template: \`${template}\`,
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: [${formattedInputs}],${standaloneOption}
 })
-export class ${tagNameAsPascal} {
+export class ${tagNameAsPascal} implements OnChanges {
+  ${inputFields}
   protected el: HTMLElement;
-  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
-    c.detach();
+  @ViewChild(ReplaceTagDirective) replaceTagDirective: ReplaceTagDirective;
+  constructor(r: ElementRef, protected z: NgZone) {
     this.el = r.nativeElement;${
       hasOutputs
         ? `
     proxyOutputs(this, this.el, [${formattedOutputs}]);`
         : ''
     }
+  }
+  ngOnChanges(): void {
+    this.replaceTagDirective?.handlePropertyChanges();
   }
 }`;
 

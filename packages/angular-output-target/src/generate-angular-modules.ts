@@ -11,7 +11,7 @@ export const generateAngularModuleForComponent = (componentTagName: string) => {
   const moduleClassName = `${tagNameAsPascal}Module`;
 
   const moduleDefinition = `@NgModule({
-  declarations: [${componentClassName}],
+  declarations: [ReplaceTagDirective, ${componentClassName}],
   exports: [${componentClassName}]
 })
 export class ${moduleClassName} { }`;
