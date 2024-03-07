@@ -60,14 +60,24 @@ export const createAngularComponentDefinition = (
   const inputFields = hasInputs ? inputs.map((input) => `  ${input}: any;`).join('\n') : '';
   const inputAttributes = hasInputs ? inputs.map((input) => `[${input}]="${input}"`).join(' ') : '';
 
-  // fixme tagname
-  const template = `<kol-ng-placeholder
-    ${inputAttributes}
-    *replaceTag="'kol-alert-v2'"
-    #replaceTagHost
-  >
-    <ng-content></ng-content>
-  </kol-ng-placeholder>`;
+  const template = `
+    <ng-container *ngIf="hasTagNameTransformer; else defaultCase">
+			<stencil-ng-proxy
+				${inputAttributes}
+				*replaceTag="tagName"
+				#replaceTagHost
+			>
+				<ng-container *ngTemplateOutlet="ngContentOutlet"></ng-container>
+			</stencil-ng-proxy>
+		</ng-container>
+
+		<ng-template #defaultCase>
+			<ng-container *ngTemplateOutlet="ngContentOutlet"></ng-container>
+		</ng-template>
+
+		<ng-template #ngContentOutlet>
+			<ng-content></ng-content>
+		</ng-template>`;
 
   /**
    * Notes on the generated output:
@@ -86,8 +96,13 @@ export const createAngularComponentDefinition = (
 export class ${tagNameAsPascal} implements OnChanges {
   ${inputFields}
   protected el: HTMLElement;
+  public hasTagNameTransformer: boolean;
+  public tagName: string;
   @ViewChild(ReplaceTagDirective) replaceTagDirective: ReplaceTagDirective;
   constructor(r: ElementRef, protected z: NgZone) {
+    const originalTagName = '${tagName}';
+    this.tagName = typeof tagNameTransformer === 'function' ? tagNameTransformer(originalTagName) : originalTagName;
+    this.hasTagNameTransformer = typeof tagNameTransformer === 'function';
     this.el = r.nativeElement;${
       hasOutputs
         ? `

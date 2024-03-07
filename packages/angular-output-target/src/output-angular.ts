@@ -111,7 +111,8 @@ export function generateProxies(
 ${createImportStatement(angularCoreImports, '@angular/core')}
 
 ${createImportStatement(componentLibImports, './angular-component-lib/utils')}
-${createImportStatement(['ReplaceTagDirective'], './angular-component-lib/ReplaceTagDirective')}\n`;
+${createImportStatement(['ReplaceTagDirective'], './angular-component-lib/ReplaceTagDirective')}
+${createImportStatement(['tagNameTransformer'], './angular-component-lib/tagNameTransformer')}\n`;
   /**
    * Generate JSX import type from correct location.
    * When using custom elements build, we need to import from
