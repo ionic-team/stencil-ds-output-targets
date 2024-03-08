@@ -43,14 +43,13 @@ export class ReplaceTagDirective implements AfterViewChecked {
         this._webComponentElement
       );
 
-      // this._webComponentElement.innerHTML = template.innerHTML;
       Array.from(template.childNodes).forEach((node) => {
         this._webComponentElement.appendChild(node as Node);
       });
 
-      // this.templateRef.elementRef.nativeElement.parentNode.replaceChild(this._webComponentElement, template);
-      template.style.display = 'none';
-      this.templateRef.elementRef.nativeElement.parentNode.appendChild(this._webComponentElement, template);
+      this.templateRef.elementRef.nativeElement.parentNode.replaceChild(this._webComponentElement, template);
+      // template.style.display = 'none';
+      // this.templateRef.elementRef.nativeElement.parentNode.appendChild(this._webComponentElement, template);
     }
   }
 
