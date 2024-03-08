@@ -1,6 +1,6 @@
 import type { CompilerJsDoc, ComponentCompilerEvent } from '@stencil/core/internal';
 
-import { createComponentEventTypeImports, dashToPascalCase, formatToQuotedList } from './utils';
+import { createComponentEventTypeImports, dashToCamelCase, dashToPascalCase, formatToQuotedList } from './utils';
 import type { OutputType } from './types';
 
 /**
@@ -57,27 +57,27 @@ export const createAngularComponentDefinition = (
     standaloneOption = `\n  standalone: true,`;
   }
 
-  const inputFields = hasInputs ? inputs.map((input) => `  ${input}: any;`).join('\n') : '';
+  const inputFields = hasInputs ? inputs.map((input) => `  ${dashToCamelCase(input)}: any;`).join('\n') : '';
   const inputAttributes = hasInputs ? inputs.map((input) => `[${input}]="${input}"`).join(' ') : '';
 
   const template = `
     <ng-container *ngIf="hasTagNameTransformer; else defaultCase">
-			<stencil-ng-proxy
-				${inputAttributes}
-				*replaceTag="tagName"
-				#replaceTagHost
-			>
-				<ng-container *ngTemplateOutlet="ngContentOutlet"></ng-container>
-			</stencil-ng-proxy>
-		</ng-container>
+      <stencil-ng-proxy
+        ${inputAttributes}
+        *replaceTag="tagName"
+        #replaceTagHost
+      >
+        <ng-container *ngTemplateOutlet="ngContentOutlet"></ng-container>
+      </stencil-ng-proxy>
+    </ng-container>
 
-		<ng-template #defaultCase>
-			<ng-container *ngTemplateOutlet="ngContentOutlet"></ng-container>
-		</ng-template>
+    <ng-template #defaultCase>
+      <ng-container *ngTemplateOutlet="ngContentOutlet"></ng-container>
+    </ng-template>
 
-		<ng-template #ngContentOutlet>
-			<ng-content></ng-content>
-		</ng-template>`;
+    <ng-template #ngContentOutlet>
+      <ng-content></ng-content>
+    </ng-template>`;
 
   /**
    * Notes on the generated output:

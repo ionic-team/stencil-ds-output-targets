@@ -16,6 +16,12 @@ export const dashToPascalCase = (str: string) =>
     .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
     .join('');
 
+export const dashToCamelCase = (str: string) =>
+  toLowerCase(str)
+    .split('-')
+    .map((segment, index) => (index === 0 ? segment : segment.charAt(0).toUpperCase() + segment.slice(1)))
+    .join('');
+
 export function sortBy<T>(array: T[], prop: (item: T) => string) {
   return array.slice().sort((a, b) => {
     const nameA = prop(a);
