@@ -63,9 +63,7 @@ export class ReplaceTagDirective implements AfterViewChecked {
 
     for (let [key, value] of properties) {
       if (this.host.availableInputProperties.includes(key) && value !== undefined) {
-        // @todo
-        // @ts-ignore
-        to[key] = value;
+        (to as Record<string, any>)[key] = value;
       }
     }
   }
