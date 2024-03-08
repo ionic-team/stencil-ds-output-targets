@@ -20,7 +20,7 @@ export class ReplaceTagDirective implements AfterViewChecked {
     this._tag = t;
     this._needUpdate = true;
     this.vcf.clear();
-    let template = this.templateRef.elementRef.nativeElement.previousElementSibling; //@fixme robusten
+    let template = this.templateRef.elementRef.nativeElement.previousElementSibling;
     if (template) {
       this.templateRef.elementRef.nativeElement.parentNode.removeChild(template);
     }
