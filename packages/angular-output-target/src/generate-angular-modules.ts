@@ -12,7 +12,9 @@ export const generateAngularModuleForComponent = (componentTagName: string) => {
 
   const moduleDefinition = `@NgModule({
   declarations: [ReplaceTagDirective, ${componentClassName}],
-  exports: [${componentClassName}]
+  exports: [${componentClassName}],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [CommonModule],
 })
 export class ${moduleClassName} { }`;
 

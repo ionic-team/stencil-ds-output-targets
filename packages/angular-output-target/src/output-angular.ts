@@ -86,6 +86,7 @@ export function generateProxies(
     'OnChanges',
     'ViewChild',
     'forwardRef',
+    'CUSTOM_ELEMENTS_SCHEMA',
   ];
 
   if (includeOutputImports) {
@@ -110,6 +111,7 @@ export function generateProxies(
   const imports = `/* tslint:disable */
 /* auto-generated angular directive proxies */
 ${createImportStatement(angularCoreImports, '@angular/core')}
+${createImportStatement(['CommonModule'], '@angular/common')}
 
 ${createImportStatement(componentLibImports, './angular-component-lib/utils')}
 ${createImportStatement(['ReplaceTagDirective'], './angular-component-lib/ReplaceTagDirective')}
