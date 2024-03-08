@@ -1,4 +1,4 @@
-# @stencil/angular-output-target
+# @public-ui/stencil-angular-output-target
 
 Stencil can generate Angular component wrappers for your web components. This allows your Stencil components to be used within an Angular application. The benefits of using Stencil's component wrappers over the standard web components include:
 
@@ -11,7 +11,7 @@ For a detailed guide on how to add the angular output target to a project, visit
 ## Installation
 
 ```bash
-npm install @stencil/angular-output-target
+npm install @public-ui/stencil-angular-output-target
 ```
 
 ## Usage
@@ -20,7 +20,7 @@ In your `stencil.config.ts` add the following configuration to the `outputTarget
 
 ```ts
 import { Config } from '@stencil/core';
-import { angularOutputTarget } from '@stencil/angular-output-target';
+import { angularOutputTarget } from '@public-ui/stencil-angular-output-target';
 
 export const config: Config = {
   namespace: 'demo',

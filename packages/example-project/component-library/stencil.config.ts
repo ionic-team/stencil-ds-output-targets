@@ -1,7 +1,7 @@
 import { Config } from '@stencil/core';
-import { angularOutputTarget, ValueAccessorConfig } from '@stencil/angular-output-target';
-import { reactOutputTarget } from '@stencil/react-output-target';
-import { vueOutputTarget, ComponentModelConfig } from '@stencil/vue-output-target';
+import { angularOutputTarget, ValueAccessorConfig } from '@public-ui/stencil-angular-output-target';
+import { reactOutputTarget } from '@public-ui/stencil-react-output-target';
+import { vueOutputTarget, ComponentModelConfig } from '@public-ui/stencil-vue-output-target';
 
 const angularValueAccessorBindings: ValueAccessorConfig[] = [
   {

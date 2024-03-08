@@ -1,5 +1,5 @@
 {
-  "name": "@stencil/react-output-target",
+  "name": "@public-ui/stencil-react-output-target",
   "version": "0.5.3",
   "description": "React output target for @stencil/core components.",
   "main": "dist/index.cjs.js",
@@ -27,13 +27,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ionic-team/stencil-ds-output-targets.git"
+    "url": "git+https://github.com/public-ui/stencil-ds-output-targets.git"
   },
-  "author": "Ionic Team",
+  "authors": [
+    "Ionic Team",
+    {
+      "name": "Informationstechnikzentrum Bund",
+      "email": "kolibri@itzbund.de"
+    }
+  ],
   "homepage": "https://stenciljs.com/",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ionic-team/stencil-ds-output-targets/issues"
+    "url": "https://github.com/public-ui/stencil-ds-output-targets/issues"
   },
   "peerDependencies": {
     "@stencil/core": ">=2.0.0 || >=3 || >= 4.0.0-beta.0 || >= 4.0.0"

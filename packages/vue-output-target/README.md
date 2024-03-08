@@ -1,4 +1,4 @@
-# @stencil/vue-output-target
+# @public-ui/stencil-vue-output-target
 
 Stencil can generate Vue component wrappers for your web components. This allows your Stencil components to be used within a Vue application.
 
@@ -7,7 +7,7 @@ For a detailed guide on how to add the vue output target to a project, visit: ht
 ## Installation
 
 ```bash
-npm install @stencil/vue-output-target
+npm install @public-ui/stencil-vue-output-target
 ```
 
 ### Usage
@@ -16,7 +16,7 @@ In your `stencil.config.ts` add the following configuration to the `outputTarget
 
 ```ts
 import { Config } from '@stencil/core';
-import { vueOutputTarget } from '@stencil/vue-output-target';
+import { vueOutputTarget } from '@public-ui/stencil-vue-output-target';
 
 export const config: Config = {
   namespace: 'demo',
