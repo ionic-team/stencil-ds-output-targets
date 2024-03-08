@@ -89,6 +89,7 @@ export const createAngularComponentDefinition = (
   const output = `@ProxyCmp({${proxyCmpOptions.join(',')}\n})
 @Component({
   selector: '${tagName}',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: \`${template}\`,
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: [${formattedInputs}],
@@ -104,8 +105,9 @@ export class ${tagNameAsPascal} extends StencilProxyComponent implements OnChang
   public hasTagNameTransformer: boolean;
   public tagName: string;
   @ViewChild(ReplaceTagDirective) replaceTagDirective: ReplaceTagDirective;
-  constructor(r: ElementRef, protected z: NgZone) {
+  constructor(private changeDetectorRef: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     super();
+    changeDetectorRef.detach();
     const originalTagName = '${tagName}';
     this.tagName = typeof tagNameTransformer === 'function' ? tagNameTransformer(originalTagName) : originalTagName;
     this.hasTagNameTransformer = typeof tagNameTransformer === 'function';
@@ -118,6 +120,7 @@ export class ${tagNameAsPascal} extends StencilProxyComponent implements OnChang
   }
   ngOnChanges(): void {
     this.replaceTagDirective?.handlePropertyChanges();
+    this.changeDetectorRef.detectChanges();
   }
 }`;
 
