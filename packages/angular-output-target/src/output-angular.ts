@@ -85,6 +85,7 @@ export function generateProxies(
     'ElementRef',
     'OnChanges',
     'ViewChild',
+    'forwardRef',
   ];
 
   if (includeOutputImports) {
@@ -112,6 +113,7 @@ ${createImportStatement(angularCoreImports, '@angular/core')}
 
 ${createImportStatement(componentLibImports, './angular-component-lib/utils')}
 ${createImportStatement(['ReplaceTagDirective'], './angular-component-lib/ReplaceTagDirective')}
+${createImportStatement(['StencilProxyComponent'], './angular-component-lib/StencilProxyComponent')}
 ${createImportStatement(['tagNameTransformer'], './angular-component-lib/tagNameTransformer')}\n`;
   /**
    * Generate JSX import type from correct location.

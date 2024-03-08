@@ -54,7 +54,7 @@ export const createAngularComponentDefinition = (
   let standaloneOption = '';
 
   if (standalone && includeImportCustomElements) {
-    standaloneOption = `\n  standalone: true`;
+    standaloneOption = `\n  standalone: true,`;
   }
 
   const inputFields = hasInputs ? inputs.map((input) => `  ${input}: any;`).join('\n') : '';
@@ -91,15 +91,21 @@ export const createAngularComponentDefinition = (
   selector: '${tagName}',
   template: \`${template}\`,
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: [${formattedInputs}],${standaloneOption}
+  inputs: [${formattedInputs}],
+  ${standaloneOption}
+  providers: [
+    {provide: StencilProxyComponent, useExisting: forwardRef(() => ${tagNameAsPascal})}
+  ],
 })
-export class ${tagNameAsPascal} implements OnChanges {
+export class ${tagNameAsPascal} extends StencilProxyComponent implements OnChanges {
   ${inputFields}
   protected el: HTMLElement;
+  public availableInputProperties = [${formattedInputs}];
   public hasTagNameTransformer: boolean;
   public tagName: string;
   @ViewChild(ReplaceTagDirective) replaceTagDirective: ReplaceTagDirective;
   constructor(r: ElementRef, protected z: NgZone) {
+    super();
     const originalTagName = '${tagName}';
     this.tagName = typeof tagNameTransformer === 'function' ? tagNameTransformer(originalTagName) : originalTagName;
     this.hasTagNameTransformer = typeof tagNameTransformer === 'function';

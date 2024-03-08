@@ -1,10 +1,15 @@
 import { AfterViewChecked, Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import { StencilProxyComponent } from './StencilProxyComponent';
 
 @Directive({
   selector: '[replaceTag]',
 })
 export class ReplaceTagDirective implements AfterViewChecked {
-  constructor(private templateRef: TemplateRef<any>, private vcf: ViewContainerRef) {}
+  constructor(
+    private templateRef: TemplateRef<any>,
+    private vcf: ViewContainerRef,
+    private host: StencilProxyComponent
+  ) {}
 
   private _tag: string;
   private _needUpdate: boolean = false;
@@ -57,8 +62,8 @@ export class ReplaceTagDirective implements AfterViewChecked {
     const properties: [string, any][] = Object.entries(from);
 
     for (let [key, value] of properties) {
-      if (key.startsWith('_') && value !== undefined) {
-        // @todo use inputs as filter?
+      if (this.host.availableInputProperties.includes(key) && value !== undefined) {
+        // @todo
         // @ts-ignore
         to[key] = value;
       }
