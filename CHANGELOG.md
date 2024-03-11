@@ -1,3 +1,27 @@
+## @public-ui/stencil-angular-output-target@0.9.0 (2024-03-11)
+
+#### :rocket: Enhancement
+
+- Add runtime option `setTagNameTransformer`
+
+## @public-ui/stencil-react-output-target@0.6.0 (2024-03-11)
+
+#### :rocket: Enhancement
+
+- Add runtime option `setTagNameTransformer`
+
+## @public-ui/stencil-solid-output-target@0.2.0 (2024-03-11)
+
+#### :rocket: Enhancement
+
+- Add runtime option `setTagNameTransformer`
+
+## @public-ui/stencil-vue-output-target@0.9.0 (2024-03-11)
+
+#### :rocket: Enhancement
+
+- Add runtime option `setTagNameTransformer`
+
 ## @stencil/vue-output-target@0.0.1 (2020-06-26)
 
 #### :rocket: Enhancement
