@@ -1,4 +1,4 @@
-## @public-ui/stencil-angular-output-target@0.1.0 (2024-03-11)
+## @public-ui/stencil-angular-output-target@0.9.0 (2024-03-11)
 
 #### :rocket: Enhancement
 
