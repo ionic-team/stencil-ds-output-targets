@@ -1,0 +1,109 @@
+name: CI-Pipeline
+
+on:
+  pull_request:
+  push:
+    branches:
+      - 'develop'
+      - 'main'
+      - 'release/*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      # - uses: pnpm/action-setup@v3
+      #   with:
+      #     run_install: false
+      #     version: 8
+      # - uses: actions/setup-node@v4
+      #   with:
+      #     cache: pnpm
+      #     node-version: 20
+
+      # https://github.com/pnpm/action-setup#use-cache-to-reduce-installation-time
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          # cache: pnpm
+          node-version: 20
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        id: pnpm-install
+        with:
+          version: 8
+          run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store
+
+      - name: Install Angular-Output-Target
+        run: pnpm i --legacy-peer-deps
+        working-directory: packages/angular-output/target
+      - name: Install React-Output-Target
+        run: pnpm i --legacy-peer-deps
+        working-directory: packages/raect-output/target
+      - name: Install Solid-Output-Target
+        run: pnpm i --legacy-peer-deps
+        working-directory: packages/solid-output/target
+      - name: Install Vue-Output-Target
+        run: pnpm i --legacy-peer-deps
+        working-directory: packages/vue-output/target
+
+      # - name: Unused
+      #   run: pnpm -r unused
+
+      # - name: Format
+      #   run: pnpm -r format
+
+      - name: Build Angular-Output-Target
+        run: pnpm build
+        working-directory: packages/angular-output/target
+      - name: Build React-Output-Target
+        run: pnpm build
+        working-directory: packages/raect-output/target
+      - name: Build Solid-Output-Target
+        run: pnpm build
+        working-directory: packages/solid-output/target
+      - name: Build Vue-Output-Target
+        run: pnpm build
+        working-directory: packages/vue-output/target
+
+      # - name: Lint
+      #   run: pnpm -r lint
+
+      - name: Test Angular-Output-Target
+        run: pnpm test
+        working-directory: packages/angular-output/target
+      - name: Test React-Output-Target
+        run: pnpm test
+        working-directory: packages/raect-output/target
+      # - name: Test Solid-Output-Target
+      #   run: pnpm test
+      #   working-directory: packages/solid-output/target
+      - name: Test Vue-Output-Target
+        run: pnpm test
+        working-directory: packages/vue-output/target
+
+      # - uses: actions/upload-artifact@v4
+      #   if: failure()
+      #   name: Upload theme test reports
+      #   with:
+      #     name: reports
+      #     path: |
+      #       packages/themes/**/test-results/**/*.png
+      #       !**/node_modules
