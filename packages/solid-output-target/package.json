@@ -1,0 +1,74 @@
+{
+  "name": "@public-ui/stencil-solid-output-target",
+  "version": "0.2.0",
+  "description": "Solid output target for @stencil/core components.",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "unbuild",
+    "watch": "tsc --watch",
+    "rollup": "rollup -c",
+    "version": "npm run build",
+    "release": "np",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ionic-team/stencil-ds-output-targets.git"
+  },
+  "author": "Ionic Team",
+  "contributors": [
+    {
+      "name": "Martin Oppitz",
+      "email": "github@martinoppitz.com",
+      "url": "https://github.com/deleonio"
+    }
+  ],
+  "homepage": "https://stenciljs.com/",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/public-ui/stencil-ds-output-targets/issues"
+  },
+  "peerDependencies": {
+    "@stencil/core": ">=2.17.2"
+  },
+  "devDependencies": {
+    "@types/node": "20.11.20",
+    "solid-js": "1.8.15",
+    "rimraf": "5.0.5",
+    "rollup": "4.12.0",
+    "typescript": "5.3.3",
+    "unbuild": "2.0.0"
+  },
+	"sideEffects": false,
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.mjs",
+			"require": "./dist/index.cjs"
+		}
+	},
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.ts",
+	"files": [
+    "dist",
+    "solid-component-lib"
+	],
+  "jest": {
+    "transform": {
+      "^.+\\.(js|ts|tsx)$": "<rootDir>/test/jest.preprocessor.js"
+    },
+    "testRegex": "(\\.(test|spec))\\.(ts?|tsx?|jsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json",
+      "jsx"
+    ],
+    "testURL": "http://localhost"
+  }
+}

@@ -78,7 +78,16 @@ export function generateProxies(
   /**
    * The collection of named imports from @angular/core.
    */
-  const angularCoreImports = ['ChangeDetectionStrategy', 'ChangeDetectorRef', 'Component', 'ElementRef'];
+  const angularCoreImports = [
+    'ChangeDetectionStrategy',
+    'ChangeDetectorRef',
+    'Component',
+    'ElementRef',
+    'OnChanges',
+    'ViewChild',
+    'forwardRef',
+    'CUSTOM_ELEMENTS_SCHEMA',
+  ];
 
   if (includeOutputImports) {
     angularCoreImports.push('EventEmitter');
@@ -102,8 +111,12 @@ export function generateProxies(
   const imports = `/* tslint:disable */
 /* auto-generated angular directive proxies */
 ${createImportStatement(angularCoreImports, '@angular/core')}
+${createImportStatement(['CommonModule'], '@angular/common')}
 
-${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n`;
+${createImportStatement(componentLibImports, './angular-component-lib/utils')}
+${createImportStatement(['ReplaceTagDirective'], './angular-component-lib/ReplaceTagDirective')}
+${createImportStatement(['StencilProxyComponent'], './angular-component-lib/StencilProxyComponent')}
+${createImportStatement(['tagNameTransformer'], './angular-component-lib/tagNameTransformer')}\n`;
   /**
    * Generate JSX import type from correct location.
    * When using custom elements build, we need to import from

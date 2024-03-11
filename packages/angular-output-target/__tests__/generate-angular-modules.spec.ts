@@ -5,8 +5,10 @@ describe('generateAngularModuleForComponent()', () => {
     const modules = generateAngularModuleForComponent('my-component');
 
     expect(modules).toEqual(`@NgModule({
-  declarations: [MyComponent],
-  exports: [MyComponent]
+  declarations: [ReplaceTagDirective, MyComponent],
+  exports: [MyComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [CommonModule],
 })
 export class MyComponentModule { }`);
   });

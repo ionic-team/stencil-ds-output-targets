@@ -1,9 +1,9 @@
 import { ComponentCompilerMeta, Config } from '@stencil/core/internal';
-import { createComponentDefinition, generateProxies, getPathToCorePackageLoader } from '../src/output-react';
-import { PackageJSON, OutputTargetReact } from '../src/types';
+import { createComponentDefinition, generateProxies, getPathToCorePackageLoader } from '../src/output-solid';
+import { PackageJSON, OutputTargetSolid } from '../src/types';
 
 describe('createComponentDefinition', () => {
-  it('should create a React component with custom element support', () => {
+  it('should create a Solid component with custom element support', () => {
     const output = createComponentDefinition(
       {
         properties: [],
@@ -14,11 +14,11 @@ describe('createComponentDefinition', () => {
       true
     );
     expect(output[0]).toEqual(
-      `export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component', undefined, undefined, defineMyComponent);`
+      `export const MyComponent = /*@__PURE__*/createSolidComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component', undefined, undefined, MyComponentCmp);`
     );
   });
 
-  it('should create a React component without custom element support', () => {
+  it('should create a Solid component without custom element support', () => {
     const output = createComponentDefinition({
       properties: [],
       tagName: 'my-component',
@@ -26,7 +26,7 @@ describe('createComponentDefinition', () => {
       events: [],
     });
     expect(output[0]).toEqual(
-      `export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component');`
+      `export const MyComponent = /*@__PURE__*/createSolidComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component');`
     );
   });
 });
@@ -39,10 +39,10 @@ describe('generateProxies', () => {
   const rootDir: string = '';
   const config: Config = { outputTargets: [] };
 
-  it('should include both polyfills and defineCustomElements when both are true in the outputTarget', () => {
-    const outputTarget: OutputTargetReact = {
+  it('should include both polyfills and definCustomElements when both are true in the outputTarget', () => {
+    const outputTarget: OutputTargetSolid = {
       componentCorePackage: 'component-library',
-      proxiesFile: '../component-library-react/src/proxies.ts',
+      proxiesFile: '../component-library-solid/src/proxies.ts',
       includePolyfills: true,
       includeDefineCustomElements: true,
     };
@@ -51,9 +51,12 @@ describe('generateProxies', () => {
     expect(finalText).toEqual(
       `/* eslint-disable */
 /* tslint:disable */
-/* auto-generated react proxies */
-import { createReactComponent, setTagNameTransformer } from './react-component-lib';
+/* auto-generated solid proxies */
+import { createSolidComponent } from './solid-component-lib';
 
+
+
+export { setTagNameTransformer } from './solid-component-lib/tagNameTransformer';
 
 import type { JSX } from 'component-library';
 
@@ -61,15 +64,14 @@ import { applyPolyfills, defineCustomElements } from 'component-library/dist/loa
 
 applyPolyfills().then(() => defineCustomElements());
 
-export { setTagNameTransformer };
 `
     );
   });
 
   it('should include only defineCustomElements when includePolyfills is false in the outputTarget', () => {
-    const outputTarget: OutputTargetReact = {
+    const outputTarget: OutputTargetSolid = {
       componentCorePackage: 'component-library',
-      proxiesFile: '../component-library-react/src/proxies.ts',
+      proxiesFile: '../component-library-solid/src/proxies.ts',
       includePolyfills: false,
       includeDefineCustomElements: true,
     };
@@ -78,9 +80,12 @@ export { setTagNameTransformer };
     expect(finalText).toEqual(
       `/* eslint-disable */
 /* tslint:disable */
-/* auto-generated react proxies */
-import { createReactComponent, setTagNameTransformer } from './react-component-lib';
+/* auto-generated solid proxies */
+import { createSolidComponent } from './solid-component-lib';
 
+
+
+export { setTagNameTransformer } from './solid-component-lib/tagNameTransformer';
 
 import type { JSX } from 'component-library';
 
@@ -88,15 +93,14 @@ import { defineCustomElements } from 'component-library/dist/loader';
 
 defineCustomElements();
 
-export { setTagNameTransformer };
 `
     );
   });
 
   it('should not include defineCustomElements or applyPolyfills if both are false in the outputTarget', () => {
-    const outputTarget: OutputTargetReact = {
+    const outputTarget: OutputTargetSolid = {
       componentCorePackage: 'component-library',
-      proxiesFile: '../component-library-react/src/proxies.ts',
+      proxiesFile: '../component-library-solid/src/proxies.ts',
       includePolyfills: false,
       includeDefineCustomElements: false,
     };
@@ -105,24 +109,26 @@ export { setTagNameTransformer };
     expect(finalText).toEqual(
       `/* eslint-disable */
 /* tslint:disable */
-/* auto-generated react proxies */
-import { createReactComponent, setTagNameTransformer } from './react-component-lib';
+/* auto-generated solid proxies */
+import { createSolidComponent } from './solid-component-lib';
 
+
+
+export { setTagNameTransformer } from './solid-component-lib/tagNameTransformer';
 
 import type { JSX } from 'component-library';
 
 
 
 
-export { setTagNameTransformer };
 `
     );
   });
 
   it('should include importCustomElements if true in the outputTarget', () => {
-    const outputTarget: OutputTargetReact = {
+    const outputTarget: OutputTargetSolid = {
       componentCorePackage: 'component-library',
-      proxiesFile: '../component-library-react/src/proxies.ts',
+      proxiesFile: '../component-library-solid/src/proxies.ts',
       includeImportCustomElements: true,
     };
 
@@ -130,24 +136,26 @@ export { setTagNameTransformer };
     expect(finalText).toEqual(
       `/* eslint-disable */
 /* tslint:disable */
-/* auto-generated react proxies */
-import { createReactComponent, setTagNameTransformer } from './react-component-lib';
+/* auto-generated solid proxies */
+import { createSolidComponent } from './solid-component-lib';
 
+
+
+export { setTagNameTransformer } from './solid-component-lib/tagNameTransformer';
 
 import type { JSX } from 'component-library/components';
 
 
 
 
-export { setTagNameTransformer };
 `
     );
   });
 
   it('should include importCustomElements with custom path if defined in outputTarget', () => {
-    const outputTarget: OutputTargetReact = {
+    const outputTarget: OutputTargetSolid = {
       componentCorePackage: 'component-library',
-      proxiesFile: '../component-library-react/src/proxies.ts',
+      proxiesFile: '../component-library-solid/src/proxies.ts',
       includeImportCustomElements: true,
       customElementsDir: 'custom-dir/hello',
     };
@@ -156,16 +164,18 @@ export { setTagNameTransformer };
     expect(finalText).toEqual(
       `/* eslint-disable */
 /* tslint:disable */
-/* auto-generated react proxies */
-import { createReactComponent, setTagNameTransformer } from './react-component-lib';
+/* auto-generated solid proxies */
+import { createSolidComponent } from './solid-component-lib';
 
+
+
+export { setTagNameTransformer } from './solid-component-lib/tagNameTransformer';
 
 import type { JSX } from 'component-library/custom-dir/hello';
 
 
 
 
-export { setTagNameTransformer };
 `
     );
   });
@@ -173,13 +183,13 @@ export { setTagNameTransformer };
 
 describe('getPathToCorePackageLoader', () => {
   let config: Config;
-  let outputTarget: OutputTargetReact;
+  let outputTarget: OutputTargetSolid;
 
   beforeEach(() => {
     config = { outputTargets: [], rootDir: '/User/app/root' };
     outputTarget = {
       componentCorePackage: 'my-library',
-      proxiesFile: '../my-library-react/src/proxies.ts',
+      proxiesFile: '../my-library-solid/src/proxies.ts',
     };
   });
 

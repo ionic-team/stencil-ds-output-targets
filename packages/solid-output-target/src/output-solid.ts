@@ -1,21 +1,14 @@
 import path from 'path';
-import type { OutputTargetReact, PackageJSON } from './types';
+import type { OutputTargetSolid, PackageJSON } from './types';
 import { dashToPascalCase, normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
-import type { CompilerCtx, ComponentCompilerMeta, Config, CopyResults, OutputTargetDist } from '@stencil/core/internal';
+import type { CompilerCtx, ComponentCompilerMeta, Config, OutputTargetDist } from '@stencil/core/internal';
 
-/**
- * Generate and write the Stencil-React bindings to disc
- * @param config the Stencil configuration associated with the project
- * @param compilerCtx the compiler context of the current Stencil build
- * @param outputTarget the output target configuration for generating the React wrapper
- * @param components the components to generate the bindings for
- */
-export async function reactProxyOutput(
+export async function solidProxyOutput(
   config: Config,
   compilerCtx: CompilerCtx,
-  outputTarget: OutputTargetReact,
-  components: ReadonlyArray<ComponentCompilerMeta>
-): Promise<void> {
+  outputTarget: OutputTargetSolid,
+  components: ComponentCompilerMeta[]
+) {
   const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, components);
   const rootDir = config.rootDir as string;
   const pkgData = await readPackageJson(rootDir);
@@ -25,35 +18,17 @@ export async function reactProxyOutput(
   await copyResources(config, outputTarget);
 }
 
-/**
- * Removes all components from the provided `cmps` list that exist in the provided `excludedComponents` list
- * @param excludeComponents the list of components that should be removed from the provided `cmps` list
- * @param cmps a list of components
- * @returns the filtered list of components
- */
-function getFilteredComponents(
-  excludeComponents: ReadonlyArray<string> = [],
-  cmps: readonly ComponentCompilerMeta[]
-): ReadonlyArray<ComponentCompilerMeta> {
+function getFilteredComponents(excludeComponents: string[] = [], cmps: ComponentCompilerMeta[]) {
   return sortBy(cmps, (cmp) => cmp.tagName).filter((c) => !excludeComponents.includes(c.tagName) && !c.internal);
 }
 
-/**
- * Generate the code that will be responsible for creating the Stencil-React bindings
- * @param config the Stencil configuration associated with the project
- * @param components the Stencil components to generate wrappers for
- * @param pkgData `package.json` data for the Stencil project
- * @param outputTarget the output target configuration used to generate the Stencil-React bindings
- * @param rootDir the directory of the Stencil project
- * @returns the generated code to create the Stencil-React bindings
- */
 export function generateProxies(
   config: Config,
-  components: ReadonlyArray<ComponentCompilerMeta>,
+  components: ComponentCompilerMeta[],
   pkgData: PackageJSON,
-  outputTarget: OutputTargetReact,
+  outputTarget: OutputTargetSolid,
   rootDir: string
-): string {
+) {
   const distTypesDir = path.dirname(pkgData.types);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.proxiesFile, dtsFilePath, '.d.ts');
@@ -61,9 +36,10 @@ export function generateProxies(
 
   const imports = `/* eslint-disable */
 /* tslint:disable */
-/* auto-generated react proxies */
-import { createReactComponent, setTagNameTransformer } from './react-component-lib';
-\n`;
+/* auto-generated solid proxies */
+import { createSolidComponent } from './solid-component-lib';\n
+\n
+export { setTagNameTransformer } from './solid-component-lib/tagNameTransformer';\n`;
 
   /**
    * Generate JSX import type from correct location.
@@ -88,15 +64,16 @@ import { createReactComponent, setTagNameTransformer } from './react-component-l
   let registerCustomElements = '';
 
   /**
-   * Build an array of Custom Elements build imports and namespace them so that they do not conflict with the React
-   * wrapper names. For example, IonButton would be imported as IonButtonCmp to not conflict with the IonButton React
-   * Component that takes in the Web Component as a parameter.
+   * Build an array of Custom Elements build imports and namespace them
+   * so that they do not conflict with the React wrapper names. For example,
+   * IonButton would be imported as IonButtonCmp so as to not conflict with the
+   * IonButton React Component that takes in the Web Component as a parameter.
    */
   if (outputTarget.includeImportCustomElements && outputTarget.componentCorePackage !== undefined) {
     const cmpImports = components.map((component) => {
       const pascalImport = dashToPascalCase(component.tagName);
 
-      return `import { defineCustomElement as define${pascalImport} } from '${normalizePath(
+      return `import { ${pascalImport} as ${pascalImport}Cmp } from '${normalizePath(
         outputTarget.componentCorePackage!
       )}/${outputTarget.customElementsDir || 'components'}/${component.tagName}.js';`;
     });
@@ -110,7 +87,7 @@ import { createReactComponent, setTagNameTransformer } from './react-component-l
     registerCustomElements = `${REGISTER_CUSTOM_ELEMENTS}();`;
   }
 
-  const final: ReadonlyArray<string> = [
+  const final: string[] = [
     imports,
     typeImports,
     sourceImports,
@@ -118,28 +95,30 @@ import { createReactComponent, setTagNameTransformer } from './react-component-l
     components
       .map((cmpMeta) => createComponentDefinition(cmpMeta, outputTarget.includeImportCustomElements))
       .join('\n'),
-    `export { setTagNameTransformer };`,
   ];
 
   return final.join('\n') + '\n';
 }
 
 /**
- * Defines the React component that developers will import to use in their applications.
- * @param cmpMeta Meta data for a single Web Component
- * @param includeCustomElement If `true`, the Web Component instance will be passed in to createReactComponent to be
- * registered with the Custom Elements Registry.
- * @returns An array where each entry is a string version of the React component definition.
+ * Defines the React component that developers will import
+ * to use in their applications.
+ * @param cmpMeta: Meta data for a single Web Component
+ * @param includeCustomElement: If `true`, the Web Component instance
+ * will be passed in to createReactComponent to be registered
+ * with the Custom Elements Registry.
+ * @returns An array where each entry is a string version
+ * of the React component definition.
  */
 export function createComponentDefinition(
   cmpMeta: ComponentCompilerMeta,
   includeCustomElement: boolean = false
-): ReadonlyArray<string> {
+): string[] {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
-  let template = `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}'`;
+  let template = `export const ${tagNameAsPascal} = /*@__PURE__*/createSolidComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}'`;
 
   if (includeCustomElement) {
-    template += `, undefined, undefined, define${tagNameAsPascal}`;
+    template += `, undefined, undefined, ${tagNameAsPascal}Cmp`;
   }
 
   template += `);`;
@@ -147,19 +126,12 @@ export function createComponentDefinition(
   return [template];
 }
 
-/**
- * Copy resources used to generate the Stencil-React bindings. The resources copied here are not specific a project's
- * Stencil components, but rather the logic used to do the actual component generation.
- * @param config the Stencil configuration associated with the project
- * @param outputTarget the output target configuration for generating the Stencil-React bindings
- * @returns The results of performing the copy
- */
-async function copyResources(config: Config, outputTarget: OutputTargetReact): Promise<CopyResults> {
+async function copyResources(config: Config, outputTarget: OutputTargetSolid) {
   if (!config.sys || !config.sys.copy || !config.sys.glob) {
     throw new Error('stencil is not properly initialized at this step. Notify the developer');
   }
-  const srcDirectory = path.join(__dirname, '..', 'react-component-lib');
-  const destDirectory = path.join(path.dirname(outputTarget.proxiesFile), 'react-component-lib');
+  const srcDirectory = path.join(__dirname, '..', 'solid-component-lib');
+  const destDirectory = path.join(path.dirname(outputTarget.proxiesFile), 'solid-component-lib');
 
   return config.sys.copy(
     [
@@ -174,13 +146,7 @@ async function copyResources(config: Config, outputTarget: OutputTargetReact): P
   );
 }
 
-/**
- * Derive the path to the loader
- * @param config the Stencil configuration for the project
- * @param outputTarget the output target used for generating the Stencil-React bindings
- * @returns the derived loader path
- */
-export function getPathToCorePackageLoader(config: Config, outputTarget: OutputTargetReact): string {
+export function getPathToCorePackageLoader(config: Config, outputTarget: OutputTargetSolid) {
   const basePkg = outputTarget.componentCorePackage || '';
   const distOutputTarget = config.outputTargets?.find((o) => o.type === 'dist') as OutputTargetDist;
 

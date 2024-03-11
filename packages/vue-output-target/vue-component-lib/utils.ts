@@ -1,6 +1,7 @@
 // @ts-nocheck
 // It's easier and safer for Volar to disable typechecking and let the return type inference do its job.
 import { defineComponent, getCurrentInstance, h, inject, ref, Ref, withDirectives } from 'vue';
+import { tagNameTransformer } from './tagNameTransformer';
 
 export interface InputProps<T> {
   modelValue?: T;
@@ -176,11 +177,13 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
         }
       }
 
+      const newTagName = typeof tagNameTransformer === 'function' ? tagNameTransformer(name) : name;
+
       /**
        * vModelDirective is only needed on components that support v-model.
        * As a result, we conditionally call withDirectives with v-model components.
        */
-      const node = h(name, propsToAdd, slots.default && slots.default());
+      const node = h(newTagName, propsToAdd, slots.default && slots.default());
       return modelProp === undefined ? node : withDirectives(node, [[vModelDirective]]);
     };
   });

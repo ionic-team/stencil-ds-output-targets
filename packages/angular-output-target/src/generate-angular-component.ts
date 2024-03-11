@@ -1,6 +1,6 @@
 import type { CompilerJsDoc, ComponentCompilerEvent } from '@stencil/core/internal';
 
-import { createComponentEventTypeImports, dashToPascalCase, formatToQuotedList } from './utils';
+import { createComponentEventTypeImports, dashToCamelCase, dashToPascalCase, formatToQuotedList } from './utils';
 import type { OutputType } from './types';
 
 /**
@@ -54,8 +54,30 @@ export const createAngularComponentDefinition = (
   let standaloneOption = '';
 
   if (standalone && includeImportCustomElements) {
-    standaloneOption = `\n  standalone: true`;
+    standaloneOption = `\n  standalone: true,`;
   }
+
+  const inputFields = hasInputs ? inputs.map((input) => `  ${dashToCamelCase(input)}: any;`).join('\n') : '';
+  const inputAttributes = hasInputs ? inputs.map((input) => `[${input}]="${input}"`).join(' ') : '';
+
+  const template = `
+    <ng-container *ngIf="hasTagNameTransformer; else defaultCase">
+      <stencil-ng-proxy
+        ${inputAttributes}
+        *replaceTag="tagName"
+        #replaceTagHost
+      >
+        <ng-container *ngTemplateOutlet="ngContentOutlet"></ng-container>
+      </stencil-ng-proxy>
+    </ng-container>
+
+    <ng-template #defaultCase>
+      <ng-container *ngTemplateOutlet="ngContentOutlet"></ng-container>
+    </ng-template>
+
+    <ng-template #ngContentOutlet>
+      <ng-content></ng-content>
+    </ng-template>`;
 
   /**
    * Notes on the generated output:
@@ -68,20 +90,37 @@ export const createAngularComponentDefinition = (
 @Component({
   selector: '${tagName}',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>',
+  template: \`${template}\`,
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: [${formattedInputs}],${standaloneOption}
+  inputs: [${formattedInputs}],
+  ${standaloneOption}
+  providers: [
+    {provide: StencilProxyComponent, useExisting: forwardRef(() => ${tagNameAsPascal})}
+  ],
 })
-export class ${tagNameAsPascal} {
+export class ${tagNameAsPascal} extends StencilProxyComponent implements OnChanges {
+  ${inputFields}
   protected el: HTMLElement;
-  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
-    c.detach();
+  public availableInputProperties = [${formattedInputs}];
+  public hasTagNameTransformer: boolean;
+  public tagName: string;
+  @ViewChild(ReplaceTagDirective) replaceTagDirective: ReplaceTagDirective;
+  constructor(private changeDetectorRef: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    super();
+    changeDetectorRef.detach();
+    const originalTagName = '${tagName}';
+    this.tagName = typeof tagNameTransformer === 'function' ? tagNameTransformer(originalTagName) : originalTagName;
+    this.hasTagNameTransformer = typeof tagNameTransformer === 'function';
     this.el = r.nativeElement;${
       hasOutputs
         ? `
     proxyOutputs(this, this.el, [${formattedOutputs}]);`
         : ''
     }
+  }
+  ngOnChanges(): void {
+    this.replaceTagDirective?.handlePropertyChanges();
+    this.changeDetectorRef.detectChanges();
   }
 }`;
 

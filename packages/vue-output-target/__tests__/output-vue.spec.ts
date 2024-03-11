@@ -24,6 +24,7 @@ describe('generateProxies', () => {
 /* tslint:disable */
 /* auto-generated vue proxies */
 import { defineContainer } from './vue-component-lib/utils';
+import { setTagNameTransformer } from './vue-component-lib/tagNameTransformer';
 
 import type { JSX } from 'component-library';
 
@@ -31,6 +32,7 @@ import { applyPolyfills, defineCustomElements } from 'component-library/dist/loa
 
 applyPolyfills().then(() => defineCustomElements());
 
+export { setTagNameTransformer };
 `
     );
   });
@@ -49,6 +51,7 @@ applyPolyfills().then(() => defineCustomElements());
 /* tslint:disable */
 /* auto-generated vue proxies */
 import { defineContainer } from './vue-component-lib/utils';
+import { setTagNameTransformer } from './vue-component-lib/tagNameTransformer';
 
 import type { JSX } from 'component-library';
 
@@ -56,6 +59,7 @@ import { defineCustomElements } from 'component-library/dist/loader';
 
 defineCustomElements();
 
+export { setTagNameTransformer };
 `
     );
   });
@@ -74,12 +78,14 @@ defineCustomElements();
 /* tslint:disable */
 /* auto-generated vue proxies */
 import { defineContainer } from './vue-component-lib/utils';
+import { setTagNameTransformer } from './vue-component-lib/tagNameTransformer';
 
 import type { JSX } from 'component-library';
 
 
 
 
+export { setTagNameTransformer };
 `
     );
   });
@@ -96,12 +102,14 @@ import type { JSX } from 'component-library';
 /* tslint:disable */
 /* auto-generated vue proxies */
 import { defineContainer } from './vue-component-lib/utils';
+import { setTagNameTransformer } from './vue-component-lib/tagNameTransformer';
 
 import type { JSX } from 'component-library/components';
 
 
 
 
+export { setTagNameTransformer };
 `
     );
   });
@@ -119,12 +127,14 @@ import type { JSX } from 'component-library/components';
 /* tslint:disable */
 /* auto-generated vue proxies */
 import { defineContainer } from './vue-component-lib/utils';
+import { setTagNameTransformer } from './vue-component-lib/tagNameTransformer';
 
 import type { JSX } from 'component-library/custom-dir/hello';
 
 
 
 
+export { setTagNameTransformer };
 `
     );
   });
