@@ -36,17 +36,17 @@ jobs:
       # Publishing to registry.npmjs.org
       - name: Publish Angular-Output-Target
         continue-on-error: true
-        run: pnpm publish --access ${{env.access}} --no-git-checks --tag ${{github.event.inputs.tag}}
+        run: npm publish --access ${{env.access}} --no-git-checks --tag ${{github.event.inputs.tag}}
         working-directory: packages/angular-output-target
       - name: Publish React-Output-Target
         continue-on-error: true
-        run: pnpm publish --access ${{env.access}} --no-git-checks --tag ${{github.event.inputs.tag}}
+        run: npm publish --access ${{env.access}} --no-git-checks --tag ${{github.event.inputs.tag}}
         working-directory: packages/react-output-target
       - name: Publish Solid-Output-Target
         continue-on-error: true
-        run: pnpm publish --access ${{env.access}} --no-git-checks --tag ${{github.event.inputs.tag}}
+        run: npm publish --access ${{env.access}} --no-git-checks --tag ${{github.event.inputs.tag}}
         working-directory: packages/solid-output-target
       - name: Publish Vue-Output-Target
         continue-on-error: true
-        run: pnpm publish --access ${{env.access}} --no-git-checks --tag ${{github.event.inputs.tag}}
+        run: npm publish --access ${{env.access}} --no-git-checks --tag ${{github.event.inputs.tag}}
         working-directory: packages/vue-output-target
