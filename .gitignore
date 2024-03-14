@@ -5,6 +5,5 @@ build/
 .DS_Store
 .idea/
 .vscode
-.npmrc
 *.tgz
 *.lerna_backup

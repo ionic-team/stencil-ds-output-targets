@@ -1,0 +1,68 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    labels:
+      - dependabot
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /
+    labels:
+      - dependabot
+    schedule:
+      interval: daily
+  - package-ecosystem: npm
+    directory: /packages/angular-output-target/
+    labels:
+      - dependabot
+    schedule:
+      interval: daily
+  - package-ecosystem: npm
+    directory: /packages/example-project/component-library/
+    labels:
+      - dependabot
+    schedule:
+      interval: daily
+  - package-ecosystem: npm
+    directory: /packages/example-project/component-library-angular/
+    labels:
+      - dependabot
+    schedule:
+      interval: daily
+  - package-ecosystem: npm
+    directory: /packages/example-project/component-library-react/
+    labels:
+      - dependabot
+    schedule:
+      interval: daily
+  - package-ecosystem: npm
+    directory: /packages/example-project/component-library-vue/
+    labels:
+      - dependabot
+    schedule:
+      interval: daily
+  - package-ecosystem: npm
+    directory: /packages/react-output-target/
+    labels:
+      - dependabot
+    schedule:
+      interval: daily
+  - package-ecosystem: npm
+    directory: /packages/solid-output-target/
+    labels:
+      - dependabot
+    schedule:
+      interval: daily
+  - package-ecosystem: npm
+    directory: /packages/vue-output-target/
+    labels:
+      - dependabot
+    schedule:
+      interval: daily

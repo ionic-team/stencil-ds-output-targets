@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { defineCustomElements } from 'component-library/loader';
 
 import { BooleanValueAccessor } from './directives/boolean-value-accessor';
@@ -16,10 +16,14 @@ import {
   MyRadioGroup,
   MyRange,
 } from './directives/proxies';
+import { CommonModule } from '@angular/common';
+import { ReplaceTagDirective } from './directives/angular-component-lib/ReplaceTagDirective';
 
 defineCustomElements(window);
 
 const DECLARATIONS = [
+  ReplaceTagDirective,
+
   // proxies
   MyComponent,
   MyButton,
@@ -40,8 +44,9 @@ const DECLARATIONS = [
 
 @NgModule({
   declarations: DECLARATIONS,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: DECLARATIONS,
-  imports: [],
+  imports: [CommonModule],
   providers: [],
 })
 export class ComponentLibraryModule {}

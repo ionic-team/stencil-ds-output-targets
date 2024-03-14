@@ -53,7 +53,9 @@ ${'  '}
     this.el = r.nativeElement;
   }
   ngOnChanges(): void {
-    this.replaceTagDirective?.handlePropertyChanges();
+    if (typeof this.replaceTagDirective === 'object' && this.replaceTagDirective !== null && typeof this.replaceTagDirective.handlePropertyChanges === 'function') {
+      this.replaceTagDirective.handlePropertyChanges();
+    }
     this.changeDetectorRef.detectChanges();
   }
 }`);
@@ -92,7 +94,9 @@ export class MyComponent extends StencilProxyComponent implements OnChanges {
     this.el = r.nativeElement;
   }
   ngOnChanges(): void {
-    this.replaceTagDirective?.handlePropertyChanges();
+    if (typeof this.replaceTagDirective === 'object' && this.replaceTagDirective !== null && typeof this.replaceTagDirective.handlePropertyChanges === 'function') {
+      this.replaceTagDirective.handlePropertyChanges();
+    }
     this.changeDetectorRef.detectChanges();
   }
 }`);
@@ -137,7 +141,9 @@ ${'  '}
     proxyOutputs(this, this.el, ['my-output', 'my-other-output']);
   }
   ngOnChanges(): void {
-    this.replaceTagDirective?.handlePropertyChanges();
+    if (typeof this.replaceTagDirective === 'object' && this.replaceTagDirective !== null && typeof this.replaceTagDirective.handlePropertyChanges === 'function') {
+      this.replaceTagDirective.handlePropertyChanges();
+    }
     this.changeDetectorRef.detectChanges();
   }
 }`);
@@ -176,7 +182,9 @@ ${'  '}
     this.el = r.nativeElement;
   }
   ngOnChanges(): void {
-    this.replaceTagDirective?.handlePropertyChanges();
+    if (typeof this.replaceTagDirective === 'object' && this.replaceTagDirective !== null && typeof this.replaceTagDirective.handlePropertyChanges === 'function') {
+      this.replaceTagDirective.handlePropertyChanges();
+    }
     this.changeDetectorRef.detectChanges();
   }
 }`);
@@ -217,7 +225,9 @@ ${'  '}
     this.el = r.nativeElement;
   }
   ngOnChanges(): void {
-    this.replaceTagDirective?.handlePropertyChanges();
+    if (typeof this.replaceTagDirective === 'object' && this.replaceTagDirective !== null && typeof this.replaceTagDirective.handlePropertyChanges === 'function') {
+      this.replaceTagDirective.handlePropertyChanges();
+    }
     this.changeDetectorRef.detectChanges();
   }
 }`);
@@ -258,7 +268,9 @@ export class MyComponent extends StencilProxyComponent implements OnChanges {
     this.el = r.nativeElement;
   }
   ngOnChanges(): void {
-    this.replaceTagDirective?.handlePropertyChanges();
+    if (typeof this.replaceTagDirective === 'object' && this.replaceTagDirective !== null && typeof this.replaceTagDirective.handlePropertyChanges === 'function') {
+      this.replaceTagDirective.handlePropertyChanges();
+    }
     this.changeDetectorRef.detectChanges();
   }
 }`);
@@ -303,7 +315,9 @@ ${'  '}
     proxyOutputs(this, this.el, ['my-output', 'my-other-output']);
   }
   ngOnChanges(): void {
-    this.replaceTagDirective?.handlePropertyChanges();
+    if (typeof this.replaceTagDirective === 'object' && this.replaceTagDirective !== null && typeof this.replaceTagDirective.handlePropertyChanges === 'function') {
+      this.replaceTagDirective.handlePropertyChanges();
+    }
     this.changeDetectorRef.detectChanges();
   }
 }`);
@@ -343,7 +357,9 @@ ${'  '}
     this.el = r.nativeElement;
   }
   ngOnChanges(): void {
-    this.replaceTagDirective?.handlePropertyChanges();
+    if (typeof this.replaceTagDirective === 'object' && this.replaceTagDirective !== null && typeof this.replaceTagDirective.handlePropertyChanges === 'function') {
+      this.replaceTagDirective.handlePropertyChanges();
+    }
     this.changeDetectorRef.detectChanges();
   }
 }`);
@@ -383,7 +399,9 @@ ${'  '}
     this.el = r.nativeElement;
   }
   ngOnChanges(): void {
-    this.replaceTagDirective?.handlePropertyChanges();
+    if (typeof this.replaceTagDirective === 'object' && this.replaceTagDirective !== null && typeof this.replaceTagDirective.handlePropertyChanges === 'function') {
+      this.replaceTagDirective.handlePropertyChanges();
+    }
     this.changeDetectorRef.detectChanges();
   }
 }`);
@@ -466,10 +484,10 @@ describe('createComponentTypeDefinition()', () => {
       const definition = createComponentTypeDefinition('component', 'MyComponent', testEvents, '@ionic/core');
 
       expect(definition).toEqual(
-        `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core';
-import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core';
-import type { MyDoclessEvent as IMyComponentMyDoclessEvent } from '@ionic/core';
-import type { MyKebabEvent as IMyComponentMyKebabEvent } from '@ionic/core';
+        `import { MyEvent as IMyComponentMyEvent } from '@ionic/core';
+import { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core';
+import { MyDoclessEvent as IMyComponentMyDoclessEvent } from '@ionic/core';
+import { MyKebabEvent as IMyComponentMyKebabEvent } from '@ionic/core';
 
 export declare interface MyComponent extends Components.MyComponent {
   /**
@@ -551,9 +569,9 @@ export declare interface MyComponent extends Components.MyComponent {
       );
 
       expect(definition).toEqual(
-        `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core';
-import type { Currency as IMyComponentCurrency } from '@ionic/core';
-import type { Side as IMyComponentSide } from '@ionic/core';
+        `import { MyEvent as IMyComponentMyEvent } from '@ionic/core';
+import { Currency as IMyComponentCurrency } from '@ionic/core';
+import { Side as IMyComponentSide } from '@ionic/core';
 
 export declare interface MyComponent extends Components.MyComponent {
 
@@ -577,10 +595,10 @@ export declare interface MyComponent extends Components.MyComponent {
         );
 
         expect(definition).toEqual(
-          `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core/custom-elements';
-import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/custom-elements';
-import type { MyDoclessEvent as IMyComponentMyDoclessEvent } from '@ionic/core/custom-elements';
-import type { MyKebabEvent as IMyComponentMyKebabEvent } from '@ionic/core/custom-elements';
+          `import { MyEvent as IMyComponentMyEvent } from '@ionic/core/custom-elements';
+import { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/custom-elements';
+import { MyDoclessEvent as IMyComponentMyDoclessEvent } from '@ionic/core/custom-elements';
+import { MyKebabEvent as IMyComponentMyKebabEvent } from '@ionic/core/custom-elements';
 
 export declare interface MyComponent extends Components.MyComponent {
   /**
