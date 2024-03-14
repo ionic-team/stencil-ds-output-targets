@@ -2,6 +2,8 @@ import { async, ComponentFixture } from '@angular/core/testing';
 
 import { ConfigureFn, configureTests } from '../src/config.testing';
 import { MyComponent } from './../src/index';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ReplaceTagDirective } from '../src/directives/angular-component-lib/ReplaceTagDirective';
 
 describe('MyComponent', () => {
   let fixture: ComponentFixture<MyComponent>;
@@ -9,7 +11,8 @@ describe('MyComponent', () => {
   beforeEach(async(() => {
     const configure: ConfigureFn = (testBed) => {
       testBed.configureTestingModule({
-        declarations: [MyComponent],
+        declarations: [ReplaceTagDirective, MyComponent],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       });
     };
 
