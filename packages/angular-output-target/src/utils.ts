@@ -156,7 +156,8 @@ export const createComponentEventTypeImports = (
         const newTypeName = `I${componentTagName}${typeName}`;
         // Prevents duplicate imports for the same type.
         if (!namedImports.has(newTypeName)) {
-          imports.push(`import type { ${typeName} as ${newTypeName} } from '${importPathName}';`);
+          /* import type is not possible  -> ng@^8 */
+          imports.push(`import { ${typeName} as ${newTypeName} } from '${importPathName}';`);
           namedImports.add(newTypeName);
         }
       }

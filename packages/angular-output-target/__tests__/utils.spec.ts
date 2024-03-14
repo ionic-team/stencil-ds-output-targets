@@ -55,8 +55,8 @@ describe('createComponentEventTypeImports()', () => {
       });
 
       expect(imports).toEqual(
-        `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core';
-import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core';`
+        `import { MyEvent as IMyComponentMyEvent } from '@ionic/core';
+import { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core';`
       );
     });
   });
@@ -77,12 +77,12 @@ import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core';`
         });
 
         expect(scamImports).toEqual(
-          `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core/custom-elements';
-import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/custom-elements';`
+          `import { MyEvent as IMyComponentMyEvent } from '@ionic/core/custom-elements';
+import { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/custom-elements';`
         );
         expect(standaloneImports).toEqual(
-          `import type { MyEvent as IMyComponentMyEvent } from '@ionic/core/custom-elements';
-import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/custom-elements';`
+          `import { MyEvent as IMyComponentMyEvent } from '@ionic/core/custom-elements';
+import { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/custom-elements';`
         );
       });
     });

@@ -119,7 +119,9 @@ export class ${tagNameAsPascal} extends StencilProxyComponent implements OnChang
     }
   }
   ngOnChanges(): void {
-    this.replaceTagDirective?.handlePropertyChanges();
+    ${/* this.replaceTagDirective?.handlePropertyChanges(); is not possible -> ng@^8 */''}if (typeof this.replaceTagDirective === 'object' && this.replaceTagDirective !== null && typeof this.replaceTagDirective.handlePropertyChanges === 'function') {
+      this.replaceTagDirective.handlePropertyChanges();
+    }
     this.changeDetectorRef.detectChanges();
   }
 }`;
