@@ -38,15 +38,23 @@ jobs:
         continue-on-error: true
         run: npm publish --access ${{env.access}} --no-git-checks --tag ${{github.event.inputs.tag}}
         working-directory: packages/angular-output-target
+        env:
+          NODE_AUTH_TOKEN: ${{env.token}}
       - name: Publish React-Output-Target
         continue-on-error: true
         run: npm publish --access ${{env.access}} --no-git-checks --tag ${{github.event.inputs.tag}}
         working-directory: packages/react-output-target
+        env:
+          NODE_AUTH_TOKEN: ${{env.token}}
       - name: Publish Solid-Output-Target
         continue-on-error: true
         run: npm publish --access ${{env.access}} --no-git-checks --tag ${{github.event.inputs.tag}}
         working-directory: packages/solid-output-target
+        env:
+          NODE_AUTH_TOKEN: ${{env.token}}
       - name: Publish Vue-Output-Target
         continue-on-error: true
         run: npm publish --access ${{env.access}} --no-git-checks --tag ${{github.event.inputs.tag}}
         working-directory: packages/vue-output-target
+        env:
+          NODE_AUTH_TOKEN: ${{env.token}}
