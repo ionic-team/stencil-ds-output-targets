@@ -1,0 +1,52 @@
+name: Publish
+
+env:
+  access: public
+  registry: https://registry.npmjs.org
+  token: ${{ secrets.NPMJS_GRANULAR_TOKEN }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        type: choice
+        description: Which NPM tag should be assigned?
+        options:
+          - next
+          - latest
+
+jobs:
+  public:
+    if: github.repository == 'public-ui/stencil-ds-output-targets'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+
+      # https://github.com/ionic-team/stencil-ds-output-targets?tab=readme-ov-file#getting-started
+      - name: Install
+        run: npm i
+      - name: Bootstrap
+        run: npm run bootstrap
+      - name: Build
+        run: npm run build
+      - name: Test
+        run: npm run test
+
+      # Publishing to registry.npmjs.org
+      - name: Publish Angular-Output-Target
+        continue-on-error: true
+        run: pnpm publish --access ${{env.access}} --no-git-checks --tag ${{github.event.inputs.tag}}
+        working-directory: packages/angular-output-target
+      - name: Publish React-Output-Target
+        continue-on-error: true
+        run: pnpm publish --access ${{env.access}} --no-git-checks --tag ${{github.event.inputs.tag}}
+        working-directory: packages/react-output-target
+      - name: Publish Solid-Output-Target
+        continue-on-error: true
+        run: pnpm publish --access ${{env.access}} --no-git-checks --tag ${{github.event.inputs.tag}}
+        working-directory: packages/solid-output-target
+      - name: Publish Vue-Output-Target
+        continue-on-error: true
+        run: pnpm publish --access ${{env.access}} --no-git-checks --tag ${{github.event.inputs.tag}}
+        working-directory: packages/vue-output-target

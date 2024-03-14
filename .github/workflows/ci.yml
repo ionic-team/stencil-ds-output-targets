@@ -1,0 +1,27 @@
+name: CI-Pipeline
+
+on:
+  pull_request:
+  push:
+    branches:
+      - 'develop'
+      - 'main'
+      - 'release/*'
+  workflow_dispatch:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+
+      # https://github.com/ionic-team/stencil-ds-output-targets?tab=readme-ov-file#getting-started
+      - name: Install
+        run: npm i
+      - name: Bootstrap
+        run: npm run bootstrap
+      - name: Build
+        run: npm run build
+      - name: Test
+        run: npm run test
