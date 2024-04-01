@@ -109,7 +109,7 @@ import { createReactComponent } from './react-component-lib';\n`;
     registerCustomElements = `${REGISTER_CUSTOM_ELEMENTS}();`;
   }
 
-  const final: ReadonlyArray<string> = [
+  const final: string[] = [
     imports,
     typeImports,
     sourceImports,
@@ -118,6 +118,15 @@ import { createReactComponent } from './react-component-lib';\n`;
       .map((cmpMeta) => createComponentDefinition(cmpMeta, outputTarget.includeImportCustomElements))
       .join('\n'),
   ];
+
+  if (outputTarget.reactServerComponents) {
+    // As of now the React component wrappers use class components and cannot
+    // render successfully in e.g.a NextJS SSR context. This is not, however, a
+    // blocker for using them withing an RSC environment, but it does mean that
+    // we need to signal that the component wrappers (and all of their
+    // children) should be only rendered on the client.
+    final.unshift(`'use client'\n`);
+  }
 
   return final.join('\n') + '\n';
 }

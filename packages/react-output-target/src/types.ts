@@ -11,6 +11,11 @@ export interface OutputTargetReact {
   includeDefineCustomElements?: boolean;
   includeImportCustomElements?: boolean;
   customElementsDir?: string;
+  /**
+   * Enable support for rendering components within an enviroment that
+   * implements support for React Server Components.
+   */
+  reactServerComponents?: boolean;
 }
 
 /**
