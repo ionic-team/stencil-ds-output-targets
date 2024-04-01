@@ -2,8 +2,8 @@
   "name": "@stencil/react-output-target",
   "version": "0.5.3",
   "description": "React output target for @stencil/core components.",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.js",
+  "main": "./dist/stencil-react-output-target.umd.js",
+  "module": "./dist/stencil-react-output-target.es.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist/",
@@ -15,15 +15,14 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "prebuild": "rimraf ./dist",
-    "build": "tsc && npm run rollup",
+    "build": "vite build && vue-tsc --emitDeclarationOnly",
     "watch": "tsc --watch",
-    "rollup": "rollup -c",
     "version": "npm run build",
-    "prettier": "npm run prettier.base -- --write",
-    "prettier.base": "prettier \"./({react-component-lib,src,test,__tests__}/**/*.{ts,tsx,js,jsx})|*.{ts,tsx,js,jsx}\"",
-    "prettier.dry-run": "npm run prettier.base -- --list-different",
+    "prettier": "prettier \"./src/**/*.{html,ts,tsx,js,jsx}\" --write",
     "release": "np",
-    "test": "jest"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "repository": {
     "type": "git",
@@ -36,31 +35,23 @@
     "url": "https://github.com/ionic-team/stencil-ds-output-targets/issues"
   },
   "peerDependencies": {
-    "@stencil/core": ">=2.0.0 || >=3 || >= 4.0.0-beta.0 || >= 4.0.0"
+    "@stencil/core": ">=3 || >= 4.0.0-beta.0 || >= 4.0.0",
+    "@types/react": "17 || 18"
   },
   "devDependencies": {
-    "@types/react": "^16.7.0",
-    "@types/react-dom": "^16.7.0",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "react-testing-library": "^7.0.0"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.(js|ts|tsx)$": "<rootDir>/test/jest.preprocessor.js"
-    },
-    "testRegex": "(\\.(test|spec))\\.(ts?|tsx?|jsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "json",
-      "jsx"
-    ],
-    "testURL": "http://localhost"
+    "@types/react-dom": "^18.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "ts-dedent": "^2.2.0",
+    "vite": "^5.0.0",
+    "vitest": "^1.4.0",
+    "vue-tsc": "^2.0.7"
   },
   "gitHead": "a3588e905186a0e86e7f88418fd5b2f9531b55e0",
   "volta": {
     "extends": "../../package.json"
+  },
+  "dependencies": {
+    "ts-morph": "^22.0.0"
   }
 }

@@ -1,2 +1,2 @@
-export { createReactComponent } from './createComponent';
-export { createOverlayComponent } from './createOverlayComponent';
+export { createComponent } from './create-component';
+export type { EventName } from './create-component';
