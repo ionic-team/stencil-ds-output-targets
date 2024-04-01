@@ -13,7 +13,7 @@ export const createComponentWrappers = async ({
   components,
   outDir,
   customElementsDir,
-  esModules
+  esModules,
 }: {
   stencilPackageName: string;
   components: ComponentCompilerMeta[];
@@ -32,9 +32,7 @@ export const createComponentWrappers = async ({
       const tagName = component.tagName;
       const outputPath = `${outDir}/${tagName}.ts`;
 
-      sourceFiles.push(
-        createComponentWrapper(project, outputPath, [component], stencilPackageName, customElementsDir)
-      );
+      sourceFiles.push(createComponentWrapper(project, outputPath, [component], stencilPackageName, customElementsDir));
     }
   } else {
     /**
@@ -42,14 +40,18 @@ export const createComponentWrappers = async ({
      */
     const outputPath = `${outDir}/proxies.ts`;
 
-    sourceFiles.push(
-      createComponentWrapper(project, outputPath, components, stencilPackageName, customElementsDir)
-    );
+    sourceFiles.push(createComponentWrapper(project, outputPath, components, stencilPackageName, customElementsDir));
   }
   return sourceFiles;
 };
 
-const createComponentWrapper = (project: Project, outputPath: string, components: ComponentCompilerMeta[], stencilPackageName: string, customElementsDir: string) => {
+const createComponentWrapper = (
+  project: Project,
+  outputPath: string,
+  components: ComponentCompilerMeta[],
+  stencilPackageName: string,
+  customElementsDir: string
+) => {
   const sourceFile = project.createSourceFile(
     outputPath,
     `import type {EventName} from '@lit/react';
@@ -61,7 +63,7 @@ if (typeof defineCustomElement !== 'undefined') {
 defineCustomElement();
 }
 return createComponentWrapper<T, E>(options);
-};`,
+};`
   );
 
   for (const component of components) {
@@ -84,16 +86,12 @@ return createComponentWrapper<T, E>(options);
       ],
     });
 
-    const publicEvents = (component.events || []).filter(
-      (e) => e.internal === false,
-    );
+    const publicEvents = (component.events || []).filter((e) => e.internal === false);
 
     const events: ReactEvent[] = [];
 
     for (const event of publicEvents) {
-      const hasComplexType = Object.keys(event.complexType.references).includes(
-        event.complexType.resolved,
-      );
+      const hasComplexType = Object.keys(event.complexType.references).includes(event.complexType.resolved);
 
       if (hasComplexType) {
         sourceFile.addImportDeclaration({
@@ -133,10 +131,7 @@ return createComponentWrapper<T, E>(options);
 
     sourceFile.addTypeAlias({
       name: componentEventNamesType,
-      type:
-        events.length > 0
-          ? `{ ${events.map((e) => `${e.name}: ${e.type}`).join(',\n')} }`
-          : 'NonNullable<unknown>',
+      type: events.length > 0 ? `{ ${events.map((e) => `${e.name}: ${e.type}`).join(',\n')} }` : 'NonNullable<unknown>',
     });
 
     const statement = sourceFile.addVariableStatement({
@@ -148,9 +143,7 @@ return createComponentWrapper<T, E>(options);
           tagName: '${tagName}',
           elementClass: ${componentElement},
           react: React,
-          events: { ${events
-              .map((e) => `${e.name}: '${e.originalName}'`)
-              .join(',\n')}} as ${componentEventNamesType},
+          events: { ${events.map((e) => `${e.name}: '${e.originalName}'`).join(',\n')}} as ${componentEventNamesType},
           defineCustomElement: define${reactTagName}
         })`,
         },
@@ -164,4 +157,4 @@ return createComponentWrapper<T, E>(options);
   sourceFile.formatText();
 
   return sourceFile;
-}
+};

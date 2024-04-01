@@ -31,7 +31,11 @@ const DIST_CUSTOM_ELEMENTS = 'dist-custom-elements';
  * @param outputTarget the user-defined output target defined in a Stencil configuration file
  * @returns an output target that can be used by the Stencil compiler
  */
-export const reactOutputTarget = ({ outDir, esModules, stencilPackageName }: ReactOutputTargetOptions): OutputTargetCustom => {
+export const reactOutputTarget = ({
+  outDir,
+  esModules,
+  stencilPackageName,
+}: ReactOutputTargetOptions): OutputTargetCustom => {
   let customElementsDir = DIST_CUSTOM_ELEMENTS_DEFAULT_DIR;
   return {
     type: 'custom',
@@ -44,7 +48,7 @@ export const reactOutputTarget = ({ outDir, esModules, stencilPackageName }: Rea
        * This context is used to detect a customized output path.
        */
       const customElementsOutputTarget = (config.outputTargets || []).find(
-        (o) => o.type === DIST_CUSTOM_ELEMENTS,
+        (o) => o.type === DIST_CUSTOM_ELEMENTS
       ) as OutputTargetDistCustomElements;
       if (customElementsOutputTarget == null) {
         throw new Error(
@@ -64,15 +68,14 @@ export const reactOutputTarget = ({ outDir, esModules, stencilPackageName }: Rea
        */
       if (stencilPackageName === undefined) {
         if (config.sys && config.packageJsonFilePath) {
-          const { name: packageName } = JSON.parse(
-            config.sys.readFileSync(config.packageJsonFilePath, 'utf8'),
-          );
+          const { name: packageName } = JSON.parse(config.sys.readFileSync(config.packageJsonFilePath, 'utf8'));
           stencilPackageName = packageName;
         }
 
         if (!stencilPackageName) {
           throw new Error(
-            `Unable to find the package name in the package.json file: ${config.packageJsonFilePath}. Please provide the stencilPackageName manually to the ${PLUGIN_NAME} output target.`);
+            `Unable to find the package name in the package.json file: ${config.packageJsonFilePath}. Please provide the stencilPackageName manually to the ${PLUGIN_NAME} output target.`
+          );
         }
       }
     },
@@ -86,7 +89,7 @@ export const reactOutputTarget = ({ outDir, esModules, stencilPackageName }: Rea
         components,
         stencilPackageName: stencilPackageName!,
         customElementsDir,
-        esModules: esModules === true
+        esModules: esModules === true,
       });
 
       sourceFiles.forEach((sourceFile) => {
@@ -95,5 +98,5 @@ export const reactOutputTarget = ({ outDir, esModules, stencilPackageName }: Rea
 
       timespan.finish(`generate ${PLUGIN_NAME} finished`);
     },
-  }
+  };
 };

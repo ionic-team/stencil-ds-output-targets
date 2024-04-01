@@ -2,7 +2,6 @@ import { describe, it, expect } from 'vitest';
 import { reactOutputTarget } from '.';
 
 describe('reactOutputTarget', () => {
-
   it('should throw an error if the output target dist-custom-elements is not configured', () => {
     const { validate } = reactOutputTarget({
       outDir: 'dist/components',
@@ -14,10 +13,10 @@ describe('reactOutputTarget', () => {
           {
             outputTargets: [],
           } as any,
-          [],
-        ),
+          []
+        )
       ).toThrowError(
-        `The 'react-output-target' requires 'dist-custom-elements' output target. Add { type: 'dist-custom-elements' }, to the outputTargets config.`,
+        `The 'react-output-target' requires 'dist-custom-elements' output target. Add { type: 'dist-custom-elements' }, to the outputTargets config.`
       );
     }
   });
@@ -37,10 +36,10 @@ describe('reactOutputTarget', () => {
               },
             ],
           } as any,
-          [],
-        ),
+          []
+        )
       ).toThrowError(
-        'Unable to find the package name in the package.json file: undefined. Please provide the stencilPackageName manually to the react-output-target output target.',
+        'Unable to find the package name in the package.json file: undefined. Please provide the stencilPackageName manually to the react-output-target output target.'
       );
     }
   });
@@ -61,8 +60,8 @@ describe('reactOutputTarget', () => {
               },
             ],
           } as any,
-          [],
-        ),
+          []
+        )
       ).not.toThrowError();
     }
   });

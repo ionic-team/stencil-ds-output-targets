@@ -4,19 +4,20 @@ import { dedent } from 'ts-dedent';
 
 describe('createComponentWrappers', () => {
   it('should generate a react component wrapper', async () => {
-
     const sourceFiles = await createComponentWrappers({
-      components: [{
-        tagName: 'my-component',
-        componentClassName: 'MyComponent',
-        events: [
-          {
-            originalName: 'my-event',
-            name: 'myEvent',
-            type: 'CustomEvent',
-          },
-        ],
-      } as any],
+      components: [
+        {
+          tagName: 'my-component',
+          componentClassName: 'MyComponent',
+          events: [
+            {
+              originalName: 'my-event',
+              name: 'myEvent',
+              type: 'CustomEvent',
+            },
+          ],
+        } as any,
+      ],
       stencilPackageName: 'my-package',
       customElementsDir: 'dist/custom-elements',
       outDir: 'dist/my-output-path',
