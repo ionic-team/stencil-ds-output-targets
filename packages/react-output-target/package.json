@@ -53,5 +53,11 @@
   },
   "dependencies": {
     "ts-morph": "^22.0.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/stencil-react-output-target.es.js",
+      "require": "./dist/stencil-react-output-target.umd.js"
+    }
   }
 }

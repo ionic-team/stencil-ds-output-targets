@@ -1,59 +1,30 @@
 {
   "name": "component-library-react",
-  "sideEffects": false,
-  "version": "0.0.4",
   "private": true,
-  "description": "React specific wrapper for component-library",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ionic-team/stencil-ds-output-targets.git"
-  },
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "test": "jest",
-    "build": "npm run clean && npm run compile",
-    "clean": "rimraf dist",
-    "compile": "npm run tsc",
-    "tsc": "tsc -p .",
-    "prettier": "npm run prettier.base -- --write",
-    "prettier.base": "prettier \"./({src,__tests__}/**/*.{ts,tsx,js,jsx})|*.{ts,tsx,js,jsx}\"",
-    "prettier.dry-run": "npm run prettier.base -- --list-different"
-  },
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist/"
-  ],
-  "devDependencies": {
-    "@testing-library/jest-dom": "^5.8.0",
-    "@testing-library/react": "^10.0.4",
-    "@types/react": "^16.7.6",
-    "@types/react-dom": "^16.0.9",
-    "jest": "^26.1.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "rimraf": "^4.2.0",
-    "rollup": "^1.21.2",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "typescript": "^3.3.4000"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
   },
   "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "component-library": "^0.0.4"
   },
-  "peerDependencies": {
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "setupFilesAfterEnv": [
-      "<rootDir>/setupTests.ts"
-    ],
-    "testPathIgnorePatterns": [
-      "node_modules",
-      "dist"
-    ]
+  "devDependencies": {
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0"
   },
   "volta": {
     "extends": "../../package.json"

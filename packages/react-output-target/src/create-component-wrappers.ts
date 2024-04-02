@@ -21,7 +21,7 @@ export const createComponentWrappers = async ({
   outDir: string;
   esModules?: boolean;
 }) => {
-  const project = new Project({ useInMemoryFileSystem: true });
+  const project = new Project();
   const sourceFiles: SourceFile[] = [];
 
   if (esModules === true) {
@@ -32,17 +32,28 @@ export const createComponentWrappers = async ({
       const tagName = component.tagName;
       const outputPath = `${outDir}/${tagName}.ts`;
 
-      sourceFiles.push(
-        createComponentWrapper(project, outputPath, [component], stencilPackageName, customElementsDir, true)
+      const sourceFile = createComponentWrapper(
+        project,
+        outputPath,
+        [component],
+        stencilPackageName,
+        customElementsDir,
+        true
       );
+      await sourceFile.save();
+
+      sourceFiles.push(sourceFile);
     }
   } else {
     /**
      * Generate a single entry point for all the components
      */
-    const outputPath = `${outDir}/proxies.ts`;
+    const outputPath = `${outDir}/components.ts`;
 
-    sourceFiles.push(createComponentWrapper(project, outputPath, components, stencilPackageName, customElementsDir));
+    const sourceFile = createComponentWrapper(project, outputPath, components, stencilPackageName, customElementsDir);
+    await sourceFile.save();
+
+    sourceFiles.push(sourceFile);
   }
   return sourceFiles;
 };

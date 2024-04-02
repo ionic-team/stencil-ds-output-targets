@@ -101,9 +101,9 @@ export const reactOutputTarget = ({
         esModules: esModules === true,
       });
 
-      sourceFiles.forEach((sourceFile) => {
-        compilerCtx.fs.writeFile(sourceFile.getFilePath(), sourceFile.getFullText());
-      });
+      await Promise.allSettled(
+        sourceFiles.map((sourceFile) => compilerCtx.fs.writeFile(sourceFile.getFilePath(), sourceFile.getFullText()))
+      );
 
       timespan.finish(`generate ${PLUGIN_NAME} finished`);
     },
