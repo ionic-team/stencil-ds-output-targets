@@ -32,7 +32,9 @@ export const createComponentWrappers = async ({
       const tagName = component.tagName;
       const outputPath = `${outDir}/${tagName}.ts`;
 
-      sourceFiles.push(createComponentWrapper(project, outputPath, [component], stencilPackageName, customElementsDir));
+      sourceFiles.push(
+        createComponentWrapper(project, outputPath, [component], stencilPackageName, customElementsDir, true)
+      );
     }
   } else {
     /**
@@ -50,13 +52,14 @@ const createComponentWrapper = (
   outputPath: string,
   components: ComponentCompilerMeta[],
   stencilPackageName: string,
-  customElementsDir: string
+  customElementsDir: string,
+  defaultExport = false
 ) => {
   const sourceFile = project.createSourceFile(
     outputPath,
-    `import type {EventName} from '@lit/react';
+    `import type { EventName } from './react-component-lib';
+import { createComponent as createComponentWrapper, Options } from './react-component-lib';
 import React from 'react';
-import { createComponent as createComponentWrapper, Options } from '@lit/react';
 
 const createComponent = <T extends HTMLElement, E extends Record<string, EventName | string>>({ defineCustomElement, ...options }: Options<T, E> & { defineCustomElement: () => void }) => {
 if (typeof defineCustomElement !== 'undefined') {
@@ -150,7 +153,14 @@ return createComponentWrapper<T, E>(options);
       ],
     });
 
-    statement.setIsExported(true);
+    if (defaultExport) {
+      sourceFile.addExportAssignment({
+        isExportEquals: false,
+        expression: reactTagName,
+      });
+    } else {
+      statement.setIsExported(true);
+    }
   }
 
   sourceFile.organizeImports();

@@ -1,4 +1,11 @@
-import type { BuildCtx, OutputTargetCustom, OutputTargetDistCustomElements } from '@stencil/core/internal';
+import type {
+  BuildCtx,
+  Config,
+  CopyResults,
+  OutputTargetCustom,
+  OutputTargetDistCustomElements,
+} from '@stencil/core/internal';
+import path from 'path';
 
 import { createComponentWrappers } from './create-component-wrappers';
 
@@ -79,10 +86,12 @@ export const reactOutputTarget = ({
         }
       }
     },
-    async generator(_config, compilerCtx, buildCtx: BuildCtx) {
+    async generator(config, compilerCtx, buildCtx: BuildCtx) {
       const timespan = buildCtx.createTimeSpan(`generate ${PLUGIN_NAME} started`, true);
 
       const components = buildCtx.components;
+
+      await copyProjectResources(config, outDir);
 
       const sourceFiles = await createComponentWrappers({
         outDir,
@@ -100,3 +109,31 @@ export const reactOutputTarget = ({
     },
   };
 };
+
+/**
+ * Copies the shared resources to the output directory used by the
+ * React component wrappers. These files are copied directly into
+ * the developer's project.
+ * @param config The Stencil configuration object
+ * @param outDir The output directory where the resources will be copied
+ */
+async function copyProjectResources(config: Config, outDir: string): Promise<CopyResults> {
+  if (!config.sys || !config.sys.copy || !config.sys.glob) {
+    throw new Error('Stencil is not properly initialized.');
+  }
+
+  const src = path.join(__dirname, '..', 'react-component-lib');
+  const dest = path.join(path.dirname(outDir), 'react-component-lib');
+
+  return config.sys.copy(
+    [
+      {
+        src,
+        dest,
+        keepDirStructure: false,
+        warn: false,
+      },
+    ],
+    src
+  );
+}
