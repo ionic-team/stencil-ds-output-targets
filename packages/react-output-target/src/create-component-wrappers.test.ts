@@ -29,8 +29,8 @@ describe('createComponentWrappers', () => {
     expect(sourceFile.getFullText()).toEqual(dedent`
 import { defineCustomElement as defineMyComponent, MyComponent as MyComponentElement } from "my-package/dist/custom-elements/my-component.js";
 import React from 'react';
-import type { EventName } from './react-component-lib';
-import { createComponent as createComponentWrapper, Options } from './react-component-lib';
+import type { EventName } from '../react-component-lib';
+import { createComponent as createComponentWrapper, Options } from '../react-component-lib';
 
 const createComponent = <T extends HTMLElement, E extends Record<string, EventName | string>>({ defineCustomElement, ...options }: Options<T, E> & { defineCustomElement: () => void }) => {
     if (typeof defineCustomElement !== 'undefined') {
@@ -78,8 +78,8 @@ export const MyComponent = createComponent<MyComponentElement, MyComponentEvents
     expect(sourceFile.getFullText()).toEqual(dedent`
 import { defineCustomElement as defineMyComponent, MyComponent as MyComponentElement } from "my-package/dist/custom-elements/my-component.js";
 import React from 'react';
-import type { EventName } from './react-component-lib';
-import { createComponent as createComponentWrapper, Options } from './react-component-lib';
+import type { EventName } from '../react-component-lib';
+import { createComponent as createComponentWrapper, Options } from '../react-component-lib';
 
 const createComponent = <T extends HTMLElement, E extends Record<string, EventName | string>>({ defineCustomElement, ...options }: Options<T, E> & { defineCustomElement: () => void }) => {
     if (typeof defineCustomElement !== 'undefined') {

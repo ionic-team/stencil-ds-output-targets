@@ -68,8 +68,8 @@ const createComponentWrapper = (
 ) => {
   const sourceFile = project.createSourceFile(
     outputPath,
-    `import type { EventName } from './react-component-lib';
-import { createComponent as createComponentWrapper, Options } from './react-component-lib';
+    `import type { EventName } from '../react-component-lib';
+import { createComponent as createComponentWrapper, Options } from '../react-component-lib';
 import React from 'react';
 
 const createComponent = <T extends HTMLElement, E extends Record<string, EventName | string>>({ defineCustomElement, ...options }: Options<T, E> & { defineCustomElement: () => void }) => {
@@ -77,7 +77,7 @@ if (typeof defineCustomElement !== 'undefined') {
 defineCustomElement();
 }
 return createComponentWrapper<T, E>(options);
-};`
+};`, { overwrite: true }
   );
 
   for (const component of components) {
@@ -106,17 +106,21 @@ return createComponentWrapper<T, E>(options);
 
     for (const event of publicEvents) {
       const hasComplexType = Object.keys(event.complexType.references).includes(event.complexType.resolved);
-
       if (hasComplexType) {
-        sourceFile.addImportDeclaration({
-          moduleSpecifier: stencilPackageName,
-          namedImports: [
-            {
-              name: event.complexType.resolved,
-              isTypeOnly: true,
-            },
-          ],
-        });
+        const isGlobalType = event.complexType.references[event.complexType.resolved].location === 'global';
+
+        if (!isGlobalType) {
+          sourceFile.addImportDeclaration({
+            moduleSpecifier: stencilPackageName,
+            namedImports: [
+              {
+                name: event.complexType.resolved,
+                isTypeOnly: true,
+              },
+            ],
+          });
+        }
+
         sourceFile.addImportDeclaration({
           moduleSpecifier: stencilPackageName,
           namedImports: [
@@ -139,6 +143,7 @@ return createComponentWrapper<T, E>(options);
           type: `EventName<CustomEvent<${event.complexType.resolved}>>`,
         });
       }
+
     }
 
     const componentEventNamesType = `${reactTagName}Events`;
