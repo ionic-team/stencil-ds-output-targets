@@ -14,21 +14,47 @@ export const createComponentWrappers = async ({
   outDir,
   customElementsDir,
   esModules,
+  experimentalUseClient,
+  excludeComponents,
+  project
 }: {
   stencilPackageName: string;
   components: ComponentCompilerMeta[];
   customElementsDir: string;
   outDir: string;
   esModules?: boolean;
+  experimentalUseClient?: boolean;
+  excludeComponents?: string[];
+  project: Project
 }) => {
-  const project = new Project();
   const sourceFiles: SourceFile[] = [];
+
+  const filteredComponents = components.filter((c) => {
+    if (c.internal === true) {
+      /**
+       * Skip internal components
+       */
+      return false;
+    }
+    if (excludeComponents?.includes(c.tagName)) {
+      /**
+       * Skip excluded components
+       */
+      return false;
+    }
+
+    return true;
+  });
+
+  if (filteredComponents.length === 0) {
+    return [];
+  }
 
   if (esModules === true) {
     /**
      * Generate an entry point for each individual component
      */
-    for (const component of components) {
+    for (const component of filteredComponents) {
       const tagName = component.tagName;
       const outputPath = `${outDir}/${tagName}.ts`;
 
@@ -38,7 +64,8 @@ export const createComponentWrappers = async ({
         [component],
         stencilPackageName,
         customElementsDir,
-        true
+        true,
+        experimentalUseClient
       );
       await sourceFile.save();
 
@@ -50,7 +77,7 @@ export const createComponentWrappers = async ({
      */
     const outputPath = `${outDir}/components.ts`;
 
-    const sourceFile = createComponentWrapper(project, outputPath, components, stencilPackageName, customElementsDir);
+    const sourceFile = createComponentWrapper(project, outputPath, filteredComponents, stencilPackageName, customElementsDir, false, experimentalUseClient);
     await sourceFile.save();
 
     sourceFiles.push(sourceFile);
@@ -64,12 +91,13 @@ const createComponentWrapper = (
   components: ComponentCompilerMeta[],
   stencilPackageName: string,
   customElementsDir: string,
-  defaultExport = false
+  defaultExport = false,
+  useClient = false
 ) => {
   const sourceFile = project.createSourceFile(
     outputPath,
-    `import type { EventName } from '../react-component-lib';
-import { createComponent as createComponentWrapper, Options } from '../react-component-lib';
+    `${useClient ? `'use client';\n\n` : ''}import type { EventName, Options } from '../react-component-lib';
+import { createComponent as createComponentWrapper } from '../react-component-lib';
 import React from 'react';
 
 const createComponent = <T extends HTMLElement, E extends Record<string, EventName | string>>({ defineCustomElement, ...options }: Options<T, E> & { defineCustomElement: () => void }) => {
@@ -105,22 +133,34 @@ return createComponentWrapper<T, E>(options);
     const events: ReactEvent[] = [];
 
     for (const event of publicEvents) {
-      const hasComplexType = Object.keys(event.complexType.references).includes(event.complexType.resolved);
-      if (hasComplexType) {
-        const isGlobalType = event.complexType.references[event.complexType.resolved].location === 'global';
+      const hasComplexType = Object.keys(event.complexType.references).includes(event.complexType.original);
 
+      if (hasComplexType) {
+        const isGlobalType = event.complexType.references[event.complexType.original].location === 'global';
+        /**
+         * Global type references should not have an explicit import.
+         * The type should be available globally.
+         */
         if (!isGlobalType) {
           sourceFile.addImportDeclaration({
             moduleSpecifier: stencilPackageName,
             namedImports: [
               {
-                name: event.complexType.resolved,
+                name: event.complexType.original,
                 isTypeOnly: true,
               },
             ],
           });
         }
 
+        /**
+         * Import the CustomEvent type for the web component from the Stencil package.
+         *
+         * For example:
+         * ```
+         * import type { ComponentCustomEvent } from 'my-component-library';
+         * ```
+         */
         sourceFile.addImportDeclaration({
           moduleSpecifier: stencilPackageName,
           namedImports: [
@@ -143,7 +183,6 @@ return createComponentWrapper<T, E>(options);
           type: `EventName<CustomEvent<${event.complexType.resolved}>>`,
         });
       }
-
     }
 
     const componentEventNamesType = `${reactTagName}Events`;

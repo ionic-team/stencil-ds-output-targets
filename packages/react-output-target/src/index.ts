@@ -8,12 +8,18 @@ import type {
 import path from 'path';
 
 import { createComponentWrappers } from './create-component-wrappers';
+import { Project } from 'ts-morph';
+
 
 export interface ReactOutputTargetOptions {
   /**
    * Specify the output directory or path where the generated React components will be saved.
    */
   outDir: string;
+  /**
+   * Specify the components that should be excluded from the React output target.
+   */
+  excludeComponents?: string[];
   /**
    * The package name of the Stencil project.
    *
@@ -26,6 +32,10 @@ export interface ReactOutputTargetOptions {
    * @default false
    */
   esModules?: boolean;
+  /**
+   * Enable this option to add the `use client;` directive to the generated React components.
+   */
+  experimentalUseClient?: boolean;
 }
 
 const PLUGIN_NAME = 'react-output-target';
@@ -42,6 +52,8 @@ export const reactOutputTarget = ({
   outDir,
   esModules,
   stencilPackageName,
+  experimentalUseClient,
+  excludeComponents
 }: ReactOutputTargetOptions): OutputTargetCustom => {
   let customElementsDir = DIST_CUSTOM_ELEMENTS_DEFAULT_DIR;
   return {
@@ -93,15 +105,20 @@ export const reactOutputTarget = ({
 
       await copyProjectResources(config, outDir);
 
+      const project = new Project();
+
       const sourceFiles = await createComponentWrappers({
         outDir,
         components,
         stencilPackageName: stencilPackageName!,
         customElementsDir,
         esModules: esModules === true,
+        experimentalUseClient: experimentalUseClient === true,
+        excludeComponents,
+        project
       });
 
-      await Promise.allSettled(
+      await Promise.all(
         sourceFiles.map((sourceFile) => compilerCtx.fs.writeFile(sourceFile.getFilePath(), sourceFile.getFullText()))
       );
 

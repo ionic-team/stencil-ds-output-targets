@@ -38,8 +38,10 @@ export const config: Config = {
 
 ## Config Options
 
-| Property             | Description                                                                                                                 |
-| -------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `outDir`             | The directory where the React components will be generated.                                                                 |
-| `esModule`           | If `true`, the output target will generate ES module files for each React component wrapper. Defaults to `false`.           |
-| `stencilPackageName` | The name of the package that exports the Stencil components. Defaults to the package.json detected by the Stencil compiler. |
+| Property                | Description                                                                                                                      |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `outDir`                | The directory where the React components will be generated.                                                                      |
+| `esModule`              | If `true`, the output target will generate ES module files for each React component wrapper. Defaults to `false`.                |
+| `stencilPackageName`    | The name of the package that exports the Stencil components. Defaults to the package.json detected by the Stencil compiler.      |
+| `excludeComponents`     | An array of component tag names to exclude from the React output target.                                                         |
+| `experimentalUseClient` | If `true`, the generated output target will include the [`use client;`](https://react.dev/reference/react/use-client) directive. |
