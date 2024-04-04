@@ -96,16 +96,10 @@ const createComponentWrapper = (
 ) => {
   const sourceFile = project.createSourceFile(
     outputPath,
-    `${useClient ? `'use client';\n\n` : ''}import type { EventName, Options } from '../react-component-lib';
-import { createComponent as createComponentWrapper } from '../react-component-lib';
-import React from 'react';
-
-const createComponent = <T extends HTMLElement, E extends Record<string, EventName | string>>({ defineCustomElement, ...options }: Options<T, E> & { defineCustomElement: () => void }) => {
-if (typeof defineCustomElement !== 'undefined') {
-defineCustomElement();
-}
-return createComponentWrapper<T, E>(options);
-};`, { overwrite: true }
+    `${useClient ? `'use client';\n\n` : ''}import React from 'react';
+import { createComponent } from '@stencil-labs/react';
+import type { EventName } from '@stencil-labs/react';
+`, { overwrite: true }
   );
 
   for (const component of components) {

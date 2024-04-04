@@ -29,17 +29,9 @@ describe('createComponentWrappers', () => {
     const sourceFile = sourceFiles[0];
 
     expect(sourceFile.getFullText()).toEqual(dedent`
+import { createComponent } from '@stencil-labs/react';
 import { MyComponent as MyComponentElement, defineCustomElement as defineMyComponent } from "my-package/dist/custom-elements/my-component.js";
 import React from 'react';
-import type { EventName, Options } from '../react-component-lib';
-import { createComponent as createComponentWrapper } from '../react-component-lib';
-
-const createComponent = <T extends HTMLElement, E extends Record<string, EventName | string>>({ defineCustomElement, ...options }: Options<T, E> & { defineCustomElement: () => void }) => {
-    if (typeof defineCustomElement !== 'undefined') {
-        defineCustomElement();
-    }
-    return createComponentWrapper<T, E>(options);
-};
 
 type MyComponentEvents = NonNullable<unknown>;
 
@@ -80,17 +72,9 @@ export const MyComponent = createComponent<MyComponentElement, MyComponentEvents
     const sourceFile = sourceFiles[0];
 
     expect(sourceFile.getFullText()).toEqual(dedent`
+import { createComponent } from '@stencil-labs/react';
 import { MyComponent as MyComponentElement, defineCustomElement as defineMyComponent } from "my-package/dist/custom-elements/my-component.js";
 import React from 'react';
-import type { EventName, Options } from '../react-component-lib';
-import { createComponent as createComponentWrapper } from '../react-component-lib';
-
-const createComponent = <T extends HTMLElement, E extends Record<string, EventName | string>>({ defineCustomElement, ...options }: Options<T, E> & { defineCustomElement: () => void }) => {
-    if (typeof defineCustomElement !== 'undefined') {
-        defineCustomElement();
-    }
-    return createComponentWrapper<T, E>(options);
-};
 
 type MyComponentEvents = NonNullable<unknown>;
 
@@ -136,17 +120,9 @@ export default MyComponent;
     expect(sourceFile.getFullText()).toEqual(dedent`
 'use client';
 
+import { createComponent } from '@stencil-labs/react';
 import { MyComponent as MyComponentElement, defineCustomElement as defineMyComponent } from "my-package/dist/custom-elements/my-component.js";
 import React from 'react';
-import type { EventName, Options } from '../react-component-lib';
-import { createComponent as createComponentWrapper } from '../react-component-lib';
-
-const createComponent = <T extends HTMLElement, E extends Record<string, EventName | string>>({ defineCustomElement, ...options }: Options<T, E> & { defineCustomElement: () => void }) => {
-    if (typeof defineCustomElement !== 'undefined') {
-        defineCustomElement();
-    }
-    return createComponentWrapper<T, E>(options);
-};
 
 type MyComponentEvents = NonNullable<unknown>;
 

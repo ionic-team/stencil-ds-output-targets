@@ -1,3 +1,5 @@
+import type { EventName } from '@stencil-labs/react';
+import { createComponent } from '@stencil-labs/react';
 import { type CheckboxChangeEventDetail, type InputChangeEventDetail, type MyCheckboxCustomEvent, type MyInputCustomEvent, type MyPopoverCustomEvent, type MyRadioGroupCustomEvent, type MyRangeCustomEvent, type OverlayEventDetail, type RadioGroupChangeEventDetail, type RangeChangeEventDetail } from "component-library";
 import { MyButton as MyButtonElement, defineCustomElement as defineMyButton } from "component-library/components/my-button.js";
 import { MyCheckbox as MyCheckboxElement, defineCustomElement as defineMyCheckbox } from "component-library/components/my-checkbox.js";
@@ -8,15 +10,6 @@ import { MyRadioGroup as MyRadioGroupElement, defineCustomElement as defineMyRad
 import { MyRadio as MyRadioElement, defineCustomElement as defineMyRadio } from "component-library/components/my-radio.js";
 import { MyRange as MyRangeElement, defineCustomElement as defineMyRange } from "component-library/components/my-range.js";
 import React from 'react';
-import type { EventName, Options } from '../react-component-lib';
-import { createComponent as createComponentWrapper } from '../react-component-lib';
-
-const createComponent = <T extends HTMLElement, E extends Record<string, EventName | string>>({ defineCustomElement, ...options }: Options<T, E> & { defineCustomElement: () => void }) => {
-    if (typeof defineCustomElement !== 'undefined') {
-        defineCustomElement();
-    }
-    return createComponentWrapper<T, E>(options);
-};
 
 type MyButtonEvents = {
     onMyFocus: EventName<CustomEvent<void>>,

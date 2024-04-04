@@ -36,6 +36,7 @@
   },
   "peerDependencies": {
     "@stencil/core": ">=3 || >= 4.0.0-beta.0 || >= 4.0.0",
+    "@stencil-labs/react": ">=0.0.1",
     "@types/react": "17 || 18"
   },
   "devDependencies": {

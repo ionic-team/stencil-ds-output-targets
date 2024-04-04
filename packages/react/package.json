@@ -1,0 +1,35 @@
+{
+  "name": "@stencil-labs/react",
+  "version": "0.0.1",
+  "description": "React bindings for Stencil",
+  "main": "./dist/stencil-labs-react.umd.js",
+  "module": "./dist/stencil-labs-react.es.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "vite build && vue-tsc --emitDeclarationOnly",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@lit/react": "^1.0.4"
+  },
+  "devDependencies": {
+    "react": "^18.2.0",
+    "vite": "^5.0.0",
+    "vitest": "^1.4.0",
+    "vue-tsc": "^2.0.7"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/stencil-labs-react.es.js",
+      "require": "./dist/stencil-labs-react.umd.js"
+    }
+  }
+}

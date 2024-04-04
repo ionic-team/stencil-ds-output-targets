@@ -6,19 +6,17 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'StencilReactOutputTarget',
-      fileName: (format) => `stencil-react-output-target.${format}.js`,
+      name: 'StencilLabsReact',
+      fileName: (format) => `stencil-labs-react.${format}.js`,
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: ['@stencil/core', 'typescript', 'ts-morph'],
+      external: [],
       output: {
         // Provide global variables to use in the UMD build
         // for externalized deps
-        globals: {
-          'ts-morph': 'tsMorph',
-        },
+        globals: {},
       },
     },
   },

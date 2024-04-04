@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "react-dom": "^18.2.0",
-    "component-library": "^0.0.4"
+    "component-library": "^0.0.4",
+    "@stencil-labs/react": "^0.0.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.2",
