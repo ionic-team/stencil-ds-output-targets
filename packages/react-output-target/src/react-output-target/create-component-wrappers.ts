@@ -1,5 +1,5 @@
 import type { ComponentCompilerMeta } from '@stencil/core/internal';
-import { Project, SourceFile, } from 'ts-morph';
+import { Project, SourceFile } from 'ts-morph';
 import { createStencilReactComponents } from './create-stencil-react-components';
 import { kebabToPascalCase } from './utils/string-utils';
 
@@ -11,7 +11,7 @@ export const createComponentWrappers = async ({
   esModules,
   experimentalUseClient,
   excludeComponents,
-  project
+  project,
 }: {
   stencilPackageName: string;
   components: ComponentCompilerMeta[];
@@ -20,7 +20,7 @@ export const createComponentWrappers = async ({
   esModules?: boolean;
   experimentalUseClient?: boolean;
   excludeComponents?: string[];
-  project: Project
+  project: Project;
 }) => {
   const sourceFiles: SourceFile[] = [];
 
@@ -58,7 +58,7 @@ export const createComponentWrappers = async ({
         stencilPackageName,
         customElementsDir,
         defaultExport: true,
-        useClient: experimentalUseClient
+        useClient: experimentalUseClient,
       });
 
       const sourceFile = project.createSourceFile(outputPath, stencilReactComponent, { overwrite: true });
@@ -76,7 +76,7 @@ export const createComponentWrappers = async ({
       stencilPackageName,
       customElementsDir,
       defaultExport: false,
-      useClient: experimentalUseClient
+      useClient: experimentalUseClient,
     });
 
     const sourceFile = project.createSourceFile(outputPath, stencilReactComponents, { overwrite: true });

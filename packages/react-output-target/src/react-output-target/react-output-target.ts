@@ -1,8 +1,4 @@
-import type {
-  BuildCtx,
-  OutputTargetCustom,
-  OutputTargetDistCustomElements,
-} from '@stencil/core/internal';
+import type { BuildCtx, OutputTargetCustom, OutputTargetDistCustomElements } from '@stencil/core/internal';
 import { Project } from 'ts-morph';
 import { createComponentWrappers } from './create-component-wrappers';
 
@@ -49,7 +45,7 @@ export const reactOutputTarget = ({
   esModules,
   stencilPackageName,
   experimentalUseClient,
-  excludeComponents
+  excludeComponents,
 }: ReactOutputTargetOptions): OutputTargetCustom => {
   let customElementsDir = DIST_CUSTOM_ELEMENTS_DEFAULT_DIR;
   return {
@@ -109,7 +105,7 @@ export const reactOutputTarget = ({
         esModules: esModules === true,
         experimentalUseClient: experimentalUseClient === true,
         excludeComponents,
-        project
+        project,
       });
 
       await Promise.all(

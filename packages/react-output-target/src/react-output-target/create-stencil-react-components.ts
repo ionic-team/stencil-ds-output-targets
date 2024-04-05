@@ -1,6 +1,6 @@
-import type { ComponentCompilerMeta } from "@stencil/core/internal";
-import { Project, VariableDeclarationKind } from "ts-morph";
-import { eventListenerName, kebabToPascalCase } from "./utils/string-utils";
+import type { ComponentCompilerMeta } from '@stencil/core/internal';
+import { Project, VariableDeclarationKind } from 'ts-morph';
+import { eventListenerName, kebabToPascalCase } from './utils/string-utils';
 
 interface ReactEvent {
   originalName: string;
@@ -13,7 +13,7 @@ export const createStencilReactComponents = ({
   stencilPackageName,
   customElementsDir,
   defaultExport = false,
-  useClient = false
+  useClient = false,
 }: {
   components: ComponentCompilerMeta[];
   stencilPackageName: string;
@@ -38,7 +38,8 @@ export const createStencilReactComponents = ({
 import React from 'react';
 import { createComponent } from '@stencil/react-output-target/runtime';
 import type { EventName } from '@stencil/react-output-target/runtime';
-  `);
+  `
+  );
 
   for (const component of components) {
     const tagName = component.tagName;
@@ -155,4 +156,4 @@ import type { EventName } from '@stencil/react-output-target/runtime';
   sourceFile.formatText();
 
   return sourceFile.getFullText();
-}
+};

@@ -8,7 +8,10 @@ type EventNames = Record<string, EventName | string>;
  * Defines a custom element and creates a React component.
  * @public
  */
-export const createComponent = <I extends HTMLElement, E extends EventNames = {}>({ defineCustomElement, ...options }: Options<I, E> & { defineCustomElement: () => void }) => {
+export const createComponent = <I extends HTMLElement, E extends EventNames = {}>({
+  defineCustomElement,
+  ...options
+}: Options<I, E> & { defineCustomElement: () => void }) => {
   if (typeof defineCustomElement !== 'undefined') {
     defineCustomElement();
   }

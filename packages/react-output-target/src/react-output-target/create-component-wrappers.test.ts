@@ -23,7 +23,7 @@ describe('createComponentWrappers', () => {
       stencilPackageName: 'my-package',
       customElementsDir: 'dist/custom-elements',
       outDir: 'dist/my-output-path',
-      project
+      project,
     });
 
     const sourceFile = sourceFiles[0];
@@ -73,7 +73,7 @@ export const MyComponent = createComponent<MyComponentElement, MyComponentEvents
       customElementsDir: 'dist/custom-elements',
       outDir: 'dist/my-output-path',
       esModules: true,
-      project
+      project,
     });
 
     const sourceFile = sourceFiles[0];
@@ -126,7 +126,7 @@ export default MyComponent;
       outDir: 'dist/my-output-path',
       esModules: false,
       experimentalUseClient: true,
-      project
+      project,
     });
 
     const sourceFile = sourceFiles[0];
@@ -156,7 +156,6 @@ export const MyComponent = createComponent<MyComponentElement, MyComponentEvents
 });
 
     `);
-
   });
 
   it('should not generate component wrappers for internal components', async () => {
@@ -172,7 +171,7 @@ export const MyComponent = createComponent<MyComponentElement, MyComponentEvents
       customElementsDir: 'dist/custom-elements',
       outDir: 'dist/my-output-path',
       esModules: false,
-      project
+      project,
     });
 
     expect(sourceFiles).toEqual([]);
@@ -199,11 +198,9 @@ export const MyComponent = createComponent<MyComponentElement, MyComponentEvents
       outDir: 'dist/my-output-path',
       esModules: false,
       excludeComponents: ['my-component'],
-      project
+      project,
     });
 
     expect(sourceFiles).toEqual([]);
   });
-
 });
-
