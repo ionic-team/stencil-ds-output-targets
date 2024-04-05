@@ -1,2 +1,2 @@
+export type { EventName, Options } from '@lit/react';
 export { createComponent } from './create-component';
-export type { EventName } from '@lit/react';

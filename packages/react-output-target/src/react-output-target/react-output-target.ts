@@ -3,10 +3,8 @@ import type {
   OutputTargetCustom,
   OutputTargetDistCustomElements,
 } from '@stencil/core/internal';
-
-import { createComponentWrappers } from './create-component-wrappers';
 import { Project } from 'ts-morph';
-
+import { createComponentWrappers } from './create-component-wrappers';
 
 export interface ReactOutputTargetOptions {
   /**
@@ -42,6 +40,7 @@ const DIST_CUSTOM_ELEMENTS = 'dist-custom-elements';
 
 /**
  * Creates an output target for binding Stencil components to be used in a React context
+ * @public
  * @param outputTarget the user-defined output target defined in a Stencil configuration file
  * @returns an output target that can be used by the Stencil compiler
  */
@@ -121,4 +120,3 @@ export const reactOutputTarget = ({
     },
   };
 };
-

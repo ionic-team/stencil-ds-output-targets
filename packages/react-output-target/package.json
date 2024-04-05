@@ -2,21 +2,19 @@
   "name": "@stencil/react-output-target",
   "version": "0.5.3",
   "description": "React output target for @stencil/core components.",
-  "main": "./dist/stencil-react-output-target.umd.js",
-  "module": "./dist/stencil-react-output-target.es.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/react-output-target.js",
+  "module": "./dist/react-output-target.js",
+  "types": "./dist/react-output-target.d.ts",
+  "type": "module",
   "files": [
-    "dist/",
-    "react-component-lib/"
+    "dist/"
   ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
     "prepublishOnly": "npm run build",
-    "prebuild": "rimraf ./dist",
-    "build": "vite build && vue-tsc --emitDeclarationOnly",
-    "watch": "tsc --watch",
+    "build": "tsup",
     "version": "npm run build",
     "prettier": "prettier \"./src/**/*.{html,ts,tsx,js,jsx}\" --write",
     "release": "np",
@@ -35,30 +33,38 @@
     "url": "https://github.com/ionic-team/stencil-ds-output-targets/issues"
   },
   "peerDependencies": {
-    "@stencil/core": ">=3 || >= 4.0.0-beta.0 || >= 4.0.0",
-    "@stencil-labs/react": ">=0.0.1",
-    "@types/react": "17 || 18"
+    "@stencil/core": ">=3 || >= 4.0.0-beta.0 || >= 4.0.0"
   },
   "devDependencies": {
-    "@types/react-dom": "^18.2.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "ts-dedent": "^2.2.0",
+    "tsup": "^8.0.2",
     "vite": "^5.0.0",
-    "vitest": "^1.4.0",
-    "vue-tsc": "^2.0.7"
+    "vite-plugin-dts": "^3.8.1",
+    "vitest": "^1.4.0"
   },
   "gitHead": "a3588e905186a0e86e7f88418fd5b2f9531b55e0",
   "volta": {
     "extends": "../../package.json"
   },
   "dependencies": {
+    "@lit/react": "^1.0.4",
     "ts-morph": "^22.0.0"
   },
   "exports": {
     ".": {
-      "import": "./dist/stencil-react-output-target.es.js",
-      "require": "./dist/stencil-react-output-target.umd.js"
+      "types": "./dist/react-output-target.d.ts",
+      "node": {
+        "default": "./dist/react-output-target.cjs"
+      },
+      "default": "./dist/react-output-target.js"
+    },
+    "./runtime": {
+      "types": "./dist/react.d.ts",
+      "browser": {
+        "default": "./dist/react.js"
+      },
+      "default": "./dist/react.js"
     }
   }
 }
