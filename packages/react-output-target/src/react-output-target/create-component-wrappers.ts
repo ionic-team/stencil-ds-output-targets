@@ -1,6 +1,7 @@
 import type { ComponentCompilerMeta } from '@stencil/core/internal';
 import { Project, SourceFile, } from 'ts-morph';
 import { createStencilReactComponents } from './create-stencil-react-components';
+import { kebabToPascalCase } from './utils/string-utils';
 
 export const createComponentWrappers = async ({
   stencilPackageName,
@@ -49,11 +50,11 @@ export const createComponentWrappers = async ({
      * Generate an entry point for each individual component
      */
     for (const component of filteredComponents) {
-      const tagName = component.tagName;
-      const outputPath = `${outDir}/${tagName}.ts`;
+      const fileName = kebabToPascalCase(component.tagName);
+      const outputPath = `${outDir}/${fileName}.ts`;
 
       const stencilReactComponent = createStencilReactComponents({
-        components: filteredComponents,
+        components: [component],
         stencilPackageName,
         customElementsDir,
         defaultExport: true,
