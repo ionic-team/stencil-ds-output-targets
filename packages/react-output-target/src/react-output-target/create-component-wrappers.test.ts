@@ -45,7 +45,7 @@ type MyComponentEvents = NonNullable<unknown>;
 export const MyComponent = createComponent<MyComponentElement, MyComponentEvents>({
     tagName: 'my-component',
     elementClass: MyComponentElement,
-    react: React as never,
+    react: React,
     events: {} as MyComponentEvents,
     defineCustomElement: defineMyComponent
 });
@@ -95,7 +95,7 @@ type MyComponentEvents = NonNullable<unknown>;
 const MyComponent = createComponent<MyComponentElement, MyComponentEvents>({
     tagName: 'my-component',
     elementClass: MyComponentElement,
-    react: React as never,
+    react: React,
     events: {} as MyComponentEvents,
     defineCustomElement: defineMyComponent
 });
@@ -150,7 +150,7 @@ type MyComponentEvents = NonNullable<unknown>;
 export const MyComponent = createComponent<MyComponentElement, MyComponentEvents>({
     tagName: 'my-component',
     elementClass: MyComponentElement,
-    react: React as never,
+    react: React,
     events: {} as MyComponentEvents,
     defineCustomElement: defineMyComponent
 });

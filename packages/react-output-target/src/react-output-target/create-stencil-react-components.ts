@@ -133,7 +133,7 @@ import type { EventName } from '@stencil/react-output-target/runtime';
           initializer: `createComponent<${componentElement}, ${componentEventNamesType}>({
           tagName: '${tagName}',
           elementClass: ${componentElement},
-          react: React as never,
+          react: React,
           events: { ${events.map((e) => `${e.name}: '${e.originalName}'`).join(',\n')}} as ${componentEventNamesType},
           defineCustomElement: define${reactTagName}
         })`,
