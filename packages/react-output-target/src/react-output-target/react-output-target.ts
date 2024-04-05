@@ -35,7 +35,7 @@ export interface ReactOutputTargetOptions {
 
 const PLUGIN_NAME = 'react-output-target';
 
-const DIST_CUSTOM_ELEMENTS_DEFAULT_DIR = 'dist/components';
+const DIST_CUSTOM_ELEMENTS_DEFAULT_DIR = 'components';
 const DIST_CUSTOM_ELEMENTS = 'dist-custom-elements';
 
 /**
