@@ -4,6 +4,8 @@
     "outDir": "dist",
     "declaration": true,
     "useDefineForClassFields": true,
+    "emitDeclarationOnly": true,
+    "declarationDir": "dist",
     "module": "ESNext",
     "lib": ["ESNext", "DOM"],
     "moduleResolution": "Node",
@@ -14,7 +16,9 @@
     "esModuleInterop": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    "skipLibCheck": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["**/*.test.ts"]
 }
