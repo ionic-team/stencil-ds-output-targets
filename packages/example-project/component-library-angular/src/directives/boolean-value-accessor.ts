@@ -7,15 +7,15 @@ import { ValueAccessor } from './value-accessor';
   /* tslint:disable-next-line:directive-selector */
   selector: 'my-checkbox',
   host: {
-    '(myChange)': 'handleChangeEvent($event.target.checked)',
+    '(myChange)': 'handleChangeEvent($event.target.checked)'
   },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: BooleanValueAccessor,
-      multi: true,
-    },
-  ],
+      multi: true
+    }
+  ]
 })
 export class BooleanValueAccessor extends ValueAccessor {
   constructor(el: ElementRef) {

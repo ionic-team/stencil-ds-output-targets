@@ -11,14 +11,15 @@
     "wdio": "wdio run ./wdio.conf.ts"
   },
   "dependencies": {
-    "react-dom": "^18.2.0",
-    "component-library": "^0.0.4",
-    "@stencil/react-output-target": "*"
+    "@stencil/react-output-target": "workspace:*",
+    "component-library": "workspace:*",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.2",
     "@testing-library/user-event": "^14.5.2",
+    "@types/jest": "^28.0.0",
     "@types/react": "^18.2.74",
     "@types/react-dom": "^18.2.24",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
@@ -26,14 +27,16 @@
     "@vitejs/plugin-react": "^4.2.1",
     "@wdio/browser-runner": "^8.35.1",
     "@wdio/cli": "^8.35.1",
+    "@wdio/globals": "^8.36.0",
     "@wdio/mocha-framework": "^8.35.0",
     "@wdio/spec-reporter": "^8.32.4",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "jest": "^28.0.0",
     "react": "^18.2.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.2.2",
+    "typescript": "^5.4.5",
     "vite": "^5.2.0",
     "wdio-vite-service": "^1.0.6"
   },

@@ -1,4 +1,4 @@
-import resolve from 'rollup-plugin-node-resolve';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 export default {
   input: 'build/es2015/core.js',
@@ -16,9 +16,5 @@ export default {
     const colonPosition = 1;
     return !(id.startsWith('.') || id.startsWith('/') || id.charAt(colonPosition) === ':');
   },
-  plugins: [
-    resolve({
-      module: true,
-    }),
-  ],
+  plugins: [nodeResolve()],
 };

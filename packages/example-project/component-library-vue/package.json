@@ -28,14 +28,12 @@
     "@types/jest": "^26.0.23",
     "@vue/test-utils": "^2.0.0-rc.6",
     "jest": "^26.1.0",
-    "rimraf": "^4.2.0",
-    "rollup": "^1.21.2",
-    "rollup-plugin-node-resolve": "^5.2.0",
+    "rimraf": "^5.0.0",
     "typescript": "^4.3.2",
     "vue": "^3.1.1"
   },
   "dependencies": {
-    "component-library": "^0.0.4"
+    "component-library": "workspace:*"
   },
   "jest": {
     "preset": "ts-jest",

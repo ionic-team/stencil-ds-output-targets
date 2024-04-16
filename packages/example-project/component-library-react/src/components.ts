@@ -19,131 +19,131 @@ import { MyRange as MyRangeElement, defineCustomElement as defineMyRange } from 
 import React from 'react';
 
 type MyButtonEvents = {
-  onMyFocus: EventName<CustomEvent<void>>,
-  onMyBlur: EventName<CustomEvent<void>>
+    onMyFocus: EventName<CustomEvent<void>>,
+    onMyBlur: EventName<CustomEvent<void>>
 };
 
 export const MyButton = createComponent<MyButtonElement, MyButtonEvents>({
-  tagName: 'my-button',
-  elementClass: MyButtonElement,
-  react: React as never,
-  events: {
-    onMyFocus: 'myFocus',
-    onMyBlur: 'myBlur'
-  } as MyButtonEvents,
-  defineCustomElement: defineMyButton
+    tagName: 'my-button',
+    elementClass: MyButtonElement,
+    react: React,
+    events: {
+        onMyFocus: 'myFocus',
+        onMyBlur: 'myBlur'
+    } as MyButtonEvents,
+    defineCustomElement: defineMyButton
 });
 
 type MyCheckboxEvents = {
-  onMyChange: EventName<MyCheckboxCustomEvent<CheckboxChangeEventDetail>>,
-  onMyFocus: EventName<CustomEvent<void>>,
-  onMyBlur: EventName<CustomEvent<void>>
+    onMyChange: EventName<MyCheckboxCustomEvent<CheckboxChangeEventDetail>>,
+    onMyFocus: EventName<CustomEvent<void>>,
+    onMyBlur: EventName<CustomEvent<void>>
 };
 
 export const MyCheckbox = createComponent<MyCheckboxElement, MyCheckboxEvents>({
-  tagName: 'my-checkbox',
-  elementClass: MyCheckboxElement,
-  react: React as never,
-  events: {
-    onMyChange: 'myChange',
-    onMyFocus: 'myFocus',
-    onMyBlur: 'myBlur'
-  } as MyCheckboxEvents,
-  defineCustomElement: defineMyCheckbox
+    tagName: 'my-checkbox',
+    elementClass: MyCheckboxElement,
+    react: React,
+    events: {
+        onMyChange: 'myChange',
+        onMyFocus: 'myFocus',
+        onMyBlur: 'myBlur'
+    } as MyCheckboxEvents,
+    defineCustomElement: defineMyCheckbox
 });
 
 type MyComponentEvents = { onMyCustomEvent: EventName<CustomEvent<number>> };
 
 export const MyComponent = createComponent<MyComponentElement, MyComponentEvents>({
-  tagName: 'my-component',
-  elementClass: MyComponentElement,
-  react: React as never,
-  events: { onMyCustomEvent: 'myCustomEvent' } as MyComponentEvents,
-  defineCustomElement: defineMyComponent
+    tagName: 'my-component',
+    elementClass: MyComponentElement,
+    react: React,
+    events: { onMyCustomEvent: 'myCustomEvent' } as MyComponentEvents,
+    defineCustomElement: defineMyComponent
 });
 
 type MyInputEvents = {
-  onMyInput: EventName<MyInputCustomEvent<KeyboardEvent>>,
-  onMyChange: EventName<MyInputCustomEvent<InputChangeEventDetail>>,
-  onMyBlur: EventName<CustomEvent<void>>,
-  onMyFocus: EventName<CustomEvent<void>>
+    onMyInput: EventName<MyInputCustomEvent<KeyboardEvent>>,
+    onMyChange: EventName<MyInputCustomEvent<InputChangeEventDetail>>,
+    onMyBlur: EventName<CustomEvent<void>>,
+    onMyFocus: EventName<CustomEvent<void>>
 };
 
 export const MyInput = createComponent<MyInputElement, MyInputEvents>({
-  tagName: 'my-input',
-  elementClass: MyInputElement,
-  react: React as never,
-  events: {
-    onMyInput: 'myInput',
-    onMyChange: 'myChange',
-    onMyBlur: 'myBlur',
-    onMyFocus: 'myFocus'
-  } as MyInputEvents,
-  defineCustomElement: defineMyInput
+    tagName: 'my-input',
+    elementClass: MyInputElement,
+    react: React,
+    events: {
+        onMyInput: 'myInput',
+        onMyChange: 'myChange',
+        onMyBlur: 'myBlur',
+        onMyFocus: 'myFocus'
+    } as MyInputEvents,
+    defineCustomElement: defineMyInput
 });
 
 type MyPopoverEvents = {
-  onMyPopoverDidPresent: EventName<CustomEvent<void>>,
-  onMyPopoverWillPresent: EventName<CustomEvent<void>>,
-  onMyPopoverWillDismiss: EventName<MyPopoverCustomEvent<OverlayEventDetail<any>>>,
-  onMyPopoverDidDismiss: EventName<MyPopoverCustomEvent<OverlayEventDetail<any>>>
+    onMyPopoverDidPresent: EventName<CustomEvent<void>>,
+    onMyPopoverWillPresent: EventName<CustomEvent<void>>,
+    onMyPopoverWillDismiss: EventName<MyPopoverCustomEvent<OverlayEventDetail<any>>>,
+    onMyPopoverDidDismiss: EventName<MyPopoverCustomEvent<OverlayEventDetail<any>>>
 };
 
 export const MyPopover = createComponent<MyPopoverElement, MyPopoverEvents>({
-  tagName: 'my-popover',
-  elementClass: MyPopoverElement,
-  react: React as never,
-  events: {
-    onMyPopoverDidPresent: 'myPopoverDidPresent',
-    onMyPopoverWillPresent: 'myPopoverWillPresent',
-    onMyPopoverWillDismiss: 'myPopoverWillDismiss',
-    onMyPopoverDidDismiss: 'myPopoverDidDismiss'
-  } as MyPopoverEvents,
-  defineCustomElement: defineMyPopover
+    tagName: 'my-popover',
+    elementClass: MyPopoverElement,
+    react: React,
+    events: {
+        onMyPopoverDidPresent: 'myPopoverDidPresent',
+        onMyPopoverWillPresent: 'myPopoverWillPresent',
+        onMyPopoverWillDismiss: 'myPopoverWillDismiss',
+        onMyPopoverDidDismiss: 'myPopoverDidDismiss'
+    } as MyPopoverEvents,
+    defineCustomElement: defineMyPopover
 });
 
 type MyRadioEvents = {
-  onMyFocus: EventName<CustomEvent<void>>,
-  onMyBlur: EventName<CustomEvent<void>>,
-  onMySelect: EventName<CustomEvent<void>>
+    onMyFocus: EventName<CustomEvent<void>>,
+    onMyBlur: EventName<CustomEvent<void>>,
+    onMySelect: EventName<CustomEvent<void>>
 };
 
 export const MyRadio = createComponent<MyRadioElement, MyRadioEvents>({
-  tagName: 'my-radio',
-  elementClass: MyRadioElement,
-  react: React as never,
-  events: {
-    onMyFocus: 'myFocus',
-    onMyBlur: 'myBlur',
-    onMySelect: 'mySelect'
-  } as MyRadioEvents,
-  defineCustomElement: defineMyRadio
+    tagName: 'my-radio',
+    elementClass: MyRadioElement,
+    react: React,
+    events: {
+        onMyFocus: 'myFocus',
+        onMyBlur: 'myBlur',
+        onMySelect: 'mySelect'
+    } as MyRadioEvents,
+    defineCustomElement: defineMyRadio
 });
 
 type MyRadioGroupEvents = { onMyChange: EventName<MyRadioGroupCustomEvent<RadioGroupChangeEventDetail>> };
 
 export const MyRadioGroup = createComponent<MyRadioGroupElement, MyRadioGroupEvents>({
-  tagName: 'my-radio-group',
-  elementClass: MyRadioGroupElement,
-  react: React as never,
-  events: { onMyChange: 'myChange' } as MyRadioGroupEvents,
-  defineCustomElement: defineMyRadioGroup
+    tagName: 'my-radio-group',
+    elementClass: MyRadioGroupElement,
+    react: React,
+    events: { onMyChange: 'myChange' } as MyRadioGroupEvents,
+    defineCustomElement: defineMyRadioGroup
 });
 
 type MyRangeEvents = {
-  onMyChange: EventName<MyRangeCustomEvent<RangeChangeEventDetail>>,
-  onMyFocus: EventName<CustomEvent<void>>,
-  onMyBlur: EventName<CustomEvent<void>>
+    onMyChange: EventName<MyRangeCustomEvent<RangeChangeEventDetail>>,
+    onMyFocus: EventName<CustomEvent<void>>,
+    onMyBlur: EventName<CustomEvent<void>>
 };
 
 export const MyRange = createComponent<MyRangeElement, MyRangeEvents>({
-  tagName: 'my-range',
-  elementClass: MyRangeElement,
-  react: React as never,
-  events: {
-    onMyChange: 'myChange',
-    onMyFocus: 'myFocus',
-    onMyBlur: 'myBlur'
-  } as MyRangeEvents,
-  defineCustomElement: defineMyRange
+    tagName: 'my-range',
+    elementClass: MyRangeElement,
+    react: React,
+    events: {
+        onMyChange: 'myChange',
+        onMyFocus: 'myFocus',
+        onMyBlur: 'myBlur'
+    } as MyRangeEvents,
+    defineCustomElement: defineMyRange
 });
