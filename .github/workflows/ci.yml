@@ -33,9 +33,6 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
-      - name: Setup Testing Environment
-        run: pnpm run bootstrap
-
       - name: Build
         run: pnpm run build
 
