@@ -25,9 +25,9 @@
     "test": "echo \"No tests specified\" && exit 0",
     "start": "stencil build --dev --watch --serve",
     "generate": "stencil generate",
-    "prettier": "npm run prettier.base -- --write",
+    "prettier": "pnpm run prettier.base --write",
     "prettier.base": "prettier \"./src/**/*.{ts,tsx,js,jsx}|*.{ts,tsx,js,jsx}\"",
-    "prettier.dry-run": "npm run prettier.base -- --list-different"
+    "prettier.dry-run": "pnpm run prettier.base --list-different"
   },
   "devDependencies": {
     "@stencil/angular-output-target": "workspace:*",

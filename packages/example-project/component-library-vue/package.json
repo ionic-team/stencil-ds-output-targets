@@ -10,13 +10,13 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "npm run clean && npm run compile",
+    "build": "pnpm run clean && pnpm run compile",
     "clean": "rimraf dist",
-    "compile": "npm run tsc",
+    "compile": "pnpm run tsc",
     "tsc": "tsc -p .",
-    "prettier": "npm run prettier.base -- --write",
+    "prettier": "pnpm run prettier.base --write",
     "prettier.base": "prettier \"./({src,__tests__}/**/*.{ts,tsx,js,jsx})|*.{ts,tsx,js,jsx}\"",
-    "prettier.dry-run": "npm run prettier.base -- --list-different"
+    "prettier.dry-run": "pnpm run prettier.base --list-different"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
