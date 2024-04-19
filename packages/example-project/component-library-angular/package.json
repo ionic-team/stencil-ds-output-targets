@@ -61,10 +61,12 @@
     "@angular/platform-browser-dynamic": "^16.0.0",
     "@angular/router": "^16.0.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
+    "@types/jest": "^29.5.12",
+    "jest-preset-angular": "^13.0.0",
     "rollup": "^4.14.3",
     "router^16.0.0": "link:@angular/router^16.0.0",
     "rxjs": "^7.8.1",
-    "typescript": "5.0.4",
+    "typescript": "~5.1.0",
     "zone.js": "^0.13.0"
   },
   "jest": {
