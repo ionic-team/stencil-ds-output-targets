@@ -17,11 +17,15 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - uses: pnpm/action-setup@a3252b78c470c02df07e9d59298aecedc3ccdd6d # v3.0.0
+      with:
+        version: 8
     - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
       with:
         node-version-file: './package.json'
+        cache: 'pnpm'
     - name: Install Dependencies
-      run: npx lerna bootstrap --include-dependencies --scope ${{ inputs.scope }} --ignore-scripts -- --legacy-peer-deps
+      run: pnpm --filter ${{ inputs.scope }} install
       shell: bash
       working-directory: ${{ inputs.working-directory }}
     - name: Update Version
@@ -29,7 +33,7 @@ runs:
       shell: bash
       working-directory: ${{ inputs.working-directory }}
     - name: Run Build
-      run: npm run build
+      run: pnpm run build
       shell: bash
       working-directory: ${{ inputs.working-directory }}
     - name: Prepare NPM Token
