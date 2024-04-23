@@ -66,7 +66,6 @@
     "jest-environment-jsdom": "^29.0.0",
     "jest-preset-angular": "^13.0.0",
     "rollup": "^4.14.3",
-    "router^16.0.0": "link:@angular/router^16.0.0",
     "rxjs": "^7.8.1",
     "typescript": "~5.1.0",
     "zone.js": "^0.13.0"
