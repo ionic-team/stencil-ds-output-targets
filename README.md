@@ -22,29 +22,39 @@ At this time, only new issues & pull requests that support the Ionic Framework w
 
 # Local development
 
+This project uses [pnpm](https://pnpm.io/) for package management. You can install it by following the [installation instructions](https://pnpm.io/installation).
+
 ## Getting started
 
 To set up this project and prepare the example project to be used in your own projects run the following commands.
 
 ```bash
-npm install
-npm run bootstrap
-npm run build
+pnpm install
+pnpm build
 ```
 
 This will generate all necessary builds in the example projects. You can then either publish the packages to npm or a private package manager, or use `npm pack` to start using the builds in a local project for testing purposes where you manually place the package in the project `node_modules` folder.
 
 For example, if you have an Angular project, run `npm pack` in `packages/example-project/component-library` and `packages/example-project/component-library-angular`. Since the framework component libraries depend on the Stencil project, you will need to provide the `component-library` package in your project `node_modules` folder.
 
+## Formatting
+
+This project uses [Prettier](https://prettier.io/) for code formatting. You can run the following command to format the code:
+
+```bash
+pnpm prettier
+```
+
 ### Node Versions
 
-This project uses [Volta](https://volta.sh/) to automatically manage what npm and node versions are used when developing. If you don't use Volta, don't worry about it... just check the root `package.json` for what version of node and npm is currently being used.
+This project uses [Volta](https://volta.sh/) to automatically manage what pnpm and node versions are used when developing. If you don't use Volta, don't worry about it... just check the root `package.json` for what version of node and pnpm is currently being used.
 
 ## Deploying
 
 There is a manual workflow task called "Production Release" within the GitHub Actions workflows directory. We currently do not release all packages that have been changed at once. You will need to deploy each package (vue, react, angular) individually.
 
 You'll need to fill out a few bits of information when you submit the deploy workflow:
+
 1. Which package should be published (Currently `vue`, `react`, or `angular`).
 2. What version should be published.
 3. What npm tag it should be published under (`next` or `latest`)
