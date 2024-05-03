@@ -19,7 +19,7 @@ jobs:
           node-version-file: './package.json'
           cache: 'pnpm'
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
         shell: bash
       - name: Prepare NPM Token
         run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc

@@ -21,7 +21,7 @@
     "prettier.dry-run": "pnpm run prettier.base --list-different",
     "test": "jest",
     "tsc": "tsc -p .",
-    "validate": "pnpm i --frozen-lockfile && pnpm run lint && pnpm run test && pnpm run build"
+    "validate": "pnpm i && pnpm run lint && pnpm run test && pnpm run build"
   },
   "module": "dist/fesm5.js",
   "main": "dist/fesm5.js",
