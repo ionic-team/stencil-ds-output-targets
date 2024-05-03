@@ -29,7 +29,7 @@ This project uses [pnpm](https://pnpm.io/) for package management. You can insta
 To set up this project and prepare the example project to be used in your own projects run the following commands.
 
 ```bash
-pnpm install
+pnpm install --frozen-lockfile
 pnpm build
 ```
 
