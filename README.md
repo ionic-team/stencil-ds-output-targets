@@ -47,7 +47,11 @@ pnpm prettier
 
 ### Node Versions
 
-This project uses [Volta](https://volta.sh/) to automatically manage what pnpm and node versions are used when developing. If you don't use Volta, don't worry about it... just check the root `package.json` for what version of node and pnpm is currently being used.
+This project uses [Volta](https://volta.sh/) to automatically manage what pnpm and node versions are used when developing. 
+
+pnpm support in Volta is currently experimental, and requires [Volta v1.1.1](https://github.com/volta-cli/volta/releases/tag/v1.1.1) or higher. Once Volta is installed, follow [this guide](https://docs.volta.sh/advanced/pnpm) for enabling pnpm support in Volta.
+
+If you don't use Volta, don't worry about it... just check the root `package.json` for what version of node and pnpm is currently being used.
 
 ## Deploying
 
