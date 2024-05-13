@@ -1,0 +1,35 @@
+{
+  "name": "next-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build:next": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "prettier": "prettier --write --print-width 80 \"*.mjs\" \"*.json\" \"src/**/*.tsx\" \"*.ts\""
+  },
+  "dependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "next": "14.1.4"
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.4",
+    "@stencil/react-output-target": "workspace:*",
+    "component-library-react": "workspace:*",
+    "component-library": "workspace:*",
+    "unplugin-stencil": "file:/Users/christian.bromann/Sites/Ionic/projects/unplugin-stencil"
+  },
+  "volta": {
+    "node": "20.12.0"
+  }
+}
