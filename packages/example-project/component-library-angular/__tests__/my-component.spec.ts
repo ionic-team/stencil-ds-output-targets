@@ -1,23 +1,18 @@
-import { async, ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConfigureFn, configureTests } from '../src/config.testing';
 import { MyComponent } from './../src/index';
 
 describe('MyComponent', () => {
   let fixture: ComponentFixture<MyComponent>;
 
-  beforeEach(async(() => {
-    const configure: ConfigureFn = (testBed) => {
-      testBed.configureTestingModule({
-        declarations: [MyComponent],
-      });
-    };
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [MyComponent],
+    }).compileComponents();
 
-    configureTests(configure).then((testBed) => {
-      fixture = testBed.createComponent(MyComponent);
-      fixture.detectChanges();
-    });
-  }));
+    fixture = TestBed.createComponent(MyComponent);
+    fixture.detectChanges();
+  });
 
   it('should create', () => {
     const { nativeElement: myComponent, componentInstance: myAngularComponent } = fixture;

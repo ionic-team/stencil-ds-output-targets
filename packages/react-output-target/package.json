@@ -13,11 +13,11 @@
     "access": "public"
   },
   "scripts": {
-    "prepublishOnly": "npm run build",
-    "build": "vite build && npm run build:dts",
+    "prepublishOnly": "pnpm run build",
+    "build": "vite build && pnpm run build:dts",
     "build:dts": "tsc -p tsconfig.json",
     "build:tsup": "tsup",
-    "version": "npm run build",
+    "version": "pnpm run build",
     "prettier": "prettier \"./src/**/*.{html,ts,tsx,js,jsx}\" --write",
     "release": "np",
     "test": "vitest run",
@@ -46,9 +46,6 @@
     "vitest": "^1.4.0"
   },
   "gitHead": "a3588e905186a0e86e7f88418fd5b2f9531b55e0",
-  "volta": {
-    "extends": "../../package.json"
-  },
   "dependencies": {
     "@lit/react": "^1.0.4",
     "ts-morph": "^22.0.0"

@@ -12,6 +12,14 @@ export const proxyInputs = (Cmp: any, inputs: string[]) => {
       set(val: any) {
         this.z.runOutsideAngular(() => (this.el[item] = val));
       },
+      /**
+       * In the event that proxyInputs is called
+       * multiple times re-defining these inputs
+       * will cause an error to be thrown. As a result
+       * we set configurable: true to indicate these
+       * properties can be changed.
+       */
+      configurable: true,
     });
   });
 };
@@ -37,11 +45,13 @@ export const defineCustomElement = (tagName: string, customElement: any) => {
 };
 
 // tslint:disable-next-line: only-arrow-functions
-export function ProxyCmp(opts: { tagName: string; customElement?: any; inputs?: any; methods?: any }) {
+export function ProxyCmp(opts: { defineCustomElementFn?: () => void; inputs?: any; methods?: any }) {
   const decorator = function (cls: any) {
-    const { tagName, customElement, inputs, methods } = opts;
+    const { defineCustomElementFn, inputs, methods } = opts;
 
-    defineCustomElement(tagName, customElement);
+    if (defineCustomElementFn !== undefined) {
+      defineCustomElementFn();
+    }
 
     if (inputs) {
       proxyInputs(cls, inputs);

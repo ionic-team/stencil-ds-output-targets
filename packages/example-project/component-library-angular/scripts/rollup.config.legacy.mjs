@@ -1,4 +1,4 @@
-import config from './rollup.config';
+import config from './rollup.config.mjs';
 
 const newConfig = {
   ...config,

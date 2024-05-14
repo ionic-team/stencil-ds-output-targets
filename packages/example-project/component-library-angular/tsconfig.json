@@ -1,6 +1,5 @@
 {
   "angularCompilerOptions": {
-    "annotateForClosureCompiler": true,
     "strictMetadataEmit": true,
     "flatModuleOutFile": "core.js",
     "flatModuleId": "@ionic/angular",
