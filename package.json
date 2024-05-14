@@ -21,9 +21,5 @@
     "semver": "^5.5.0",
     "ts-jest": "^26.2.0"
   },
-  "prettier": "@ionic/prettier-config",
-  "volta": {
-    "node": "20.10.0",
-    "pnpm": "9.0.0"
-  }
+  "prettier": "@ionic/prettier-config"
 }

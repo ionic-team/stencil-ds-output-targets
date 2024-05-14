@@ -46,9 +46,6 @@
     "vitest": "^1.4.0"
   },
   "gitHead": "a3588e905186a0e86e7f88418fd5b2f9531b55e0",
-  "volta": {
-    "extends": "../../package.json"
-  },
   "dependencies": {
     "@lit/react": "^1.0.4",
     "ts-morph": "^22.0.0"

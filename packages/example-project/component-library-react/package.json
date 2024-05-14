@@ -42,8 +42,5 @@
     "typescript": "^5.4.5",
     "vite": "^5.2.0",
     "wdio-vite-service": "^1.0.6"
-  },
-  "volta": {
-    "extends": "../../package.json"
   }
 }

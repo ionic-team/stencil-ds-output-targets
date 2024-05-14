@@ -73,8 +73,5 @@
     "setupFilesAfterEnv": [
       "<rootDir>/src/setupJest.ts"
     ]
-  },
-  "volta": {
-    "extends": "../../package.json"
   }
 }
