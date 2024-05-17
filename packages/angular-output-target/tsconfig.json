@@ -7,10 +7,10 @@
     "strict": true,
     "declaration": true,
     "experimentalDecorators": true,
-    "lib": ["dom", "es2017", "esnext.array"],
+    "lib": ["dom", "es2020", "esnext.array"],
     "moduleResolution": "node",
     "module": "esnext",
-    "target": "es2017",
+    "target": "es2020",
     "noUnusedLocals": true,
     "noUnusedParameters": false,
     "outDir": "dist"

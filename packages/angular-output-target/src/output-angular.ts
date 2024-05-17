@@ -28,12 +28,10 @@ export async function angularDirectiveProxyOutput(
 
   const finalText = generateProxies(filteredComponents, pkgData, outputTarget, config.rootDir as string);
 
-  await Promise.all([
-    compilerCtx.fs.writeFile(outputTarget.directivesProxyFile, finalText),
-    copyResources(config, outputTarget),
-    generateAngularDirectivesFile(compilerCtx, filteredComponents, outputTarget),
-    generateValueAccessors(compilerCtx, filteredComponents, outputTarget, config),
-  ]);
+  await compilerCtx.fs.writeFile(outputTarget.directivesProxyFile, finalText);
+  await copyResources(config, outputTarget);
+  const valueAccessorClasses = await generateValueAccessors(compilerCtx, filteredComponents, outputTarget, config);
+  await generateAngularDirectivesFile(compilerCtx, filteredComponents, outputTarget, valueAccessorClasses);
 }
 
 function getFilteredComponents(excludeComponents: string[] = [], cmps: ComponentCompilerMeta[]) {
