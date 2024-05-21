@@ -52,7 +52,7 @@ import type { EventName } from '@stencil/react-output-target/runtime';
       namedImports: [
         {
           name: reactTagName,
-          alias: `${reactTagName}Element`,
+          alias: componentElement,
         },
         {
           name: 'defineCustomElement',
@@ -66,6 +66,19 @@ import type { EventName } from '@stencil/react-output-target/runtime';
     const events: ReactEvent[] = [];
 
     for (const event of publicEvents) {
+      /**
+       * A reference type may contain a name that conflicts with an already existing variable name
+       * that we've previously defined, like the component constant: "MyComponent".
+       *
+       * To avoid this, we need to check if the reference type includes a match for the original name
+       * and replace it with the alias we've defined: "MyComponentElement".
+       *
+       * The regular expression matches the original name with a space before and a semicolon after.
+       * This is to prevent matching the original name as a substring of another variable name.
+       *
+       */
+      const regex = new RegExp(`(?<=\\s)${reactTagName};`, 'g');
+      const eventComplexTypeResolved = event.complexType.resolved.replace(regex, `${componentElement};`);
       const hasComplexType = Object.keys(event.complexType.references).includes(event.complexType.original);
 
       if (hasComplexType) {
@@ -107,13 +120,13 @@ import type { EventName } from '@stencil/react-output-target/runtime';
         events.push({
           originalName: event.name,
           name: eventListenerName(event.name),
-          type: `EventName<${componentCustomEvent}<${event.complexType.resolved}>>`,
+          type: `EventName<${componentCustomEvent}<${eventComplexTypeResolved}>>`,
         });
       } else {
         events.push({
           originalName: event.name,
           name: eventListenerName(event.name),
-          type: `EventName<CustomEvent<${event.complexType.resolved}>>`,
+          type: `EventName<CustomEvent<${eventComplexTypeResolved}>>`,
         });
       }
     }
