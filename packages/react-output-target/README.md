@@ -56,6 +56,25 @@ npm install @stencil/react-output-target
 
 > **Note:** The `@stencil/react-output-target` runtime package is required to use the generated React component wrappers. This package must be a dependency in your React project.
 
+Verify or update your `tsconfig.json` file to include the following settings:
+
+```json
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "bundler"
+  }
+}
+```
+
+> `moduleResolution": "bundler"` is required to resolve the secondary entry points in the `@stencil/react-output-target` runtime package. You can learn more about this setting in the [TypeScript documentation](https://www.typescriptlang.org/docs/handbook/modules/theory.html#module-resolution).
+
+Verify or install Typescript v5.0 or later in your project:
+
+```bash
+npm install typescript@5 --save-dev
+```
+
 That's it! You can now import and use your Stencil components as React components in your React application or library.
 
 ## Output Target Options
