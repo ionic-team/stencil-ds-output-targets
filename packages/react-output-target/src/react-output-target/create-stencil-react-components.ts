@@ -131,7 +131,7 @@ import type { EventName } from '@stencil/react-output-target/runtime';
       declarations: [
         {
           name: reactTagName,
-          initializer: `createComponent<${componentElement}, ${componentEventNamesType}>({
+          initializer: `/*@__PURE__*/ createComponent<${componentElement}, ${componentEventNamesType}>({
           tagName: '${tagName}',
           elementClass: ${componentElement},
           react: React,

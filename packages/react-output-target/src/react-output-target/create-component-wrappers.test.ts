@@ -42,7 +42,7 @@ import React from 'react';
 
 type MyComponentEvents = NonNullable<unknown>;
 
-export const MyComponent = createComponent<MyComponentElement, MyComponentEvents>({
+export const MyComponent = /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents>({
     tagName: 'my-component',
     elementClass: MyComponentElement,
     react: React,
@@ -92,7 +92,7 @@ import React from 'react';
 
 type MyComponentEvents = NonNullable<unknown>;
 
-const MyComponent = createComponent<MyComponentElement, MyComponentEvents>({
+const MyComponent = /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents>({
     tagName: 'my-component',
     elementClass: MyComponentElement,
     react: React,
@@ -147,7 +147,7 @@ import React from 'react';
 
 type MyComponentEvents = NonNullable<unknown>;
 
-export const MyComponent = createComponent<MyComponentElement, MyComponentEvents>({
+export const MyComponent = /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents>({
     tagName: 'my-component',
     elementClass: MyComponentElement,
     react: React,
