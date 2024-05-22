@@ -66,37 +66,30 @@ import type { EventName } from '@stencil/react-output-target/runtime';
     const events: ReactEvent[] = [];
 
     for (const event of publicEvents) {
-      /**
-       * A reference type may contain a name that conflicts with an already existing variable name
-       * that we've previously defined, like the component constant: "MyComponent".
-       *
-       * To avoid this, we need to check if the reference type includes a match for the original name
-       * and replace it with the alias we've defined: "MyComponentElement".
-       *
-       * The regular expression matches the original name with a space before and a semicolon after.
-       * This is to prevent matching the original name as a substring of another variable name.
-       *
-       */
-      const regex = new RegExp(`(?<=\\s)${reactTagName};`, 'g');
-      const eventComplexTypeResolved = event.complexType.resolved.replace(regex, `${componentElement};`);
-      const hasComplexType = Object.keys(event.complexType.references).includes(event.complexType.original);
-
-      if (hasComplexType) {
-        const isGlobalType = event.complexType.references[event.complexType.original].location === 'global';
+      if (Object.keys(event.complexType.references).length > 0) {
         /**
-         * Global type references should not have an explicit import.
-         * The type should be available globally.
+         * Import the referenced types from the component library.
+         * Stencil will automatically re-export type definitions from the components,
+         * if they are used in the component's property or event types.
          */
-        if (!isGlobalType) {
-          sourceFile.addImportDeclaration({
-            moduleSpecifier: stencilPackageName,
-            namedImports: [
-              {
-                name: event.complexType.original,
-                isTypeOnly: true,
-              },
-            ],
-          });
+        for (const referenceKey of Object.keys(event.complexType.references)) {
+          const reference = event.complexType.references[referenceKey];
+          const isGlobalType = reference.location === 'global';
+          /**
+           * Global type references should not have an explicit import.
+           * The type should be available globally.
+           */
+          if (!isGlobalType) {
+            sourceFile.addImportDeclaration({
+              moduleSpecifier: stencilPackageName,
+              namedImports: [
+                {
+                  name: referenceKey,
+                  isTypeOnly: true,
+                },
+              ],
+            });
+          }
         }
 
         /**
@@ -120,13 +113,13 @@ import type { EventName } from '@stencil/react-output-target/runtime';
         events.push({
           originalName: event.name,
           name: eventListenerName(event.name),
-          type: `EventName<${componentCustomEvent}<${eventComplexTypeResolved}>>`,
+          type: `EventName<${componentCustomEvent}<${event.complexType.original}>>`,
         });
       } else {
         events.push({
           originalName: event.name,
           name: eventListenerName(event.name),
-          type: `EventName<CustomEvent<${eventComplexTypeResolved}>>`,
+          type: `EventName<CustomEvent<${event.complexType.original}>>`,
         });
       }
     }
