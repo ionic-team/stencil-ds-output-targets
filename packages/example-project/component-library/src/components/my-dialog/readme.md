@@ -37,6 +37,13 @@
 
 Dismiss the popover overlay after it has been presented.
 
+#### Parameters
+
+| Name    | Type     | Description |
+| ------- | -------- | ----------- |
+| `_data` | `any`    |             |
+| `_role` | `string` |             |
+
 #### Returns
 
 Type: `Promise<boolean>`

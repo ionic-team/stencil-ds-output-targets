@@ -2,6 +2,7 @@
   "packages": [
     "packages/angular-output-target",
     "packages/react-output-target",
+    "packages/react",
     "packages/vue-output-target",
     "packages/example-project/component-library",
     "packages/example-project/component-library-angular",

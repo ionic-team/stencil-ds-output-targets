@@ -10,6 +10,11 @@ import { CheckboxChangeEventDetail, Color as Color1, StyleEventDetail } from "./
 import { InputChangeEventDetail } from "./components/my-input/my-input";
 import { RadioGroupChangeEventDetail } from "./components/my-radio-group/my-radio-group";
 import { RangeChangeEventDetail, RangeValue } from "./components/my-range/my-range";
+export { AutocompleteTypes, Color, ComponentProps, ComponentRef, OverlayEventDetail, TextFieldTypes } from "./interfaces";
+export { CheckboxChangeEventDetail, Color as Color1, StyleEventDetail } from "./components/element-interface";
+export { InputChangeEventDetail } from "./components/my-input/my-input";
+export { RadioGroupChangeEventDetail } from "./components/my-radio-group/my-radio-group";
+export { RangeChangeEventDetail, RangeValue } from "./components/my-range/my-range";
 export namespace Components {
     interface MyButton {
         /**
@@ -77,7 +82,7 @@ export namespace Components {
         /**
           * The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
          */
-        "color"?: Color;
+        "color"?: Color1;
         /**
           * If `true`, the user cannot interact with the checkbox.
          */
@@ -303,7 +308,7 @@ export namespace Components {
         /**
           * The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
          */
-        "color"?: Color;
+        "color"?: Color1;
         /**
           * If `true`, the user cannot interact with the radio.
          */
@@ -339,7 +344,7 @@ export namespace Components {
         /**
           * The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
          */
-        "color"?: Color;
+        "color"?: Color1;
         /**
           * How long, in milliseconds, to wait to trigger the `myChange` event after each change in the range value.
          */
@@ -390,50 +395,186 @@ export namespace Components {
         "value": RangeValue;
     }
 }
+export interface MyButtonCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLMyButtonElement;
+}
+export interface MyCheckboxCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLMyCheckboxElement;
+}
+export interface MyComponentCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLMyComponentElement;
+}
+export interface MyInputCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLMyInputElement;
+}
+export interface MyPopoverCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLMyPopoverElement;
+}
+export interface MyRadioCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLMyRadioElement;
+}
+export interface MyRadioGroupCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLMyRadioGroupElement;
+}
+export interface MyRangeCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLMyRangeElement;
+}
 declare global {
+    interface HTMLMyButtonElementEventMap {
+        "myFocus": void;
+        "myBlur": void;
+    }
     interface HTMLMyButtonElement extends Components.MyButton, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLMyButtonElementEventMap>(type: K, listener: (this: HTMLMyButtonElement, ev: MyButtonCustomEvent<HTMLMyButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLMyButtonElementEventMap>(type: K, listener: (this: HTMLMyButtonElement, ev: MyButtonCustomEvent<HTMLMyButtonElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLMyButtonElement: {
         prototype: HTMLMyButtonElement;
         new (): HTMLMyButtonElement;
     };
+    interface HTMLMyCheckboxElementEventMap {
+        "myChange": CheckboxChangeEventDetail;
+        "myFocus": void;
+        "myBlur": void;
+        "myStyle": StyleEventDetail;
+    }
     interface HTMLMyCheckboxElement extends Components.MyCheckbox, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLMyCheckboxElementEventMap>(type: K, listener: (this: HTMLMyCheckboxElement, ev: MyCheckboxCustomEvent<HTMLMyCheckboxElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLMyCheckboxElementEventMap>(type: K, listener: (this: HTMLMyCheckboxElement, ev: MyCheckboxCustomEvent<HTMLMyCheckboxElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLMyCheckboxElement: {
         prototype: HTMLMyCheckboxElement;
         new (): HTMLMyCheckboxElement;
     };
+    interface HTMLMyComponentElementEventMap {
+        "myCustomEvent": number;
+    }
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLMyComponentElementEventMap>(type: K, listener: (this: HTMLMyComponentElement, ev: MyComponentCustomEvent<HTMLMyComponentElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLMyComponentElementEventMap>(type: K, listener: (this: HTMLMyComponentElement, ev: MyComponentCustomEvent<HTMLMyComponentElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLMyComponentElement: {
         prototype: HTMLMyComponentElement;
         new (): HTMLMyComponentElement;
     };
+    interface HTMLMyInputElementEventMap {
+        "myInput": KeyboardEvent;
+        "myChange": InputChangeEventDetail;
+        "myBlur": void;
+        "myFocus": void;
+    }
     interface HTMLMyInputElement extends Components.MyInput, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLMyInputElementEventMap>(type: K, listener: (this: HTMLMyInputElement, ev: MyInputCustomEvent<HTMLMyInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLMyInputElementEventMap>(type: K, listener: (this: HTMLMyInputElement, ev: MyInputCustomEvent<HTMLMyInputElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLMyInputElement: {
         prototype: HTMLMyInputElement;
         new (): HTMLMyInputElement;
     };
+    interface HTMLMyPopoverElementEventMap {
+        "myPopoverDidPresent": void;
+        "myPopoverWillPresent": void;
+        "myPopoverWillDismiss": OverlayEventDetail;
+        "myPopoverDidDismiss": OverlayEventDetail;
+    }
     interface HTMLMyPopoverElement extends Components.MyPopover, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLMyPopoverElementEventMap>(type: K, listener: (this: HTMLMyPopoverElement, ev: MyPopoverCustomEvent<HTMLMyPopoverElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLMyPopoverElementEventMap>(type: K, listener: (this: HTMLMyPopoverElement, ev: MyPopoverCustomEvent<HTMLMyPopoverElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLMyPopoverElement: {
         prototype: HTMLMyPopoverElement;
         new (): HTMLMyPopoverElement;
     };
+    interface HTMLMyRadioElementEventMap {
+        "myStyle": StyleEventDetail;
+        "myFocus": void;
+        "myBlur": void;
+        "mySelect": void;
+    }
     interface HTMLMyRadioElement extends Components.MyRadio, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLMyRadioElementEventMap>(type: K, listener: (this: HTMLMyRadioElement, ev: MyRadioCustomEvent<HTMLMyRadioElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLMyRadioElementEventMap>(type: K, listener: (this: HTMLMyRadioElement, ev: MyRadioCustomEvent<HTMLMyRadioElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLMyRadioElement: {
         prototype: HTMLMyRadioElement;
         new (): HTMLMyRadioElement;
     };
+    interface HTMLMyRadioGroupElementEventMap {
+        "myChange": RadioGroupChangeEventDetail;
+    }
     interface HTMLMyRadioGroupElement extends Components.MyRadioGroup, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLMyRadioGroupElementEventMap>(type: K, listener: (this: HTMLMyRadioGroupElement, ev: MyRadioGroupCustomEvent<HTMLMyRadioGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLMyRadioGroupElementEventMap>(type: K, listener: (this: HTMLMyRadioGroupElement, ev: MyRadioGroupCustomEvent<HTMLMyRadioGroupElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLMyRadioGroupElement: {
         prototype: HTMLMyRadioGroupElement;
         new (): HTMLMyRadioGroupElement;
     };
+    interface HTMLMyRangeElementEventMap {
+        "myChange": RangeChangeEventDetail;
+        "myStyle": StyleEventDetail;
+        "myFocus": void;
+        "myBlur": void;
+    }
     interface HTMLMyRangeElement extends Components.MyRange, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLMyRangeElementEventMap>(type: K, listener: (this: HTMLMyRangeElement, ev: MyRangeCustomEvent<HTMLMyRangeElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLMyRangeElementEventMap>(type: K, listener: (this: HTMLMyRangeElement, ev: MyRangeCustomEvent<HTMLMyRangeElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLMyRangeElement: {
         prototype: HTMLMyRangeElement;
@@ -487,11 +628,11 @@ declare namespace LocalJSX {
         /**
           * Emitted when the button loses focus.
          */
-        "onMyBlur"?: (event: CustomEvent<void>) => void;
+        "onMyBlur"?: (event: MyButtonCustomEvent<void>) => void;
         /**
           * Emitted when the button has focus.
          */
-        "onMyFocus"?: (event: CustomEvent<void>) => void;
+        "onMyFocus"?: (event: MyButtonCustomEvent<void>) => void;
         /**
           * Specifies the relationship of the target object to the link object. The value is a space-separated list of [link types](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types).
          */
@@ -525,7 +666,7 @@ declare namespace LocalJSX {
         /**
           * The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
          */
-        "color"?: Color;
+        "color"?: Color1;
         /**
           * If `true`, the user cannot interact with the checkbox.
          */
@@ -545,19 +686,19 @@ declare namespace LocalJSX {
         /**
           * Emitted when the toggle loses focus.
          */
-        "onMyBlur"?: (event: CustomEvent<void>) => void;
+        "onMyBlur"?: (event: MyCheckboxCustomEvent<void>) => void;
         /**
           * Emitted when the checked property has changed.
          */
-        "onMyChange"?: (event: CustomEvent<CheckboxChangeEventDetail>) => void;
+        "onMyChange"?: (event: MyCheckboxCustomEvent<CheckboxChangeEventDetail>) => void;
         /**
           * Emitted when the toggle has focus.
          */
-        "onMyFocus"?: (event: CustomEvent<void>) => void;
+        "onMyFocus"?: (event: MyCheckboxCustomEvent<void>) => void;
         /**
           * Emitted when the styles change.
          */
-        "onMyStyle"?: (event: CustomEvent<StyleEventDetail>) => void;
+        "onMyStyle"?: (event: MyCheckboxCustomEvent<StyleEventDetail>) => void;
         /**
           * The value of the toggle does not mean if it's checked or not, use the `checked` property for that.  The value of a toggle is analogous to the value of a `<input type="checkbox">`, it's only used when the toggle participates in a native `<form>`.
          */
@@ -587,7 +728,7 @@ declare namespace LocalJSX {
         /**
           * Testing an event without value
          */
-        "onMyCustomEvent"?: (event: CustomEvent<number>) => void;
+        "onMyCustomEvent"?: (event: MyComponentCustomEvent<number>) => void;
     }
     interface MyInput {
         /**
@@ -665,19 +806,19 @@ declare namespace LocalJSX {
         /**
           * Emitted when the input loses focus.
          */
-        "onMyBlur"?: (event: CustomEvent<void>) => void;
+        "onMyBlur"?: (event: MyInputCustomEvent<void>) => void;
         /**
           * Emitted when the value has changed.
          */
-        "onMyChange"?: (event: CustomEvent<InputChangeEventDetail>) => void;
+        "onMyChange"?: (event: MyInputCustomEvent<InputChangeEventDetail>) => void;
         /**
           * Emitted when the input has focus.
          */
-        "onMyFocus"?: (event: CustomEvent<void>) => void;
+        "onMyFocus"?: (event: MyInputCustomEvent<void>) => void;
         /**
           * Emitted when a keyboard input occurred.
          */
-        "onMyInput"?: (event: CustomEvent<KeyboardEvent>) => void;
+        "onMyInput"?: (event: MyInputCustomEvent<KeyboardEvent>) => void;
         /**
           * A regular expression that the value is checked against. The pattern must match the entire value, not just some subset. Use the title attribute to describe the pattern to help the user. This attribute applies when the value of the type attribute is `"text"`, `"search"`, `"tel"`, `"url"`, `"email"`, `"date"`, or `"password"`, otherwise it is ignored. When the type attribute is `"date"`, `pattern` will only be used in browsers that do not support the `"date"` input type natively. See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date for more information.
          */
@@ -751,19 +892,19 @@ declare namespace LocalJSX {
         /**
           * Emitted after the popover has dismissed.
          */
-        "onMyPopoverDidDismiss"?: (event: CustomEvent<OverlayEventDetail>) => void;
+        "onMyPopoverDidDismiss"?: (event: MyPopoverCustomEvent<OverlayEventDetail>) => void;
         /**
           * Emitted after the popover has presented.
          */
-        "onMyPopoverDidPresent"?: (event: CustomEvent<void>) => void;
+        "onMyPopoverDidPresent"?: (event: MyPopoverCustomEvent<void>) => void;
         /**
           * Emitted before the popover has dismissed.
          */
-        "onMyPopoverWillDismiss"?: (event: CustomEvent<OverlayEventDetail>) => void;
+        "onMyPopoverWillDismiss"?: (event: MyPopoverCustomEvent<OverlayEventDetail>) => void;
         /**
           * Emitted before the popover has presented.
          */
-        "onMyPopoverWillPresent"?: (event: CustomEvent<void>) => void;
+        "onMyPopoverWillPresent"?: (event: MyPopoverCustomEvent<void>) => void;
         /**
           * If `true`, a backdrop will be displayed behind the popover.
          */
@@ -777,7 +918,7 @@ declare namespace LocalJSX {
         /**
           * The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
          */
-        "color"?: Color;
+        "color"?: Color1;
         /**
           * If `true`, the user cannot interact with the radio.
          */
@@ -793,19 +934,19 @@ declare namespace LocalJSX {
         /**
           * Emitted when the radio button loses focus.
          */
-        "onMyBlur"?: (event: CustomEvent<void>) => void;
+        "onMyBlur"?: (event: MyRadioCustomEvent<void>) => void;
         /**
           * Emitted when the radio button has focus.
          */
-        "onMyFocus"?: (event: CustomEvent<void>) => void;
+        "onMyFocus"?: (event: MyRadioCustomEvent<void>) => void;
         /**
           * Emitted when the radio button loses focus.
          */
-        "onMySelect"?: (event: CustomEvent<void>) => void;
+        "onMySelect"?: (event: MyRadioCustomEvent<void>) => void;
         /**
           * Emitted when the styles change.
          */
-        "onMyStyle"?: (event: CustomEvent<StyleEventDetail>) => void;
+        "onMyStyle"?: (event: MyRadioCustomEvent<StyleEventDetail>) => void;
         /**
           * the value of the radio.
          */
@@ -823,7 +964,7 @@ declare namespace LocalJSX {
         /**
           * Emitted when the value has changed.
          */
-        "onMyChange"?: (event: CustomEvent<RadioGroupChangeEventDetail>) => void;
+        "onMyChange"?: (event: MyRadioGroupCustomEvent<RadioGroupChangeEventDetail>) => void;
         /**
           * the value of the radio group.
          */
@@ -833,7 +974,7 @@ declare namespace LocalJSX {
         /**
           * The color to use from your application's color palette. Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`. For more information on colors, see [theming](/docs/theming/basics).
          */
-        "color"?: Color;
+        "color"?: Color1;
         /**
           * How long, in milliseconds, to wait to trigger the `myChange` event after each change in the range value.
          */
@@ -865,19 +1006,19 @@ declare namespace LocalJSX {
         /**
           * Emitted when the range loses focus.
          */
-        "onMyBlur"?: (event: CustomEvent<void>) => void;
+        "onMyBlur"?: (event: MyRangeCustomEvent<void>) => void;
         /**
           * Emitted when the value property has changed.
          */
-        "onMyChange"?: (event: CustomEvent<RangeChangeEventDetail>) => void;
+        "onMyChange"?: (event: MyRangeCustomEvent<RangeChangeEventDetail>) => void;
         /**
           * Emitted when the range has focus.
          */
-        "onMyFocus"?: (event: CustomEvent<void>) => void;
+        "onMyFocus"?: (event: MyRangeCustomEvent<void>) => void;
         /**
           * Emitted when the styles change.
          */
-        "onMyStyle"?: (event: CustomEvent<StyleEventDetail>) => void;
+        "onMyStyle"?: (event: MyRangeCustomEvent<StyleEventDetail>) => void;
         /**
           * If `true`, a pin with integer value is shown when the knob is pressed.
          */
