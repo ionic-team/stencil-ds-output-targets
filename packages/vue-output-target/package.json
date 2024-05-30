@@ -13,15 +13,15 @@
     "access": "public"
   },
   "scripts": {
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "pnpm run build",
     "prebuild": "rimraf ./dist",
-    "build": "tsc && npm run rollup",
+    "build": "tsc && pnpm run rollup",
     "watch": "tsc --watch",
     "rollup": "rollup -c",
-    "version": "npm run build",
-    "prettier": "npm run prettier.base -- --write",
+    "version": "pnpm run build",
+    "prettier": "pnpm run prettier.base --write",
     "prettier.base": "prettier \"./({vue-component-lib,src,test,__tests__}/**/*.{ts,tsx,js,jsx})|*.{ts,tsx,js,jsx}\"",
-    "prettier.dry-run": "npm run prettier.base -- --list-different",
+    "prettier.dry-run": "pnpm run prettier.base --list-different",
     "release": "np",
     "test": "jest"
   },
@@ -38,6 +38,13 @@
   "peerDependencies": {
     "@stencil/core": ">=2.0.0 || >=3 || >= 4.0.0-beta.0 || >= 4.0.0"
   },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "jest": "^27.0.0",
+    "rimraf": "^5.0.0",
+    "rollup": "^4.14.3",
+    "typescript": "~5.0.0"
+  },
   "jest": {
     "transform": {
       "^.+\\.(js|ts|tsx)$": "<rootDir>/test/jest.preprocessor.js"
@@ -52,8 +59,5 @@
     ],
     "testURL": "http://localhost"
   },
-  "gitHead": "a3588e905186a0e86e7f88418fd5b2f9531b55e0",
-  "volta": {
-    "extends": "../../package.json"
-  }
+  "gitHead": "a3588e905186a0e86e7f88418fd5b2f9531b55e0"
 }

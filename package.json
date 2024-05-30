@@ -6,7 +6,6 @@
     "url": "git+https://github.com/ionic-team/stencil-ds-output-targets.git"
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap --no-ci",
     "build": "lerna run build",
     "prettier": "lerna run prettier",
     "prettier.dry-run": "lerna run prettier.dry-run",
@@ -15,22 +14,12 @@
   },
   "devDependencies": {
     "@ionic/prettier-config": "^2.0.0",
-    "@stencil/core": "^3.0.0",
-    "@types/jest": "^26.0.9",
-    "jest": "^26.3.0",
-    "lerna": "^4.0.0",
-    "lerna-changelog": "^1.0.1",
-    "np": "^6.0.2",
+    "lerna": "^8.0.0",
+    "lerna-changelog": "^2.0.0",
+    "np": "^10.0.2",
     "prettier": "2.7.1",
-    "rimraf": "^4.2.0",
-    "rollup": "^2.23.1",
     "semver": "^5.5.0",
-    "ts-jest": "^26.2.0",
-    "typescript": "^3.9.7"
+    "ts-jest": "^26.2.0"
   },
-  "prettier": "@ionic/prettier-config",
-  "volta": {
-    "node": "18.14.1",
-    "npm": "9.3.1"
-  }
+  "prettier": "@ionic/prettier-config"
 }
