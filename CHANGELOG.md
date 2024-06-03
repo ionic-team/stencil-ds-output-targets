@@ -1,3 +1,9 @@
+## @public-ui/stencil-vue-output-target@0.9.1 (2024-03-11)
+
+#### :rocket: Enhancement
+
+- fix(vue): v-model does not update when other events bubble up [#425](https://github.com/ionic-team/stencil-ds-output-targets/pull/425)
+
 ## @public-ui/stencil-angular-output-target@0.9.0 (2024-03-11)
 
 #### :rocket: Enhancement
