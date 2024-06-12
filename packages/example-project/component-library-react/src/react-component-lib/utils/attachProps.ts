@@ -16,7 +16,8 @@ export const attachProps = (node: HTMLElement, newProps: any, oldProps: any = {}
         name === 'ref' ||
         name === 'class' ||
         name === 'className' ||
-        name === 'forwardedRef'
+        name === 'forwardedRef' ||
+        newProps[name] === undefined
       ) {
         return;
       }
