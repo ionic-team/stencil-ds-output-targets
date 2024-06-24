@@ -19,3 +19,19 @@ export interface OutputTargetReact {
 export interface PackageJSON {
   types: string;
 }
+
+export interface GenerateProxiesOutput {
+  indexText: string;
+  componentExports: ComponentExport[];
+}
+
+export interface ComponentExport {
+  fileContents: string;
+  fileName: string;
+}
+
+export interface ComponentDefinitionsOutput {
+  indexContents: ReadonlyArray<string>;
+  componentFileName: string;
+  componentFileContents: string;
+}

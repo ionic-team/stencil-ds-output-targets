@@ -1,5 +1,11 @@
 import path from 'path';
-import type { OutputTargetReact, PackageJSON } from './types';
+import type {
+  ComponentDefinitionsOutput,
+  ComponentExport,
+  GenerateProxiesOutput,
+  OutputTargetReact,
+  PackageJSON,
+} from './types';
 import { dashToPascalCase, normalizePath, readPackageJson, relativeImport, sortBy } from './utils';
 import type { CompilerCtx, ComponentCompilerMeta, Config, CopyResults, OutputTargetDist } from '@stencil/core/internal';
 
@@ -19,9 +25,16 @@ export async function reactProxyOutput(
   const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, components);
   const rootDir = config.rootDir as string;
   const pkgData = await readPackageJson(rootDir);
+  const generateProxiesOutput = generateProxies(config, filteredComponents, pkgData, outputTarget, rootDir);
+  await compilerCtx.fs.writeFile(outputTarget.proxiesFile, generateProxiesOutput.indexText);
 
-  const finalText = generateProxies(config, filteredComponents, pkgData, outputTarget, rootDir);
-  await compilerCtx.fs.writeFile(outputTarget.proxiesFile, finalText);
+  for (const componentExport of generateProxiesOutput.componentExports) {
+    await compilerCtx.fs.writeFile(
+      path.join(path.dirname(outputTarget.proxiesFile), componentExport.fileName),
+      componentExport.fileContents
+    );
+  }
+
   await copyResources(config, outputTarget);
 }
 
@@ -53,16 +66,11 @@ export function generateProxies(
   pkgData: PackageJSON,
   outputTarget: OutputTargetReact,
   rootDir: string
-): string {
+): GenerateProxiesOutput {
   const distTypesDir = path.dirname(pkgData.types);
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.proxiesFile, dtsFilePath, '.d.ts');
   const pathToCorePackageLoader = getPathToCorePackageLoader(config, outputTarget);
-
-  const imports = `/* eslint-disable */
-/* tslint:disable */
-/* auto-generated react proxies */
-import { createReactComponent } from './react-component-lib';\n`;
 
   /**
    * Generate JSX import type from correct location.
@@ -109,17 +117,24 @@ import { createReactComponent } from './react-component-lib';\n`;
     registerCustomElements = `${REGISTER_CUSTOM_ELEMENTS}();`;
   }
 
-  const final: ReadonlyArray<string> = [
-    imports,
-    typeImports,
-    sourceImports,
-    registerCustomElements,
-    components
-      .map((cmpMeta) => createComponentDefinition(cmpMeta, outputTarget.includeImportCustomElements))
-      .join('\n'),
-  ];
+  const componentExports = components.map((cmpMeta) =>
+    createComponentDefinition(cmpMeta, outputTarget.includeImportCustomElements, outputTarget, typeImports)
+  );
 
-  return final.join('\n') + '\n';
+  const componentExportsInIndexFile = componentExports.reduce((accum, componentExport) => {
+    return accum + componentExport.indexContents + '\n';
+  }, '');
+
+  const indexFileContents: ReadonlyArray<string> = [sourceImports, registerCustomElements, componentExportsInIndexFile];
+
+  const componentExportsFiltered: ComponentExport[] = componentExports.map((componentDefinitionOutput) => {
+    return {
+      fileContents: componentDefinitionOutput.componentFileContents,
+      fileName: componentDefinitionOutput.componentFileName,
+    };
+  });
+
+  return { indexText: indexFileContents.join('\n') + '\n', componentExports: componentExportsFiltered };
 }
 
 /**
@@ -131,18 +146,57 @@ import { createReactComponent } from './react-component-lib';\n`;
  */
 export function createComponentDefinition(
   cmpMeta: ComponentCompilerMeta,
-  includeCustomElement: boolean = false
-): ReadonlyArray<string> {
+  includeCustomElement: boolean = false,
+  outputTarget: OutputTargetReact,
+  typeImports: String
+): ComponentDefinitionsOutput {
   const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
-  let template = `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}'`;
+  let template = '';
+  let componentFileName = '';
+  let componentFileContents = '';
 
-  if (includeCustomElement) {
-    template += `, undefined, undefined, define${tagNameAsPascal}`;
+  if (!includeCustomElement) {
+    template = `// @ts-nocheck
+/* eslint-disable */
+/* tslint:disable */
+/* auto-generated react proxies */
+import { createReactComponent } from './react-component-lib';\n
+${typeImports}
+`;
+
+    template += `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}'`;
+    template += `);`;
+
+    componentFileName = `${tagNameAsPascal}.ts`;
+    componentFileContents = template;
+
+    template = `import { ${tagNameAsPascal} } from './${tagNameAsPascal}'`;
   }
 
-  template += `);`;
+  if (includeCustomElement) {
+    template = `// @ts-nocheck
+/* eslint-disable */
+/* tslint:disable */
+/* auto-generated react proxies */
+import { createReactComponent } from './react-component-lib';\n
+${typeImports}
+`;
 
-  return [template];
+    template += `import { ${tagNameAsPascal} as ${tagNameAsPascal}Cmp, defineCustomElement as defineCustomElement${tagNameAsPascal} } from '${normalizePath(
+      outputTarget.componentCorePackage!
+    )}/${outputTarget.customElementsDir || 'components'}/${cmpMeta.tagName}.js';\n`;
+
+    template += `export const ${tagNameAsPascal} = /*@__PURE__*/createReactComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${cmpMeta.tagName}'`;
+    template += `, undefined, undefined, ${tagNameAsPascal}Cmp, defineCustomElement${tagNameAsPascal}`;
+    template += `);\n`;
+
+    componentFileName = `${tagNameAsPascal}.ts`;
+    componentFileContents = template;
+
+    template = `import { ${tagNameAsPascal} } from './${tagNameAsPascal}'`;
+  }
+
+  return { indexContents: [template], componentFileContents, componentFileName };
 }
 
 /**
