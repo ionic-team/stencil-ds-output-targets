@@ -1,4 +1,4 @@
-import { dashToPascalCase } from './utils';
+import { dashToPascalCase } from './utils.js';
 import { ComponentCompilerMeta } from '@stencil/core/internal';
 import { ComponentModelConfig } from './types';
 
