@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@stencil/angular-output-target": "workspace:*",
-    "@stencil/core": "file:/Users/christian.bromann/Sites/Ionic/projects/stencil",
+    "@stencil/core": "^4.19.0",
     "@stencil/react-output-target": "workspace:*",
     "@stencil/vue-output-target": "workspace:*",
     "@types/puppeteer": "2.0.1",
