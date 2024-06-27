@@ -1,8 +1,4 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-var stream = require('stream');
+import { Readable } from 'stream';
 
 function hydrateFactory($stencilWindow, $stencilHydrateOpts, $stencilHydrateResults, $stencilAfterHydrate, $stencilHydrateResolve) {
   var globalThis = $stencilWindow;
@@ -18685,7 +18681,7 @@ function renderStream(win, opts, results) {
     const renderResult = await render(win, opts, results);
     yield renderResult.html;
   }
-  return stream.Readable.from(processRender());
+  return Readable.from(processRender());
 }
 async function afterHydrate(win, opts, results, resolve) {
   const afterHydrateFn = typeof opts.afterHydrate === "function" ? opts.afterHydrate(win.document) : NOOP;
@@ -18795,8 +18791,4 @@ function removeScripts(elm) {
   }
 }
 
-exports.createWindowFromHtml = createWindowFromHtml;
-exports.hydrateDocument = hydrateDocument;
-exports.renderToString = renderToString;
-exports.serializeDocumentToString = serializeDocumentToString;
-exports.streamToString = streamToString;
+export { createWindowFromHtml, hydrateDocument, renderToString, serializeDocumentToString, streamToString };
