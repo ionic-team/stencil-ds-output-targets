@@ -127,7 +127,7 @@ const NAMESPACE = 'component-library';
 const BUILD = /* component-library */ { allRenderFn: true, appendChildSlotFix: false, asyncLoading: true, attachStyles: true, cloneNodeFix: false, cmpDidLoad: false, cmpDidRender: false, cmpDidUnload: false, cmpDidUpdate: false, cmpShouldUpdate: false, cmpWillLoad: true, cmpWillRender: false, cmpWillUpdate: false, connectedCallback: true, constructableCSS: false, cssAnnotations: true, devTools: false, disconnectedCallback: true, element: false, event: true, experimentalScopedSlotChanges: false, experimentalSlotFixes: false, formAssociated: false, hasRenderFn: true, hostListener: false, hostListenerTarget: false, hostListenerTargetBody: false, hostListenerTargetDocument: false, hostListenerTargetParent: false, hostListenerTargetWindow: false, hotModuleReplacement: false, hydrateClientSide: true, hydrateServerSide: true, hydratedAttribute: false, hydratedClass: true, hydratedSelectorName: "hydrated", invisiblePrehydration: true, isDebug: false, isDev: false, isTesting: false, lazyLoad: true, lifecycle: true, lifecycleDOMEvents: false, member: true, method: true, mode: false, observeAttribute: true, profile: false, prop: true, propBoolean: true, propMutable: true, propNumber: true, propString: true, reflect: true, scoped: true, scopedSlotTextContentFix: false, scriptDataOpts: false, shadowDelegatesFocus: false, shadowDom: true, shadowDomShim: true, slot: true, slotChildNodesFix: false, slotRelocation: true, state: true, style: true, svg: true, taskQueue: true, updatable: true, vdomAttribute: true, vdomClass: true, vdomFunctional: true, vdomKey: true, vdomListener: true, vdomPropOrAttr: true, vdomRef: true, vdomRender: true, vdomStyle: true, vdomText: true, vdomXlink: true, watchCallback: true };
 
 /*
- Stencil Hydrate Platform v4.19.0 | MIT Licensed | https://stenciljs.com
+ Stencil Hydrate Platform v4.19.2 | MIT Licensed | https://stenciljs.com
  */
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {
@@ -577,21 +577,19 @@ var registerStyle = (scopeId2, cssText, allowCS) => {
 };
 var addStyle = (styleContainerNode, cmpMeta, mode) => {
   var _a;
-  const styleContainerDocument = styleContainerNode;
-  const styleContainerShadowRoot = styleContainerNode;
   const scopeId2 = getScopeId(cmpMeta);
   const style = styles.get(scopeId2);
   styleContainerNode = styleContainerNode.nodeType === 11 /* DocumentFragment */ ? styleContainerNode : doc;
   if (style) {
     if (typeof style === "string") {
-      styleContainerNode = styleContainerDocument.head || styleContainerNode;
+      styleContainerNode = styleContainerNode.head || styleContainerNode;
       let appliedStyles = rootAppliedStyles.get(styleContainerNode);
       let styleElm;
       if (!appliedStyles) {
         rootAppliedStyles.set(styleContainerNode, appliedStyles = /* @__PURE__ */ new Set());
       }
       if (!appliedStyles.has(scopeId2)) {
-        if (styleContainerShadowRoot.host && (styleElm = styleContainerNode.querySelector(`[${HYDRATED_STYLE_ID}="${scopeId2}"]`))) {
+        if (styleContainerNode.host && (styleElm = styleContainerNode.querySelector(`[${HYDRATED_STYLE_ID}="${scopeId2}"]`))) {
           styleElm.innerHTML = style;
         } else {
           styleElm = doc.createElement("style");
@@ -1997,7 +1995,7 @@ function hydrateApp(win2, opts, results, afterHydrate, resolve) {
       if (isValidComponent(elm, opts) && results.hydratedCount < opts.maxHydrateCount) {
         if (!connectedElements.has(elm) && shouldHydrate(elm)) {
           connectedElements.add(elm);
-          return hydrateComponent(win2, results, elm.nodeName, elm, waitingElements);
+          return hydrateComponent.call(elm, win2, results, elm.nodeName, elm, waitingElements);
         }
       }
       return resolved2;
@@ -3338,7 +3336,7 @@ exports.hydrateApp = hydrateApp;
 }
 
 /*
- Stencil Hydrate Runner v4.19.0 | MIT Licensed | https://stenciljs.com
+ Stencil Hydrate Runner v4.19.2 | MIT Licensed | https://stenciljs.com
  */
 var __defProp = Object.defineProperty;
 var __export = (target, all) => {

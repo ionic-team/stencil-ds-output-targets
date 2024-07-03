@@ -4,7 +4,7 @@
  */
 
 /* eslint-disable */
-
+import dynamic from 'next/dynamic'
 import type { EventName } from '@stencil/react-output-target/runtime';
 import { createComponent } from '@stencil/react-output-target/runtime';
 import {
@@ -53,24 +53,59 @@ import {
   defineCustomElement as defineMyRange,
 } from 'component-library/components/my-range.js';
 import React from 'react';
+import parse from 'html-react-parser'
 
 type MyButtonEvents = {
   onMyFocus: EventName<CustomEvent<void>>;
   onMyBlur: EventName<CustomEvent<void>>;
 };
 
-export const MyButton = createComponent<MyButtonElement, MyButtonEvents>({
-  tagName: 'my-button',
-  elementClass: MyButtonElement,
-  react: React,
-  events: {
-    onMyFocus: 'myFocus',
-    onMyBlur: 'myBlur',
-  } as MyButtonEvents,
-  defineCustomElement: defineMyButton,
-  // @ts-expect-error
-  suppressHydrationErrors: true,
-});
+function createServerSideComponent (tagName: string) {
+  return async ({ children, ...props }: React.PropsWithChildren<{}>) => {
+    let stringProps = ''
+    for (const [key, value] of Object.entries(props)) {
+      if (key === 'children' || (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean')) {
+        continue
+      }
+      stringProps += ` ${key}="${value}"`
+    }
+
+    const { html } = await renderToString(`<${tagName} ${stringProps.trim()}>${children}</${tagName}>`, {
+      fullDocument: false,
+      serializeShadowRoot: true
+    });
+
+    if (!html) {
+      throw new Error('No HTML returned from renderToString')
+    }
+    const StencilElement = () => parse(html, {
+      transform(reactNode, domNode) {
+        if ('name' in domNode && domNode.name === tagName) {
+          const { children, ...props } = (reactNode as any).props
+          const __html = html.slice(html.indexOf('<template '), -`</${domNode.name}>`.length)
+          const CustomTag = `${tagName}`
+          return <CustomTag {...props} dangerouslySetInnerHTML={{ __html: __html }}></CustomTag>
+        }
+      },
+    })
+    return <StencilElement />
+  }
+}
+
+export const MyButton = process.browser
+ ? createComponent<MyButtonElement, MyButtonEvents>({
+    tagName: 'my-button',
+    elementClass: MyButtonElement,
+    react: React,
+    events: {
+      onMyFocus: 'myFocus',
+      onMyBlur: 'myBlur',
+    } as MyButtonEvents,
+    defineCustomElement: defineMyButton,
+    // @ts-expect-error
+    suppressHydrationErrors: true,
+  })
+  : createServerSideComponent('my-button')
 
 type MyCheckboxEvents = {
   onMyChange: EventName<MyCheckboxCustomEvent<CheckboxChangeEventDetail>>;
@@ -107,31 +142,31 @@ export type MyInputEvents = {
   onMyFocus: EventName<CustomEvent<void>>;
 };
 
+function HTMLComment({ comment }: { comment: string }) {
+  const html = `<!-- ${comment} -->`;
+  const callback = (instance: HTMLScriptElement) => {
+      if (instance) {
+          instance.replaceWith(html);
+      }
+  };
+  return (<script ref={callback} />);
+}
+const MyInputClient = createComponent<MyInputElement, MyInputEvents>({
+  tagName: 'my-input',
+  elementClass: MyInputElement,
+  react: React,
+  events: {
+    onMyInput: 'myInput',
+    onMyChange: 'myChange',
+    onMyBlur: 'myBlur',
+    onMyFocus: 'myFocus',
+  } as MyInputEvents,
+  defineCustomElement: defineMyInput,
+});
+
 export const MyInput = process.browser
-  ? createComponent<MyInputElement, MyInputEvents>({
-    tagName: 'my-input',
-    elementClass: MyInputElement,
-    react: React,
-    events: {
-      onMyInput: 'myInput',
-      onMyChange: 'myChange',
-      onMyBlur: 'myBlur',
-      onMyFocus: 'myFocus',
-    } as MyInputEvents,
-    defineCustomElement: defineMyInput,
-  })
-  : async (props: React.PropsWithChildren<{}>) => {
-    const { html } = await renderToString('<my-input placeholder="haha"></my-input>');
-    const templateTag = html.slice(html.indexOf('<body>') + '<body>'.length, -('</body></html>'.length));
-    // @ts-expect-error
-    return <my-input suppressHydrationErrors>
-      {/* @ts-expect-error */}
-      <template shadowrootmode="open" dangerouslySetInnerHTML={{
-        __html: templateTag
-      }} />
-    {/* @ts-expect-error */}
-    </my-input>
-  }
+  ? MyInputClient
+  : createServerSideComponent('my-input')
 
 type MyPopoverEvents = {
   onMyPopoverDidPresent: EventName<CustomEvent<void>>;

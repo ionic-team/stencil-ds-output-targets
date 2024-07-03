@@ -227,10 +227,10 @@ export interface HydrateStaticData {
 	content: string;
 }
 export declare function streamToString(html: string | any, option?: SerializeDocumentOptions): Readable;
-export declare function renderToString(html: string | any, options: SerializeDocumentOptions | undefined, asStream: true): Readable;
 export declare function renderToString(html: string | any, options?: SerializeDocumentOptions): Promise<HydrateResults>;
-export declare function hydrateDocument(doc: any | string, options: HydrateDocumentOptions | undefined, asStream?: boolean): Readable;
+export declare function renderToString(html: string | any, options: SerializeDocumentOptions | undefined, asStream: true): Readable;
 export declare function hydrateDocument(doc: any | string, options?: HydrateDocumentOptions): Promise<HydrateResults>;
+export declare function hydrateDocument(doc: any | string, options: HydrateDocumentOptions | undefined, asStream?: boolean): Readable;
 export declare function serializeDocumentToString(doc: Document, opts: HydrateFactoryOptions): string;
 
 export {};
