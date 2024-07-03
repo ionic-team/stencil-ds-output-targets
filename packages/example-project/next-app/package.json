@@ -10,23 +10,24 @@
     "prettier": "prettier --write --print-width 80 \"*.mjs\" \"*.json\" \"src/**/*.tsx\" \"*.ts\""
   },
   "dependencies": {
+    "html-react-parser": "^5.1.10",
+    "next": "14.1.4",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.1.4"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@stencil/react-output-target": "workspace:*",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
-    "postcss": "^8",
-    "tailwindcss": "^3.3.0",
+    "component-library": "workspace:*",
+    "component-library-react": "workspace:*",
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
-    "@stencil/react-output-target": "workspace:*",
-    "component-library-react": "workspace:*",
-    "component-library": "workspace:*",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5",
     "unplugin-stencil": "file:/Users/christian.bromann/Sites/Ionic/projects/unplugin-stencil"
   },
   "volta": {
