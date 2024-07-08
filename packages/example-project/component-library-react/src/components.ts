@@ -58,7 +58,7 @@ type MyButtonEvents = {
   onMyBlur: EventName<CustomEvent<void>>;
 };
 
-export const MyButton = createComponent<MyButtonElement, MyButtonEvents>({
+export const MyButton = /*@__PURE__*/ createComponent<MyButtonElement, MyButtonEvents>({
   tagName: 'my-button',
   elementClass: MyButtonElement,
   react: React,
@@ -75,7 +75,7 @@ type MyCheckboxEvents = {
   onMyBlur: EventName<CustomEvent<void>>;
 };
 
-export const MyCheckbox = createComponent<MyCheckboxElement, MyCheckboxEvents>({
+export const MyCheckbox = /*@__PURE__*/ createComponent<MyCheckboxElement, MyCheckboxEvents>({
   tagName: 'my-checkbox',
   elementClass: MyCheckboxElement,
   react: React,
@@ -89,7 +89,7 @@ export const MyCheckbox = createComponent<MyCheckboxElement, MyCheckboxEvents>({
 
 type MyComponentEvents = { onMyCustomEvent: EventName<CustomEvent<number>> };
 
-export const MyComponent = createComponent<MyComponentElement, MyComponentEvents>({
+export const MyComponent = /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents>({
   tagName: 'my-component',
   elementClass: MyComponentElement,
   react: React,
@@ -104,7 +104,7 @@ type MyInputEvents = {
   onMyFocus: EventName<CustomEvent<void>>;
 };
 
-export const MyInput = createComponent<MyInputElement, MyInputEvents>({
+export const MyInput = /*@__PURE__*/ createComponent<MyInputElement, MyInputEvents>({
   tagName: 'my-input',
   elementClass: MyInputElement,
   react: React,
@@ -120,11 +120,11 @@ export const MyInput = createComponent<MyInputElement, MyInputEvents>({
 type MyPopoverEvents = {
   onMyPopoverDidPresent: EventName<CustomEvent<void>>;
   onMyPopoverWillPresent: EventName<CustomEvent<void>>;
-  onMyPopoverWillDismiss: EventName<MyPopoverCustomEvent<OverlayEventDetail<any>>>;
-  onMyPopoverDidDismiss: EventName<MyPopoverCustomEvent<OverlayEventDetail<any>>>;
+  onMyPopoverWillDismiss: EventName<MyPopoverCustomEvent<OverlayEventDetail>>;
+  onMyPopoverDidDismiss: EventName<MyPopoverCustomEvent<OverlayEventDetail>>;
 };
 
-export const MyPopover = createComponent<MyPopoverElement, MyPopoverEvents>({
+export const MyPopover = /*@__PURE__*/ createComponent<MyPopoverElement, MyPopoverEvents>({
   tagName: 'my-popover',
   elementClass: MyPopoverElement,
   react: React,
@@ -143,7 +143,7 @@ type MyRadioEvents = {
   onMySelect: EventName<CustomEvent<void>>;
 };
 
-export const MyRadio = createComponent<MyRadioElement, MyRadioEvents>({
+export const MyRadio = /*@__PURE__*/ createComponent<MyRadioElement, MyRadioEvents>({
   tagName: 'my-radio',
   elementClass: MyRadioElement,
   react: React,
@@ -157,7 +157,7 @@ export const MyRadio = createComponent<MyRadioElement, MyRadioEvents>({
 
 type MyRadioGroupEvents = { onMyChange: EventName<MyRadioGroupCustomEvent<RadioGroupChangeEventDetail>> };
 
-export const MyRadioGroup = createComponent<MyRadioGroupElement, MyRadioGroupEvents>({
+export const MyRadioGroup = /*@__PURE__*/ createComponent<MyRadioGroupElement, MyRadioGroupEvents>({
   tagName: 'my-radio-group',
   elementClass: MyRadioGroupElement,
   react: React,
@@ -171,7 +171,7 @@ type MyRangeEvents = {
   onMyBlur: EventName<CustomEvent<void>>;
 };
 
-export const MyRange = createComponent<MyRangeElement, MyRangeEvents>({
+export const MyRange = /*@__PURE__*/ createComponent<MyRangeElement, MyRangeEvents>({
   tagName: 'my-range',
   elementClass: MyRangeElement,
   react: React,
