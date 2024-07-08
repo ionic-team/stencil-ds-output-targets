@@ -10,7 +10,6 @@ function Button() {
   return (
     <>
       <MyButton
-        suppressHydrationWarning
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation()

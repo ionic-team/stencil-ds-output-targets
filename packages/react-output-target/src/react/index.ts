@@ -1,2 +1,2 @@
 export type { EventName, Options } from '@lit/react';
-export { createComponent } from './create-component';
+export { createComponent, createComponentForServerSideRendering } from './create-component';

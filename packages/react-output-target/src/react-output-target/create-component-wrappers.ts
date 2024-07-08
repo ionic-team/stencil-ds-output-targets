@@ -12,6 +12,7 @@ export const createComponentWrappers = async ({
   experimentalUseClient,
   excludeComponents,
   project,
+  hydrateModule,
 }: {
   stencilPackageName: string;
   components: ComponentCompilerMeta[];
@@ -21,6 +22,7 @@ export const createComponentWrappers = async ({
   experimentalUseClient?: boolean;
   excludeComponents?: string[];
   project: Project;
+  hydrateModule?: string;
 }) => {
   const sourceFiles: SourceFile[] = [];
 
@@ -59,6 +61,7 @@ export const createComponentWrappers = async ({
         customElementsDir,
         defaultExport: true,
         useClient: experimentalUseClient,
+        hydrateModule,
       });
 
       const sourceFile = project.createSourceFile(outputPath, stencilReactComponent, { overwrite: true });
@@ -77,6 +80,7 @@ export const createComponentWrappers = async ({
       customElementsDir,
       defaultExport: false,
       useClient: experimentalUseClient,
+      hydrateModule,
     });
 
     const sourceFile = project.createSourceFile(outputPath, stencilReactComponents, { overwrite: true });

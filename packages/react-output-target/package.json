@@ -35,10 +35,10 @@
     "url": "https://github.com/ionic-team/stencil-ds-output-targets/issues"
   },
   "peerDependencies": {
-    "@stencil/core": ">=3 || >= 4.0.0-beta.0 || >= 4.0.0"
+    "@stencil/core": ">=3 || >= 4.0.0-beta.0 || >= 4.0.0",
+    "react": "^18.2.0"
   },
   "devDependencies": {
-    "react": "^18.2.0",
     "ts-dedent": "^2.2.0",
     "typescript": "^5.4.4",
     "vite": "^5.0.0",
@@ -48,7 +48,16 @@
   "gitHead": "a3588e905186a0e86e7f88418fd5b2f9531b55e0",
   "dependencies": {
     "@lit/react": "^1.0.4",
+    "html-react-parser": "^5.1.10",
     "ts-morph": "^22.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@stencil/core": {
+      "optional": false
+    },
+    "react": {
+      "optional": false
+    }
   },
   "exports": {
     ".": {

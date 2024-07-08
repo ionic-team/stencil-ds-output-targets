@@ -34,6 +34,11 @@ export interface ReactOutputTargetOptions {
    * If you are working in an environment that uses absolute paths, consider setting this value manually.
    */
   customElementsDir?: string;
+  /**
+   * To enable server side rendering, provide the path to the hydrate module, e.g. `my-component/hydrate`.
+   * By default this value is undefined and server side rendering is disabled.
+   */
+  hydrateModule?: string;
 }
 
 const PLUGIN_NAME = 'react-output-target';
@@ -58,6 +63,7 @@ export const reactOutputTarget = ({
   experimentalUseClient,
   excludeComponents,
   customElementsDir: customElementsDirOverride,
+  hydrateModule,
 }: ReactOutputTargetOptions): ReactOutputTarget => {
   let customElementsDir = DIST_CUSTOM_ELEMENTS_DEFAULT_DIR;
   return {
@@ -122,6 +128,7 @@ export const reactOutputTarget = ({
         experimentalUseClient: experimentalUseClient === true,
         excludeComponents,
         project,
+        hydrateModule,
       });
 
       await Promise.all(
