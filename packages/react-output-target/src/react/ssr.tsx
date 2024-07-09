@@ -1,3 +1,4 @@
+// @ts-expect-error
 import React from 'react';
 import type { EventName, ReactWebComponent } from '@lit/react';
 
