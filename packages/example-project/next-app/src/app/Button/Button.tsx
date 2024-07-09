@@ -6,19 +6,12 @@ import { MyButton } from '../components';
 
 function Button() {
   const [inputEvent, setInputEvent] = useState<number>(0);
-  // return <MyButton>Hello</MyButton>
   return (
     <>
-      <MyButton
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation()
-          setInputEvent(inputEvent + 1)
-        }}
-      >
+      <MyButton href="#" onClick={(e) => setInputEvent(inputEvent + 1)}>
         Click me
       </MyButton>
-      <div>
+      <div className="buttonResult">
         <p>Input Event: {inputEvent}</p>
       </div>
     </>

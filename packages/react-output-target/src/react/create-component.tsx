@@ -1,7 +1,6 @@
 import React from 'react';
 import type { EventName, Options, ReactWebComponent } from '@lit/react';
 import { createComponent as createComponentWrapper } from '@lit/react';
-import parse from 'html-react-parser';
 
 // A key value map matching React prop names to event names.
 type EventNames = Record<string, EventName | string>;
@@ -38,6 +37,18 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
   options: CreateComponentForServerSideRenderingOptions
 ) => {
   return (async ({ children, ...props }: React.PropsWithChildren<{}>) => {
+    /**
+     * ensure we only run on server
+     */
+    if (!('process' in globalThis)) {
+      throw new Error('createComponentForServerSideRendering can only be run on the server');
+    }
+
+    /**
+     * `html-react-parser` is a Node.js dependency so we should make sure to only import it when run on the server
+     */
+    const { default: parse } = await import('html-react-parser');
+
     let stringProps = '';
     for (const [key, value] of Object.entries(props)) {
       if (
