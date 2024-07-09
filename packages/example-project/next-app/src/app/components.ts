@@ -6,7 +6,8 @@
 /* eslint-disable */
 
 import type { EventName } from '@stencil/react-output-target/runtime';
-import { createComponent, createComponentForServerSideRendering } from '@stencil/react-output-target/runtime';
+import { createComponent } from '@stencil/react-output-target/runtime';
+import { createComponentForServerSideRendering } from "@stencil/react-output-target/ssr";
 import { type CheckboxChangeEventDetail, type InputChangeEventDetail, type MyCheckboxCustomEvent, type MyInputCustomEvent, type MyPopoverCustomEvent, type MyRadioGroupCustomEvent, type MyRangeCustomEvent, type OverlayEventDetail, type RadioGroupChangeEventDetail, type RangeChangeEventDetail } from "component-library";
 import { MyButton as MyButtonElement, defineCustomElement as defineMyButton } from "component-library/components/my-button.js";
 import { MyCheckbox as MyCheckboxElement, defineCustomElement as defineMyCheckbox } from "component-library/components/my-checkbox.js";

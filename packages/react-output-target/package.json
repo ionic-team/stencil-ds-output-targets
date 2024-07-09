@@ -73,6 +73,13 @@
         "default": "./dist/react.js"
       },
       "default": "./dist/react.js"
+    },
+    "./ssr": {
+      "types": "./dist/react/ssr.d.ts",
+      "browser": {
+        "default": "./dist/ssr.js"
+      },
+      "default": "./dist/ssr.js"
     }
   }
 }

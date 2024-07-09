@@ -7,6 +7,7 @@ export default defineConfig({
       entry: {
         'react-output-target': 'src/react-output-target/index.ts',
         react: 'src/react/index.ts',
+        ssr: 'src/react/ssr.tsx',
       },
       formats: ['es', 'cjs'],
     },
