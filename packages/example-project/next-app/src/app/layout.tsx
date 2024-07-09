@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Stencil / NextJS coexistence demo",
-  description: "A demo of using Stencil components in NextJS",
+  title: 'Stencil / NextJS coexistence demo',
+  description: 'A demo of using Stencil components in NextJS',
 };
 
 export default function RootLayout({
