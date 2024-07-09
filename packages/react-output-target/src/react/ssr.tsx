@@ -1,23 +1,8 @@
 import React from 'react';
-import type { EventName, Options, ReactWebComponent } from '@lit/react';
-import { createComponent as createComponentWrapper } from '@lit/react';
+import type { EventName, ReactWebComponent } from '@lit/react';
 
 // A key value map matching React prop names to event names.
 type EventNames = Record<string, EventName | string>;
-
-/**
- * Defines a custom element and creates a React component.
- * @public
- */
-export const createComponent = <I extends HTMLElement, E extends EventNames = {}>({
-  defineCustomElement,
-  ...options
-}: Options<I, E> & { defineCustomElement: () => void }) => {
-  if (typeof defineCustomElement !== 'undefined') {
-    defineCustomElement();
-  }
-  return createComponentWrapper<I, E>(options);
-};
 
 /**
  * these types are defined by a Stencil hydrate app so we have to copy the minimal types here
@@ -91,7 +76,6 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
         },
       });
 
-    // @ts-expect-error React versions may differ
     return <StencilElement />;
   }) as unknown as ReactWebComponent<I, E>;
 };
