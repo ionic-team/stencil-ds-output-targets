@@ -2,7 +2,6 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import type { EventName, ReactWebComponent } from '@lit/react';
-import { LOG_LEVELS } from '@stencil/core/internal';
 
 // A key value map matching React prop names to event names.
 type EventNames = Record<string, EventName | string>;
