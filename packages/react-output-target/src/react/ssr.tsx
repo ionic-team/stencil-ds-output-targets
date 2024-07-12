@@ -1,6 +1,8 @@
 // @ts-expect-error
 import React from 'react';
+import ReactDOMServer from 'react-dom/server';
 import type { EventName, ReactWebComponent } from '@lit/react';
+import { LOG_LEVELS } from '@stencil/core/internal';
 
 // A key value map matching React prop names to event names.
 type EventNames = Record<string, EventName | string>;
@@ -23,6 +25,14 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
   options: CreateComponentForServerSideRenderingOptions
 ) => {
   return (async ({ children, ...props }: React.PropsWithChildren<{}>) => {
+    /**
+     * if `__resolveTagName` is set we should return the tag name as we are shallow parsing the light dom
+     * of a Stencil component via `ReactDOMServer.renderToString`
+     */
+    if (props.__resolveTagName) {
+      return options.tagName;
+    }
+
     /**
      * ensure we only run on server
      */
@@ -49,13 +59,22 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
     /**
      * ToDo(Christian): better serialize children, e.g. this will fail if children are not strings
      */
-    const toSerialize = `<${options.tagName}${stringProps}>${children || ''}</${options.tagName}>`;
-    const { html } = await options.renderToString(toSerialize, {
+    const awaitedChildren = await resolveComponentTypes(children);
+    const renderedChildren = ReactDOMServer.renderToString(awaitedChildren);
+    const toSerialize = `<${options.tagName}${stringProps}>${renderedChildren}</${options.tagName}>`;
+
+    const { html: captureTags } = await options.renderToString(toSerialize, {
       fullDocument: false,
       serializeShadowRoot: true,
       prettyHtml: true,
     });
-
+    const startTag = captureTags?.split('\n')[0] || '';
+    const endTag = captureTags?.split('\n').slice(-1)[0] || '';
+    const { html } = await options.renderToString(toSerialize, {
+      fullDocument: false,
+      serializeShadowRoot: true,
+    });
+    const __html = html?.slice(startTag.length, -endTag.length);
     if (!html) {
       throw new Error('No HTML returned from renderToString');
     }
@@ -68,7 +87,6 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
             /**
              * remove the outer tag (e.g. `options.tagName`) so we only have the inner content
              */
-            const __html = html.split('\n').slice(1, -1).join('\n');
             const CustomTag = `${options.tagName}`;
             return <CustomTag {...props} dangerouslySetInnerHTML={{ __html }} />;
           }
@@ -80,3 +98,32 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
     return <StencilElement />;
   }) as unknown as ReactWebComponent<I, E>;
 };
+
+async function resolveComponentTypes (children: React.PropsWithChildren<{}>) {
+  if (!children || !Array.isArray(children)) {
+    return [];
+  }
+
+  return Promise.all(children.map(async (child): Promise<string | React.PropsWithChildren<{}>> => {
+    if (typeof child === 'string') {
+      return child;
+    }
+
+    const newProps = {
+      ...child.props,
+      children: typeof child.props.children === 'string'
+        ? child.props.children
+        : await resolveComponentTypes((child.props || {}).children)
+    };
+
+    const newChild = {
+      ...child,
+      type: typeof child.type === 'function'
+        ? await child.type({ __resolveTagName: true })
+        : child.type,
+      props: newProps,
+    };
+
+    return newChild;
+  })) as Promise<(string | React.PropsWithChildren<{}>[])>;
+}
