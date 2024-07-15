@@ -55,9 +55,6 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
       stringProps += ` ${key}="${value}"`;
     }
 
-    /**
-     * ToDo(Christian): better serialize children, e.g. this will fail if children are not strings
-     */
     const awaitedChildren = await resolveComponentTypes(children);
     const renderedChildren = ReactDOMServer.renderToString(awaitedChildren);
     const toSerialize = `<${options.tagName}${stringProps}>${renderedChildren}</${options.tagName}>`;
@@ -98,31 +95,32 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
   }) as unknown as ReactWebComponent<I, E>;
 };
 
-async function resolveComponentTypes (children: React.PropsWithChildren<{}>) {
+async function resolveComponentTypes(children: React.PropsWithChildren<{}>) {
   if (!children || !Array.isArray(children)) {
     return [];
   }
 
-  return Promise.all(children.map(async (child): Promise<string | React.PropsWithChildren<{}>> => {
-    if (typeof child === 'string') {
-      return child;
-    }
+  return Promise.all(
+    children.map(async (child): Promise<string | React.PropsWithChildren<{}>> => {
+      if (typeof child === 'string') {
+        return child;
+      }
 
-    const newProps = {
-      ...child.props,
-      children: typeof child.props.children === 'string'
-        ? child.props.children
-        : await resolveComponentTypes((child.props || {}).children)
-    };
+      const newProps = {
+        ...child.props,
+        children:
+          typeof child.props.children === 'string'
+            ? child.props.children
+            : await resolveComponentTypes((child.props || {}).children),
+      };
 
-    const newChild = {
-      ...child,
-      type: typeof child.type === 'function'
-        ? await child.type({ __resolveTagName: true })
-        : child.type,
-      props: newProps,
-    };
+      const newChild = {
+        ...child,
+        type: typeof child.type === 'function' ? await child.type({ __resolveTagName: true }) : child.type,
+        props: newProps,
+      };
 
-    return newChild;
-  })) as Promise<(string | React.PropsWithChildren<{}>[])>;
+      return newChild;
+    })
+  ) as Promise<string | React.PropsWithChildren<{}>[]>;
 }
