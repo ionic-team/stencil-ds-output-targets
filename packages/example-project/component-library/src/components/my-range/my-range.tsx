@@ -36,7 +36,6 @@ export interface RangeChangeEventDetail {
  */
 @Component({
   tag: 'my-range',
-  styleUrl: 'my-range.css',
   shadow: true,
 })
 export class Range implements ComponentInterface {
