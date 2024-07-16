@@ -65,4 +65,25 @@ describe('reactOutputTarget', () => {
       ).not.toThrowError();
     }
   });
+
+  it('should throw an error if the outDir option is not provided', () => {
+    const { validate } = reactOutputTarget({
+      stencilPackageName: 'my-components',
+    } as any);
+
+    if (validate) {
+      expect(() =>
+        validate(
+          {
+            outputTargets: [
+              {
+                type: 'dist-custom-elements',
+              },
+            ],
+          } as any,
+          []
+        )
+      ).toThrowError(`The 'outDir' option is required.`);
+    }
+  });
 });
