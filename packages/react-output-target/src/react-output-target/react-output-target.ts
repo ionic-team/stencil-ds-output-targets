@@ -96,6 +96,10 @@ export const reactOutputTarget = ({
         }
       }
 
+      if (!outDir) {
+        throw new Error(`The 'outDir' option is required.`);
+      }
+
       /**
        * Validate the configuration to detect the package name of the Stencil project.
        */
