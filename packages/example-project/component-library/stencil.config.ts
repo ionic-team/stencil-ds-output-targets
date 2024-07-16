@@ -86,9 +86,6 @@ export const config: Config = {
       type: 'docs-readme',
     },
     {
-      type: 'dist-hydrate-script',
-    },
-    {
       type: 'www',
       serviceWorker: null, // disable service workers
     },
