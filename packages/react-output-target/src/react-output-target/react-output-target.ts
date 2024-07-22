@@ -45,6 +45,7 @@ const PLUGIN_NAME = 'react-output-target';
 
 const DIST_CUSTOM_ELEMENTS_DEFAULT_DIR = 'dist/components';
 const DIST_CUSTOM_ELEMENTS = 'dist-custom-elements';
+const HYDRATE_OUTPUT_TARGET = 'dist-hydrate-script';
 
 interface ReactOutputTarget extends OutputTargetCustom {
   __internal_getCustomElementsDir: () => string;
@@ -93,6 +94,19 @@ export const reactOutputTarget = ({
            * we need to use that path when importing the components in the React components.
            */
           customElementsDir = customElementsOutputTarget.dir;
+        }
+      }
+
+      /**
+       * Validate the configuration to ensure that the dist-hydrate-script
+       * output target is defined in the Stencil configuration if the hydrateModule is provided.
+       */
+      if (hydrateModule) {
+        const hydrateOutputTarget = (config.outputTargets || []).find((o) => o.type === HYDRATE_OUTPUT_TARGET);
+        if (hydrateOutputTarget == null) {
+          throw new Error(
+            `The '${PLUGIN_NAME}' requires '${HYDRATE_OUTPUT_TARGET}' output target when the 'hydrateModule' option is set. Add { type: '${HYDRATE_OUTPUT_TARGET}' }, to the outputTargets config.`
+          );
         }
       }
 
