@@ -7,7 +7,6 @@
 
 import type { EventName } from '@stencil/react-output-target/runtime';
 import { createComponent } from '@stencil/react-output-target/runtime';
-import { createComponentForServerSideRendering } from "@stencil/react-output-target/ssr";
 import { type CheckboxChangeEventDetail, type InputChangeEventDetail, type MyCheckboxCustomEvent, type MyInputCustomEvent, type MyPopoverCustomEvent, type MyRadioGroupCustomEvent, type MyRangeCustomEvent, type OverlayEventDetail, type RadioGroupChangeEventDetail, type RangeChangeEventDetail } from "component-library";
 import { MyButton as MyButtonElement, defineCustomElement as defineMyButton } from "component-library/components/my-button.js";
 import { MyCheckbox as MyCheckboxElement, defineCustomElement as defineMyCheckbox } from "component-library/components/my-checkbox.js";
@@ -17,7 +16,6 @@ import { MyPopover as MyPopoverElement, defineCustomElement as defineMyPopover }
 import { MyRadioGroup as MyRadioGroupElement, defineCustomElement as defineMyRadioGroup } from "component-library/components/my-radio-group.js";
 import { MyRadio as MyRadioElement, defineCustomElement as defineMyRadio } from "component-library/components/my-radio.js";
 import { MyRange as MyRangeElement, defineCustomElement as defineMyRange } from "component-library/components/my-range.js";
-import { renderToString } from "component-library/hydrate";
 import React from 'react';
 
 type MyButtonEvents = {
@@ -36,10 +34,14 @@ export const MyButton = typeof window !== 'undefined'
         } as MyButtonEvents,
         defineCustomElement: defineMyButton
     })
-    : /*@__PURE__*/ createComponentForServerSideRendering<MyButtonElement, MyButtonEvents>({
-        tagName: 'my-button',
-        renderToString,
-    });
+    : /*@__PURE__*/ async (props: React.PropsWithChildren<{}>) => {
+        const { createComponentForServerSideRendering } = await import('@stencil/react-output-target/ssr');
+        const { renderToString } = await import('component-library/hydrate');
+        return createComponentForServerSideRendering<MyButtonElement, MyButtonEvents>({
+            tagName: 'my-button',
+            renderToString,
+        })(props);
+    };
 
 type MyCheckboxEvents = {
     onMyChange: EventName<MyCheckboxCustomEvent<CheckboxChangeEventDetail>>,
@@ -59,10 +61,14 @@ export const MyCheckbox = typeof window !== 'undefined'
         } as MyCheckboxEvents,
         defineCustomElement: defineMyCheckbox
     })
-    : /*@__PURE__*/ createComponentForServerSideRendering<MyCheckboxElement, MyCheckboxEvents>({
-        tagName: 'my-checkbox',
-        renderToString,
-    });
+    : /*@__PURE__*/ async (props: React.PropsWithChildren<{}>) => {
+        const { createComponentForServerSideRendering } = await import('@stencil/react-output-target/ssr');
+        const { renderToString } = await import('component-library/hydrate');
+        return createComponentForServerSideRendering<MyCheckboxElement, MyCheckboxEvents>({
+            tagName: 'my-checkbox',
+            renderToString,
+        })(props);
+    };
 
 type MyComponentEvents = { onMyCustomEvent: EventName<CustomEvent<number>> };
 
@@ -74,10 +80,14 @@ export const MyComponent = typeof window !== 'undefined'
         events: { onMyCustomEvent: 'myCustomEvent' } as MyComponentEvents,
         defineCustomElement: defineMyComponent
     })
-    : /*@__PURE__*/ createComponentForServerSideRendering<MyComponentElement, MyComponentEvents>({
-        tagName: 'my-component',
-        renderToString,
-    });
+    : /*@__PURE__*/ async (props: React.PropsWithChildren<{}>) => {
+        const { createComponentForServerSideRendering } = await import('@stencil/react-output-target/ssr');
+        const { renderToString } = await import('component-library/hydrate');
+        return createComponentForServerSideRendering<MyComponentElement, MyComponentEvents>({
+            tagName: 'my-component',
+            renderToString,
+        })(props);
+    };
 
 type MyInputEvents = {
     onMyInput: EventName<MyInputCustomEvent<KeyboardEvent>>,
@@ -99,10 +109,14 @@ export const MyInput = typeof window !== 'undefined'
         } as MyInputEvents,
         defineCustomElement: defineMyInput
     })
-    : /*@__PURE__*/ createComponentForServerSideRendering<MyInputElement, MyInputEvents>({
-        tagName: 'my-input',
-        renderToString,
-    });
+    : /*@__PURE__*/ async (props: React.PropsWithChildren<{}>) => {
+        const { createComponentForServerSideRendering } = await import('@stencil/react-output-target/ssr');
+        const { renderToString } = await import('component-library/hydrate');
+        return createComponentForServerSideRendering<MyInputElement, MyInputEvents>({
+            tagName: 'my-input',
+            renderToString,
+        })(props);
+    };
 
 type MyPopoverEvents = {
     onMyPopoverDidPresent: EventName<CustomEvent<void>>,
@@ -124,10 +138,14 @@ export const MyPopover = typeof window !== 'undefined'
         } as MyPopoverEvents,
         defineCustomElement: defineMyPopover
     })
-    : /*@__PURE__*/ createComponentForServerSideRendering<MyPopoverElement, MyPopoverEvents>({
-        tagName: 'my-popover',
-        renderToString,
-    });
+    : /*@__PURE__*/ async (props: React.PropsWithChildren<{}>) => {
+        const { createComponentForServerSideRendering } = await import('@stencil/react-output-target/ssr');
+        const { renderToString } = await import('component-library/hydrate');
+        return createComponentForServerSideRendering<MyPopoverElement, MyPopoverEvents>({
+            tagName: 'my-popover',
+            renderToString,
+        })(props);
+    };
 
 type MyRadioEvents = {
     onMyFocus: EventName<CustomEvent<void>>,
@@ -147,10 +165,14 @@ export const MyRadio = typeof window !== 'undefined'
         } as MyRadioEvents,
         defineCustomElement: defineMyRadio
     })
-    : /*@__PURE__*/ createComponentForServerSideRendering<MyRadioElement, MyRadioEvents>({
-        tagName: 'my-radio',
-        renderToString,
-    });
+    : /*@__PURE__*/ async (props: React.PropsWithChildren<{}>) => {
+        const { createComponentForServerSideRendering } = await import('@stencil/react-output-target/ssr');
+        const { renderToString } = await import('component-library/hydrate');
+        return createComponentForServerSideRendering<MyRadioElement, MyRadioEvents>({
+            tagName: 'my-radio',
+            renderToString,
+        })(props);
+    };
 
 type MyRadioGroupEvents = { onMyChange: EventName<MyRadioGroupCustomEvent<RadioGroupChangeEventDetail>> };
 
@@ -162,10 +184,14 @@ export const MyRadioGroup = typeof window !== 'undefined'
         events: { onMyChange: 'myChange' } as MyRadioGroupEvents,
         defineCustomElement: defineMyRadioGroup
     })
-    : /*@__PURE__*/ createComponentForServerSideRendering<MyRadioGroupElement, MyRadioGroupEvents>({
-        tagName: 'my-radio-group',
-        renderToString,
-    });
+    : /*@__PURE__*/ async (props: React.PropsWithChildren<{}>) => {
+        const { createComponentForServerSideRendering } = await import('@stencil/react-output-target/ssr');
+        const { renderToString } = await import('component-library/hydrate');
+        return createComponentForServerSideRendering<MyRadioGroupElement, MyRadioGroupEvents>({
+            tagName: 'my-radio-group',
+            renderToString,
+        })(props);
+    };
 
 type MyRangeEvents = {
     onMyChange: EventName<MyRangeCustomEvent<RangeChangeEventDetail>>,
@@ -185,7 +211,11 @@ export const MyRange = typeof window !== 'undefined'
         } as MyRangeEvents,
         defineCustomElement: defineMyRange
     })
-    : /*@__PURE__*/ createComponentForServerSideRendering<MyRangeElement, MyRangeEvents>({
-        tagName: 'my-range',
-        renderToString,
-    });
+    : /*@__PURE__*/ async (props: React.PropsWithChildren<{}>) => {
+        const { createComponentForServerSideRendering } = await import('@stencil/react-output-target/ssr');
+        const { renderToString } = await import('component-library/hydrate');
+        return createComponentForServerSideRendering<MyRangeElement, MyRangeEvents>({
+            tagName: 'my-range',
+            renderToString,
+        })(props);
+    };
