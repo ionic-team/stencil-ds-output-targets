@@ -21,6 +21,30 @@ describe('reactOutputTarget', () => {
     }
   });
 
+  it('should throw an error if the output target dist-hydrate-script is not configured and hydrateModule option is set', () => {
+    const { validate } = reactOutputTarget({
+      outDir: 'dist/components',
+      hydrateModule: 'dist/hydrate-script',
+    });
+
+    if (validate) {
+      expect(() =>
+        validate(
+          {
+            outputTargets: [
+              {
+                type: 'dist-custom-elements',
+              },
+            ],
+          } as any,
+          []
+        )
+      ).toThrowError(
+        `The 'react-output-target' requires 'dist-hydrate-script' output target when the 'hydrateModule' option is set. Add { type: 'dist-hydrate-script' }, to the outputTargets config.`
+      );
+    }
+  });
+
   it('should throw an error if the package.json file cannot be found', () => {
     const { validate } = reactOutputTarget({
       outDir: 'dist/components',

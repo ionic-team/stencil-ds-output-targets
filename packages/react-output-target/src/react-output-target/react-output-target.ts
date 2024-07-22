@@ -38,6 +38,7 @@ const PLUGIN_NAME = 'react-output-target';
 
 const DIST_CUSTOM_ELEMENTS_DEFAULT_DIR = 'dist/components';
 const DIST_CUSTOM_ELEMENTS = 'dist-custom-elements';
+const HYDRATE_OUTPUT_TARGET = 'dist-hydrate-script';
 
 /**
  * Creates an output target for binding Stencil components to be used in a React context
@@ -72,6 +73,20 @@ export const reactOutputTarget = ({
           `The '${PLUGIN_NAME}' requires '${DIST_CUSTOM_ELEMENTS}' output target. Add { type: '${DIST_CUSTOM_ELEMENTS}' }, to the outputTargets config.`
         );
       }
+
+      /**
+       * Validate the configuration to ensure that the dist-hydrate-script
+       * output target is defined in the Stencil configuration if the hydrateModule is provided.
+       */
+      if (hydrateModule) {
+        const hydrateOutputTarget = (config.outputTargets || []).find((o) => o.type === HYDRATE_OUTPUT_TARGET);
+        if (hydrateOutputTarget == null) {
+          throw new Error(
+            `The '${PLUGIN_NAME}' requires '${HYDRATE_OUTPUT_TARGET}' output target when the 'hydrateModule' option is set. Add { type: '${HYDRATE_OUTPUT_TARGET}' }, to the outputTargets config.`
+          );
+        }
+      }
+
       if (customElementsOutputTarget.dir !== undefined) {
         /**
          * If the developer has configured a custom output path for the Stencil components,
