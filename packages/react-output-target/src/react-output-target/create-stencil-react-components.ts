@@ -43,17 +43,6 @@ import type { EventName } from '@stencil/react-output-target/runtime';
   `
   );
 
-  if (hydrateModule) {
-    sourceFile.addImportDeclaration({
-      moduleSpecifier: hydrateModule,
-      namedImports: ['renderToString'],
-    });
-    sourceFile.addImportDeclaration({
-      moduleSpecifier: '@stencil/react-output-target/ssr',
-      namedImports: ['createComponentForServerSideRendering'],
-    });
-  }
-
   for (const component of components) {
     const tagName = component.tagName;
     const reactTagName = kebabToPascalCase(tagName);
@@ -151,10 +140,14 @@ import type { EventName } from '@stencil/react-output-target/runtime';
     events: {${events.map((e) => `${e.name}: '${e.originalName}'`).join(',\n')}} as ${componentEventNamesType},
     defineCustomElement: define${reactTagName}
   })`;
-    const serverComponentCall = `/*@__PURE__*/ createComponentForServerSideRendering<${componentElement}, ${componentEventNamesType}>({
-    tagName: '${tagName}',
-    renderToString,
-  })`;
+    const serverComponentCall = `/*@__PURE__*/ async (props: React.PropsWithChildren<{}>) => {
+    const { createComponentForServerSideRendering } = await import('@stencil/react-output-target/ssr');
+    const { renderToString } = await import('${hydrateModule}');
+    return createComponentForServerSideRendering<${componentElement}, ${componentEventNamesType}>({
+      tagName: '${tagName}',
+      renderToString,
+    })(props);
+  }`;
 
     const statement = sourceFile.addVariableStatement({
       declarationKind: VariableDeclarationKind.Const,

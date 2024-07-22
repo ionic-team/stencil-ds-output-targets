@@ -35,7 +35,7 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
     /**
      * ensure we only run on server
      */
-    if (!('process' in globalThis)) {
+    if (!('process' in globalThis) || typeof window !== 'undefined') {
       throw new Error('createComponentForServerSideRendering can only be run on the server');
     }
 
