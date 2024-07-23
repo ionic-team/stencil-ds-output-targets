@@ -1,7 +1,6 @@
-// @ts-expect-error
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import type { EventName, ReactWebComponent } from '@lit/react';
+import type { EventName, ReactWebComponent, WebComponentProps } from '@lit/react';
 
 // A key value map matching React prop names to event names.
 type EventNames = Record<string, EventName | string>;
@@ -14,16 +13,26 @@ interface RenderToStringOptions {
   serializeShadowRoot?: boolean;
   prettyHtml?: boolean;
 }
-type RenderToString = (html: string, options: RenderToStringOptions) => Promise<{ html: string | null }>;
+export type RenderToString = (html: string, options: RenderToStringOptions) => Promise<{ html: string | null }>;
 interface CreateComponentForServerSideRenderingOptions {
   tagName: string;
   renderToString: RenderToString;
 }
 
+type StencilProps<I extends HTMLElement> = WebComponentProps<I> & {
+  __resolveTagName?: boolean;
+};
+
+/**
+ * transform a React component into a Stencil component for server side rendering
+ *
+ * Note: this code should only be loaded on the server side, as it uses heavy Node.js dependencies
+ * that when loaded on the client side would increase the bundle size.
+ */
 export const createComponentForServerSideRendering = <I extends HTMLElement, E extends EventNames = {}>(
   options: CreateComponentForServerSideRenderingOptions
 ) => {
-  return (async ({ children, ...props }: React.PropsWithChildren<{}>) => {
+  return (async ({ children, ...props }: StencilProps<I>) => {
     /**
      * if `__resolveTagName` is set we should return the tag name as we are shallow parsing the light dom
      * of a Stencil component via `ReactDOMServer.renderToString`
@@ -95,13 +104,13 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
   }) as unknown as ReactWebComponent<I, E>;
 };
 
-async function resolveComponentTypes(children: React.PropsWithChildren<{}>) {
+async function resolveComponentTypes<I extends HTMLElement>(children: React.ReactNode): Promise<React.ReactNode> {
   if (!children || !Array.isArray(children)) {
     return [];
   }
 
   return Promise.all(
-    children.map(async (child): Promise<string | React.PropsWithChildren<{}>> => {
+    children.map(async (child): Promise<string | StencilProps<I>> => {
       if (typeof child === 'string') {
         return child;
       }
@@ -122,5 +131,5 @@ async function resolveComponentTypes(children: React.PropsWithChildren<{}>) {
 
       return newChild;
     })
-  ) as Promise<string | React.PropsWithChildren<{}>[]>;
+  ) as Promise<React.ReactNode>;
 }
