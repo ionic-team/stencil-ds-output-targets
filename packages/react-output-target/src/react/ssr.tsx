@@ -105,6 +105,14 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
 };
 
 async function resolveComponentTypes<I extends HTMLElement>(children: React.ReactNode): Promise<React.ReactNode> {
+  /**
+   * if the children are a string we can return them as is, e.g.
+   * `<div>Hello World</div>`
+   */
+  if (typeof children === 'string') {
+    return children;
+  }
+
   if (!children || !Array.isArray(children)) {
     return [];
   }

@@ -1,6 +1,8 @@
+import path from 'node:path';
 import type { ComponentCompilerMeta } from '@stencil/core/internal';
 import { Project, SourceFile } from 'ts-morph';
 import { createStencilReactComponents } from './create-stencil-react-components';
+import { createStencilNextComponents } from './create-next-wrapper';
 import { kebabToPascalCase } from './utils/string-utils';
 
 export const createComponentWrappers = async ({
@@ -72,7 +74,21 @@ export const createComponentWrappers = async ({
     /**
      * Generate a single entry point for all the components
      */
-    const outputPath = `${outDir}/components.ts`;
+    let outputPath = `${outDir}/components.ts`;
+
+    if (hydrateModule) {
+      const mainOutputPath = outputPath;
+      const moduleSpecifier = `./serverComponents`;
+      outputPath = path.join(outDir, moduleSpecifier + '.ts');
+
+      const clientReExport = createStencilNextComponents({
+        components: filteredComponents,
+        moduleSpecifier,
+      });
+      const reExportsourceFile = project.createSourceFile(mainOutputPath, clientReExport, { overwrite: true });
+      await reExportsourceFile.save();
+      sourceFiles.push(reExportsourceFile);
+    }
 
     const stencilReactComponents = createStencilReactComponents({
       components: filteredComponents,
@@ -84,9 +100,7 @@ export const createComponentWrappers = async ({
     });
 
     const sourceFile = project.createSourceFile(outputPath, stencilReactComponents, { overwrite: true });
-
     await sourceFile.save();
-
     sourceFiles.push(sourceFile);
   }
   return sourceFiles;
