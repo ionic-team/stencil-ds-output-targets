@@ -24,10 +24,6 @@ export interface ReactOutputTargetOptions {
    */
   esModules?: boolean;
   /**
-   * Enable this option to add the `use client;` directive to the generated React components.
-   */
-  experimentalUseClient?: boolean;
-  /**
    * The directory where the custom elements are saved.
    *
    * This value is automatically detected from the Stencil configuration file for the dist-custom-elements output target.
@@ -61,7 +57,6 @@ export const reactOutputTarget = ({
   outDir,
   esModules,
   stencilPackageName,
-  experimentalUseClient,
   excludeComponents,
   customElementsDir: customElementsDirOverride,
   hydrateModule,
@@ -143,7 +138,6 @@ export const reactOutputTarget = ({
         stencilPackageName: stencilPackageName!,
         customElementsDir,
         esModules: esModules === true,
-        experimentalUseClient: experimentalUseClient === true,
         excludeComponents,
         project,
         hydrateModule,
