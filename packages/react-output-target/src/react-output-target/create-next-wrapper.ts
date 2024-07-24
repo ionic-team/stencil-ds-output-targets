@@ -4,10 +4,10 @@ import { kebabToPascalCase } from './utils/string-utils';
 
 export const createStencilNextComponents = ({
   components,
-  moduleSpecifier,
+  esModules,
 }: {
   components: ComponentCompilerMeta[];
-  moduleSpecifier: string;
+  esModules?: boolean;
 }) => {
   const project = new Project({ useInMemoryFileSystem: true });
   const useClientDirective = `'use client';\n\n`;
@@ -25,9 +25,11 @@ export const createStencilNextComponents = ({
   for (const component of components) {
     const tagName = component.tagName;
     const reactTagName = kebabToPascalCase(tagName);
+    const fileName = kebabToPascalCase(component.tagName);
+    const moduleSpecifier = esModules ? `./${fileName}` : `./components.server`;
     sourceFile.addExportDeclaration({
       moduleSpecifier,
-      namedExports: [reactTagName],
+      ...(esModules ? { namedExports: [`default as ${reactTagName}`] } : {}),
     });
   }
 

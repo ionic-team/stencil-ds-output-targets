@@ -24,10 +24,6 @@ export interface ReactOutputTargetOptions {
    */
   esModules?: boolean;
   /**
-   * Enable this option to add the `use client;` directive to the generated React components.
-   */
-  experimentalUseClient?: boolean;
-  /**
    * To enable server side rendering, provide the path to the hydrate module, e.g. `my-component/hydrate`.
    * By default this value is undefined and server side rendering is disabled.
    */
@@ -50,7 +46,6 @@ export const reactOutputTarget = ({
   outDir,
   esModules,
   stencilPackageName,
-  experimentalUseClient,
   excludeComponents,
   hydrateModule,
 }: ReactOutputTargetOptions): OutputTargetCustom => {
@@ -128,7 +123,6 @@ export const reactOutputTarget = ({
         stencilPackageName: stencilPackageName!,
         customElementsDir,
         esModules: esModules === true,
-        experimentalUseClient: experimentalUseClient === true,
         excludeComponents,
         project,
         hydrateModule,
