@@ -93,6 +93,17 @@ export const reactOutputTarget = ({
       }
 
       /**
+       * Validate the configuration for `dist-custom-elements` output target to ensure that
+       * the bundle generates its own runtime. This is important because we need to ensure that
+       * the Stencil runtime has hydration flags set which the default Stencil runtime does not have.
+       */
+      if (!customElementsOutputTarget.externalRuntime) {
+        throw new Error(
+          `The '${PLUGIN_NAME}' requires the '${DIST_CUSTOM_ELEMENTS}' output target to have 'externalRuntime: true' set in its configuration.`
+        );
+      }
+
+      /**
        * Validate the configuration to ensure that the dist-hydrate-script
        * output target is defined in the Stencil configuration if the hydrateModule is provided.
        */
