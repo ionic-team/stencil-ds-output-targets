@@ -49,7 +49,7 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
 
     let stringProps = '';
     for (const [key, value] of Object.entries(props)) {
-      if ((typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean')) {
+      if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
         continue;
       }
       stringProps += ` ${key}="${value}"`;
@@ -92,13 +92,14 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
     /**
      * cut out the inner content of the component
      */
-    const [__html, hydrationComment] = html
-      .slice(startTag.length, -endTag.length)
-      .replace('<template shadowrootmode="open">', '')
-      .split('</template>');
-    if (!__html) {
-      throw new Error('No HTML returned from renderToString');
-    }
+    const templateStartTag = '<template shadowrootmode="open">';
+    const templateEndTag = '</template>';
+    const hydrationComment = '<!--r.1-->';
+    const __html = html.slice(startTag.length, -endTag.length).startsWith(templateStartTag)
+      ? html
+          .slice(startTag.length, -endTag.length)
+          .slice(templateStartTag.length, -(templateEndTag + hydrationComment).length)
+      : html.slice(startTag.length, -endTag.length);
 
     /**
      * `html-react-parser` is a Node.js dependency so we should make sure to only import it when run on the server
@@ -117,11 +118,16 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
              * remove the outer tag (e.g. `options.tagName`) so we only have the inner content
              */
             const CustomTag = `${options.tagName}`;
-            return <CustomTag {...props}>
-              {/* @ts-expect-error */}
-              <template shadowrootmode="open" dangerouslySetInnerHTML={{ __html: (hydrationComment || '') + __html! }}></template>
-              {children}
-            </CustomTag>;
+            return (
+              <CustomTag {...props}>
+                <template
+                  // @ts-expect-error
+                  shadowrootmode="open"
+                  dangerouslySetInnerHTML={{ __html: hydrationComment + __html }}
+                ></template>
+                {children}
+              </CustomTag>
+            );
           }
 
           return;
@@ -131,4 +137,3 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
     return <StencilElement />;
   }) as unknown as ReactWebComponent<I, E>;
 };
-
