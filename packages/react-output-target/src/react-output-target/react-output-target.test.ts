@@ -21,6 +21,29 @@ describe('reactOutputTarget', () => {
     }
   });
 
+  it('should throw an error if the output target dist-custom-elements is not correctly configured', () => {
+    const { validate } = reactOutputTarget({
+      outDir: 'dist/components',
+    });
+
+    if (validate) {
+      expect(() =>
+        validate(
+          {
+            outputTargets: [
+              {
+                type: 'dist-custom-elements',
+              },
+            ],
+          } as any,
+          []
+        )
+      ).toThrowError(
+        `The 'react-output-target' requires the 'dist-custom-elements' output target to have 'externalRuntime: true' set in its configuration`
+      );
+    }
+  });
+
   it('should throw an error if the output target dist-hydrate-script is not configured and hydrateModule option is set', () => {
     const { validate } = reactOutputTarget({
       outDir: 'dist/components',
@@ -34,6 +57,7 @@ describe('reactOutputTarget', () => {
             outputTargets: [
               {
                 type: 'dist-custom-elements',
+                externalRuntime: true,
               },
             ],
           } as any,
@@ -57,6 +81,7 @@ describe('reactOutputTarget', () => {
             outputTargets: [
               {
                 type: 'dist-custom-elements',
+                externalRuntime: true,
               },
             ],
           } as any,
@@ -81,6 +106,7 @@ describe('reactOutputTarget', () => {
             outputTargets: [
               {
                 type: 'dist-custom-elements',
+                externalRuntime: true,
               },
             ],
           } as any,
@@ -102,6 +128,7 @@ describe('reactOutputTarget', () => {
             outputTargets: [
               {
                 type: 'dist-custom-elements',
+                externalRuntime: true,
               },
             ],
           } as any,
