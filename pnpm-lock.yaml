@@ -67,8 +67,8 @@ importers:
         specifier: workspace:*
         version: link:../../angular-output-target
       '@stencil/core':
-        specifier: 4.19.2-dev.1721945383.1ecdb19
-        version: 4.19.2-dev.1721945383.1ecdb19
+        specifier: 4.19.2-dev.1722290246.61e8645
+        version: 4.19.2-dev.1722290246.61e8645
       '@stencil/react-output-target':
         specifier: workspace:*
         version: link:../../react-output-target
@@ -2658,8 +2658,8 @@ packages:
     engines: {node: '>=16.0.0', npm: '>=7.10.0'}
     hasBin: true
 
-  '@stencil/core@4.19.2-dev.1721945383.1ecdb19':
-    resolution: {integrity: sha512-SkgsSmIHzBZqTGfVCESt/ojAGeemVis2MiWlJuparyiOQY4MpgBlUB0PhqWT7nPMr6b7M/GxOF+pKguZr3OMqg==}
+  '@stencil/core@4.19.2-dev.1722290246.61e8645':
+    resolution: {integrity: sha512-rTUx88iNwCtkplEbKWr4E6141oqjNZ9SRXCXJEFfpCr2ryFg6erRJ8w4S2CbW5R/5EavCS6+k0IrIk0edsvqdA==}
     engines: {node: '>=16.0.0', npm: '>=7.10.0'}
     hasBin: true
 
@@ -12210,7 +12210,7 @@ snapshots:
       jest-resolve: 26.6.2
       jest-resolve-dependencies: 26.6.3
       jest-runner: 26.6.3(ts-node@10.9.2(@swc/core@1.6.5)(@types/node@22.4.1)(typescript@4.9.5))
-      jest-runtime: 26.6.3(ts-node@10.9.2(@swc/core@1.6.5)(@types/node@22.4.1)(typescript@5.5.2))
+      jest-runtime: 26.6.3(ts-node@10.9.2(@swc/core@1.6.5)(@types/node@22.4.1)(typescript@4.9.5))
       jest-snapshot: 26.6.2
       jest-util: 26.6.2
       jest-validate: 26.6.2
@@ -12721,7 +12721,7 @@ snapshots:
       graceful-fs: 4.2.11
       jest-haste-map: 26.6.2
       jest-runner: 26.6.3(ts-node@10.9.2(@swc/core@1.6.5)(@types/node@22.4.1)(typescript@4.9.5))
-      jest-runtime: 26.6.3(ts-node@10.9.2(@swc/core@1.6.5)(@types/node@22.4.1)(typescript@5.5.2))
+      jest-runtime: 26.6.3(ts-node@10.9.2(@swc/core@1.6.5)(@types/node@22.4.1)(typescript@4.9.5))
     transitivePeerDependencies:
       - bufferutil
       - canvas
@@ -13594,7 +13594,7 @@ snapshots:
 
   '@stencil/core@4.19.0': {}
 
-  '@stencil/core@4.19.2-dev.1721945383.1ecdb19': {}
+  '@stencil/core@4.19.2-dev.1722290246.61e8645': {}
 
   '@swc/core-darwin-arm64@1.6.5':
     optional: true
@@ -16661,7 +16661,7 @@ snapshots:
       eslint: 8.57.0
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.6.1(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0)
-      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0)
+      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
       eslint-plugin-jsx-a11y: 6.9.0(eslint@8.57.0)
       eslint-plugin-react: 7.35.0(eslint@8.57.0)
       eslint-plugin-react-hooks: 4.6.2(eslint@8.57.0)
@@ -16685,7 +16685,7 @@ snapshots:
       enhanced-resolve: 5.17.0
       eslint: 8.57.0
       eslint-module-utils: 2.8.1(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0)
-      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0)
+      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
       fast-glob: 3.3.2
       get-tsconfig: 4.7.6
       is-core-module: 2.14.0
@@ -16707,7 +16707,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.29.1(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0))(eslint@8.57.0):
+  eslint-plugin-import@2.29.1(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.5.2))(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0):
     dependencies:
       array-includes: 3.1.8
       array.prototype.findlastindex: 1.2.5
@@ -18576,7 +18576,7 @@ snapshots:
       jest-environment-jsdom: 26.6.2
       jest-environment-node: 26.6.2
       jest-get-type: 26.3.0
-      jest-jasmine2: 26.6.3(ts-node@10.9.2(@swc/core@1.6.5)(@types/node@22.4.1)(typescript@5.5.2))
+      jest-jasmine2: 26.6.3
       jest-regex-util: 26.0.0
       jest-resolve: 26.6.2
       jest-util: 26.6.2
@@ -18982,6 +18982,29 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
+  jest-jasmine2@26.6.3:
+    dependencies:
+      '@babel/traverse': 7.24.7
+      '@jest/environment': 26.6.2
+      '@jest/source-map': 26.6.2
+      '@jest/test-result': 26.6.2
+      '@jest/types': 26.6.2
+      '@types/node': 20.14.12
+      chalk: 4.1.2
+      co: 4.6.0
+      expect: 26.6.2
+      is-generator-fn: 2.1.0
+      jest-each: 26.6.2
+      jest-matcher-utils: 26.6.2
+      jest-message-util: 26.6.2
+      jest-runtime: 26.6.3(ts-node@10.9.2(@swc/core@1.6.5)(@types/node@22.4.1)(typescript@5.5.2))
+      jest-snapshot: 26.6.2
+      jest-util: 26.6.2
+      pretty-format: 26.6.2
+      throat: 5.0.0
+    transitivePeerDependencies:
+      - supports-color
+
   jest-jasmine2@26.6.3(ts-node@10.9.2(@swc/core@1.6.5)(@types/node@22.4.1)(typescript@4.9.5)):
     dependencies:
       '@babel/traverse': 7.24.7
@@ -18998,33 +19021,6 @@ snapshots:
       jest-matcher-utils: 26.6.2
       jest-message-util: 26.6.2
       jest-runtime: 26.6.3(ts-node@10.9.2(@swc/core@1.6.5)(@types/node@22.4.1)(typescript@4.9.5))
-      jest-snapshot: 26.6.2
-      jest-util: 26.6.2
-      pretty-format: 26.6.2
-      throat: 5.0.0
-    transitivePeerDependencies:
-      - bufferutil
-      - canvas
-      - supports-color
-      - ts-node
-      - utf-8-validate
-
-  jest-jasmine2@26.6.3(ts-node@10.9.2(@swc/core@1.6.5)(@types/node@22.4.1)(typescript@5.5.2)):
-    dependencies:
-      '@babel/traverse': 7.24.7
-      '@jest/environment': 26.6.2
-      '@jest/source-map': 26.6.2
-      '@jest/test-result': 26.6.2
-      '@jest/types': 26.6.2
-      '@types/node': 20.14.12
-      chalk: 4.1.2
-      co: 4.6.0
-      expect: 26.6.2
-      is-generator-fn: 2.1.0
-      jest-each: 26.6.2
-      jest-matcher-utils: 26.6.2
-      jest-message-util: 26.6.2
-      jest-runtime: 26.6.3(ts-node@10.9.2(@swc/core@1.6.5)(@types/node@22.4.1)(typescript@5.5.2))
       jest-snapshot: 26.6.2
       jest-util: 26.6.2
       pretty-format: 26.6.2
@@ -19320,7 +19316,7 @@ snapshots:
       jest-leak-detector: 26.6.2
       jest-message-util: 26.6.2
       jest-resolve: 26.6.2
-      jest-runtime: 26.6.3(ts-node@10.9.2(@swc/core@1.6.5)(@types/node@22.4.1)(typescript@5.5.2))
+      jest-runtime: 26.6.3(ts-node@10.9.2(@swc/core@1.6.5)(@types/node@22.4.1)(typescript@4.9.5))
       jest-util: 26.6.2
       jest-worker: 26.6.2
       source-map-support: 0.5.21
