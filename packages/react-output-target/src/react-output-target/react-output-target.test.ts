@@ -23,7 +23,9 @@ describe('reactOutputTarget', () => {
 
   it('should throw an error if the output target dist-custom-elements is not correctly configured', () => {
     const { validate } = reactOutputTarget({
+      stencilPackageName: 'my-components',
       outDir: 'dist/components',
+      hydrateModule: 'my-components/hydrate',
     });
 
     if (validate) {
@@ -33,13 +35,18 @@ describe('reactOutputTarget', () => {
             outputTargets: [
               {
                 type: 'dist-custom-elements',
+                externalRuntime: true,
+              },
+              {
+                type: 'dist-hydrate-script',
+                dir: '/hydrate',
               },
             ],
           } as any,
           []
         )
       ).toThrowError(
-        `The 'react-output-target' requires the 'dist-custom-elements' output target to have 'externalRuntime: true' set in its configuration`
+        `The 'react-output-target' requires the 'dist-custom-elements' output target to have 'externalRuntime: false' set in its configuration`
       );
     }
   });
@@ -57,7 +64,6 @@ describe('reactOutputTarget', () => {
             outputTargets: [
               {
                 type: 'dist-custom-elements',
-                externalRuntime: true,
               },
             ],
           } as any,
@@ -81,7 +87,6 @@ describe('reactOutputTarget', () => {
             outputTargets: [
               {
                 type: 'dist-custom-elements',
-                externalRuntime: true,
               },
             ],
           } as any,
@@ -106,7 +111,6 @@ describe('reactOutputTarget', () => {
             outputTargets: [
               {
                 type: 'dist-custom-elements',
-                externalRuntime: true,
               },
             ],
           } as any,
@@ -128,7 +132,6 @@ describe('reactOutputTarget', () => {
             outputTargets: [
               {
                 type: 'dist-custom-elements',
-                externalRuntime: true,
               },
             ],
           } as any,
