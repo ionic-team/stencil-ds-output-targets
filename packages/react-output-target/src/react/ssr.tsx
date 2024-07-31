@@ -44,7 +44,7 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
      * ensure we only run on server
      */
     if (!('process' in globalThis) || typeof window !== 'undefined') {
-      throw new Error('createComponentForServerSideRendering can only be run on the server');
+      throw new Error('`createComponentForServerSideRendering` can only be run on the server');
     }
 
     let stringProps = '';
@@ -55,7 +55,29 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
       stringProps += ` ${key}="${value}"`;
     }
 
-    const toSerialize = `<${options.tagName}${stringProps}></${options.tagName}>`;
+    let lightDOM = '';
+    try {
+      /**
+       * Attempt to resolve the children to a string using `ReactDOMServer.renderToString`. This may
+       * fail when the children are e.g. React server components, as they need to be resolved first.
+       */
+      const awaitedChildren = await resolveComponentTypes(children);
+      const { renderToString } = await import('react-dom/server');
+      /**
+       * Including the light DOM in the serialization process returns better results as users may render
+       * their component differently based on the contents of the light DOM.
+       */
+      lightDOM = renderToString(awaitedChildren);
+    } catch (e: unknown) {
+      const error = e instanceof Error ? e.message : 'Unknown error';
+      console.warn(
+        `[@stencil/react-output-target]: Error rendering children of ${options.tagName}: ${error}, ` +
+          `will hydrate without light DOM. Note: this may impact the hydration result if your component ` +
+          `inspects the content of the light DOM to render itself differently.`
+      );
+    }
+
+    const toSerialize = `<${options.tagName}${stringProps}>${lightDOM}</${options.tagName}>`;
 
     /**
      * first render the component with pretty HTML so it makes it easier to
@@ -95,7 +117,8 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
     const templateStartTag = '<template shadowrootmode="open">';
     const templateEndTag = '</template>';
     const hydrationComment = '<!--r.1-->';
-    const __html = html.slice(startTag.length, -endTag.length).startsWith(templateStartTag)
+    const isShadowComponent = html.slice(startTag.length, -endTag.length).startsWith(templateStartTag);
+    const __html = isShadowComponent
       ? html
           .slice(startTag.length, -endTag.length)
           .slice(templateStartTag.length, -(templateEndTag + hydrationComment).length)
@@ -118,6 +141,14 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
              * remove the outer tag (e.g. `options.tagName`) so we only have the inner content
              */
             const CustomTag = `${options.tagName}`;
+
+            /**
+             * if the component is not a shadow component we can render it with the light DOM only
+             */
+            if (!isShadowComponent) {
+              return <CustomTag {...props}>{children}</CustomTag>;
+            }
+
             return (
               <CustomTag {...props}>
                 <template
@@ -137,3 +168,48 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
     return <StencilElement />;
   }) as unknown as ReactWebComponent<I, E>;
 };
+
+/**
+ * Usually virtual DOM nodes are raw objects with information about their type and props.
+ * With React server components, type information may be passed through as promise. This
+ * function resolves the type information of the children of a component.
+ * @param children React children to resolve
+ * @returns Resolved React children
+ */
+async function resolveComponentTypes<I extends HTMLElement>(children: React.ReactNode): Promise<React.ReactNode> {
+  /**
+   * if the children are a string we can return them as is, e.g.
+   * `<div>Hello World</div>`
+   */
+  if (typeof children === 'string') {
+    return children;
+  }
+
+  if (!children || !Array.isArray(children)) {
+    return [];
+  }
+
+  return Promise.all(
+    children.map(async (child): Promise<string | StencilProps<I>> => {
+      if (typeof child === 'string') {
+        return child;
+      }
+
+      const newProps = {
+        ...child.props,
+        children:
+          typeof child.props.children === 'string'
+            ? child.props.children
+            : await resolveComponentTypes((child.props || {}).children),
+      };
+
+      const newChild = {
+        ...child,
+        type: typeof child.type === 'function' ? await child.type({ __resolveTagName: true }) : child.type,
+        props: newProps,
+      };
+
+      return newChild;
+    })
+  ) as Promise<React.ReactNode>;
+}
