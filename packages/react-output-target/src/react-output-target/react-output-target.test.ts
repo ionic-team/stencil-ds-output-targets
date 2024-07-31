@@ -7,18 +7,20 @@ describe('reactOutputTarget', () => {
       outDir: 'dist/components',
     });
 
-    if (validate) {
-      expect(() =>
-        validate(
-          {
-            outputTargets: [],
-          } as any,
-          []
-        )
-      ).toThrowError(
-        `The 'react-output-target' requires 'dist-custom-elements' output target. Add { type: 'dist-custom-elements' }, to the outputTargets config.`
-      );
+    if (!validate) {
+      throw new Error('validate is not defined');
     }
+
+    expect(() =>
+      validate(
+        {
+          outputTargets: [],
+        } as any,
+        []
+      )
+    ).toThrowError(
+      `The 'react-output-target' requires 'dist-custom-elements' output target. Add { type: 'dist-custom-elements' }, to the outputTargets config.`
+    );
   });
 
   it('should throw an error if the output target dist-custom-elements is not correctly configured', () => {
@@ -28,27 +30,48 @@ describe('reactOutputTarget', () => {
       hydrateModule: 'my-components/hydrate',
     });
 
-    if (validate) {
-      expect(() =>
-        validate(
-          {
-            outputTargets: [
-              {
-                type: 'dist-custom-elements',
-                externalRuntime: true,
-              },
-              {
-                type: 'dist-hydrate-script',
-                dir: '/hydrate',
-              },
-            ],
-          } as any,
-          []
-        )
-      ).toThrowError(
-        `The 'react-output-target' requires the 'dist-custom-elements' output target to have 'externalRuntime: false' set in its configuration`
-      );
+    if (!validate) {
+      throw new Error('validate is not defined');
     }
+
+    expect(() =>
+      validate(
+        {
+          outputTargets: [
+            {
+              type: 'dist-custom-elements',
+              externalRuntime: true,
+            },
+            {
+              type: 'dist-hydrate-script',
+              dir: '/hydrate',
+            },
+          ],
+        } as any,
+        []
+      )
+    ).toThrowError(
+      `The 'react-output-target' requires the 'dist-custom-elements' output target to have 'externalRuntime: false' set in its configuration`
+    );
+
+    expect(() =>
+      validate(
+        {
+          outputTargets: [
+            {
+              type: 'dist-custom-elements',
+            },
+            {
+              type: 'dist-hydrate-script',
+              dir: '/hydrate',
+            },
+          ],
+        } as any,
+        []
+      )
+    ).toThrowError(
+      `The 'react-output-target' requires the 'dist-custom-elements' output target to have 'externalRuntime: false' set in its configuration`
+    );
   });
 
   it('should throw an error if the output target dist-hydrate-script is not configured and hydrateModule option is set', () => {
@@ -57,22 +80,24 @@ describe('reactOutputTarget', () => {
       hydrateModule: 'dist/hydrate-script',
     });
 
-    if (validate) {
-      expect(() =>
-        validate(
-          {
-            outputTargets: [
-              {
-                type: 'dist-custom-elements',
-              },
-            ],
-          } as any,
-          []
-        )
-      ).toThrowError(
-        `The 'react-output-target' requires 'dist-hydrate-script' output target when the 'hydrateModule' option is set. Add { type: 'dist-hydrate-script' }, to the outputTargets config.`
-      );
+    if (!validate) {
+      throw new Error('validate is not defined');
     }
+
+    expect(() =>
+      validate(
+        {
+          outputTargets: [
+            {
+              type: 'dist-custom-elements',
+            },
+          ],
+        } as any,
+        []
+      )
+    ).toThrowError(
+      `The 'react-output-target' requires 'dist-hydrate-script' output target when the 'hydrateModule' option is set. Add { type: 'dist-hydrate-script' }, to the outputTargets config.`
+    );
   });
 
   it('should throw an error if the package.json file cannot be found', () => {
@@ -80,22 +105,24 @@ describe('reactOutputTarget', () => {
       outDir: 'dist/components',
     });
 
-    if (validate) {
-      expect(() =>
-        validate(
-          {
-            outputTargets: [
-              {
-                type: 'dist-custom-elements',
-              },
-            ],
-          } as any,
-          []
-        )
-      ).toThrowError(
-        'Unable to find the package name in the package.json file: undefined. Please provide the stencilPackageName manually to the react-output-target output target.'
-      );
+    if (!validate) {
+      throw new Error('validate is not defined');
     }
+
+    expect(() =>
+      validate(
+        {
+          outputTargets: [
+            {
+              type: 'dist-custom-elements',
+            },
+          ],
+        } as any,
+        []
+      )
+    ).toThrowError(
+      'Unable to find the package name in the package.json file: undefined. Please provide the stencilPackageName manually to the react-output-target output target.'
+    );
   });
 
   it('should not throw an error if the package name is provided', () => {
@@ -104,20 +131,22 @@ describe('reactOutputTarget', () => {
       stencilPackageName: 'my-components',
     });
 
-    if (validate) {
-      expect(() =>
-        validate(
-          {
-            outputTargets: [
-              {
-                type: 'dist-custom-elements',
-              },
-            ],
-          } as any,
-          []
-        )
-      ).not.toThrowError();
+    if (!validate) {
+      throw new Error('validate is not defined');
     }
+
+    expect(() =>
+      validate(
+        {
+          outputTargets: [
+            {
+              type: 'dist-custom-elements',
+            },
+          ],
+        } as any,
+        []
+      )
+    ).not.toThrowError();
   });
 
   it('should throw an error if the outDir option is not provided', () => {
@@ -125,19 +154,21 @@ describe('reactOutputTarget', () => {
       stencilPackageName: 'my-components',
     } as any);
 
-    if (validate) {
-      expect(() =>
-        validate(
-          {
-            outputTargets: [
-              {
-                type: 'dist-custom-elements',
-              },
-            ],
-          } as any,
-          []
-        )
-      ).toThrowError(`The 'outDir' option is required.`);
+    if (!validate) {
+      throw new Error('validate is not defined');
     }
+
+    expect(() =>
+      validate(
+        {
+          outputTargets: [
+            {
+              type: 'dist-custom-elements',
+            },
+          ],
+        } as any,
+        []
+      )
+    ).toThrowError(`The 'outDir' option is required.`);
   });
 });
