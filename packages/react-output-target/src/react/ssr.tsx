@@ -95,8 +95,7 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
     const templateStartTag = '<template shadowrootmode="open">';
     const templateEndTag = '</template>';
     const hydrationComment = '<!--r.1-->';
-    const isShadowComponent = html.slice(startTag.length, -endTag
-      .length).startsWith(templateStartTag);
+    const isShadowComponent = html.slice(startTag.length, -endTag.length).startsWith(templateStartTag);
     const __html = isShadowComponent
       ? html
           .slice(startTag.length, -endTag.length)
