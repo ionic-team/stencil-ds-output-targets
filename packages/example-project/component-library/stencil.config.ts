@@ -61,6 +61,10 @@ export const config: Config = {
     reactOutputTarget({
       outDir: '../component-library-react/src',
     }),
+    reactOutputTarget({
+      outDir: '../next-app/src/app',
+      hydrateModule: 'component-library/hydrate'
+    }),
     vueOutputTarget({
       componentCorePackage: 'component-library',
       proxiesFile: '../component-library-vue/src/proxies.ts',
@@ -68,11 +72,16 @@ export const config: Config = {
     }),
     {
       type: 'dist-custom-elements',
+      externalRuntime: false,
       dir: 'components'
     },
     {
       type: 'dist',
       esmLoaderPath: '../loader',
+    },
+    {
+      type: 'dist-hydrate-script',
+      dir: './hydrate',
     },
     {
       type: 'docs-readme',

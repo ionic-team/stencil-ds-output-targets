@@ -1,5 +1,7 @@
 import type { EventName, Options } from '@lit/react';
-import { createComponent as createComponentWrapper } from '@lit/react';
+import { createComponent as createComponentWrapper, type ReactWebComponent, WebComponentProps } from '@lit/react';
+
+import type { RenderToString } from './ssr';
 
 // A key value map matching React prop names to event names.
 type EventNames = Record<string, EventName | string>;
@@ -16,4 +18,31 @@ export const createComponent = <I extends HTMLElement, E extends EventNames = {}
     defineCustomElement();
   }
   return createComponentWrapper<I, E>(options);
+};
+
+/**
+ * Defines a custom element and creates a React component for server side rendering.
+ * @public
+ */
+export const createSSRComponent = <I extends HTMLElement, E extends EventNames = {}>({
+  hydrateModule,
+  tagName,
+}: {
+  hydrateModule: Promise<{ renderToString: RenderToString }>;
+  tagName: string;
+}): ReactWebComponent<I, E> => {
+  /**
+   * IIFE to lazy load the `createComponentForServerSideRendering` function while allowing
+   * to return the correct type for the `ReactWebComponent`.
+   *
+   * Note: we want to lazy load the `./ssr` and `hydrateModule` modules to avoid
+   * bundling them in the runtime and serving them in the browser.
+   */
+  return (async (props: WebComponentProps<I>) => {
+    const { createComponentForServerSideRendering } = await import('./ssr');
+    return createComponentForServerSideRendering<I, E>({
+      tagName,
+      renderToString: (await hydrateModule).renderToString,
+    })(props as any);
+  }) as unknown as ReactWebComponent<I, E>;
 };

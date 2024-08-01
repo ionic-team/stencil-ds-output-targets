@@ -24,15 +24,17 @@ export interface ReactOutputTargetOptions {
    */
   esModules?: boolean;
   /**
-   * Enable this option to add the `use client;` directive to the generated React components.
+   * To enable server side rendering, provide the path to the hydrate module, e.g. `my-component/hydrate`.
+   * By default this value is undefined and server side rendering is disabled.
    */
-  experimentalUseClient?: boolean;
+  hydrateModule?: string;
 }
 
 const PLUGIN_NAME = 'react-output-target';
 
-const DIST_CUSTOM_ELEMENTS_DEFAULT_DIR = 'components';
+const DIST_CUSTOM_ELEMENTS_DEFAULT_DIR = 'dist/components';
 const DIST_CUSTOM_ELEMENTS = 'dist-custom-elements';
+const HYDRATE_OUTPUT_TARGET = 'dist-hydrate-script';
 
 /**
  * Creates an output target for binding Stencil components to be used in a React context
@@ -44,8 +46,8 @@ export const reactOutputTarget = ({
   outDir,
   esModules,
   stencilPackageName,
-  experimentalUseClient,
   excludeComponents,
+  hydrateModule,
 }: ReactOutputTargetOptions): OutputTargetCustom => {
   let customElementsDir = DIST_CUSTOM_ELEMENTS_DEFAULT_DIR;
   return {
@@ -66,12 +68,41 @@ export const reactOutputTarget = ({
           `The '${PLUGIN_NAME}' requires '${DIST_CUSTOM_ELEMENTS}' output target. Add { type: '${DIST_CUSTOM_ELEMENTS}' }, to the outputTargets config.`
         );
       }
+
+      /**
+       * Validate the configuration to ensure that the dist-hydrate-script
+       * output target is defined in the Stencil configuration if the hydrateModule is provided.
+       */
+      if (hydrateModule) {
+        const hydrateOutputTarget = (config.outputTargets || []).find((o) => o.type === HYDRATE_OUTPUT_TARGET);
+        if (hydrateOutputTarget == null) {
+          throw new Error(
+            `The '${PLUGIN_NAME}' requires '${HYDRATE_OUTPUT_TARGET}' output target when the 'hydrateModule' option is set. Add { type: '${HYDRATE_OUTPUT_TARGET}' }, to the outputTargets config.`
+          );
+        }
+
+        /**
+         * Validate the configuration for `dist-custom-elements` output target to ensure that
+         * the bundle generates its own runtime. This is important because we need to ensure that
+         * the Stencil runtime has hydration flags set which the default Stencil runtime does not have.
+         */
+        if (customElementsOutputTarget.externalRuntime !== false) {
+          throw new Error(
+            `The '${PLUGIN_NAME}' requires the '${DIST_CUSTOM_ELEMENTS}' output target to have 'externalRuntime: false' set in its configuration.`
+          );
+        }
+      }
+
       if (customElementsOutputTarget.dir !== undefined) {
         /**
          * If the developer has configured a custom output path for the Stencil components,
          * we need to use that path when importing the components in the React components.
          */
         customElementsDir = customElementsOutputTarget.dir;
+      }
+
+      if (!outDir) {
+        throw new Error(`The 'outDir' option is required.`);
       }
 
       /**
@@ -103,9 +134,9 @@ export const reactOutputTarget = ({
         stencilPackageName: stencilPackageName!,
         customElementsDir,
         esModules: esModules === true,
-        experimentalUseClient: experimentalUseClient === true,
         excludeComponents,
         project,
+        hydrateModule,
       });
 
       await Promise.all(
