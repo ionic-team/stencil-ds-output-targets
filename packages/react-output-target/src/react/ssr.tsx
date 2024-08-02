@@ -40,6 +40,10 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
       throw new Error('`createComponentForServerSideRendering` can only be run on the server');
     }
 
+    /**
+     * Serialize the props into a string. We only want to serialize string, number and boolean values
+     * as other values can't be represented within a string.
+     */
     let stringProps = '';
     for (const [key, value] of Object.entries(props)) {
       if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
@@ -49,11 +53,21 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
     }
 
     let serializedChildren = '';
-    const toSerialize = `<${options.tagName}${stringProps} suppressHydrationWarning="true">`;
+    const toSerialize = `<${options.tagName}${stringProps}>`;
     try {
+      /**
+       * Attempt to serialize the children of the component into a string to allow the Stencil component
+       * make judgments about the Light DOM to render itself in specific ways. For example, a component
+       * may render additional classes or attributes to the host element based on the e.g. a certain slot
+       * element was passed in or not.
+       */
       const awaitedChildren = await resolveComponentTypes(children);
       serializedChildren = ReactDOMServer.renderToString(awaitedChildren);
     } catch (err: unknown) {
+      /**
+       * We've experienced that ReactDOMServer would throw `undefined` errors when trying to serialize
+       * certain React components. This is a best effort to catch the error and log it to the console.
+       */
       const error = err instanceof Error ? err : new Error('Unknown error');
       console.log(
         `Failed to serialize light DOM for ${toSerialize.slice(0, -1)} />: ${
@@ -82,6 +96,13 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
     const hydrationComment = '<!--r.1-->';
     const isShadowComponent = serializedComponentByLine[1].includes('shadowrootmode="open"');
     let templateContent: undefined | string = undefined;
+
+    /**
+     * If the component is a shadow component we need to extract the template content out of the
+     * shadow root so that we can later compose it back into a React component that gets this
+     * content applied via "dangerouslySetInnerHTML" and allows us to pass through the children
+     * as original React components rather than using our own serialization which may not work.
+     */
     if (isShadowComponent) {
       const templateEndTag = '  </template>';
       templateContent = serializedComponentByLine
@@ -149,6 +170,14 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
   }) as unknown as ReactWebComponent<I, E>;
 };
 
+/**
+ * This function is an attempt to resolve the component types and their children when components are lazy loaded.
+ * This is a best effort and may not work in all cases. It is recommended to use this function as a starting point
+ * and replace it with a more robust solution if needed.
+ *
+ * @param children {React.ReactNode} - the children of a component
+ * @returns {Promise<React.ReactNode>} - the resolved children
+ */
 async function resolveComponentTypes<I extends HTMLElement>(children: React.ReactNode): Promise<React.ReactNode> {
   if (typeof children === 'undefined') {
     return;
@@ -194,10 +223,10 @@ async function resolveComponentTypes<I extends HTMLElement>(children: React.Reac
           $$typeof: Symbol('react.element'),
           _payload: await type._payload({ __resolveTagName: true }),
         };
+      }
 
-        if (typeof type._payload.type === 'function') {
-          return type._payload.type();
-        }
+      if (typeof type?.type === 'function') {
+        return type.type(newProps);
       }
 
       const newChild = {
