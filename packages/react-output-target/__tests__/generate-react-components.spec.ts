@@ -5,34 +5,64 @@ import { PackageJSON, OutputTargetReact } from '../src/types';
 describe('createComponentDefinition', () => {
   it('should create a React component with custom element support', () => {
     const output = createComponentDefinition(
+      // @ts-ignore
       {
         properties: [],
         tagName: 'my-component',
         methods: [],
         events: [],
       },
-      true
+      true,
+      { proxiesFile: '', componentCorePackage: 'test_package' },
+      ''
     );
-    expect(output[0]).toEqual(
-      `export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component', undefined, undefined, defineMyComponent);`
-    );
+
+    expect(output.indexContents[0]).toEqual(`import { MyComponent } from './MyComponent'`);
+    expect(output.componentFileName).toEqual('MyComponent.ts');
+    expect(output.componentFileContents).toEqual(`// @ts-nocheck
+/* eslint-disable */
+/* tslint:disable */
+/* auto-generated react proxies */
+import { createReactComponent } from './react-component-lib';
+
+
+import { MyComponent as MyComponentCmp, defineCustomElement as defineCustomElementMyComponent } from 'test_package/components/my-component.js';
+export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component', undefined, undefined, MyComponentCmp, defineCustomElementMyComponent);
+`);
   });
 
   it('should create a React component without custom element support', () => {
-    const output = createComponentDefinition({
+    let cmpMeta = {
       properties: [],
       tagName: 'my-component',
       methods: [],
       events: [],
-    });
-    expect(output[0]).toEqual(
-      `export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component');`
+    };
+
+    const output = createComponentDefinition(
+      // @ts-ignore
+      cmpMeta,
+      false,
+      { proxiesFile: '', componentCorePackage: 'test_package' },
+      ''
     );
+
+    expect(output.indexContents[0]).toEqual(`import { MyComponent } from './MyComponent'`);
+    expect(output.componentFileName).toEqual('MyComponent.ts');
+    expect(output.componentFileContents).toEqual(`// @ts-nocheck
+/* eslint-disable */
+/* tslint:disable */
+/* auto-generated react proxies */
+import { createReactComponent } from './react-component-lib';
+
+
+export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component');`);
   });
 });
 
 describe('generateProxies', () => {
-  const components: ComponentCompilerMeta[] = [];
+  // @ts-ignore
+  const components: ComponentCompilerMeta[] = [{ properties: [], tagName: 'my-component', methods: [], events: [] }];
   const pkgData: PackageJSON = {
     types: 'dist/types/index.d.ts',
   };
@@ -47,18 +77,13 @@ describe('generateProxies', () => {
       includeDefineCustomElements: true,
     };
 
-    const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
-    expect(finalText).toEqual(
-      `/* eslint-disable */
-/* tslint:disable */
-/* auto-generated react proxies */
-import { createReactComponent } from './react-component-lib';
+    const generateProxiesOutput = generateProxies(config, components, pkgData, outputTarget, rootDir);
 
-import type { JSX } from 'component-library';
-
-import { applyPolyfills, defineCustomElements } from 'component-library/dist/loader';
+    expect(generateProxiesOutput.indexText).toEqual(
+      `import { applyPolyfills, defineCustomElements } from 'component-library/dist/loader';
 
 applyPolyfills().then(() => defineCustomElements());
+import { MyComponent } from './MyComponent'
 
 `
     );
@@ -72,20 +97,26 @@ applyPolyfills().then(() => defineCustomElements());
       includeDefineCustomElements: true,
     };
 
-    const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
-    expect(finalText).toEqual(
-      `/* eslint-disable */
+    const generateProxiesOutput = generateProxies(config, components, pkgData, outputTarget, rootDir);
+    expect(generateProxiesOutput.indexText).toEqual(
+      `import { defineCustomElements } from 'component-library/dist/loader';
+
+defineCustomElements();
+import { MyComponent } from './MyComponent'
+
+`
+    );
+    expect(generateProxiesOutput.componentExports[0].fileName).toEqual('MyComponent.ts');
+    expect(generateProxiesOutput.componentExports[0].fileContents).toEqual(
+      `// @ts-nocheck
+/* eslint-disable */
 /* tslint:disable */
 /* auto-generated react proxies */
 import { createReactComponent } from './react-component-lib';
 
 import type { JSX } from 'component-library';
 
-import { defineCustomElements } from 'component-library/dist/loader';
-
-defineCustomElements();
-
-`
+export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component');`
     );
   });
 
@@ -97,20 +128,18 @@ defineCustomElements();
       includeDefineCustomElements: false,
     };
 
-    const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
-    expect(finalText).toEqual(
-      `/* eslint-disable */
+    const generateProxiesOutput = generateProxies(config, components, pkgData, outputTarget, rootDir);
+    expect(generateProxiesOutput.indexText.trim()).toEqual(`import { MyComponent } from './MyComponent'`);
+    expect(generateProxiesOutput.componentExports[0].fileName).toEqual('MyComponent.ts');
+    expect(generateProxiesOutput.componentExports[0].fileContents.trim()).toEqual(`// @ts-nocheck
+/* eslint-disable */
 /* tslint:disable */
 /* auto-generated react proxies */
 import { createReactComponent } from './react-component-lib';
 
 import type { JSX } from 'component-library';
 
-
-
-
-`
-    );
+export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component');`);
   });
 
   it('should include importCustomElements if true in the outputTarget', () => {
@@ -120,20 +149,22 @@ import type { JSX } from 'component-library';
       includeImportCustomElements: true,
     };
 
-    const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
-    expect(finalText).toEqual(
-      `/* eslint-disable */
+    const generateProxiesOutput = generateProxies(config, components, pkgData, outputTarget, rootDir);
+    expect(generateProxiesOutput.indexText.trim())
+      .toEqual(`import { defineCustomElement as defineMyComponent } from 'component-library/components/my-component.js';
+
+import { MyComponent } from './MyComponent'`);
+    expect(generateProxiesOutput.componentExports[0].fileName).toEqual('MyComponent.ts');
+    expect(generateProxiesOutput.componentExports[0].fileContents.trim()).toEqual(`// @ts-nocheck
+/* eslint-disable */
 /* tslint:disable */
 /* auto-generated react proxies */
 import { createReactComponent } from './react-component-lib';
 
 import type { JSX } from 'component-library/components';
 
-
-
-
-`
-    );
+import { MyComponent as MyComponentCmp, defineCustomElement as defineCustomElementMyComponent } from 'component-library/components/my-component.js';
+export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component', undefined, undefined, MyComponentCmp, defineCustomElementMyComponent);`);
   });
 
   it('should include importCustomElements with custom path if defined in outputTarget', () => {
@@ -144,20 +175,22 @@ import type { JSX } from 'component-library/components';
       customElementsDir: 'custom-dir/hello',
     };
 
-    const finalText = generateProxies(config, components, pkgData, outputTarget, rootDir);
-    expect(finalText).toEqual(
-      `/* eslint-disable */
+    const generateProxiesOutput = generateProxies(config, components, pkgData, outputTarget, rootDir);
+    expect(generateProxiesOutput.indexText.trim())
+      .toEqual(`import { defineCustomElement as defineMyComponent } from 'component-library/custom-dir/hello/my-component.js';
+
+import { MyComponent } from './MyComponent'`);
+    expect(generateProxiesOutput.componentExports[0].fileName).toEqual('MyComponent.ts');
+    expect(generateProxiesOutput.componentExports[0].fileContents.trim()).toEqual(`// @ts-nocheck
+/* eslint-disable */
 /* tslint:disable */
 /* auto-generated react proxies */
 import { createReactComponent } from './react-component-lib';
 
 import type { JSX } from 'component-library/custom-dir/hello';
 
-
-
-
-`
-    );
+import { MyComponent as MyComponentCmp, defineCustomElement as defineCustomElementMyComponent } from 'component-library/custom-dir/hello/my-component.js';
+export const MyComponent = /*@__PURE__*/createReactComponent<JSX.MyComponent, HTMLMyComponentElement>('my-component', undefined, undefined, MyComponentCmp, defineCustomElementMyComponent);`);
   });
 });
 

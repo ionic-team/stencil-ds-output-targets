@@ -5,7 +5,7 @@ import { defineContainer } from './vue-component-lib/utils';
 
 import type { JSX } from 'component-library';
 
-export const MyButton = /*@__PURE__*/ defineContainer<JSX.MyButton>('my-button', undefined, [
+export const MyButton = /*@__PURE__*/ defineContainer<JSX.MyButton>('my-button', [
   'color',
   'buttonType',
   'disabled',
@@ -25,13 +25,14 @@ export const MyButton = /*@__PURE__*/ defineContainer<JSX.MyButton>('my-button',
 
 export const MyCheckbox = /*@__PURE__*/ defineContainer<JSX.MyCheckbox>(
   'my-checkbox',
-  undefined,
   ['color', 'name', 'checked', 'indeterminate', 'disabled', 'value', 'myChange', 'myFocus', 'myBlur', 'myStyle'],
-  'checked',
-  'myChange'
+  {
+    modelProp: 'checked',
+    modelUpdateEvent: 'myChange',
+  }
 );
 
-export const MyComponent = /*@__PURE__*/ defineContainer<JSX.MyComponent>('my-component', undefined, [
+export const MyComponent = /*@__PURE__*/ defineContainer<JSX.MyComponent>('my-component', [
   'first',
   'middle',
   'last',
@@ -42,7 +43,6 @@ export const MyComponent = /*@__PURE__*/ defineContainer<JSX.MyComponent>('my-co
 
 export const MyInput = /*@__PURE__*/ defineContainer<JSX.MyInput>(
   'my-input',
-  undefined,
   [
     'color',
     'accept',
@@ -75,11 +75,13 @@ export const MyInput = /*@__PURE__*/ defineContainer<JSX.MyInput>(
     'myBlur',
     'myFocus',
   ],
-  'value',
-  'myChange'
+  {
+    modelProp: 'value',
+    modelUpdateEvent: 'myChange',
+  }
 );
 
-export const MyPopover = /*@__PURE__*/ defineContainer<JSX.MyPopover>('my-popover', undefined, [
+export const MyPopover = /*@__PURE__*/ defineContainer<JSX.MyPopover>('my-popover', [
   'component',
   'componentProps',
   'keyboardClose',
@@ -95,7 +97,7 @@ export const MyPopover = /*@__PURE__*/ defineContainer<JSX.MyPopover>('my-popove
   'myPopoverDidDismiss',
 ]);
 
-export const MyRadio = /*@__PURE__*/ defineContainer<JSX.MyRadio>('my-radio', undefined, [
+export const MyRadio = /*@__PURE__*/ defineContainer<JSX.MyRadio>('my-radio', [
   'color',
   'name',
   'disabled',
@@ -108,15 +110,15 @@ export const MyRadio = /*@__PURE__*/ defineContainer<JSX.MyRadio>('my-radio', un
 
 export const MyRadioGroup = /*@__PURE__*/ defineContainer<JSX.MyRadioGroup>(
   'my-radio-group',
-  undefined,
   ['allowEmptySelection', 'name', 'value', 'myChange'],
-  'value',
-  'myChange'
+  {
+    modelProp: 'value',
+    modelUpdateEvent: 'myChange',
+  }
 );
 
 export const MyRange = /*@__PURE__*/ defineContainer<JSX.MyRange>(
   'my-range',
-  undefined,
   [
     'color',
     'debounce',
@@ -135,6 +137,8 @@ export const MyRange = /*@__PURE__*/ defineContainer<JSX.MyRange>(
     'myFocus',
     'myBlur',
   ],
-  'value',
-  'myChange'
+  {
+    modelProp: 'value',
+    modelUpdateEvent: 'myChange',
+  }
 );
