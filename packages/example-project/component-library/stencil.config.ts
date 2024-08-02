@@ -55,6 +55,7 @@ export const config: Config = {
     angularOutputTarget({
       componentCorePackage: 'component-library',
       directivesProxyFile: '../component-library-angular/src/directives/proxies.ts',
+      directivesArrayFile: '../component-library-angular/src/directives/proxies-array.ts',
       valueAccessorConfigs: angularValueAccessorBindings,
       includeImportCustomElements: true
     }),
