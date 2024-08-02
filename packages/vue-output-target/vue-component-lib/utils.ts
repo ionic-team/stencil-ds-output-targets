@@ -114,17 +114,17 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
       const { routerLink } = props;
       if (routerLink === EMPTY_PROP) return;
 
-      /**
-       * This prevents the browser from
-       * performing a page reload when pressing
-       * an Ionic component with routerLink.
-       * The page reload interferes with routing
-       * and causes ion-back-button to disappear
-       * since the local history is wiped on reload.
-       */
-      ev.preventDefault();
-
       if (navManager !== undefined) {
+        /**
+         * This prevents the browser from
+         * performing a page reload when pressing
+         * an Ionic component with routerLink.
+         * The page reload interferes with routing
+         * and causes ion-back-button to disappear
+         * since the local history is wiped on reload.
+         */
+        ev.preventDefault();
+
         let navigationPayload: any = { event: ev };
         for (const key in props) {
           const value = props[key];
