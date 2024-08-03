@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+import decamelize from 'decamelize';
 import type { EventName, ReactWebComponent, WebComponentProps } from '@lit/react';
 
 // A key value map matching React prop names to event names.
@@ -49,7 +50,7 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
       if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
         continue;
       }
-      stringProps += ` ${key}="${value}"`;
+      stringProps += ` ${decamelize(key, {separator: '-'})}="${value}"`;
     }
 
     let serializedChildren = '';
@@ -196,7 +197,7 @@ async function resolveComponentTypes<I extends HTMLElement>(children: React.Reac
   }
 
   return Promise.all(
-    children.map(async (child): Promise<string | StencilProps<I>> => {
+    children.map(async (child): Promise<undefined | string | StencilProps<I>> => {
       if (typeof child === 'string') {
         return child;
       }
@@ -227,6 +228,10 @@ async function resolveComponentTypes<I extends HTMLElement>(children: React.Reac
 
       if (typeof type?.type === 'function') {
         return type.type(newProps);
+      }
+
+      if (typeof type?._init === 'function') {
+        return undefined
       }
 
       const newChild = {
