@@ -12,7 +12,10 @@ function Input() {
       <MyInput
         onMyInput={(ev) => setInputEvent(`${ev.target.value}`)}
         onMyChange={(ev) => setChangeEvent(`${ev.detail.value}`)}
-      />
+      >
+        {/* the following space makes the hydration error go away */}
+        {' '}
+      </MyInput>
       <div className="inputResult">
         <p>Input Event: {inputEvent}</p>
         <p>Change Event: {changeEvent}</p>
