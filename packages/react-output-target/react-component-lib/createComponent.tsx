@@ -1,6 +1,6 @@
 import React, { createElement } from 'react';
 
-import { attachProps, camelToDashCase, createForwardRef, dashToPascalCase, isCoveredByReact, mergeRefs } from './utils';
+import { attachProps, camelToDashCase, createForwardRef, dashToPascalCase, isCoveredByReact, mergeRefs } from './utils/index.js';
 
 export interface HTMLStencilElement extends HTMLElement {
   componentOnReady(): Promise<this>;
