@@ -1,6 +1,4 @@
-import { async, ComponentFixture } from '@angular/core/testing';
-
-import { ConfigureFn, configureTests } from '../src/config.testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement, Component } from '@angular/core';
 import { FormsModule, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -19,20 +17,16 @@ describe('MyInput - Text Value', () => {
   let myInputEl: DebugElement;
   let fixture: ComponentFixture<TestTextValueAccessorComponent>;
 
-  beforeEach(async(() => {
-    const configure: ConfigureFn = (testBed) => {
-      testBed.configureTestingModule({
-        imports: [FormsModule, ComponentLibraryModule],
-        declarations: [TestTextValueAccessorComponent],
-      });
-    };
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [FormsModule, ComponentLibraryModule],
+      declarations: [TestTextValueAccessorComponent],
+    }).compileComponents();
 
-    configureTests(configure).then((testBed) => {
-      fixture = testBed.createComponent(TestTextValueAccessorComponent);
-      fixture.detectChanges();
-      myInputEl = fixture.debugElement.query(By.css('my-input'));
-    });
-  }));
+    fixture = TestBed.createComponent(TestTextValueAccessorComponent);
+    fixture.detectChanges();
+    myInputEl = fixture.debugElement.query(By.css('my-input'));
+  });
 
   it('on myChange type="text" the bound component attribute should update', () => {
     const { componentInstance: myAngularComponent } = fixture;
@@ -63,20 +57,16 @@ describe('MyInput - Number Value', () => {
   let myInputEl: DebugElement;
   let fixture: ComponentFixture<TestNumberValueAccessorComponent>;
 
-  beforeEach(async(() => {
-    const configure: ConfigureFn = (testBed) => {
-      testBed.configureTestingModule({
-        imports: [FormsModule, ComponentLibraryModule],
-        declarations: [TestNumberValueAccessorComponent],
-      });
-    };
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [FormsModule, ComponentLibraryModule],
+      declarations: [TestNumberValueAccessorComponent],
+    }).compileComponents();
 
-    configureTests(configure).then((testBed) => {
-      fixture = testBed.createComponent(TestNumberValueAccessorComponent);
-      fixture.detectChanges();
-      myInputEl = fixture.debugElement.query(By.css('my-input'));
-    });
-  }));
+    fixture = TestBed.createComponent(TestNumberValueAccessorComponent);
+    fixture.detectChanges();
+    myInputEl = fixture.debugElement.query(By.css('my-input'));
+  });
 
   it('should update value to number on myInputEvent', () => {
     const { componentInstance: myAngularComponent } = fixture;
@@ -105,20 +95,16 @@ describe('MyInput - Disabled state', () => {
   let myInputEl: DebugElement;
   let fixture: ComponentFixture<TestDisabledValueAccessorComponent>;
 
-  beforeEach(async(() => {
-    const configure: ConfigureFn = (testBed) => {
-      testBed.configureTestingModule({
-        imports: [ReactiveFormsModule, FormsModule, ComponentLibraryModule],
-        declarations: [TestDisabledValueAccessorComponent],
-      });
-    };
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, FormsModule, ComponentLibraryModule],
+      declarations: [TestDisabledValueAccessorComponent],
+    }).compileComponents();
 
-    configureTests(configure).then((testBed) => {
-      fixture = testBed.createComponent(TestDisabledValueAccessorComponent);
-      fixture.detectChanges();
-      myInputEl = fixture.debugElement.query(By.css('my-input'));
-    });
-  }));
+    fixture = TestBed.createComponent(TestDisabledValueAccessorComponent);
+    fixture.detectChanges();
+    myInputEl = fixture.debugElement.query(By.css('my-input'));
+  });
 
   it('should support setting disabled state via the ValueAccessor', () => {
     expect(myInputEl.nativeElement.disabled).toBe(true);

@@ -1,6 +1,5 @@
-import { async, ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConfigureFn, configureTests } from '../src/config.testing';
 import { DebugElement, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -17,20 +16,16 @@ describe('MyRange', () => {
   let myRangeEl: DebugElement;
   let fixture: ComponentFixture<TestSelectValueAccessorComponent>;
 
-  beforeEach(async(() => {
-    const configure: ConfigureFn = (testBed) => {
-      testBed.configureTestingModule({
-        imports: [FormsModule, ComponentLibraryModule],
-        declarations: [TestSelectValueAccessorComponent],
-      });
-    };
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [FormsModule, ComponentLibraryModule],
+      declarations: [TestSelectValueAccessorComponent],
+    }).compileComponents();
 
-    configureTests(configure).then((testBed) => {
-      fixture = testBed.createComponent(TestSelectValueAccessorComponent);
-      fixture.detectChanges();
-      myRangeEl = fixture.debugElement.query(By.css('my-range'));
-    });
-  }));
+    fixture = TestBed.createComponent(TestSelectValueAccessorComponent);
+    fixture.detectChanges();
+    myRangeEl = fixture.debugElement.query(By.css('my-range'));
+  });
 
   it('on myChange value the bound component attribute should update', () => {
     const { componentInstance: myAngularComponent } = fixture;

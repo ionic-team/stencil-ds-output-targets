@@ -3,6 +3,7 @@ import { angularOutputTarget, ValueAccessorConfig } from '@stencil/angular-outpu
 import { reactOutputTarget } from '@stencil/react-output-target';
 import { vueOutputTarget, ComponentModelConfig } from '@stencil/vue-output-target';
 
+
 const angularValueAccessorBindings: ValueAccessorConfig[] = [
   {
     elementSelectors: ['my-input[type=text]'],
@@ -56,11 +57,9 @@ export const config: Config = {
       componentCorePackage: 'component-library',
       directivesProxyFile: '../component-library-angular/src/directives/proxies.ts',
       valueAccessorConfigs: angularValueAccessorBindings,
-      includeImportCustomElements: true
     }),
     reactOutputTarget({
-      componentCorePackage: 'component-library',
-      proxiesFile: '../component-library-react/src/components.ts',
+      outDir: '../component-library-react/src',
     }),
     vueOutputTarget({
       componentCorePackage: 'component-library',

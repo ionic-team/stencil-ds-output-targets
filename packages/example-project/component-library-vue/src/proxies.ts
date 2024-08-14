@@ -23,7 +23,7 @@ export const MyButton = /*@__PURE__*/ defineContainer<JSX.MyButton>('my-button',
   'myBlur',
 ]);
 
-export const MyCheckbox = /*@__PURE__*/ defineContainer<JSX.MyCheckbox>(
+export const MyCheckbox = /*@__PURE__*/ defineContainer<JSX.MyCheckbox, JSX.MyCheckbox['checked']>(
   'my-checkbox',
   undefined,
   ['color', 'name', 'checked', 'indeterminate', 'disabled', 'value', 'myChange', 'myFocus', 'myBlur', 'myStyle'],
@@ -40,7 +40,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<JSX.MyComponent>('my-co
   'myCustomEvent',
 ]);
 
-export const MyInput = /*@__PURE__*/ defineContainer<JSX.MyInput>(
+export const MyInput = /*@__PURE__*/ defineContainer<JSX.MyInput, JSX.MyInput['value']>(
   'my-input',
   undefined,
   [
@@ -106,7 +106,7 @@ export const MyRadio = /*@__PURE__*/ defineContainer<JSX.MyRadio>('my-radio', un
   'mySelect',
 ]);
 
-export const MyRadioGroup = /*@__PURE__*/ defineContainer<JSX.MyRadioGroup>(
+export const MyRadioGroup = /*@__PURE__*/ defineContainer<JSX.MyRadioGroup, JSX.MyRadioGroup['value']>(
   'my-radio-group',
   undefined,
   ['allowEmptySelection', 'name', 'value', 'myChange'],
@@ -114,7 +114,7 @@ export const MyRadioGroup = /*@__PURE__*/ defineContainer<JSX.MyRadioGroup>(
   'myChange'
 );
 
-export const MyRange = /*@__PURE__*/ defineContainer<JSX.MyRange>(
+export const MyRange = /*@__PURE__*/ defineContainer<JSX.MyRange, JSX.MyRange['value']>(
   'my-range',
   undefined,
   [

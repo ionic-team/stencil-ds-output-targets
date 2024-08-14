@@ -1,0 +1,6 @@
+packages:
+  - 'packages/*'
+  - 'packages/example-project/component-library'
+  - 'packages/example-project/component-library-angular'
+  - 'packages/example-project/component-library-react'
+  - 'packages/example-project/component-library-vue'
