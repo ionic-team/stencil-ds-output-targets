@@ -1,6 +1,6 @@
 {
   "name": "@stencil/react-output-target",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "description": "React output target for @stencil/core components.",
   "main": "./dist/react-output-target.js",
   "module": "./dist/react-output-target.js",
