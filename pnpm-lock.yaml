@@ -240,6 +240,9 @@ importers:
       '@types/jest':
         specifier: ^26.0.23
         version: 26.0.24
+      '@vue/server-renderer':
+        specifier: ~3.1.1
+        version: 3.1.5(vue@3.1.5)
       '@vue/test-utils':
         specifier: ^2.0.0-rc.6
         version: 2.4.6
@@ -3051,6 +3054,9 @@ packages:
   '@vue/compiler-dom@3.4.38':
     resolution: {integrity: sha512-Osc/c7ABsHXTsETLgykcOwIxFktHfGSUDkb05V61rocEfsFDcjDLH/IHJSNJP+/Sv9KeN2Lx1V6McZzlSb9EhQ==}
 
+  '@vue/compiler-ssr@3.1.5':
+    resolution: {integrity: sha512-CU5N7Di/a4lyJ18LGJxJYZS2a8PlLdWpWHX9p/XcsjT2TngMpj3QvHVRkuik2u8QrIDZ8OpYmTyj1WDNsOV+Dg==}
+
   '@vue/language-core@1.8.27':
     resolution: {integrity: sha512-L8Kc27VdQserNaCUNiSFdDl9LWT24ly8Hpwf1ECy3aFb9m6bDhBGQYOujDm21N7EW3moKIOKEanQwe1q5BK+mA==}
     peerDependencies:
@@ -3067,6 +3073,11 @@ packages:
 
   '@vue/runtime-dom@3.1.5':
     resolution: {integrity: sha512-tNcf3JhVR0RfW0kw1p8xZgv30nvX8Y9rsz7eiQ0dHe273sfoCngAG0y4GvMaY4Xd8FsjUwFedd4suQ8Lu8meXg==}
+
+  '@vue/server-renderer@3.1.5':
+    resolution: {integrity: sha512-b0LLsxwsVIFGNgAHXVT/1iHbPf+uNMdFOz7xUT2tKKIkHN4ps8fAaj1GTSYLhxaPi9ALjxRmWRdvMC69fAW1/A==}
+    peerDependencies:
+      vue: 3.1.5
 
   '@vue/shared@3.1.5':
     resolution: {integrity: sha512-oJ4F3TnvpXaQwZJNF3ZK+kLPHKarDmJjJ6jyzVNDKH9md1dptjC7lWR//jrGuLdek/U6iltWxqAnYOu8gCiOvA==}
@@ -11600,7 +11611,7 @@ snapshots:
       jest-resolve: 26.6.2
       jest-resolve-dependencies: 26.6.3
       jest-runner: 26.6.3(ts-node@10.9.2(@swc/core@1.7.11)(@types/node@20.14.15)(typescript@4.9.5))
-      jest-runtime: 26.6.3(ts-node@10.9.2(@swc/core@1.7.11)(@types/node@20.14.15)(typescript@4.9.5))
+      jest-runtime: 26.6.3(ts-node@10.9.2(@swc/core@1.7.11)(@types/node@20.14.15)(typescript@5.5.4))
       jest-snapshot: 26.6.2
       jest-util: 26.6.2
       jest-validate: 26.6.2
@@ -12111,7 +12122,7 @@ snapshots:
       graceful-fs: 4.2.11
       jest-haste-map: 26.6.2
       jest-runner: 26.6.3(ts-node@10.9.2(@swc/core@1.7.11)(@types/node@20.14.15)(typescript@4.9.5))
-      jest-runtime: 26.6.3(ts-node@10.9.2(@swc/core@1.7.11)(@types/node@20.14.15)(typescript@4.9.5))
+      jest-runtime: 26.6.3(ts-node@10.9.2(@swc/core@1.7.11)(@types/node@20.14.15)(typescript@5.5.4))
     transitivePeerDependencies:
       - bufferutil
       - canvas
@@ -13460,6 +13471,11 @@ snapshots:
       '@vue/compiler-core': 3.4.38
       '@vue/shared': 3.4.38
 
+  '@vue/compiler-ssr@3.1.5':
+    dependencies:
+      '@vue/compiler-dom': 3.1.5
+      '@vue/shared': 3.1.5
+
   '@vue/language-core@1.8.27(typescript@5.5.4)':
     dependencies:
       '@volar/language-core': 1.11.1
@@ -13488,6 +13504,12 @@ snapshots:
       '@vue/runtime-core': 3.1.5
       '@vue/shared': 3.1.5
       csstype: 2.6.21
+
+  '@vue/server-renderer@3.1.5(vue@3.1.5)':
+    dependencies:
+      '@vue/compiler-ssr': 3.1.5
+      '@vue/shared': 3.1.5
+      vue: 3.1.5
 
   '@vue/shared@3.1.5': {}
 
@@ -17321,7 +17343,7 @@ snapshots:
       jest-environment-jsdom: 26.6.2
       jest-environment-node: 26.6.2
       jest-get-type: 26.3.0
-      jest-jasmine2: 26.6.3
+      jest-jasmine2: 26.6.3(ts-node@10.9.2(@swc/core@1.7.11)(@types/node@20.14.15)(typescript@5.5.4))
       jest-regex-util: 26.0.0
       jest-resolve: 26.6.2
       jest-util: 26.6.2
@@ -17727,29 +17749,6 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  jest-jasmine2@26.6.3:
-    dependencies:
-      '@babel/traverse': 7.25.3
-      '@jest/environment': 26.6.2
-      '@jest/source-map': 26.6.2
-      '@jest/test-result': 26.6.2
-      '@jest/types': 26.6.2
-      '@types/node': 18.19.44
-      chalk: 4.1.2
-      co: 4.6.0
-      expect: 26.6.2
-      is-generator-fn: 2.1.0
-      jest-each: 26.6.2
-      jest-matcher-utils: 26.6.2
-      jest-message-util: 26.6.2
-      jest-runtime: 26.6.3(ts-node@10.9.2(@swc/core@1.7.11)(@types/node@20.14.15)(typescript@5.5.4))
-      jest-snapshot: 26.6.2
-      jest-util: 26.6.2
-      pretty-format: 26.6.2
-      throat: 5.0.0
-    transitivePeerDependencies:
-      - supports-color
-
   jest-jasmine2@26.6.3(ts-node@10.9.2(@swc/core@1.7.11)(@types/node@20.14.15)(typescript@4.9.5)):
     dependencies:
       '@babel/traverse': 7.25.3
@@ -17766,6 +17765,33 @@ snapshots:
       jest-matcher-utils: 26.6.2
       jest-message-util: 26.6.2
       jest-runtime: 26.6.3(ts-node@10.9.2(@swc/core@1.7.11)(@types/node@20.14.15)(typescript@4.9.5))
+      jest-snapshot: 26.6.2
+      jest-util: 26.6.2
+      pretty-format: 26.6.2
+      throat: 5.0.0
+    transitivePeerDependencies:
+      - bufferutil
+      - canvas
+      - supports-color
+      - ts-node
+      - utf-8-validate
+
+  jest-jasmine2@26.6.3(ts-node@10.9.2(@swc/core@1.7.11)(@types/node@20.14.15)(typescript@5.5.4)):
+    dependencies:
+      '@babel/traverse': 7.25.3
+      '@jest/environment': 26.6.2
+      '@jest/source-map': 26.6.2
+      '@jest/test-result': 26.6.2
+      '@jest/types': 26.6.2
+      '@types/node': 18.19.44
+      chalk: 4.1.2
+      co: 4.6.0
+      expect: 26.6.2
+      is-generator-fn: 2.1.0
+      jest-each: 26.6.2
+      jest-matcher-utils: 26.6.2
+      jest-message-util: 26.6.2
+      jest-runtime: 26.6.3(ts-node@10.9.2(@swc/core@1.7.11)(@types/node@20.14.15)(typescript@5.5.4))
       jest-snapshot: 26.6.2
       jest-util: 26.6.2
       pretty-format: 26.6.2
@@ -18061,7 +18087,7 @@ snapshots:
       jest-leak-detector: 26.6.2
       jest-message-util: 26.6.2
       jest-resolve: 26.6.2
-      jest-runtime: 26.6.3(ts-node@10.9.2(@swc/core@1.7.11)(@types/node@20.14.15)(typescript@4.9.5))
+      jest-runtime: 26.6.3(ts-node@10.9.2(@swc/core@1.7.11)(@types/node@20.14.15)(typescript@5.5.4))
       jest-util: 26.6.2
       jest-worker: 26.6.2
       source-map-support: 0.5.21
