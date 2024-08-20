@@ -1,6 +1,6 @@
 import Input from './Input/Input';
 import Button from './Button/Button';
-import { MyComponent, MyRange, MyRadioGroup } from './components'
+import { MyComponent, MyRange, MyRadioGroup } from './components';
 
 export default function Home() {
   return (

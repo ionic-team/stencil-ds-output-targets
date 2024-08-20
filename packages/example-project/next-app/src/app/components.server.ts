@@ -8,7 +8,7 @@
 
 /* eslint-disable */
 
-import type { EventName } from '@stencil/react-output-target/runtime';
+import type { EventName, StencilReactComponent } from '@stencil/react-output-target/runtime';
 import { createComponent, createSSRComponent } from '@stencil/react-output-target/runtime';
 import { type CheckboxChangeEventDetail, type InputChangeEventDetail, type MyCheckboxCustomEvent, type MyInputCustomEvent, type MyPopoverCustomEvent, type MyRadioGroupCustomEvent, type MyRangeCustomEvent, type OverlayEventDetail, type RadioGroupChangeEventDetail, type RangeChangeEventDetail } from "component-library";
 import { MyButton as MyButtonElement, defineCustomElement as defineMyButton } from "component-library/components/my-button.js";
@@ -26,7 +26,7 @@ type MyButtonEvents = {
     onMyBlur: EventName<CustomEvent<void>>
 };
 
-export const MyButton = typeof window !== 'undefined'
+export const MyButton: StencilReactComponent<MyButtonElement, MyButtonEvents> = typeof window !== 'undefined'
     ? /*@__PURE__*/ createComponent<MyButtonElement, MyButtonEvents>({
         tagName: 'my-button',
         elementClass: MyButtonElement,
@@ -48,7 +48,7 @@ type MyCheckboxEvents = {
     onMyBlur: EventName<CustomEvent<void>>
 };
 
-export const MyCheckbox = typeof window !== 'undefined'
+export const MyCheckbox: StencilReactComponent<MyCheckboxElement, MyCheckboxEvents> = typeof window !== 'undefined'
     ? /*@__PURE__*/ createComponent<MyCheckboxElement, MyCheckboxEvents>({
         tagName: 'my-checkbox',
         elementClass: MyCheckboxElement,
@@ -67,7 +67,7 @@ export const MyCheckbox = typeof window !== 'undefined'
 
 type MyComponentEvents = { onMyCustomEvent: EventName<CustomEvent<number>> };
 
-export const MyComponent = typeof window !== 'undefined'
+export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentEvents> = typeof window !== 'undefined'
     ? /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents>({
         tagName: 'my-component',
         elementClass: MyComponentElement,
@@ -87,7 +87,7 @@ type MyInputEvents = {
     onMyFocus: EventName<CustomEvent<void>>
 };
 
-export const MyInput = typeof window !== 'undefined'
+export const MyInput: StencilReactComponent<MyInputElement, MyInputEvents> = typeof window !== 'undefined'
     ? /*@__PURE__*/ createComponent<MyInputElement, MyInputEvents>({
         tagName: 'my-input',
         elementClass: MyInputElement,
@@ -112,7 +112,7 @@ type MyPopoverEvents = {
     onMyPopoverDidDismiss: EventName<MyPopoverCustomEvent<OverlayEventDetail>>
 };
 
-export const MyPopover = typeof window !== 'undefined'
+export const MyPopover: StencilReactComponent<MyPopoverElement, MyPopoverEvents> = typeof window !== 'undefined'
     ? /*@__PURE__*/ createComponent<MyPopoverElement, MyPopoverEvents>({
         tagName: 'my-popover',
         elementClass: MyPopoverElement,
@@ -136,7 +136,7 @@ type MyRadioEvents = {
     onMySelect: EventName<CustomEvent<void>>
 };
 
-export const MyRadio = typeof window !== 'undefined'
+export const MyRadio: StencilReactComponent<MyRadioElement, MyRadioEvents> = typeof window !== 'undefined'
     ? /*@__PURE__*/ createComponent<MyRadioElement, MyRadioEvents>({
         tagName: 'my-radio',
         elementClass: MyRadioElement,
@@ -155,7 +155,7 @@ export const MyRadio = typeof window !== 'undefined'
 
 type MyRadioGroupEvents = { onMyChange: EventName<MyRadioGroupCustomEvent<RadioGroupChangeEventDetail>> };
 
-export const MyRadioGroup = typeof window !== 'undefined'
+export const MyRadioGroup: StencilReactComponent<MyRadioGroupElement, MyRadioGroupEvents> = typeof window !== 'undefined'
     ? /*@__PURE__*/ createComponent<MyRadioGroupElement, MyRadioGroupEvents>({
         tagName: 'my-radio-group',
         elementClass: MyRadioGroupElement,
@@ -174,7 +174,7 @@ type MyRangeEvents = {
     onMyBlur: EventName<CustomEvent<void>>
 };
 
-export const MyRange = typeof window !== 'undefined'
+export const MyRange: StencilReactComponent<MyRangeElement, MyRangeEvents> = typeof window !== 'undefined'
     ? /*@__PURE__*/ createComponent<MyRangeElement, MyRangeEvents>({
         tagName: 'my-range',
         elementClass: MyRangeElement,

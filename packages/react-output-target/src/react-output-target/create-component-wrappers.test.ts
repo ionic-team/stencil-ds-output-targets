@@ -37,13 +37,14 @@ describe('createComponentWrappers', () => {
 
 /* eslint-disable */
 
+import type { StencilReactComponent } from '@stencil/react-output-target/runtime';
 import { createComponent } from '@stencil/react-output-target/runtime';
 import { MyComponent as MyComponentElement, defineCustomElement as defineMyComponent } from "my-package/dist/custom-elements/my-component.js";
 import React from 'react';
 
 type MyComponentEvents = NonNullable<unknown>;
 
-export const MyComponent = /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents>({
+export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentEvents> = /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents>({
     tagName: 'my-component',
     elementClass: MyComponentElement,
     react: React,
@@ -88,13 +89,14 @@ export const MyComponent = /*@__PURE__*/ createComponent<MyComponentElement, MyC
 
 /* eslint-disable */
 
+import type { StencilReactComponent } from '@stencil/react-output-target/runtime';
 import { createComponent } from '@stencil/react-output-target/runtime';
 import { MyComponent as MyComponentElement, defineCustomElement as defineMyComponent } from "my-package/dist/custom-elements/my-component.js";
 import React from 'react';
 
 type MyComponentEvents = NonNullable<unknown>;
 
-const MyComponent = /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents>({
+const MyComponent: StencilReactComponent<MyComponentElement, MyComponentEvents> = /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents>({
     tagName: 'my-component',
     elementClass: MyComponentElement,
     react: React,
@@ -198,7 +200,7 @@ export default MyComponent;
 
 /* eslint-disable */
 
-import type { EventName } from '@stencil/react-output-target/runtime';
+import type { EventName, StencilReactComponent } from '@stencil/react-output-target/runtime';
 import { createComponent } from '@stencil/react-output-target/runtime';
 import { type MyComponentCustomEvent } from "my-package";
 import { MyComponent as MyComponentElement, defineCustomElement as defineMyComponent } from "my-package/dist/custom-elements/my-component.js";
@@ -206,7 +208,7 @@ import React from 'react';
 
 type MyComponentEvents = { onMyEvent: EventName<MyComponentCustomEvent<IMyComponent.Events.Detail.MyComponentClicked>> };
 
-export const MyComponent = /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents>({
+export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentEvents> = /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents>({
     tagName: 'my-component',
     elementClass: MyComponentElement,
     react: React,
@@ -254,13 +256,14 @@ export const MyComponent = /*@__PURE__*/ createComponent<MyComponentElement, MyC
 
 /* eslint-disable */
 
+import type { StencilReactComponent } from '@stencil/react-output-target/runtime';
 import { createComponent, createSSRComponent } from '@stencil/react-output-target/runtime';
 import { MyComponent as MyComponentElement, defineCustomElement as defineMyComponent } from "my-package/dist/custom-elements/my-component.js";
 import React from 'react';
 
 type MyComponentEvents = NonNullable<unknown>;
 
-export const MyComponent = typeof window !== 'undefined'
+export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentEvents> = typeof window !== 'undefined'
     ? /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents>({
         tagName: 'my-component',
         elementClass: MyComponentElement,

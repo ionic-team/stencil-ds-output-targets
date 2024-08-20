@@ -5,6 +5,7 @@ import type { RenderToString } from './ssr';
 
 // A key value map matching React prop names to event names.
 type EventNames = Record<string, EventName | string>;
+export type StencilReactComponent<I extends HTMLElement, E extends EventNames = {}> = ReactWebComponent<I, E>;
 
 /**
  * Defines a custom element and creates a React component.
