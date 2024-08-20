@@ -67,8 +67,8 @@ importers:
         specifier: workspace:*
         version: link:../../angular-output-target
       '@stencil/core':
-        specifier: 4.19.2-dev.1722290246.61e8645
-        version: 4.19.2-dev.1722290246.61e8645
+        specifier: 4.20.0-dev.1724130099.958c826
+        version: 4.20.0-dev.1724130099.958c826
       '@stencil/react-output-target':
         specifier: workspace:*
         version: link:../../react-output-target
@@ -2643,8 +2643,8 @@ packages:
     engines: {node: '>=16.0.0', npm: '>=7.10.0'}
     hasBin: true
 
-  '@stencil/core@4.19.2-dev.1722290246.61e8645':
-    resolution: {integrity: sha512-rTUx88iNwCtkplEbKWr4E6141oqjNZ9SRXCXJEFfpCr2ryFg6erRJ8w4S2CbW5R/5EavCS6+k0IrIk0edsvqdA==}
+  '@stencil/core@4.20.0-dev.1724130099.958c826':
+    resolution: {integrity: sha512-iYH/V+DBAD3Up59wRtdiatLNezV+72TLmlHgW0wbOMU259sE0i6D7hjRR+nzkLYaDto2wr22N4CVsXBMQdH+OQ==}
     engines: {node: '>=16.0.0', npm: '>=7.10.0'}
     hasBin: true
 
@@ -13560,7 +13560,7 @@ snapshots:
 
   '@stencil/core@4.19.0': {}
 
-  '@stencil/core@4.19.2-dev.1722290246.61e8645': {}
+  '@stencil/core@4.20.0-dev.1724130099.958c826': {}
 
   '@swc/core-darwin-arm64@1.6.5':
     optional: true
