@@ -1,8 +1,8 @@
 import { EOL } from 'os';
 import path from 'path';
-import {OutputTargetAngular, OutputType, ValueAccessorTypes} from './types';
+import { OutputTargetAngular, OutputType, ValueAccessorTypes } from './types';
 import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
-import {OutputTypes} from './utils';
+import { OutputTypes } from './utils';
 
 export interface ValueAccessor {
   elementSelectors: string[];
@@ -55,7 +55,11 @@ export default async function generateValueAccessors(
       const srcFilePath = path.join(__dirname, '../resources/control-value-accessors/', targetFileName);
       const srcFileContents = await compilerCtx.fs.readFile(srcFilePath);
 
-      const finalText = createValueAccessor(srcFileContents, normalizedValueAccessors[valueAccessorType], outputTarget.outputType);
+      const finalText = createValueAccessor(
+        srcFileContents,
+        normalizedValueAccessors[valueAccessorType],
+        outputTarget.outputType
+      );
       await compilerCtx.fs.writeFile(targetFilePath, finalText);
     })
   );
