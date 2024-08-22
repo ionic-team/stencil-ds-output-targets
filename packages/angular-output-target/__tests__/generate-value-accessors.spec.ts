@@ -15,8 +15,8 @@ describe('createValueAccessor', () => {
 
     const srcFilePath = path.join(__dirname, '../resources/control-value-accessors/text-value-accessor.ts');
     const srcFile = fs.readFileSync(srcFilePath, { encoding: 'utf-8' });
-    const finalText = createValueAccessor(srcFile, valueAccessor);
-    const exptectedOutput = `import { Directive, ElementRef } from '@angular/core';
+    const finalText = createValueAccessor(srcFile, valueAccessor, 'component');
+    const expectedOutput = `import { Directive, ElementRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { ValueAccessor } from './value-accessor';
@@ -41,6 +41,47 @@ export class TextValueAccessor extends ValueAccessor {
     super(el);
   }
 }`;
-    expect(finalText.trim()).toEqual(exptectedOutput.trim().replace(/\n/g, EOL));
+    console.log(expectedOutput.trim().replace(/\n/g, EOL));
+    console.log(finalText.trim());
+    expect(finalText.trim()).toEqual(expectedOutput.trim().replace(/\n/g, EOL));
+  });
+  it('should create a valid {type}-value-accessor.ts file with the correct standalone option', () => {
+    const valueAccessor: ValueAccessor = {
+      elementSelectors: ['my-input[type=text]', 'my-input[type=email]'],
+      eventTargets: [
+        ['myChange', 'value'],
+        ['myEmailChange', 'value'],
+      ],
+    };
+
+    const srcFilePath = path.join(__dirname, '../resources/control-value-accessors/text-value-accessor.ts');
+    const srcFile = fs.readFileSync(srcFilePath, { encoding: 'utf-8' });
+    const finalText = createValueAccessor(srcFile, valueAccessor, 'standalone');
+    const expectedOutput = `import { Directive, ElementRef } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
+
+import { ValueAccessor } from './value-accessor';
+
+@Directive({
+  /* tslint:disable-next-line:directive-selector */
+  selector: 'my-input[type=text], my-input[type=email]',
+  host: {
+    '(myChange)': 'handleChangeEvent($event.target.value)',
+    '(myEmailChange)': 'handleChangeEvent($event.target.value)'
+  },
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: TextValueAccessor,
+      multi: true
+    }
+  ],standalone: true
+})
+export class TextValueAccessor extends ValueAccessor {
+  constructor(el: ElementRef) {
+    super(el);
+  }
+}`;
+    expect(finalText.trim()).toEqual(expectedOutput.trim().replace(/\n/g, EOL));
   });
 });

@@ -15,7 +15,7 @@ import { ValueAccessor } from './value-accessor';
       useExisting: NumericValueAccessor,
       multi: true
     }
-  ]
+  ]<VALUE_ACCESSOR_STANDALONE>
 })
 export class NumericValueAccessor extends ValueAccessor {
   constructor(el: ElementRef) {

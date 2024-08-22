@@ -15,7 +15,7 @@ import { ValueAccessor } from './value-accessor';
       useExisting: SelectValueAccessor,
       multi: true
     }
-  ]
+  ]<VALUE_ACCESSOR_STANDALONE>
 })
 export class SelectValueAccessor extends ValueAccessor {
   constructor(el: ElementRef) {

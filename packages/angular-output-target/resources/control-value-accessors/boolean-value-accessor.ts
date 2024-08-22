@@ -15,7 +15,7 @@ import { ValueAccessor } from './value-accessor';
       useExisting: BooleanValueAccessor,
       multi: true
     }
-  ]
+  ]<VALUE_ACCESSOR_STANDALONE>
 })
 export class BooleanValueAccessor extends ValueAccessor {
   constructor(el: ElementRef) {
