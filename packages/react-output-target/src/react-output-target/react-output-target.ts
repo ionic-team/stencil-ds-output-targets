@@ -27,12 +27,23 @@ export interface ReactOutputTargetOptions {
    * Enable this option to add the `use client;` directive to the generated React components.
    */
   experimentalUseClient?: boolean;
+  /**
+   * The directory where the custom elements are saved.
+   *
+   * This value is automatically detected from the Stencil configuration file for the dist-custom-elements output target.
+   * If you are working in an environment that uses absolute paths, consider setting this value manually.
+   */
+  customElementsDir?: string;
 }
 
 const PLUGIN_NAME = 'react-output-target';
 
 const DIST_CUSTOM_ELEMENTS_DEFAULT_DIR = 'components';
 const DIST_CUSTOM_ELEMENTS = 'dist-custom-elements';
+
+interface ReactOutputTarget extends OutputTargetCustom {
+  __internal_getCustomElementsDir: () => string;
+}
 
 /**
  * Creates an output target for binding Stencil components to be used in a React context
@@ -46,7 +57,8 @@ export const reactOutputTarget = ({
   stencilPackageName,
   experimentalUseClient,
   excludeComponents,
-}: ReactOutputTargetOptions): OutputTargetCustom => {
+  customElementsDir: customElementsDirOverride,
+}: ReactOutputTargetOptions): ReactOutputTarget => {
   let customElementsDir = DIST_CUSTOM_ELEMENTS_DEFAULT_DIR;
   return {
     type: 'custom',
@@ -58,20 +70,24 @@ export const reactOutputTarget = ({
        *
        * This context is used to detect a customized output path.
        */
-      const customElementsOutputTarget = (config.outputTargets || []).find(
-        (o) => o.type === DIST_CUSTOM_ELEMENTS
-      ) as OutputTargetDistCustomElements;
-      if (customElementsOutputTarget == null) {
-        throw new Error(
-          `The '${PLUGIN_NAME}' requires '${DIST_CUSTOM_ELEMENTS}' output target. Add { type: '${DIST_CUSTOM_ELEMENTS}' }, to the outputTargets config.`
-        );
-      }
-      if (customElementsOutputTarget.dir !== undefined) {
-        /**
-         * If the developer has configured a custom output path for the Stencil components,
-         * we need to use that path when importing the components in the React components.
-         */
-        customElementsDir = customElementsOutputTarget.dir;
+      if (customElementsDirOverride) {
+        customElementsDir = customElementsDirOverride;
+      } else {
+        const customElementsOutputTarget = (config.outputTargets || []).find(
+          (o) => o.type === DIST_CUSTOM_ELEMENTS
+        ) as OutputTargetDistCustomElements;
+        if (customElementsOutputTarget == null) {
+          throw new Error(
+            `The '${PLUGIN_NAME}' requires '${DIST_CUSTOM_ELEMENTS}' output target. Add { type: '${DIST_CUSTOM_ELEMENTS}' }, to the outputTargets config.`
+          );
+        }
+        if (customElementsOutputTarget.dir !== undefined) {
+          /**
+           * If the developer has configured a custom output path for the Stencil components,
+           * we need to use that path when importing the components in the React components.
+           */
+          customElementsDir = customElementsOutputTarget.dir;
+        }
       }
 
       /**
@@ -113,6 +129,9 @@ export const reactOutputTarget = ({
       );
 
       timespan.finish(`generate ${PLUGIN_NAME} finished`);
+    },
+    __internal_getCustomElementsDir() {
+      return customElementsDir;
     },
   };
 };
