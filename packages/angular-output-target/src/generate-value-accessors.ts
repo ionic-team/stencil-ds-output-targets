@@ -12,14 +12,15 @@ type NormalizedValueAccessors = {
   [T in ValueAccessorTypes]: ValueAccessor;
 };
 
+// returns the list of valueAccessor directive class names
 export default async function generateValueAccessors(
   compilerCtx: CompilerCtx,
   components: ComponentCompilerMeta[],
   outputTarget: OutputTargetAngular,
   config: Config
-) {
+): Promise<string[]> {
   if (!Array.isArray(outputTarget.valueAccessorConfigs) || outputTarget.valueAccessorConfigs.length === 0) {
-    return;
+    return [];
   }
 
   const targetDir = path.dirname(outputTarget.directivesProxyFile);
@@ -46,23 +47,24 @@ export default async function generateValueAccessors(
     {} as NormalizedValueAccessors
   );
 
+  let valueAccessorFileContent = '';
   await Promise.all(
-    Object.keys(normalizedValueAccessors).map(async (type) => {
+    Object.keys(normalizedValueAccessors).map(async (type, index) => {
       const valueAccessorType = type as ValueAccessorTypes; // Object.keys converts to string
-      const targetFileName = `${type}-value-accessor.ts`;
-      const targetFilePath = path.join(targetDir, targetFileName);
-      const srcFilePath = path.join(__dirname, '../resources/control-value-accessors/', targetFileName);
+      const srcFileName = `${type}-value-accessor.ts`;
+      const srcFilePath = path.join(__dirname, '../resources/control-value-accessors/', srcFileName);
       const srcFileContents = await compilerCtx.fs.readFile(srcFilePath);
-
-      const finalText = createValueAccessor(srcFileContents, normalizedValueAccessors[valueAccessorType]);
-      await compilerCtx.fs.writeFile(targetFilePath, finalText);
-    })
+      valueAccessorFileContent += createValueAccessor(srcFileContents, normalizedValueAccessors[valueAccessorType], index > 0);
+    }),
   );
+  const targetFilePath = path.join(targetDir, 'value-accessor-directives.ts');
+  await compilerCtx.fs.writeFile(targetFilePath, valueAccessorFileContent);
 
   await copyResources(config, ['value-accessor.ts'], targetDir);
+  return (Array.from(valueAccessorFileContent.matchAll(/^export class\s+([^\s]+)\s.*$/mg)).map(match => match[1]))
 }
 
-export function createValueAccessor(srcFileContents: string, valueAccessor: ValueAccessor) {
+export function createValueAccessor(srcFileContents: string, valueAccessor: ValueAccessor, removeImports?: boolean) {
   const hostContents = valueAccessor.eventTargets.map((listItem) =>
     VALUE_ACCESSOR_EVENTTARGETS.replace(VALUE_ACCESSOR_EVENT, listItem[0]).replace(
       VALUE_ACCESSOR_TARGETATTR,
@@ -70,7 +72,7 @@ export function createValueAccessor(srcFileContents: string, valueAccessor: Valu
     )
   );
 
-  return srcFileContents
+  return (removeImports ? srcFileContents.replace(/^\s*import.*$/mg, '') : srcFileContents)
     .replace(VALUE_ACCESSOR_SELECTORS, valueAccessor.elementSelectors.join(', '))
     .replace(VALUE_ACCESSOR_EVENTTARGETS, hostContents.join(`,${EOL}`));
 }
