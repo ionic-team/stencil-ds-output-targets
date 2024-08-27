@@ -90,6 +90,7 @@ describe('reactOutputTarget', () => {
           outputTargets: [
             {
               type: 'dist-custom-elements',
+              externalRuntime: false,
             },
           ],
         } as any,
@@ -115,6 +116,7 @@ describe('reactOutputTarget', () => {
           outputTargets: [
             {
               type: 'dist-custom-elements',
+              externalRuntime: false,
             },
           ],
         } as any,
@@ -141,6 +143,7 @@ describe('reactOutputTarget', () => {
           outputTargets: [
             {
               type: 'dist-custom-elements',
+              externalRuntime: false,
             },
           ],
         } as any,
@@ -162,6 +165,7 @@ describe('reactOutputTarget', () => {
           {
             type: 'dist-custom-elements',
             dir: 'my-components',
+            externalRuntime: false,
           },
         ],
       } as any;
@@ -187,6 +191,7 @@ describe('reactOutputTarget', () => {
           outputTargets: [
             {
               type: 'dist-custom-elements',
+              externalRuntime: false,
             },
           ],
         } as any,
