@@ -65,4 +65,27 @@ describe('reactOutputTarget', () => {
       ).not.toThrowError();
     }
   });
+
+  it('uses the customElementsDir provided by the caller instead of the calculated value', () => {
+    const { validate, __internal_getCustomElementsDir } = reactOutputTarget({
+      outDir: 'dist/components',
+      stencilPackageName: 'my-components',
+      customElementsDir: 'my-custom-dir',
+    });
+
+    if (validate) {
+      const config = {
+        outputTargets: [
+          {
+            type: 'dist-custom-elements',
+            dir: 'my-components',
+          },
+        ],
+      } as any;
+
+      validate(config, []);
+
+      expect(__internal_getCustomElementsDir()).toBe('my-custom-dir');
+    }
+  });
 });
