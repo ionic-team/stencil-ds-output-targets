@@ -38,6 +38,8 @@
     "@stencil/core": ">=3 || >= 4.0.0-beta.0 || >= 4.0.0"
   },
   "devDependencies": {
+    "@types/node": "^20.14.12",
+    "@types/react": "^18.2.74",
     "react": "^18.2.0",
     "ts-dedent": "^2.2.0",
     "typescript": "^5.4.4",
@@ -48,7 +50,13 @@
   "gitHead": "a3588e905186a0e86e7f88418fd5b2f9531b55e0",
   "dependencies": {
     "@lit/react": "^1.0.4",
+    "html-react-parser": "^5.1.10",
     "ts-morph": "^22.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@stencil/core": {
+      "optional": false
+    }
   },
   "exports": {
     ".": {
@@ -64,6 +72,13 @@
         "default": "./dist/react.js"
       },
       "default": "./dist/react.js"
+    },
+    "./ssr": {
+      "types": "./dist/react/ssr.d.ts",
+      "browser": {
+        "default": "./dist/ssr.js"
+      },
+      "default": "./dist/ssr.js"
     }
   }
 }
