@@ -1,18 +1,33 @@
 import pkg from './package.json' with { type: 'json' };
 
-export default {
+const external = ['path', 'node-sass', 'fs', 'util', 'vue', 'vue/server-renderer'];
+const core = {
   input: 'dist/index.js',
-
-  external: ['path', 'node-sass', 'fs', 'util'],
-
+  external,
   output: [
     {
       format: 'cjs',
-      file: pkg.main,
+      file: pkg.exports['.'].require,
     },
     {
       format: 'es',
-      file: pkg.module,
+      file: pkg.exports['.'].import,
     },
   ],
-};
+}
+const runtime = {
+  input: 'dist/runtime.js',
+  external,
+  output: [
+    {
+      format: 'cjs',
+      file: pkg.exports['./runtime'].require,
+    },
+    {
+      format: 'es',
+      file: pkg.exports['./runtime'].import,
+    },
+  ],
+}
+
+export default [core, runtime];

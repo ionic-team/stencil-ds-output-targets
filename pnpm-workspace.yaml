@@ -5,3 +5,4 @@ packages:
   - 'packages/example-project/component-library-react'
   - 'packages/example-project/component-library-vue'
   - 'packages/example-project/next-app'
+  - 'packages/example-project/nuxt-app'

@@ -16,7 +16,6 @@ export async function vueProxyOutput(
 
   const finalText = generateProxies(config, filteredComponents, pkgData, outputTarget, rootDir);
   await compilerCtx.fs.writeFile(outputTarget.proxiesFile, finalText);
-  await copyResources(config, outputTarget);
 }
 
 function getFilteredComponents(excludeComponents: string[] = [], cmps: ComponentCompilerMeta[]) {
@@ -36,11 +35,15 @@ export function generateProxies(
   const dtsFilePath = path.join(rootDir, distTypesDir, GENERATED_DTS);
   const componentsTypeFile = relativeImport(outputTarget.proxiesFile, dtsFilePath, '.d.ts');
   const pathToCorePackageLoader = getPathToCorePackageLoader(config, outputTarget);
+  const importKeys = [
+    'defineContainer',
+    typeof outputTarget.hydrateModule === 'string' ? 'defineStencilSSRComponent' : undefined,
+  ].filter(Boolean);
 
   const imports = `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated vue proxies */
-import { defineContainer } from './vue-component-lib/utils';\n`;
+import { ${importKeys.join(', ')} } from '@stencil/vue-output-target/runtime';\n`;
 
   const generateTypeImports = () => {
     if (outputTarget.componentCorePackage !== undefined) {
@@ -81,34 +84,10 @@ import { defineContainer } from './vue-component-lib/utils';\n`;
     typeImports,
     sourceImports,
     registerCustomElements,
-    components
-      .map(
-        createComponentDefinition(IMPORT_TYPES, outputTarget.componentModels, outputTarget.includeImportCustomElements)
-      )
-      .join('\n'),
+    components.map(createComponentDefinition(IMPORT_TYPES, outputTarget)).join('\n'),
   ];
 
   return final.join('\n') + '\n';
-}
-
-async function copyResources(config: Config, outputTarget: OutputTargetVue) {
-  if (!config.sys || !config.sys.copy || !config.sys.glob) {
-    throw new Error('stencil is not properly initialized at this step. Notify the developer');
-  }
-  const srcDirectory = path.join(__dirname, '..', 'vue-component-lib');
-  const destDirectory = path.join(path.dirname(outputTarget.proxiesFile), 'vue-component-lib');
-
-  return config.sys.copy(
-    [
-      {
-        src: srcDirectory,
-        dest: destDirectory,
-        keepDirStructure: false,
-        warn: false,
-      },
-    ],
-    srcDirectory
-  );
 }
 
 export function getPathToCorePackageLoader(config: Config, outputTarget: OutputTargetVue) {
