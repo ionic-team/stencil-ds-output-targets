@@ -1,13 +1,21 @@
 /// <reference types="@wdio/mocha-framework" />
+/// <reference types="webdriverio" />
 import { expect, $, browser } from '@wdio/globals';
 
 describe('Stencil NextJS Integration', () => {
   before(() => browser.url('/'));
 
+  /**
+   * ToDo(Christian): enhance the test by fetching the body response instead of the page source
+   *                  which doesn't contain the template contents. This feature is currently not
+   *                  available in WebDriver.
+   */
   it('should have hydrated the page', async () => {
-    expect(await browser.getPageSource()).toContain(
-      "<my-input class=\"sc-my-input-h sc-my-input-s\"><input class=\"native-input sc-my-input\" aria-labelledby=\"my-input-1-lbl\" autocapitalize=\"off\" autocomplete=\"off\" autocorrect=\"off\" name=\"my-input-1\" placeholder=\"\" type=\"text\"></my-input><div class=\"inputResult\"><p>Input Event: </p><p>Change Event: </p></div><hr><my-button class=\"button button-solid my-activatable my-focusable\">Click me</my-button>"
-    )
+    const source = await browser.getPageSource();
+    // serializes component children
+    expect(source).toContain('<input name="myRadioGroup" type="radio" value="one">');
+    expect(source).toContain('<input name="myRadioGroup" type="radio" value="two">');
+    expect(source).toContain('<input name="myRadioGroup" type="radio" value="three">');
   });
 
   it('should allow to interact with input element', async () => {

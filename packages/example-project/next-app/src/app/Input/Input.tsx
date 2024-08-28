@@ -12,7 +12,9 @@ function Input() {
       <MyInput
         onMyInput={(ev) => setInputEvent(`${ev.target.value}`)}
         onMyChange={(ev) => setChangeEvent(`${ev.detail.value}`)}
-      />
+      >
+        {' '}
+      </MyInput>
       <div className="inputResult">
         <p>Input Event: {inputEvent}</p>
         <p>Change Event: {changeEvent}</p>
