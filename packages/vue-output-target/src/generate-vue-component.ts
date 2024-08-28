@@ -1,34 +1,59 @@
 import { dashToPascalCase } from './utils';
 import { ComponentCompilerMeta } from '@stencil/core/internal';
-import { ComponentModelConfig } from './types';
+import { OutputTargetVue } from './types';
 
 export const createComponentDefinition =
-  (
-    importTypes: string,
-    componentModelConfig: ComponentModelConfig[] | undefined,
-    includeCustomElement: boolean = false
-  ) =>
+  (importTypes: string, outputTarget: OutputTargetVue) =>
   (cmpMeta: Pick<ComponentCompilerMeta, 'properties' | 'tagName' | 'methods' | 'events'>) => {
     const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
-    const importAs = includeCustomElement ? 'define' + tagNameAsPascal : 'undefined';
+    const importAs = outputTarget.includeDefineCustomElements ? 'define' + tagNameAsPascal : 'undefined';
 
     let props: string[] = [];
-
+    let propMap: Record<string, string> = {};
     if (Array.isArray(cmpMeta.properties) && cmpMeta.properties.length > 0) {
       props = cmpMeta.properties.map((prop) => `'${prop.name}'`);
+
+      cmpMeta.properties.forEach((prop) => {
+        if (['boolean', 'string', 'number'].includes(prop.type)) {
+          propMap[prop.name] = prop.type[0].toUpperCase() + prop.type.slice(1);
+        } else {
+          propMap[prop.name] = 'String';
+        }
+      });
     }
 
     if (Array.isArray(cmpMeta.events) && cmpMeta.events.length > 0) {
       props = [...props, ...cmpMeta.events.map((event) => `'${event.name}'`)];
+
+      cmpMeta.events.forEach((event) => {
+        const handlerName = `on${event.name[0].toUpperCase() + event.name.slice(1)}`;
+        propMap[handlerName] = 'Function';
+      });
     }
 
     const componentType = `${importTypes}.${tagNameAsPascal}`;
-    const findModel =
-      componentModelConfig && componentModelConfig.find((config) => config.elements.includes(cmpMeta.tagName));
+    const findModel = outputTarget.componentModels?.find((config) => config.elements.includes(cmpMeta.tagName));
     const modelType = findModel !== undefined ? `, ${componentType}["${findModel.targetAttr}"]` : '';
+    const supportSSR = typeof outputTarget.hydrateModule === 'string';
+    const ssrTernary = supportSSR ? ' globalThis.window ? ' : ' ';
+    const ssrCondition = supportSSR
+      ? ` : defineStencilSSRComponent({
+  tagName: '${cmpMeta.tagName}',
+  hydrateModule: import('${outputTarget.hydrateModule}'),
+  props: {
+    ${Object.entries(propMap)
+      .map(([key, value]) => `'${key}': ${value}`)
+      .join(',\n    ')}
+  }
+})`
+      : '';
+
+    // tagName: string;
+    // hydrateModule: Promise<{ renderToString: RenderToString }>;
+    // props?: Record<string, any>;
 
     let templateString = `
-export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${componentType}${modelType}>('${cmpMeta.tagName}', ${importAs}`;
+export const ${tagNameAsPascal} = /*@__PURE__*/${ssrTernary}defineContainer<${componentType}${modelType}>('${cmpMeta.tagName}', ${importAs}`;
 
     if (props.length > 0) {
       templateString += `, [
@@ -67,7 +92,7 @@ export const ${tagNameAsPascal} = /*@__PURE__*/ defineContainer<${componentType}
       templateString += `'${targetProp}', '${findModel.event}'`;
     }
 
-    templateString += `);\n`;
+    templateString += `)${ssrCondition};\n`;
 
     return templateString;
   };

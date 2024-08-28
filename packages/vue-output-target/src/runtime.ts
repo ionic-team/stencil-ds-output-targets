@@ -1,7 +1,6 @@
-// @ts-nocheck
-// It's easier and safer for Volar to disable typechecking and let the return type inference do its job.
 import { defineComponent, getCurrentInstance, h, inject, ref, Ref, withDirectives } from 'vue';
 
+export { defineStencilSSRComponent } from './ssr';
 export interface InputProps<T> {
   modelValue?: T;
 }
@@ -12,6 +11,7 @@ const ROUTER_LINK_VALUE = 'routerLink';
 const NAV_MANAGER = 'navManager';
 const ROUTER_PROP_PREFIX = 'router';
 const ARIA_PROP_PREFIX = 'aria';
+
 /**
  * Starting in Vue 3.1.0, all properties are
  * added as keys to the props object, even if
@@ -72,7 +72,7 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
   }
 
   const Container = defineComponent<Props & InputProps<VModelType>>((props, { attrs, slots, emit }) => {
-    let modelPropValue = props[modelProp];
+    let modelPropValue = modelProp ? props[modelProp as keyof InputProps<VModelType>] : undefined;
     const containerRef = ref<HTMLElement>();
     const classes = new Set(getComponentClasses(attrs.class));
 
@@ -98,7 +98,7 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
              * the v-model for Component A when ionChange originates from that element and not
              * when ionChange bubbles up from Component B.
              */
-            if (e.target.tagName === el.tagName) {
+            if ((e.target as HTMLElement).tagName === el.tagName && modelProp) {
               modelPropValue = (e?.target as any)[modelProp];
               emit(UPDATE_VALUE_EVENT, modelPropValue);
             }
@@ -111,6 +111,7 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
     const hasRouter = currentInstance?.appContext?.provides[NAV_MANAGER];
     const navManager: NavManager | undefined = hasRouter ? inject(NAV_MANAGER) : undefined;
     const handleRouterLink = (ev: Event) => {
+      // @ts-expect-error
       const { routerLink } = props;
       if (routerLink === EMPTY_PROP) return;
 
@@ -127,7 +128,7 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
 
         let navigationPayload: any = { event: ev };
         for (const key in props) {
-          const value = props[key];
+          const value = props[key as keyof InputProps<VModelType>];
           if (props.hasOwnProperty(key) && key.startsWith(ROUTER_PROP_PREFIX) && value !== EMPTY_PROP) {
             navigationPayload[key] = value;
           }
@@ -140,12 +141,13 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
     };
 
     return () => {
-      modelPropValue = props[modelProp];
+      modelPropValue = props[modelProp as keyof InputProps<VModelType>];
 
       getComponentClasses(attrs.class).forEach((value) => {
         classes.add(value);
       });
 
+      // @ts-expect-error
       const oldClick = props.onClick;
       const handleClick = (ev: Event) => {
         if (oldClick !== undefined) {
@@ -169,7 +171,7 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
        * where as this only requires 1.
        */
       for (const key in props) {
-        const value = props[key];
+        const value = props[key as keyof InputProps<VModelType>];
         if ((props.hasOwnProperty(key) && value !== EMPTY_PROP) || key.startsWith(ARIA_PROP_PREFIX)) {
           propsToAdd[key] = value;
         }
@@ -199,7 +201,7 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
       // in order to properly render an anchor tag inside
       // of components that should become activatable and
       // focusable with router link.
-      if (props[ROUTER_LINK_VALUE] !== EMPTY_PROP) {
+      if (ROUTER_LINK_VALUE in props && props[ROUTER_LINK_VALUE] !== EMPTY_PROP) {
         propsToAdd = {
           ...propsToAdd,
           href: props[ROUTER_LINK_VALUE],
@@ -216,18 +218,23 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
   });
 
   if (typeof Container !== 'function') {
+    // @ts-expect-error
     Container.name = name;
 
+    // @ts-expect-error
     Container.props = {
       [ROUTER_LINK_VALUE]: DEFAULT_EMPTY_PROP,
     };
 
     componentProps.forEach((componentProp) => {
+      // @ts-expect-error
       Container.props[componentProp] = DEFAULT_EMPTY_PROP;
     });
 
     if (modelProp) {
+      // @ts-expect-error
       Container.props[MODEL_VALUE] = DEFAULT_EMPTY_PROP;
+      // @ts-expect-error
       Container.emits = [UPDATE_VALUE_EVENT];
     }
   }

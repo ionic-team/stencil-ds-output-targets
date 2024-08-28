@@ -7,10 +7,12 @@
   },
   "scripts": {
     "build": "lerna run build",
+    "changelog": "lerna-changelog",
     "prettier": "lerna run prettier",
     "prettier.dry-run": "lerna run prettier.dry-run",
-    "test": "lerna run test",
-    "changelog": "lerna-changelog"
+    "start:next": "pnpm --filter next-app run start",
+    "start:nuxt": "pnpm --filter nuxt-app run start",
+    "test": "lerna run test"
   },
   "devDependencies": {
     "@ionic/prettier-config": "^2.0.0",
