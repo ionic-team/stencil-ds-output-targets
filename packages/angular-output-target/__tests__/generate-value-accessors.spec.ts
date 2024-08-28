@@ -41,8 +41,6 @@ export class TextValueAccessor extends ValueAccessor {
     super(el);
   }
 }`;
-    console.log(expectedOutput.trim().replace(/\n/g, EOL));
-    console.log(finalText.trim());
     expect(finalText.trim()).toEqual(expectedOutput.trim().replace(/\n/g, EOL));
   });
   it('should create a valid {type}-value-accessor.ts file with the correct standalone option', () => {
