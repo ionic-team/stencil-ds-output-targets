@@ -1,7 +1,8 @@
 import { EOL } from 'os';
 import path from 'path';
-import type { OutputTargetAngular, ValueAccessorTypes } from './types';
+import { OutputTargetAngular, OutputType, ValueAccessorTypes } from './types';
 import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
+import { OutputTypes } from './utils';
 
 export interface ValueAccessor {
   elementSelectors: string[];
@@ -54,7 +55,11 @@ export default async function generateValueAccessors(
       const srcFilePath = path.join(__dirname, '../resources/control-value-accessors/', targetFileName);
       const srcFileContents = await compilerCtx.fs.readFile(srcFilePath);
 
-      const finalText = createValueAccessor(srcFileContents, normalizedValueAccessors[valueAccessorType]);
+      const finalText = createValueAccessor(
+        srcFileContents,
+        normalizedValueAccessors[valueAccessorType],
+        outputTarget.outputType
+      );
       await compilerCtx.fs.writeFile(targetFilePath, finalText);
     })
   );
@@ -62,22 +67,22 @@ export default async function generateValueAccessors(
   await copyResources(config, ['value-accessor.ts'], targetDir);
 }
 
-export function createValueAccessor(srcFileContents: string, valueAccessor: ValueAccessor) {
+export function createValueAccessor(srcFileContents: string, valueAccessor: ValueAccessor, outputType?: OutputType) {
   const hostContents = valueAccessor.eventTargets.map((listItem) =>
     VALUE_ACCESSOR_EVENTTARGETS.replace(VALUE_ACCESSOR_EVENT, listItem[0]).replace(
       VALUE_ACCESSOR_TARGETATTR,
       listItem[1]
     )
   );
-
   return srcFileContents
     .replace(VALUE_ACCESSOR_SELECTORS, valueAccessor.elementSelectors.join(', '))
-    .replace(VALUE_ACCESSOR_EVENTTARGETS, hostContents.join(`,${EOL}`));
+    .replace(VALUE_ACCESSOR_EVENTTARGETS, hostContents.join(`,${EOL}`))
+    .replace(VALUE_ACCESSOR_STANDALONE, outputType && outputType === OutputTypes.Standalone ? ',standalone: true' : '');
 }
 
 function copyResources(config: Config, resourcesFilesToCopy: string[], directory: string) {
   if (!config.sys || !config.sys.copy) {
-    throw new Error('stencil is not properly intialized at this step. Notify the developer');
+    throw new Error('stencil is not properly initialized at this step. Notify the developer');
   }
   const copyTasks = resourcesFilesToCopy.map((rf) => {
     return {
@@ -93,4 +98,5 @@ function copyResources(config: Config, resourcesFilesToCopy: string[], directory
 const VALUE_ACCESSOR_SELECTORS = `<VALUE_ACCESSOR_SELECTORS>`;
 const VALUE_ACCESSOR_EVENT = `<VALUE_ACCESSOR_EVENT>`;
 const VALUE_ACCESSOR_TARGETATTR = '<VALUE_ACCESSOR_TARGETATTR>';
+const VALUE_ACCESSOR_STANDALONE = '<VALUE_ACCESSOR_STANDALONE>';
 const VALUE_ACCESSOR_EVENTTARGETS = `    '(<VALUE_ACCESSOR_EVENT>)': 'handleChangeEvent($event.target.<VALUE_ACCESSOR_TARGETATTR>)'`;
