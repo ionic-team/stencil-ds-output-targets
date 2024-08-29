@@ -4,12 +4,16 @@ import { MyComponent, MyRange, MyRadioGroup } from './components';
 
 export default function Home() {
   return (
-    <>
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <Input />
       <hr />
       <Button />
       <hr />
-      <MyComponent first="Stencil" last="'Don't call me a framework' JS" />
+      <MyComponent
+        first="Stencil"
+        last="'Don't call me a framework' JS"
+        className="my-8"
+      />
       <hr />
       <MyRange name="myRange">Hello World</MyRange>
       <hr />
@@ -18,6 +22,6 @@ export default function Home() {
         <input type="radio" name="myRadioGroup" value="two" />
         <input type="radio" name="myRadioGroup" value="three" />
       </MyRadioGroup>
-    </>
+    </main>
   );
 }

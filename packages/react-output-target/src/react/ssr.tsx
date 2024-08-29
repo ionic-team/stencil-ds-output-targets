@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import type { EventName, ReactWebComponent, WebComponentProps } from '@lit/react';
 
+import { possibleStandardNames } from './constants';
+
 // A key value map matching React prop names to event names.
 type EventNames = Record<string, EventName | string>;
 
@@ -45,7 +47,7 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
       if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
         continue;
       }
-      stringProps += ` ${key}="${value}"`;
+      stringProps += ` ${possibleStandardNames[key as keyof typeof possibleStandardNames] || key}="${value}"`;
     }
 
     let serializedChildren = '';

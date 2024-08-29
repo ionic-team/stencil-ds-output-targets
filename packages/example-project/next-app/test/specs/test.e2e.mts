@@ -28,4 +28,8 @@ describe('Stencil NextJS Integration', () => {
     await $('my-button').click();
     await expect($('.buttonResult')).toHaveText('Input Event: 2');
   });
+
+  it('should transform react properties into html attributes', async () => {
+    await expect($('my-component.my-8')).toBePresent();
+  })
 });
