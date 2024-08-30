@@ -29,7 +29,12 @@ export class MyComponent {
   /**
    * The array of child names
    */
-  @Prop() kidName: string;
+  @Prop() kidsNames: string[];
+
+  /**
+   * The favorite kid
+   */
+  @Prop() favoriteKidName: string;
 
   /**
    * Testing an event without value
@@ -49,7 +54,8 @@ export class MyComponent {
       <div onClick={this.emitCustomEvent.bind(this)}>
         Hello, World! I'm {this.getText()}
         <p>Age: {this.age}</p>
-        <p>Kid: {this.kidName}</p>
+        <p>Kids: {this.kidsNames?.join(', ')}</p>
+        <p>Favorite kid: {this.favoriteKidName}</p>
       </div>
     );
   }

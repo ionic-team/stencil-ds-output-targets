@@ -110,13 +110,17 @@ export namespace Components {
          */
         "age": number;
         /**
+          * The favorite kid
+         */
+        "favoriteKidName": string;
+        /**
           * The first name
          */
         "first": string;
         /**
           * The array of child names
          */
-        "kidName": string;
+        "kidsNames": string[];
         /**
           * The last name
          */
@@ -710,13 +714,17 @@ declare namespace LocalJSX {
          */
         "age"?: number;
         /**
+          * The favorite kid
+         */
+        "favoriteKidName"?: string;
+        /**
           * The first name
          */
         "first"?: string;
         /**
           * The array of child names
          */
-        "kidName"?: string;
+        "kidsNames"?: string[];
         /**
           * The last name
          */

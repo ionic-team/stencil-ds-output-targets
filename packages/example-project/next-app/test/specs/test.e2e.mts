@@ -34,6 +34,6 @@ describe('Stencil NextJS Integration', () => {
   });
 
   it('should transform camelCase into kebab-case', async () => {
-    await expect($('my-component[kid-name="foobar"]')).toBePresent();
+    await expect($('my-component[favorite-kid-name="foobar"]')).toBePresent();
   });
 });

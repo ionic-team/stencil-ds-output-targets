@@ -36,7 +36,8 @@ export const MyComponent = /*@__PURE__*/ defineContainer<JSX.MyComponent>('my-co
   'middle',
   'last',
   'age',
-  'kidName',
+  'kidsNames',
+  'favoriteKidName',
   'myCustomEvent',
 ]);
 
