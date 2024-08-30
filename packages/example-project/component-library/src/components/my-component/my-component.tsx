@@ -29,7 +29,7 @@ export class MyComponent {
   /**
    * The array of child names
    */
-  @Prop() kidsNames: string[];
+  @Prop() kidName: string;
 
   /**
    * Testing an event without value
@@ -45,6 +45,12 @@ export class MyComponent {
   }
 
   render() {
-    return <div onClick={this.emitCustomEvent.bind(this)}>Hello, World! I'm {this.getText()}</div>;
+    return (
+      <div onClick={this.emitCustomEvent.bind(this)}>
+        Hello, World! I'm {this.getText()}
+        <p>Age: {this.age}</p>
+        <p>Kid: {this.kidName}</p>
+      </div>
+    );
   }
 }

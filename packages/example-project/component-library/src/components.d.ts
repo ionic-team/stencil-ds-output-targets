@@ -116,7 +116,7 @@ export namespace Components {
         /**
           * The array of child names
          */
-        "kidsNames": string[];
+        "kidName": string;
         /**
           * The last name
          */
@@ -716,7 +716,7 @@ declare namespace LocalJSX {
         /**
           * The array of child names
          */
-        "kidsNames"?: string[];
+        "kidName"?: string;
         /**
           * The last name
          */

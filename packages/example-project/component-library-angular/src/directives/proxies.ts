@@ -103,14 +103,14 @@ export declare interface MyCheckbox extends Components.MyCheckbox {
 }
 
 @ProxyCmp({
-  inputs: ['age', 'first', 'kidsNames', 'last', 'middle'],
+  inputs: ['age', 'first', 'kidName', 'last', 'middle'],
 })
 @Component({
   selector: 'my-component',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['age', 'first', 'kidsNames', 'last', 'middle'],
+  inputs: ['age', 'first', 'kidName', 'last', 'middle'],
 })
 export class MyComponent {
   protected el: HTMLElement;
