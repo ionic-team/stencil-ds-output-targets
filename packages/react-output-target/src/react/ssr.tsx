@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+import decamelize from 'decamelize';
 import type { EventName, ReactWebComponent, WebComponentProps } from '@lit/react';
 
 import { possibleStandardNames } from './constants';
@@ -25,6 +26,10 @@ type StencilProps<I extends HTMLElement> = WebComponentProps<I> & {
   __resolveTagName?: boolean;
 };
 
+function isPrimitive(value: any) {
+  return typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean';
+}
+
 /**
  * transform a React component into a Stencil component for server side rendering
  *
@@ -44,10 +49,19 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
 
     let stringProps = '';
     for (const [key, value] of Object.entries(props)) {
-      if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
+      const propValue = isPrimitive(value)
+        ? `"${value}"`
+        : Array.isArray(value) && value.every(isPrimitive)
+        ? JSON.stringify(value)
+        : undefined;
+
+      if (!propValue) {
         continue;
       }
-      stringProps += ` ${possibleStandardNames[key as keyof typeof possibleStandardNames] || key}="${value}"`;
+
+      const propName =
+        possibleStandardNames[key as keyof typeof possibleStandardNames] || decamelize(key, { separator: '-' });
+      stringProps += ` ${propName}=${propValue}`;
     }
 
     let serializedChildren = '';

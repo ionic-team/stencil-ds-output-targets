@@ -31,5 +31,9 @@ describe('Stencil NextJS Integration', () => {
 
   it('should transform react properties into html attributes', async () => {
     await expect($('my-component.my-8')).toBePresent();
-  })
+  });
+
+  it('should transform camelCase into kebab-case', async () => {
+    await expect($('my-component[favorite-kid-name="foobar"]')).toBePresent();
+  });
 });

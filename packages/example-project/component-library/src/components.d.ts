@@ -110,6 +110,10 @@ export namespace Components {
          */
         "age": number;
         /**
+          * The favorite kid
+         */
+        "favoriteKidName": string;
+        /**
           * The first name
          */
         "first": string;
@@ -709,6 +713,10 @@ declare namespace LocalJSX {
           * The age
          */
         "age"?: number;
+        /**
+          * The favorite kid
+         */
+        "favoriteKidName"?: string;
         /**
           * The first name
          */

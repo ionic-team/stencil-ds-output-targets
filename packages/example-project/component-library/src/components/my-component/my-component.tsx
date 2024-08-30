@@ -32,6 +32,11 @@ export class MyComponent {
   @Prop() kidsNames: string[];
 
   /**
+   * The favorite kid
+   */
+  @Prop() favoriteKidName: string;
+
+  /**
    * Testing an event without value
    */
   @Event() myCustomEvent: EventEmitter<number>;
@@ -45,6 +50,13 @@ export class MyComponent {
   }
 
   render() {
-    return <div onClick={this.emitCustomEvent.bind(this)}>Hello, World! I'm {this.getText()}</div>;
+    return (
+      <div onClick={this.emitCustomEvent.bind(this)}>
+        Hello, World! I'm {this.getText()}
+        <p>Age: {this.age}</p>
+        <p>Kids: {this.kidsNames?.join(', ')}</p>
+        <p>Favorite kid: {this.favoriteKidName}</p>
+      </div>
+    );
   }
 }
