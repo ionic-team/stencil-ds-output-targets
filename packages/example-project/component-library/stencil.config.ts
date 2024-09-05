@@ -68,7 +68,7 @@ export const config: Config = {
     vueOutputTarget({
       componentCorePackage: 'component-library',
       hydrateModule: 'component-library/hydrate',
-      proxiesFile: '../component-library-vue/src/proxies.ts',
+      proxiesFile: '../component-library-vue/src/index.ts',
       componentModels: vueComponentModels,
     }),
     {
