@@ -30,8 +30,6 @@ export function defineStencilSSRComponent(options: StencilSSRComponentOptions) {
       }
 
       const { renderToString } = await options.hydrateModule;
-      console.log('props', props);
-
       for (const [key, value] of Object.entries(props)) {
         if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
           continue;
@@ -39,6 +37,8 @@ export function defineStencilSSRComponent(options: StencilSSRComponentOptions) {
         stringProps += ` ${key}="${value}"`;
       }
       const toSerialize = `<${options.tagName}${stringProps}>${renderedLightDom}</${options.tagName}>`;
+      console.log('-->', toSerialize);
+
       const { html } = await renderToString(toSerialize, {
         fullDocument: false,
       });
