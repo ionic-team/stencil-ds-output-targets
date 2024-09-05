@@ -1,6 +1,8 @@
-import { Config } from '@stencil/core/internal';
-import { OutputTargetVue } from '../src/types';
-import { normalizeOutputTarget } from '../src/plugin';
+import { describe, it, expect } from 'vitest';
+
+import { type Config } from '@stencil/core/internal';
+import { OutputTargetVue } from './types';
+import { normalizeOutputTarget } from './plugin';
 
 describe('normalizeOutputTarget', () => {
   const config: Config = {
