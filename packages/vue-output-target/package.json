@@ -41,7 +41,7 @@
     "prettier.base": "prettier \"./({vue-component-lib,src,test,__tests__}/**/*.{ts,tsx,js,jsx})|*.{ts,tsx,js,jsx}\"",
     "prettier.dry-run": "pnpm run prettier.base --list-different",
     "release": "np",
-    "test": "jest"
+    "test": "vitest --run"
   },
   "peerDependencies": {
     "vue": "^3.4.38",
@@ -57,24 +57,9 @@
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
-    "jest": "^27.0.0",
+    "vitest": "^2.0.5",
     "rimraf": "^5.0.0",
     "rollup": "^4.14.3",
     "typescript": "~5.0.0"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.(js|ts|tsx)$": "<rootDir>/test/jest.preprocessor.js"
-    },
-    "testRegex": "(\\.(test|spec))\\.(ts?|tsx?|jsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "json",
-      "jsx"
-    ],
-    "testURL": "http://localhost"
-  },
-  "gitHead": "a3588e905186a0e86e7f88418fd5b2f9531b55e0"
+  }
 }

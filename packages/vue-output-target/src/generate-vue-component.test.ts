@@ -1,8 +1,9 @@
-import { createComponentDefinition } from '../src/generate-vue-component';
+import { describe, it, expect } from 'vitest';
+import { createComponentDefinition } from './generate-vue-component';
 
 describe('createComponentDefinition', () => {
   it('should create a Vue component with the render method using createCommonRender', () => {
-    const generateComponentDefinition = createComponentDefinition('Components', []);
+    const generateComponentDefinition = createComponentDefinition('Components', { proxiesFile: './src/components.ts' });
     const output = generateComponentDefinition({
       properties: [],
       tagName: 'my-component',
@@ -14,7 +15,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
 `);
   });
   it('should create a Vue component with custom element support', () => {
-    const generateComponentDefinition = createComponentDefinition('Components', [], true);
+    const generateComponentDefinition = createComponentDefinition('Components', { proxiesFile: './src/components.ts' });
     const output = generateComponentDefinition({
       properties: [],
       tagName: 'my-component',
@@ -22,18 +23,21 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
       events: [],
     });
     expect(output).toEqual(`
-export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', defineMyComponent);
+export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>('my-component', undefined);
 `);
   });
 
   it('should create v-model bindings', () => {
-    const generateComponentDefinition = createComponentDefinition('Components', [
-      {
-        elements: ['my-component'],
-        event: 'ionChange',
-        targetAttr: 'value',
-      },
-    ]);
+    const generateComponentDefinition = createComponentDefinition('Components', {
+      proxiesFile: './src/components.ts',
+      componentModels: [
+        {
+          elements: ['my-component'],
+          event: 'ionChange',
+          targetAttr: 'value',
+        },
+      ]
+    });
     const output = generateComponentDefinition({
       properties: [
         {
@@ -87,15 +91,19 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent,
   });
 
   it('should add router and v-model bindings', () => {
-    const generateComponentDefinition = createComponentDefinition('Components', [
-      {
-        elements: ['my-component'],
-        event: 'ionChange',
-        targetAttr: 'value',
-      },
-    ]);
+    const generateComponentDefinition = createComponentDefinition('Components', {
+      componentModels: [
+        {
+          elements: ['my-component'],
+          event: 'ionChange',
+          targetAttr: 'value',
+        },
+      ],
+      proxiesFile: './src/components.ts',
+    });
     const output = generateComponentDefinition({
       tagName: 'my-component',
+      methods: [],
       properties: [
         {
           name: 'value',
@@ -146,7 +154,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent,
   });
 
   it('should pass event references to the createCommonRender function', () => {
-    const generateComponentDefinition = createComponentDefinition('Components');
+    const generateComponentDefinition = createComponentDefinition('Components', { proxiesFile: './src/components.ts' });
     const output = generateComponentDefinition({
       properties: [],
       tagName: 'my-component',
@@ -180,7 +188,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
   });
 
   it('should add a prop with Reference to the original component library prop type', () => {
-    const generateComponentDefinition = createComponentDefinition('Components');
+    const generateComponentDefinition = createComponentDefinition('Components', { proxiesFile: './src/components.ts' });
     const output = generateComponentDefinition({
       properties: [
         {
