@@ -453,7 +453,7 @@ declare global {
     interface HTMLMyCheckboxElementEventMap {
         "myChange": CheckboxChangeEventDetail;
         "myFocus": void;
-        "myBlur": void;
+        "foo/myBlur": void;
         "myStyle": StyleEventDetail;
     }
     interface HTMLMyCheckboxElement extends Components.MyCheckbox, HTMLStencilElement {
@@ -690,7 +690,7 @@ declare namespace LocalJSX {
         /**
           * Emitted when the toggle loses focus.
          */
-        "onMyBlur"?: (event: MyCheckboxCustomEvent<void>) => void;
+        "onFoo/myBlur"?: (event: MyCheckboxCustomEvent<void>) => void;
         /**
           * Emitted when the checked property has changed.
          */

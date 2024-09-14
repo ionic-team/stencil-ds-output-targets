@@ -6,45 +6,16 @@ import { ProxyCmp, proxyOutputs } from './angular-component-lib/utils';
 
 import { Components } from 'component-library';
 
+
 @ProxyCmp({
-  inputs: [
-    'buttonType',
-    'color',
-    'disabled',
-    'download',
-    'expand',
-    'fill',
-    'href',
-    'mode',
-    'rel',
-    'shape',
-    'size',
-    'strong',
-    'target',
-    'type',
-  ],
+  inputs: ['buttonType', 'color', 'disabled', 'download', 'expand', 'fill', 'href', 'mode', 'rel', 'shape', 'size', 'strong', 'target', 'type']
 })
 @Component({
   selector: 'my-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: [
-    'buttonType',
-    'color',
-    'disabled',
-    'download',
-    'expand',
-    'fill',
-    'href',
-    'mode',
-    'rel',
-    'shape',
-    'size',
-    'strong',
-    'target',
-    'type',
-  ],
+  inputs: ['buttonType', 'color', 'disabled', 'download', 'expand', 'fill', 'href', 'mode', 'rel', 'shape', 'size', 'strong', 'target', 'type'],
 })
 export class MyButton {
   protected el: HTMLElement;
@@ -54,6 +25,7 @@ export class MyButton {
     proxyOutputs(this, this.el, ['myFocus', 'myBlur']);
   }
 }
+
 
 export declare interface MyButton extends Components.MyButton {
   /**
@@ -66,8 +38,9 @@ export declare interface MyButton extends Components.MyButton {
   myBlur: EventEmitter<CustomEvent<void>>;
 }
 
+
 @ProxyCmp({
-  inputs: ['checked', 'color', 'disabled', 'indeterminate', 'mode', 'name', 'value'],
+  inputs: ['checked', 'color', 'disabled', 'indeterminate', 'mode', 'name', 'value']
 })
 @Component({
   selector: 'my-checkbox',
@@ -81,9 +54,10 @@ export class MyCheckbox {
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['myChange', 'myFocus', 'myBlur']);
+    proxyOutputs(this, this.el, ['myChange', 'myFocus', 'foo/myBlur']);
   }
 }
+
 
 import type { CheckboxChangeEventDetail as IMyCheckboxCheckboxChangeEventDetail } from 'component-library';
 
@@ -99,11 +73,12 @@ export declare interface MyCheckbox extends Components.MyCheckbox {
   /**
    * Emitted when the toggle loses focus.
    */
-  myBlur: EventEmitter<CustomEvent<void>>;
+  'foo/myBlur': EventEmitter<CustomEvent<void>>;
 }
 
+
 @ProxyCmp({
-  inputs: ['age', 'favoriteKidName', 'first', 'kidsNames', 'last', 'middle'],
+  inputs: ['age', 'favoriteKidName', 'first', 'kidsNames', 'last', 'middle']
 })
 @Component({
   selector: 'my-component',
@@ -121,6 +96,7 @@ export class MyComponent {
   }
 }
 
+
 export declare interface MyComponent extends Components.MyComponent {
   /**
    * Testing an event without value
@@ -128,72 +104,17 @@ export declare interface MyComponent extends Components.MyComponent {
   myCustomEvent: EventEmitter<CustomEvent<number>>;
 }
 
+
 @ProxyCmp({
-  inputs: [
-    'accept',
-    'autocapitalize',
-    'autocomplete',
-    'autocorrect',
-    'autofocus',
-    'clearInput',
-    'clearOnEdit',
-    'color',
-    'disabled',
-    'enterkeyhint',
-    'inputmode',
-    'max',
-    'maxlength',
-    'min',
-    'minlength',
-    'mode',
-    'multiple',
-    'name',
-    'pattern',
-    'placeholder',
-    'readonly',
-    'required',
-    'size',
-    'spellcheck',
-    'step',
-    'type',
-    'value',
-  ],
-  methods: ['setFocus', 'getInputElement'],
+  inputs: ['accept', 'autocapitalize', 'autocomplete', 'autocorrect', 'autofocus', 'clearInput', 'clearOnEdit', 'color', 'disabled', 'enterkeyhint', 'inputmode', 'max', 'maxlength', 'min', 'minlength', 'mode', 'multiple', 'name', 'pattern', 'placeholder', 'readonly', 'required', 'size', 'spellcheck', 'step', 'type', 'value'],
+  methods: ['setFocus', 'getInputElement']
 })
 @Component({
   selector: 'my-input',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: [
-    'accept',
-    'autocapitalize',
-    'autocomplete',
-    'autocorrect',
-    'autofocus',
-    'clearInput',
-    'clearOnEdit',
-    'color',
-    'disabled',
-    'enterkeyhint',
-    'inputmode',
-    'max',
-    'maxlength',
-    'min',
-    'minlength',
-    'mode',
-    'multiple',
-    'name',
-    'pattern',
-    'placeholder',
-    'readonly',
-    'required',
-    'size',
-    'spellcheck',
-    'step',
-    'type',
-    'value',
-  ],
+  inputs: ['accept', 'autocapitalize', 'autocomplete', 'autocorrect', 'autofocus', 'clearInput', 'clearOnEdit', 'color', 'disabled', 'enterkeyhint', 'inputmode', 'max', 'maxlength', 'min', 'minlength', 'mode', 'multiple', 'name', 'pattern', 'placeholder', 'readonly', 'required', 'size', 'spellcheck', 'step', 'type', 'value'],
 })
 export class MyInput {
   protected el: HTMLElement;
@@ -203,6 +124,7 @@ export class MyInput {
     proxyOutputs(this, this.el, ['myInput', 'myChange', 'myBlur', 'myFocus']);
   }
 }
+
 
 import type { InputChangeEventDetail as IMyInputInputChangeEventDetail } from 'component-library';
 
@@ -225,52 +147,27 @@ export declare interface MyInput extends Components.MyInput {
   myFocus: EventEmitter<CustomEvent<void>>;
 }
 
+
 @ProxyCmp({
-  inputs: [
-    'animated',
-    'backdropDismiss',
-    'component',
-    'componentProps',
-    'cssClass',
-    'event',
-    'keyboardClose',
-    'mode',
-    'showBackdrop',
-    'translucent',
-  ],
-  methods: ['present', 'dismiss', 'onDidDismiss', 'onWillDismiss'],
+  inputs: ['animated', 'backdropDismiss', 'component', 'componentProps', 'cssClass', 'event', 'keyboardClose', 'mode', 'showBackdrop', 'translucent'],
+  methods: ['present', 'dismiss', 'onDidDismiss', 'onWillDismiss']
 })
 @Component({
   selector: 'my-popover',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: [
-    'animated',
-    'backdropDismiss',
-    'component',
-    'componentProps',
-    'cssClass',
-    'event',
-    'keyboardClose',
-    'mode',
-    'showBackdrop',
-    'translucent',
-  ],
+  inputs: ['animated', 'backdropDismiss', 'component', 'componentProps', 'cssClass', 'event', 'keyboardClose', 'mode', 'showBackdrop', 'translucent'],
 })
 export class MyPopover {
   protected el: HTMLElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, [
-      'myPopoverDidPresent',
-      'myPopoverWillPresent',
-      'myPopoverWillDismiss',
-      'myPopoverDidDismiss',
-    ]);
+    proxyOutputs(this, this.el, ['myPopoverDidPresent', 'myPopoverWillPresent', 'myPopoverWillDismiss', 'myPopoverDidDismiss']);
   }
 }
+
 
 import type { OverlayEventDetail as IMyPopoverOverlayEventDetail } from 'component-library';
 
@@ -293,8 +190,9 @@ export declare interface MyPopover extends Components.MyPopover {
   myPopoverDidDismiss: EventEmitter<CustomEvent<IMyPopoverOverlayEventDetail>>;
 }
 
+
 @ProxyCmp({
-  inputs: ['color', 'disabled', 'mode', 'name', 'value'],
+  inputs: ['color', 'disabled', 'mode', 'name', 'value']
 })
 @Component({
   selector: 'my-radio',
@@ -312,6 +210,7 @@ export class MyRadio {
   }
 }
 
+
 export declare interface MyRadio extends Components.MyRadio {
   /**
    * Emitted when the radio button has focus.
@@ -327,8 +226,9 @@ export declare interface MyRadio extends Components.MyRadio {
   mySelect: EventEmitter<CustomEvent<void>>;
 }
 
+
 @ProxyCmp({
-  inputs: ['allowEmptySelection', 'name', 'value'],
+  inputs: ['allowEmptySelection', 'name', 'value']
 })
 @Component({
   selector: 'my-radio-group',
@@ -346,6 +246,7 @@ export class MyRadioGroup {
   }
 }
 
+
 import type { RadioGroupChangeEventDetail as IMyRadioGroupRadioGroupChangeEventDetail } from 'component-library';
 
 export declare interface MyRadioGroup extends Components.MyRadioGroup {
@@ -355,43 +256,16 @@ export declare interface MyRadioGroup extends Components.MyRadioGroup {
   myChange: EventEmitter<CustomEvent<IMyRadioGroupRadioGroupChangeEventDetail>>;
 }
 
+
 @ProxyCmp({
-  inputs: [
-    'color',
-    'debounce',
-    'disabled',
-    'dualKnobs',
-    'max',
-    'min',
-    'mode',
-    'name',
-    'pin',
-    'snaps',
-    'step',
-    'ticks',
-    'value',
-  ],
+  inputs: ['color', 'debounce', 'disabled', 'dualKnobs', 'max', 'min', 'mode', 'name', 'pin', 'snaps', 'step', 'ticks', 'value']
 })
 @Component({
   selector: 'my-range',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: [
-    'color',
-    'debounce',
-    'disabled',
-    'dualKnobs',
-    'max',
-    'min',
-    'mode',
-    'name',
-    'pin',
-    'snaps',
-    'step',
-    'ticks',
-    'value',
-  ],
+  inputs: ['color', 'debounce', 'disabled', 'dualKnobs', 'max', 'min', 'mode', 'name', 'pin', 'snaps', 'step', 'ticks', 'value'],
 })
 export class MyRange {
   protected el: HTMLElement;
@@ -401,6 +275,7 @@ export class MyRange {
     proxyOutputs(this, this.el, ['myChange', 'myFocus', 'myBlur']);
   }
 }
+
 
 import type { RangeChangeEventDetail as IMyRangeRangeChangeEventDetail } from 'component-library';
 
@@ -418,3 +293,5 @@ export declare interface MyRange extends Components.MyRange {
    */
   myBlur: EventEmitter<CustomEvent<void>>;
 }
+
+
