@@ -139,14 +139,14 @@ import type { EventName, StencilReactComponent } from '@stencil/react-output-tar
 
     sourceFile.addTypeAlias({
       name: componentEventNamesType,
-      type: events.length > 0 ? `{ ${events.map((e) => `'${e.name}': ${e.type}`).join(',\n')} }` : 'NonNullable<unknown>',
+      type: events.length > 0 ? `{ ${events.map((e) => `${e.name}: ${e.type}`).join(',\n')} }` : 'NonNullable<unknown>',
     });
 
     const clientComponentCall = `/*@__PURE__*/ createComponent<${componentElement}, ${componentEventNamesType}>({
     tagName: '${tagName}',
     elementClass: ${componentElement},
     react: React,
-    events: {${events.map((e) => `'${e.name}': '${e.originalName}'`).join(',\n')}} as ${componentEventNamesType},
+    events: {${events.map((e) => `${e.name}: '${e.originalName}'`).join(',\n')}} as ${componentEventNamesType},
     defineCustomElement: define${reactTagName}
   })`;
     const serverComponentCall = `/*@__PURE__*/ createSSRComponent<${componentElement}, ${componentEventNamesType}>({
