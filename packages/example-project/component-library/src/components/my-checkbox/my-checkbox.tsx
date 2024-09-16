@@ -68,14 +68,13 @@ export class Checkbox implements ComponentInterface {
   /**
    * Emitted when the toggle loses focus.
    */
-  @Event({ eventName: 'foo/myBlur' }) myBlur!: EventEmitter<void>;
+  @Event() myBlur!: EventEmitter<void>;
 
   /**
    * Emitted when the styles change.
    * @internal
    */
-  @Event()
-  myStyle!: EventEmitter<StyleEventDetail>;
+  @Event() myStyle!: EventEmitter<StyleEventDetail>;
 
   componentWillLoad() {
     this.emitStyle();

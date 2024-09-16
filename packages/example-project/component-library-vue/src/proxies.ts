@@ -5,9 +5,6 @@ import { defineContainer } from './vue-component-lib/utils';
 
 import type { JSX } from 'component-library';
 
-
-
-
 export const MyButton = /*@__PURE__*/ defineContainer<JSX.MyButton>('my-button', undefined, [
   'color',
   'buttonType',
@@ -23,24 +20,16 @@ export const MyButton = /*@__PURE__*/ defineContainer<JSX.MyButton>('my-button',
   'target',
   'type',
   'myFocus',
-  'myBlur'
+  'myBlur',
 ]);
 
-
-export const MyCheckbox = /*@__PURE__*/ defineContainer<JSX.MyCheckbox, JSX.MyCheckbox["checked"]>('my-checkbox', undefined, [
-  'color',
-  'name',
+export const MyCheckbox = /*@__PURE__*/ defineContainer<JSX.MyCheckbox, JSX.MyCheckbox['checked']>(
+  'my-checkbox',
+  undefined,
+  ['color', 'name', 'checked', 'indeterminate', 'disabled', 'value', 'myChange', 'myFocus', 'myBlur', 'myStyle'],
   'checked',
-  'indeterminate',
-  'disabled',
-  'value',
-  'myChange',
-  'myFocus',
-  'foo/myBlur',
-  'myStyle'
-],
-'checked', 'myChange');
-
+  'myChange'
+);
 
 export const MyComponent = /*@__PURE__*/ defineContainer<JSX.MyComponent>('my-component', undefined, [
   'first',
@@ -49,44 +38,47 @@ export const MyComponent = /*@__PURE__*/ defineContainer<JSX.MyComponent>('my-co
   'age',
   'kidsNames',
   'favoriteKidName',
-  'myCustomEvent'
+  'myCustomEvent',
 ]);
 
-
-export const MyInput = /*@__PURE__*/ defineContainer<JSX.MyInput, JSX.MyInput["value"]>('my-input', undefined, [
-  'color',
-  'accept',
-  'autocapitalize',
-  'autocomplete',
-  'autocorrect',
-  'autofocus',
-  'clearInput',
-  'clearOnEdit',
-  'disabled',
-  'enterkeyhint',
-  'inputmode',
-  'max',
-  'maxlength',
-  'min',
-  'minlength',
-  'multiple',
-  'name',
-  'pattern',
-  'placeholder',
-  'readonly',
-  'required',
-  'spellcheck',
-  'step',
-  'size',
-  'type',
+export const MyInput = /*@__PURE__*/ defineContainer<JSX.MyInput, JSX.MyInput['value']>(
+  'my-input',
+  undefined,
+  [
+    'color',
+    'accept',
+    'autocapitalize',
+    'autocomplete',
+    'autocorrect',
+    'autofocus',
+    'clearInput',
+    'clearOnEdit',
+    'disabled',
+    'enterkeyhint',
+    'inputmode',
+    'max',
+    'maxlength',
+    'min',
+    'minlength',
+    'multiple',
+    'name',
+    'pattern',
+    'placeholder',
+    'readonly',
+    'required',
+    'spellcheck',
+    'step',
+    'size',
+    'type',
+    'value',
+    'myInput',
+    'myChange',
+    'myBlur',
+    'myFocus',
+  ],
   'value',
-  'myInput',
-  'myChange',
-  'myBlur',
-  'myFocus'
-],
-'value', 'myChange');
-
+  'myChange'
+);
 
 export const MyPopover = /*@__PURE__*/ defineContainer<JSX.MyPopover>('my-popover', undefined, [
   'component',
@@ -101,9 +93,8 @@ export const MyPopover = /*@__PURE__*/ defineContainer<JSX.MyPopover>('my-popove
   'myPopoverDidPresent',
   'myPopoverWillPresent',
   'myPopoverWillDismiss',
-  'myPopoverDidDismiss'
+  'myPopoverDidDismiss',
 ]);
-
 
 export const MyRadio = /*@__PURE__*/ defineContainer<JSX.MyRadio>('my-radio', undefined, [
   'color',
@@ -113,36 +104,38 @@ export const MyRadio = /*@__PURE__*/ defineContainer<JSX.MyRadio>('my-radio', un
   'myStyle',
   'myFocus',
   'myBlur',
-  'mySelect'
+  'mySelect',
 ]);
 
-
-export const MyRadioGroup = /*@__PURE__*/ defineContainer<JSX.MyRadioGroup, JSX.MyRadioGroup["value"]>('my-radio-group', undefined, [
-  'allowEmptySelection',
-  'name',
+export const MyRadioGroup = /*@__PURE__*/ defineContainer<JSX.MyRadioGroup, JSX.MyRadioGroup['value']>(
+  'my-radio-group',
+  undefined,
+  ['allowEmptySelection', 'name', 'value', 'myChange'],
   'value',
   'myChange'
-],
-'value', 'myChange');
+);
 
-
-export const MyRange = /*@__PURE__*/ defineContainer<JSX.MyRange, JSX.MyRange["value"]>('my-range', undefined, [
-  'color',
-  'debounce',
-  'name',
-  'dualKnobs',
-  'min',
-  'max',
-  'pin',
-  'snaps',
-  'step',
-  'ticks',
-  'disabled',
+export const MyRange = /*@__PURE__*/ defineContainer<JSX.MyRange, JSX.MyRange['value']>(
+  'my-range',
+  undefined,
+  [
+    'color',
+    'debounce',
+    'name',
+    'dualKnobs',
+    'min',
+    'max',
+    'pin',
+    'snaps',
+    'step',
+    'ticks',
+    'disabled',
+    'value',
+    'myChange',
+    'myStyle',
+    'myFocus',
+    'myBlur',
+  ],
   'value',
-  'myChange',
-  'myStyle',
-  'myFocus',
-  'myBlur'
-],
-'value', 'myChange');
-
+  'myChange'
+);

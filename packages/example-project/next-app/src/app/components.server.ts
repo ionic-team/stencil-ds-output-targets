@@ -22,8 +22,8 @@ import { MyRange as MyRangeElement, defineCustomElement as defineMyRange } from 
 import React from 'react';
 
 type MyButtonEvents = {
-    'onMyFocus': EventName<CustomEvent<void>>,
-    'onMyBlur': EventName<CustomEvent<void>>
+    onMyFocus: EventName<CustomEvent<void>>,
+    onMyBlur: EventName<CustomEvent<void>>
 };
 
 export const MyButton: StencilReactComponent<MyButtonElement, MyButtonEvents> = typeof window !== 'undefined'
@@ -32,8 +32,8 @@ export const MyButton: StencilReactComponent<MyButtonElement, MyButtonEvents> = 
         elementClass: MyButtonElement,
         react: React,
         events: {
-            'onMyFocus': 'myFocus',
-            'onMyBlur': 'myBlur'
+            onMyFocus: 'myFocus',
+            onMyBlur: 'myBlur'
         } as MyButtonEvents,
         defineCustomElement: defineMyButton
     })
@@ -43,9 +43,9 @@ export const MyButton: StencilReactComponent<MyButtonElement, MyButtonEvents> = 
     });
 
 type MyCheckboxEvents = {
-    'onMyChange': EventName<MyCheckboxCustomEvent<CheckboxChangeEventDetail>>,
-    'onMyFocus': EventName<CustomEvent<void>>,
-    'onFoo/myBlur': EventName<CustomEvent<void>>
+    onMyChange: EventName<MyCheckboxCustomEvent<CheckboxChangeEventDetail>>,
+    onMyFocus: EventName<CustomEvent<void>>,
+    onMyBlur: EventName<CustomEvent<void>>
 };
 
 export const MyCheckbox: StencilReactComponent<MyCheckboxElement, MyCheckboxEvents> = typeof window !== 'undefined'
@@ -54,9 +54,9 @@ export const MyCheckbox: StencilReactComponent<MyCheckboxElement, MyCheckboxEven
         elementClass: MyCheckboxElement,
         react: React,
         events: {
-            'onMyChange': 'myChange',
-            'onMyFocus': 'myFocus',
-            'onFoo/myBlur': 'foo/myBlur'
+            onMyChange: 'myChange',
+            onMyFocus: 'myFocus',
+            onMyBlur: 'myBlur'
         } as MyCheckboxEvents,
         defineCustomElement: defineMyCheckbox
     })
@@ -65,14 +65,14 @@ export const MyCheckbox: StencilReactComponent<MyCheckboxElement, MyCheckboxEven
         hydrateModule: import('component-library/hydrate')
     });
 
-type MyComponentEvents = { 'onMyCustomEvent': EventName<CustomEvent<number>> };
+type MyComponentEvents = { onMyCustomEvent: EventName<CustomEvent<number>> };
 
 export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentEvents> = typeof window !== 'undefined'
     ? /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents>({
         tagName: 'my-component',
         elementClass: MyComponentElement,
         react: React,
-        events: { 'onMyCustomEvent': 'myCustomEvent' } as MyComponentEvents,
+        events: { onMyCustomEvent: 'myCustomEvent' } as MyComponentEvents,
         defineCustomElement: defineMyComponent
     })
     : /*@__PURE__*/ createSSRComponent<MyComponentElement, MyComponentEvents>({
@@ -81,10 +81,10 @@ export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentE
     });
 
 type MyInputEvents = {
-    'onMyInput': EventName<MyInputCustomEvent<KeyboardEvent>>,
-    'onMyChange': EventName<MyInputCustomEvent<InputChangeEventDetail>>,
-    'onMyBlur': EventName<CustomEvent<void>>,
-    'onMyFocus': EventName<CustomEvent<void>>
+    onMyInput: EventName<MyInputCustomEvent<KeyboardEvent>>,
+    onMyChange: EventName<MyInputCustomEvent<InputChangeEventDetail>>,
+    onMyBlur: EventName<CustomEvent<void>>,
+    onMyFocus: EventName<CustomEvent<void>>
 };
 
 export const MyInput: StencilReactComponent<MyInputElement, MyInputEvents> = typeof window !== 'undefined'
@@ -93,10 +93,10 @@ export const MyInput: StencilReactComponent<MyInputElement, MyInputEvents> = typ
         elementClass: MyInputElement,
         react: React,
         events: {
-            'onMyInput': 'myInput',
-            'onMyChange': 'myChange',
-            'onMyBlur': 'myBlur',
-            'onMyFocus': 'myFocus'
+            onMyInput: 'myInput',
+            onMyChange: 'myChange',
+            onMyBlur: 'myBlur',
+            onMyFocus: 'myFocus'
         } as MyInputEvents,
         defineCustomElement: defineMyInput
     })
@@ -106,10 +106,10 @@ export const MyInput: StencilReactComponent<MyInputElement, MyInputEvents> = typ
     });
 
 type MyPopoverEvents = {
-    'onMyPopoverDidPresent': EventName<CustomEvent<void>>,
-    'onMyPopoverWillPresent': EventName<CustomEvent<void>>,
-    'onMyPopoverWillDismiss': EventName<MyPopoverCustomEvent<OverlayEventDetail>>,
-    'onMyPopoverDidDismiss': EventName<MyPopoverCustomEvent<OverlayEventDetail>>
+    onMyPopoverDidPresent: EventName<CustomEvent<void>>,
+    onMyPopoverWillPresent: EventName<CustomEvent<void>>,
+    onMyPopoverWillDismiss: EventName<MyPopoverCustomEvent<OverlayEventDetail>>,
+    onMyPopoverDidDismiss: EventName<MyPopoverCustomEvent<OverlayEventDetail>>
 };
 
 export const MyPopover: StencilReactComponent<MyPopoverElement, MyPopoverEvents> = typeof window !== 'undefined'
@@ -118,10 +118,10 @@ export const MyPopover: StencilReactComponent<MyPopoverElement, MyPopoverEvents>
         elementClass: MyPopoverElement,
         react: React,
         events: {
-            'onMyPopoverDidPresent': 'myPopoverDidPresent',
-            'onMyPopoverWillPresent': 'myPopoverWillPresent',
-            'onMyPopoverWillDismiss': 'myPopoverWillDismiss',
-            'onMyPopoverDidDismiss': 'myPopoverDidDismiss'
+            onMyPopoverDidPresent: 'myPopoverDidPresent',
+            onMyPopoverWillPresent: 'myPopoverWillPresent',
+            onMyPopoverWillDismiss: 'myPopoverWillDismiss',
+            onMyPopoverDidDismiss: 'myPopoverDidDismiss'
         } as MyPopoverEvents,
         defineCustomElement: defineMyPopover
     })
@@ -131,9 +131,9 @@ export const MyPopover: StencilReactComponent<MyPopoverElement, MyPopoverEvents>
     });
 
 type MyRadioEvents = {
-    'onMyFocus': EventName<CustomEvent<void>>,
-    'onMyBlur': EventName<CustomEvent<void>>,
-    'onMySelect': EventName<CustomEvent<void>>
+    onMyFocus: EventName<CustomEvent<void>>,
+    onMyBlur: EventName<CustomEvent<void>>,
+    onMySelect: EventName<CustomEvent<void>>
 };
 
 export const MyRadio: StencilReactComponent<MyRadioElement, MyRadioEvents> = typeof window !== 'undefined'
@@ -142,9 +142,9 @@ export const MyRadio: StencilReactComponent<MyRadioElement, MyRadioEvents> = typ
         elementClass: MyRadioElement,
         react: React,
         events: {
-            'onMyFocus': 'myFocus',
-            'onMyBlur': 'myBlur',
-            'onMySelect': 'mySelect'
+            onMyFocus: 'myFocus',
+            onMyBlur: 'myBlur',
+            onMySelect: 'mySelect'
         } as MyRadioEvents,
         defineCustomElement: defineMyRadio
     })
@@ -153,14 +153,14 @@ export const MyRadio: StencilReactComponent<MyRadioElement, MyRadioEvents> = typ
         hydrateModule: import('component-library/hydrate')
     });
 
-type MyRadioGroupEvents = { 'onMyChange': EventName<MyRadioGroupCustomEvent<RadioGroupChangeEventDetail>> };
+type MyRadioGroupEvents = { onMyChange: EventName<MyRadioGroupCustomEvent<RadioGroupChangeEventDetail>> };
 
 export const MyRadioGroup: StencilReactComponent<MyRadioGroupElement, MyRadioGroupEvents> = typeof window !== 'undefined'
     ? /*@__PURE__*/ createComponent<MyRadioGroupElement, MyRadioGroupEvents>({
         tagName: 'my-radio-group',
         elementClass: MyRadioGroupElement,
         react: React,
-        events: { 'onMyChange': 'myChange' } as MyRadioGroupEvents,
+        events: { onMyChange: 'myChange' } as MyRadioGroupEvents,
         defineCustomElement: defineMyRadioGroup
     })
     : /*@__PURE__*/ createSSRComponent<MyRadioGroupElement, MyRadioGroupEvents>({
@@ -169,9 +169,9 @@ export const MyRadioGroup: StencilReactComponent<MyRadioGroupElement, MyRadioGro
     });
 
 type MyRangeEvents = {
-    'onMyChange': EventName<MyRangeCustomEvent<RangeChangeEventDetail>>,
-    'onMyFocus': EventName<CustomEvent<void>>,
-    'onMyBlur': EventName<CustomEvent<void>>
+    onMyChange: EventName<MyRangeCustomEvent<RangeChangeEventDetail>>,
+    onMyFocus: EventName<CustomEvent<void>>,
+    onMyBlur: EventName<CustomEvent<void>>
 };
 
 export const MyRange: StencilReactComponent<MyRangeElement, MyRangeEvents> = typeof window !== 'undefined'
@@ -180,9 +180,9 @@ export const MyRange: StencilReactComponent<MyRangeElement, MyRangeEvents> = typ
         elementClass: MyRangeElement,
         react: React,
         events: {
-            'onMyChange': 'myChange',
-            'onMyFocus': 'myFocus',
-            'onMyBlur': 'myBlur'
+            onMyChange: 'myChange',
+            onMyFocus: 'myFocus',
+            onMyBlur: 'myBlur'
         } as MyRangeEvents,
         defineCustomElement: defineMyRange
     })

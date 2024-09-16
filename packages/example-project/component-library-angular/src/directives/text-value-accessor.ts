@@ -7,15 +7,15 @@ import { ValueAccessor } from './value-accessor';
   /* tslint:disable-next-line:directive-selector */
   selector: 'my-input[type=text]',
   host: {
-    '(myChange)': 'handleChangeEvent($event.target.value)'
+    '(myChange)': 'handleChangeEvent($event.target.value)',
   },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: TextValueAccessor,
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class TextValueAccessor extends ValueAccessor {
   constructor(el: ElementRef) {

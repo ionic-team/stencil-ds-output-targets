@@ -20,11 +20,11 @@
 
 ## Events
 
-| Event        | Description                                    | Type                                     |
-| ------------ | ---------------------------------------------- | ---------------------------------------- |
-| `foo/myBlur` | Emitted when the toggle loses focus.           | `CustomEvent<void>`                      |
-| `myChange`   | Emitted when the checked property has changed. | `CustomEvent<CheckboxChangeEventDetail>` |
-| `myFocus`    | Emitted when the toggle has focus.             | `CustomEvent<void>`                      |
+| Event      | Description                                    | Type                                     |
+| ---------- | ---------------------------------------------- | ---------------------------------------- |
+| `myBlur`   | Emitted when the toggle loses focus.           | `CustomEvent<void>`                      |
+| `myChange` | Emitted when the checked property has changed. | `CustomEvent<CheckboxChangeEventDetail>` |
+| `myFocus`  | Emitted when the toggle has focus.             | `CustomEvent<void>`                      |
 
 
 ## Shadow Parts
