@@ -7,7 +7,7 @@ export const kebabToPascalCase = (str: string) =>
 
 export const kebabToCamelCase = (str: string) => str.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
 
-const dashesToCamelCase = (str: string) => str.replace(/\/([a-z])/g, (_, letter) => letter.toUpperCase());
+const slashesToCamelCase = (str: string) => str.replace(/\/([a-z])/g, (_, letter) => letter.toUpperCase());
 
 export const eventListenerName = (eventName: string) => {
   const dashedConverted = dashesToCamelCase(eventName);
