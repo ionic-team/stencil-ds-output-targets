@@ -22,6 +22,7 @@ describe('string-utils', () => {
       expect(eventListenerName('myevent')).toEqual('onMyevent');
       expect(eventListenerName('myEvent')).toEqual('onMyEvent');
       expect(eventListenerName('_myEvent')).toEqual('on_myEvent');
+      expect(eventListenerName('my/event')).toEqual('onMyEvent');
     });
   });
 });

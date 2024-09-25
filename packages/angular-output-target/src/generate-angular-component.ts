@@ -188,8 +188,8 @@ export const createComponentTypeDefinition = (
   const eventTypes = publicEvents.map((event) => {
     const comment = createDocComment(event.docs);
     let eventName = event.name;
-    if (event.name.includes('-')) {
-      // If an event name includes a dash, we need to wrap it in quotes.
+    if (/[-/]/.test(event.name)) {
+      // If an event name includes a dash or a forward slash, we need to wrap it in quotes.
       // https://github.com/ionic-team/stencil-ds-output-targets/issues/212
       eventName = `'${event.name}'`;
     }

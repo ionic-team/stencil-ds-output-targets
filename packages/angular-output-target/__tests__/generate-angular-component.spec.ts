@@ -285,6 +285,21 @@ describe('createComponentTypeDefinition()', () => {
         tags: [],
       },
     },
+    {
+      name: 'my/slash/event',
+      complexType: {
+        references: {
+          MySlashEvent: {
+            location: 'import',
+          },
+        },
+        original: 'MySlashEvent',
+      },
+      docs: {
+        text: '',
+        tags: [],
+      },
+    },
   ];
 
   describe('www build', () => {
@@ -296,6 +311,7 @@ describe('createComponentTypeDefinition()', () => {
 import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core';
 import type { MyDoclessEvent as IMyComponentMyDoclessEvent } from '@ionic/core';
 import type { MyKebabEvent as IMyComponentMyKebabEvent } from '@ionic/core';
+import type { MySlashEvent as IMyComponentMySlashEvent } from '@ionic/core';
 
 export declare interface MyComponent extends Components.MyComponent {
   /**
@@ -310,6 +326,8 @@ export declare interface MyComponent extends Components.MyComponent {
   myDoclessEvent: EventEmitter<CustomEvent<IMyComponentMyDoclessEvent>>;
 
   'my-kebab-event': EventEmitter<CustomEvent<IMyComponentMyKebabEvent>>;
+
+  'my/slash/event': EventEmitter<CustomEvent<IMyComponentMySlashEvent>>;
 }`
       );
     });
@@ -407,6 +425,7 @@ export declare interface MyComponent extends Components.MyComponent {
 import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/custom-elements';
 import type { MyDoclessEvent as IMyComponentMyDoclessEvent } from '@ionic/core/custom-elements';
 import type { MyKebabEvent as IMyComponentMyKebabEvent } from '@ionic/core/custom-elements';
+import type { MySlashEvent as IMyComponentMySlashEvent } from '@ionic/core/custom-elements';
 
 export declare interface MyComponent extends Components.MyComponent {
   /**
@@ -421,6 +440,8 @@ export declare interface MyComponent extends Components.MyComponent {
   myDoclessEvent: EventEmitter<CustomEvent<IMyComponentMyDoclessEvent>>;
 
   'my-kebab-event': EventEmitter<CustomEvent<IMyComponentMyKebabEvent>>;
+
+  'my/slash/event': EventEmitter<CustomEvent<IMyComponentMySlashEvent>>;
 }`
         );
       });
