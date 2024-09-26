@@ -4,6 +4,8 @@ import type { EventName, ReactWebComponent, WebComponentProps } from '@lit/react
 
 import { possibleStandardNames } from './constants';
 
+const LOG_PREFIX = '[react-output-target]';
+
 // A key value map matching React prop names to event names.
 type EventNames = Record<string, EventName | string>;
 
@@ -59,7 +61,15 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
         continue;
       }
 
-      let propName = possibleStandardNames[key as keyof typeof possibleStandardNames] || options.properties[key] || key;
+      let propName = possibleStandardNames[key as keyof typeof possibleStandardNames] || options.properties[key];
+      if (!propName) {
+        console.warn(
+          `${LOG_PREFIX} ignore component property "${key}" for ${options.tagName} ` +
+          '- property type is not a primitive and can\'t be serialized'
+        );
+        continue;
+      }
+
       stringProps += ` ${propName}=${propValue}`;
     }
 
@@ -70,8 +80,8 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
       serializedChildren = ReactDOMServer.renderToString(awaitedChildren);
     } catch (err: unknown) {
       const error = err instanceof Error ? err : new Error('Unknown error');
-      console.log(
-        `Failed to serialize light DOM for ${toSerialize.slice(0, -1)} />: ${
+      console.warn(
+        `${LOG_PREFIX} Failed to serialize light DOM for ${toSerialize.slice(0, -1)} />: ${
           error.message
         } - this may impact the hydration of the component`
       );

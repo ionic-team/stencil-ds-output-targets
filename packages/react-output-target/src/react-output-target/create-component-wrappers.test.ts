@@ -233,6 +233,8 @@ export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentE
           properties: [{
             name: 'hasMaxLength',
             attribute: 'max-length'
+          }, {
+            name: 'links'
           }],
           events: [
             {
