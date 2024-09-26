@@ -65,7 +65,7 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
       if (!propName) {
         console.warn(
           `${LOG_PREFIX} ignore component property "${key}" for ${options.tagName} ` +
-          '- property type is not a primitive and can\'t be serialized'
+          '- property type is unknown or not a primitive and can\'t be serialized'
         );
         continue;
       }
