@@ -27,9 +27,11 @@ export const createComponent = <I extends HTMLElement, E extends EventNames = {}
  */
 export const createSSRComponent = <I extends HTMLElement, E extends EventNames = {}>({
   hydrateModule,
+  properties,
   tagName,
 }: {
   hydrateModule: Promise<{ renderToString: RenderToString }>;
+  properties: Record<string, string>;
   tagName: string;
 }): ReactWebComponent<I, E> => {
   /**
@@ -43,6 +45,7 @@ export const createSSRComponent = <I extends HTMLElement, E extends EventNames =
     const { createComponentForServerSideRendering } = await import('./ssr');
     return createComponentForServerSideRendering<I, E>({
       tagName,
+      properties,
       renderToString: (await hydrateModule).renderToString,
     })(props as any);
   }) as unknown as ReactWebComponent<I, E>;

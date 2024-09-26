@@ -16,7 +16,7 @@
     "prepublishOnly": "pnpm run build",
     "build": "vite build && pnpm run build:dts",
     "build:dts": "tsc -p tsconfig.json",
-    "build:tsup": "tsup",
+    "dev": "vite build --watch",
     "version": "pnpm run build",
     "prettier": "prettier \"./src/**/*.{html,ts,tsx,js,jsx}\" --write",
     "release": "np",
@@ -51,7 +51,6 @@
   "gitHead": "a3588e905186a0e86e7f88418fd5b2f9531b55e0",
   "dependencies": {
     "@lit/react": "^1.0.4",
-    "decamelize": "^6.0.0",
     "html-react-parser": "^5.1.10",
     "react-dom": "^18.3.1",
     "ts-morph": "^22.0.0"

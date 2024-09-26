@@ -151,6 +151,7 @@ import type { EventName, StencilReactComponent } from '@stencil/react-output-tar
   })`;
     const serverComponentCall = `/*@__PURE__*/ createSSRComponent<${componentElement}, ${componentEventNamesType}>({
     tagName: '${tagName}',
+    properties: {${component.properties.map((e) => `${e.name}: '${e.attribute}'`).join(',\n')}},
     hydrateModule: import('${hydrateModule}')
   })`;
 

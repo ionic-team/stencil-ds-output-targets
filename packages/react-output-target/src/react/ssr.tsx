@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import decamelize from 'decamelize';
 import type { EventName, ReactWebComponent, WebComponentProps } from '@lit/react';
 
 import { possibleStandardNames } from './constants';
@@ -19,6 +18,7 @@ interface RenderToStringOptions {
 export type RenderToString = (html: string, options: RenderToStringOptions) => Promise<{ html: string | null }>;
 interface CreateComponentForServerSideRenderingOptions {
   tagName: string;
+  properties: Record<string, string>;
   renderToString: RenderToString;
 }
 
@@ -59,8 +59,7 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
         continue;
       }
 
-      const propName =
-        possibleStandardNames[key as keyof typeof possibleStandardNames] || decamelize(key, { separator: '-' });
+      let propName = possibleStandardNames[key as keyof typeof possibleStandardNames] || options.properties[key] || key;
       stringProps += ` ${propName}=${propValue}`;
     }
 
