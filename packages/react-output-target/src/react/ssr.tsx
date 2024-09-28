@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import decamelize from 'decamelize';
 import type { EventName, ReactWebComponent, WebComponentProps } from '@lit/react';
 
 import { possibleStandardNames } from './constants';
+
+const LOG_PREFIX = '[react-output-target]';
 
 // A key value map matching React prop names to event names.
 type EventNames = Record<string, EventName | string>;
@@ -19,6 +20,7 @@ interface RenderToStringOptions {
 export type RenderToString = (html: string, options: RenderToStringOptions) => Promise<{ html: string | null }>;
 interface CreateComponentForServerSideRenderingOptions {
   tagName: string;
+  properties: Record<string, string>;
   renderToString: RenderToString;
 }
 
@@ -59,8 +61,15 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
         continue;
       }
 
-      const propName =
-        possibleStandardNames[key as keyof typeof possibleStandardNames] || decamelize(key, { separator: '-' });
+      let propName = possibleStandardNames[key as keyof typeof possibleStandardNames] || options.properties[key];
+      if (!propName) {
+        console.warn(
+          `${LOG_PREFIX} ignore component property "${key}" for ${options.tagName} ` +
+          '- property type is unknown or not a primitive and can\'t be serialized'
+        );
+        continue;
+      }
+
       stringProps += ` ${propName}=${propValue}`;
     }
 
@@ -71,8 +80,8 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
       serializedChildren = ReactDOMServer.renderToString(awaitedChildren);
     } catch (err: unknown) {
       const error = err instanceof Error ? err : new Error('Unknown error');
-      console.log(
-        `Failed to serialize light DOM for ${toSerialize.slice(0, -1)} />: ${
+      console.warn(
+        `${LOG_PREFIX} Failed to serialize light DOM for ${toSerialize.slice(0, -1)} />: ${
           error.message
         } - this may impact the hydration of the component`
       );
