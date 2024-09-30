@@ -1,9 +1,12 @@
+import typescript from '@rollup/plugin-typescript';
 import pkg from './package.json' with { type: 'json' };
 
 const external = ['path', 'node-sass', 'fs', 'util', 'vue', 'vue/server-renderer'];
+const plugins = [typescript()];
 const core = {
-  input: 'dist/index.js',
+  input: './src/index.ts',
   external,
+  plugins,
   output: [
     {
       format: 'cjs',
@@ -16,8 +19,9 @@ const core = {
   ],
 }
 const runtime = {
-  input: 'dist/runtime.js',
+  input: './src/runtime.ts',
   external,
+  plugins,
   output: [
     {
       format: 'cjs',
