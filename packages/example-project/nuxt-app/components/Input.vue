@@ -2,9 +2,6 @@
 import { ref } from 'vue';
 import { MyInput } from 'component-library-vue';
 
-console.log('22211', MyInput);
-
-
 export default {
   name: 'Input',
   components: {

@@ -1,5 +1,7 @@
 import { defineComponent, useSlots, compile, createSSRApp } from 'vue';
 
+const LOG_PREFIX = '[vue-output-target]';
+
 /**
  * these types are defined by a Stencil hydrate app so we have to copy the minimal types here
  */
@@ -13,7 +15,11 @@ export type RenderToString = (html: string, options: RenderToStringOptions) => P
 interface StencilSSRComponentOptions {
   tagName: string;
   hydrateModule: Promise<{ renderToString: RenderToString }>;
-  props?: Record<string, any>;
+  props?: Record<string, [any, string?]>;
+}
+
+function isPrimitive(value: any) {
+  return typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean';
 }
 
 export function defineStencilSSRComponent(options: StencilSSRComponentOptions) {
@@ -31,14 +37,34 @@ export function defineStencilSSRComponent(options: StencilSSRComponentOptions) {
 
       const { renderToString } = await options.hydrateModule;
       for (const [key, value] of Object.entries(props)) {
-        if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
+        if (typeof value === 'undefined') {
           continue;
         }
-        stringProps += ` ${key}="${value}"`;
+
+        const propName = options.props?.[key][1];
+        if (!propName) {
+          console.warn(
+            props,
+            options.props,
+            `${LOG_PREFIX}!! ignore component property "${key}" for ${options.tagName} ` +
+              "- property type is unknown or not a primitive and can't be serialized"
+          );
+          continue;
+        }
+
+        const propValue = isPrimitive(value)
+          ? `"${value}"`
+          : Array.isArray(value) && value.every(isPrimitive)
+          ? JSON.stringify(value)
+          : undefined;
+
+        if (!propValue) {
+          continue;
+        }
+
+        stringProps += ` ${key}=${propValue}`;
       }
       const toSerialize = `<${options.tagName}${stringProps}>${renderedLightDom}</${options.tagName}>`;
-      console.log('-->', toSerialize);
-
       const { html } = await renderToString(toSerialize, {
         fullDocument: false,
       });

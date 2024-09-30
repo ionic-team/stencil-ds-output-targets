@@ -9,15 +9,13 @@ export const createComponentDefinition =
     const importAs = outputTarget.includeDefineCustomElements ? 'define' + tagNameAsPascal : 'undefined';
 
     let props: string[] = [];
-    let propMap: Record<string, string> = {};
+    let propMap: Record<string, [string, string | undefined]> = {};
     if (Array.isArray(cmpMeta.properties) && cmpMeta.properties.length > 0) {
       props = cmpMeta.properties.map((prop) => `'${prop.name}'`);
 
       cmpMeta.properties.forEach((prop) => {
         if (['boolean', 'string', 'number'].includes(prop.type)) {
-          propMap[prop.name] = prop.type[0].toUpperCase() + prop.type.slice(1);
-        } else {
-          propMap[prop.name] = 'String';
+          propMap[prop.name] = [prop.type[0].toUpperCase() + prop.type.slice(1), prop.attribute];
         }
       });
     }
@@ -27,7 +25,7 @@ export const createComponentDefinition =
 
       cmpMeta.events.forEach((event) => {
         const handlerName = `on${event.name[0].toUpperCase() + event.name.slice(1)}`;
-        propMap[handlerName] = 'Function';
+        propMap[handlerName] = ['Function', undefined];
       });
     }
 
@@ -42,7 +40,7 @@ export const createComponentDefinition =
   hydrateModule: import('${outputTarget.hydrateModule}'),
   props: {
     ${Object.entries(propMap)
-      .map(([key, value]) => `'${key}': ${value}`)
+      .map(([key, [type, attr]]) => (attr ? `'${key}': [${type}, "${attr}"]` : `'${key}': [${type}]`))
       .join(',\n    ')}
   }
 })`
