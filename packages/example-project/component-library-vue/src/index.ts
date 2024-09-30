@@ -77,6 +77,7 @@ export const MyComponent = /*@__PURE__*/ globalThis.window
       'last',
       'age',
       'kidsNames',
+      'favoriteKidName',
       'myCustomEvent',
     ])
   : defineStencilSSRComponent({
@@ -88,6 +89,7 @@ export const MyComponent = /*@__PURE__*/ globalThis.window
         last: String,
         age: Number,
         kidsNames: String,
+        favoriteKidName: String,
         onMyCustomEvent: Function,
       },
     });

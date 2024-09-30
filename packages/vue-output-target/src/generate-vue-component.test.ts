@@ -36,7 +36,7 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
           event: 'ionChange',
           targetAttr: 'value',
         },
-      ]
+      ],
     });
     const output = generateComponentDefinition({
       properties: [

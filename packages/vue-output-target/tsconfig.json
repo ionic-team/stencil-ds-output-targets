@@ -12,6 +12,7 @@
     "module": "esnext",
     "target": "es2021",
     "noUnusedLocals": true,
+    "skipLibCheck": true,
     "noUnusedParameters": false,
     "outDir": "dist",
     "jsx": "preserve"

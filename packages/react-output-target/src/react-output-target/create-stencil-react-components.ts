@@ -158,8 +158,7 @@ import type { EventName, StencilReactComponent } from '@stencil/react-output-tar
        */
       .filter((prop) => Boolean(prop.attribute))
       .map((e) => `${e.name}: '${e.attribute}'`)
-      .join(',\n')
-    }},
+      .join(',\n')}},
     hydrateModule: import('${hydrateModule}')
   })`;
 
