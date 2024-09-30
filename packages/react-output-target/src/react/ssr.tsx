@@ -59,7 +59,7 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
         continue;
       }
 
-      let propName = possibleStandardNames[key as keyof typeof possibleStandardNames] || options.properties[key] || key;
+      const propName = possibleStandardNames[key as keyof typeof possibleStandardNames] || options.properties[key] || key;
       stringProps += ` ${propName}=${propValue}`;
     }
 
