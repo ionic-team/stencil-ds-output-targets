@@ -44,16 +44,21 @@ export function defineStencilSSRComponent(options: StencilSSRComponentOptions) {
         const propName = options.props?.[key][1];
         if (!propName) {
           console.warn(
-            props,
-            options.props,
-            `${LOG_PREFIX}!! ignore component property "${key}" for ${options.tagName} ` +
+            `${LOG_PREFIX} ignore component property "${key}" for ${options.tagName} ` +
               "- property type is unknown or not a primitive and can't be serialized"
           );
           continue;
         }
 
         const propValue = isPrimitive(value)
-          ? `"${value}"`
+          ? typeof value === 'boolean'
+            ? /**
+               * omit boolean properties that are false all together
+               */
+              value
+              ? '"true"'
+              : undefined
+            : `"${value}"`
           : Array.isArray(value) && value.every(isPrimitive)
           ? JSON.stringify(value)
           : undefined;

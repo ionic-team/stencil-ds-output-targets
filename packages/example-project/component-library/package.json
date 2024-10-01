@@ -28,6 +28,10 @@
       "import": "./hydrate/index.mjs",
       "require": "./hydrate/index.js",
       "default": "./hydrate/index.mjs"
+    },
+    "./components/*": {
+      "types": "./dist/types/components/*.d.ts",
+      "import": "./components/*.js"
     }
   },
   "files": [

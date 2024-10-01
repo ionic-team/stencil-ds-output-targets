@@ -175,6 +175,15 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
         if ((props.hasOwnProperty(key) && value !== EMPTY_PROP) || key.startsWith(ARIA_PROP_PREFIX)) {
           propsToAdd[key] = value;
         }
+
+        /**
+         * register event handlers on the component
+         */
+        const eventHandlerKey = 'on' + key.slice(0, 1).toUpperCase() + key.slice(1);
+        const eventHandler = attrs[eventHandlerKey] as EventListenerOrEventListenerObject;
+        if (containerRef.value && attrs.hasOwnProperty(eventHandlerKey) && 'addEventListener' in containerRef.value) {
+          containerRef.value.addEventListener(key, eventHandler);
+        }
       }
 
       if (modelProp) {

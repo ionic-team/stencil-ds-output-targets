@@ -40,8 +40,8 @@ export default {
 <template>
   <div>
     <MyInput
-      @onMyInput="handleInput"
-      @onMyChange="handleChange"
+      @myInput="handleInput"
+      @myChange="handleChange"
     >
     </MyInput>
     <div class="inputResult">
