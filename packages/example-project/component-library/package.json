@@ -25,13 +25,25 @@
     },
     "./hydrate": {
       "types": "./hydrate/index.d.ts",
-      "import": "./hydrate/index.mjs",
-      "require": "./hydrate/index.js",
-      "default": "./hydrate/index.mjs"
+      "import": "./hydrate/index.js",
+      "require": "./hydrate/index.cjs.js",
+      "default": "./hydrate/index.js"
     },
-    "./components/*": {
+    "./loader": {
+      "types": "./loader/index.d.ts",
+      "import": "./loader/index.js",
+      "require": "./loader/index.js",
+      "default": "./loader/index.js"
+    },
+    "./components/*.js": {
       "types": "./dist/types/components/*.d.ts",
       "import": "./components/*.js"
+    },
+    "./components": {
+      "types": "./dist/types/components.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs.js",
+      "default": "./dist/index.js"
     }
   },
   "files": [

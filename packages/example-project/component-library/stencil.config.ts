@@ -66,6 +66,9 @@ export const config: Config = {
       hydrateModule: 'component-library/hydrate'
     }),
     vueOutputTarget({
+      includeImportCustomElements: false,
+      includePolyfills: false,
+      includeDefineCustomElements: false,
       componentCorePackage: 'component-library',
       hydrateModule: 'component-library/hydrate',
       proxiesFile: '../component-library-vue/src/index.ts',

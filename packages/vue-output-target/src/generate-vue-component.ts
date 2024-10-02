@@ -6,7 +6,7 @@ export const createComponentDefinition =
   (importTypes: string, outputTarget: OutputTargetVue) =>
   (cmpMeta: Pick<ComponentCompilerMeta, 'properties' | 'tagName' | 'methods' | 'events'>) => {
     const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
-    const importAs = outputTarget.includeDefineCustomElements ? 'define' + tagNameAsPascal : 'undefined';
+    const importAs = outputTarget.includeImportCustomElements ? 'define' + tagNameAsPascal : 'undefined';
 
     let props: string[] = [];
     let propMap: Record<string, [string, string | undefined]> = {};

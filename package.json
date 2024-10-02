@@ -7,6 +7,9 @@
   },
   "scripts": {
     "build": "lerna run build",
+    "build.core": "pnpm --filter component-library run build",
+    "build.react": "pnpm --filter component-library-react run build",
+    "build.vue": "pnpm --filter component-library-vue run build",
     "changelog": "lerna-changelog",
     "prettier": "lerna run prettier",
     "prettier.dry-run": "lerna run prettier.dry-run",
