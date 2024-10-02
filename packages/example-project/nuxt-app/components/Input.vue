@@ -1,8 +1,8 @@
 <script>
-import { ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { MyInput } from 'component-library-vue';
 
-export default {
+export default defineComponent({
   name: 'Input',
   components: {
     MyInput,
@@ -28,7 +28,7 @@ export default {
       handleChange,
     };
   },
-};
+});
 </script>
 
 <style scoped>
