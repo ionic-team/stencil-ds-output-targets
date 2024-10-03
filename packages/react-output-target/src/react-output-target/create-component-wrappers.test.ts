@@ -11,6 +11,7 @@ describe('createComponentWrappers', () => {
         {
           tagName: 'my-component',
           componentClassName: 'MyComponent',
+          properties: [],
           events: [
             {
               originalName: 'my-event',
@@ -62,6 +63,7 @@ export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentE
         {
           tagName: 'my-component',
           componentClassName: 'MyComponent',
+          properties: [],
           events: [
             {
               originalName: 'my-event',
@@ -115,6 +117,7 @@ export default MyComponent;
       components: [
         {
           tagName: 'my-component',
+          properties: [],
           internal: true,
         } as any,
       ],
@@ -162,6 +165,7 @@ export default MyComponent;
         {
           tagName: 'my-component',
           componentClassName: 'MyComponent',
+          properties: [],
           events: [
             {
               originalName: 'my-event',
@@ -226,6 +230,12 @@ export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentE
         {
           tagName: 'my-component',
           componentClassName: 'MyComponent',
+          properties: [{
+            name: 'hasMaxLength',
+            attribute: 'max-length'
+          }, {
+            name: 'links'
+          }],
           events: [
             {
               originalName: 'my-event',
@@ -273,6 +283,7 @@ export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentE
     })
     : /*@__PURE__*/ createSSRComponent<MyComponentElement, MyComponentEvents>({
         tagName: 'my-component',
+        properties: { hasMaxLength: 'max-length' },
         hydrateModule: import('my-package/hydrate')
     });
 

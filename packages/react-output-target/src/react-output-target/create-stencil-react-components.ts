@@ -151,6 +151,15 @@ import type { EventName, StencilReactComponent } from '@stencil/react-output-tar
   })`;
     const serverComponentCall = `/*@__PURE__*/ createSSRComponent<${componentElement}, ${componentEventNamesType}>({
     tagName: '${tagName}',
+    properties: {${component.properties
+      /**
+       * Filter out properties that don't have an attribute.
+       * These are properties with complex types and can't be serialized.
+       */
+      .filter((prop) => Boolean(prop.attribute))
+      .map((e) => `${e.name}: '${e.attribute}'`)
+      .join(',\n')
+    }},
     hydrateModule: import('${hydrateModule}')
   })`;
 
