@@ -153,6 +153,7 @@ export const possibleStandardNames = {
   requiredExtensions: 'requiredextensions',
   requiredFeatures: 'requiredfeatures',
   shapeRendering: 'shape-rendering',
+  slot: 'slot',
   specularConstant: 'specularconstant',
   specularExponent: 'specularexponent',
   spreadMethod: 'spreadmethod',
