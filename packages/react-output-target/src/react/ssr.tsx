@@ -24,9 +24,7 @@ interface CreateComponentForServerSideRenderingOptions {
   renderToString: RenderToString;
 }
 
-type StencilProps<I extends HTMLElement> = WebComponentProps<I> & {
-  __resolveTagName?: boolean;
-};
+type StencilProps<I extends HTMLElement> = WebComponentProps<I>;
 
 function isPrimitive(value: any) {
   return typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean';
@@ -61,15 +59,7 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
         continue;
       }
 
-      let propName = possibleStandardNames[key as keyof typeof possibleStandardNames] || options.properties[key];
-      if (!propName) {
-        console.warn(
-          `${LOG_PREFIX} ignore component property "${key}" for ${options.tagName} ` +
-          '- property type is unknown or not a primitive and can\'t be serialized'
-        );
-        continue;
-      }
-
+      let propName = possibleStandardNames[key as keyof typeof possibleStandardNames] || options.properties[key] || key;
       stringProps += ` ${propName}=${propValue}`;
     }
 
@@ -209,10 +199,10 @@ async function resolveComponentTypes<I extends HTMLElement>(children: React.Reac
         children:
           typeof child.props.children === 'string'
             ? child.props.children
-            : await resolveComponentTypes((child.props || {}).children),
+            : await resolveComponentTypes(child.props.children),
       };
 
-      let type = typeof child.type === 'function' ? await child.type({ __resolveTagName: true }) : child.type;
+      let type = typeof child.type === 'function' ? await child.type(child.props) : child.type;
       if (type._payload && 'then' in type._payload) {
         type = {
           ...type,
@@ -224,11 +214,11 @@ async function resolveComponentTypes<I extends HTMLElement>(children: React.Reac
         type = {
           ...type,
           $$typeof: Symbol('react.element'),
-          _payload: await type._payload({ __resolveTagName: true }),
+          _payload: await type._payload(child.props),
         };
 
         if (typeof type._payload.type === 'function') {
-          return type._payload.type();
+          return type._payload.type(child.props);
         }
       }
 
