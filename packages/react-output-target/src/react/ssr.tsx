@@ -82,7 +82,7 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
     /**
      * first render the component with pretty HTML so it makes it easier to
      */
-    const { html } = await options.renderToString(toSerializeWithChildren, {
+    let { html } = await options.renderToString(toSerializeWithChildren, {
       fullDocument: false,
       serializeShadowRoot: true,
       prettyHtml: true,
@@ -93,10 +93,21 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
     }
 
     /**
+     * Replace the Stencil component id '1' from `renderToString` with a quasi unique id
+     * this way the hydration with nested components should work as expected
+     */
+    const componentId =
+      html.split('').reduce((hash, char) => (hash << 5) - hash + char.charCodeAt(0), Date.now() * Math.random()) | 0;
+    html = html.replace(
+      /(s-id\="|sty-id\="|c-id\="|<!--t\.|<!--o\.|<!--s\.|<!--r\.)1\.(\d+\.\d+\.\d+(\"|-->)?)/g,
+      `$1${componentId}.$2`
+    );
+
+    /**
      * cut out the inner content of the component
      */
     const serializedComponentByLine = html.split('\n');
-    const hydrationComment = '<!--r.1-->';
+    const hydrationComment = `<!--r.${componentId}-->`;
     const isShadowComponent = serializedComponentByLine[1].includes('shadowrootmode="open"');
     let templateContent: undefined | string = undefined;
     if (isShadowComponent) {
@@ -140,12 +151,17 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
                 .replace(/(?<=>)\s+(?=<)/g, '');
 
               return (
-                <CustomTag {...customProps} suppressHydrationWarning={true} dangerouslySetInnerHTML={{ __html }} />
+                <CustomTag
+                  {...customProps}
+                  s-id={componentId}
+                  suppressHydrationWarning={true}
+                  dangerouslySetInnerHTML={{ __html }}
+                />
               );
             }
 
             return (
-              <CustomTag {...props} suppressHydrationWarning>
+              <CustomTag {...props} s-id={componentId} suppressHydrationWarning>
                 <template
                   // @ts-expect-error
                   shadowrootmode="open"

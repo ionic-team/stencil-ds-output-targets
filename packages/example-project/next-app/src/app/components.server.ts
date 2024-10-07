@@ -39,6 +39,21 @@ export const MyButton: StencilReactComponent<MyButtonElement, MyButtonEvents> = 
     })
     : /*@__PURE__*/ createSSRComponent<MyButtonElement, MyButtonEvents>({
         tagName: 'my-button',
+        properties: {
+            color: 'color',
+            buttonType: 'button-type',
+            disabled: 'disabled',
+            expand: 'expand',
+            fill: 'fill',
+            download: 'download',
+            href: 'href',
+            rel: 'rel',
+            shape: 'shape',
+            size: 'size',
+            strong: 'strong',
+            target: 'target',
+            type: 'type'
+        },
         hydrateModule: import('component-library/hydrate')
     });
 
@@ -62,6 +77,14 @@ export const MyCheckbox: StencilReactComponent<MyCheckboxElement, MyCheckboxEven
     })
     : /*@__PURE__*/ createSSRComponent<MyCheckboxElement, MyCheckboxEvents>({
         tagName: 'my-checkbox',
+        properties: {
+            color: 'color',
+            name: 'name',
+            checked: 'checked',
+            indeterminate: 'indeterminate',
+            disabled: 'disabled',
+            value: 'value'
+        },
         hydrateModule: import('component-library/hydrate')
     });
 
@@ -77,6 +100,13 @@ export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentE
     })
     : /*@__PURE__*/ createSSRComponent<MyComponentElement, MyComponentEvents>({
         tagName: 'my-component',
+        properties: {
+            first: 'first',
+            middle: 'middle',
+            last: 'last',
+            age: 'age',
+            favoriteKidName: 'favorite-kid-name'
+        },
         hydrateModule: import('component-library/hydrate')
     });
 
@@ -102,6 +132,34 @@ export const MyInput: StencilReactComponent<MyInputElement, MyInputEvents> = typ
     })
     : /*@__PURE__*/ createSSRComponent<MyInputElement, MyInputEvents>({
         tagName: 'my-input',
+        properties: {
+            color: 'color',
+            accept: 'accept',
+            autocapitalize: 'autocapitalize',
+            autocomplete: 'autocomplete',
+            autocorrect: 'autocorrect',
+            autofocus: 'autofocus',
+            clearInput: 'clear-input',
+            clearOnEdit: 'clear-on-edit',
+            disabled: 'disabled',
+            enterkeyhint: 'enterkeyhint',
+            inputmode: 'inputmode',
+            max: 'max',
+            maxlength: 'maxlength',
+            min: 'min',
+            minlength: 'minlength',
+            multiple: 'multiple',
+            name: 'name',
+            pattern: 'pattern',
+            placeholder: 'placeholder',
+            readonly: 'readonly',
+            required: 'required',
+            spellcheck: 'spellcheck',
+            step: 'step',
+            size: 'size',
+            type: 'type',
+            value: 'value'
+        },
         hydrateModule: import('component-library/hydrate')
     });
 
@@ -127,6 +185,16 @@ export const MyPopover: StencilReactComponent<MyPopoverElement, MyPopoverEvents>
     })
     : /*@__PURE__*/ createSSRComponent<MyPopoverElement, MyPopoverEvents>({
         tagName: 'my-popover',
+        properties: {
+            component: 'component',
+            keyboardClose: 'keyboard-close',
+            cssClass: 'css-class',
+            backdropDismiss: 'backdrop-dismiss',
+            event: 'event',
+            showBackdrop: 'show-backdrop',
+            translucent: 'translucent',
+            animated: 'animated'
+        },
         hydrateModule: import('component-library/hydrate')
     });
 
@@ -150,6 +218,12 @@ export const MyRadio: StencilReactComponent<MyRadioElement, MyRadioEvents> = typ
     })
     : /*@__PURE__*/ createSSRComponent<MyRadioElement, MyRadioEvents>({
         tagName: 'my-radio',
+        properties: {
+            color: 'color',
+            name: 'name',
+            disabled: 'disabled',
+            value: 'value'
+        },
         hydrateModule: import('component-library/hydrate')
     });
 
@@ -165,6 +239,11 @@ export const MyRadioGroup: StencilReactComponent<MyRadioGroupElement, MyRadioGro
     })
     : /*@__PURE__*/ createSSRComponent<MyRadioGroupElement, MyRadioGroupEvents>({
         tagName: 'my-radio-group',
+        properties: {
+            allowEmptySelection: 'allow-empty-selection',
+            name: 'name',
+            value: 'value'
+        },
         hydrateModule: import('component-library/hydrate')
     });
 
@@ -188,5 +267,19 @@ export const MyRange: StencilReactComponent<MyRangeElement, MyRangeEvents> = typ
     })
     : /*@__PURE__*/ createSSRComponent<MyRangeElement, MyRangeEvents>({
         tagName: 'my-range',
+        properties: {
+            color: 'color',
+            debounce: 'debounce',
+            name: 'name',
+            dualKnobs: 'dual-knobs',
+            min: 'min',
+            max: 'max',
+            pin: 'pin',
+            snaps: 'snaps',
+            step: 'step',
+            ticks: 'ticks',
+            disabled: 'disabled',
+            value: 'value'
+        },
         hydrateModule: import('component-library/hydrate')
     });

@@ -36,4 +36,10 @@ describe('Stencil NextJS Integration', () => {
   it('should transform camelCase into kebab-case', async () => {
     await expect($('my-component[favorite-kid-name="foobar"]')).toBePresent();
   });
+
+  // Issue https://github.com/ionic-team/stencil-ds-output-targets/issues/470
+  it('should render shadowroot button link only once', async () => {
+    const shadowButtons = await $('my-button').shadow$$('a');
+    await expect(shadowButtons.length).toBe(1);
+  });
 });
