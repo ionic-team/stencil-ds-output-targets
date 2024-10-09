@@ -39,6 +39,18 @@ export function normalizeOutputTarget(config: Config, outputTarget: any) {
       'includeDefineCustomElements cannot be used at the same time as includeImportCustomElements since includeDefineCustomElements is used for lazy loading components. Set `includeDefineCustomElements: false` in your Vue output target config to resolve this.'
     );
   }
+  if (
+    typeof outputTarget.includeDefineCustomElements === 'boolean' &&
+    !outputTarget.includeDefineCustomElements &&
+    typeof outputTarget.includeImportCustomElements === 'boolean' &&
+    !outputTarget.includeImportCustomElements
+  ) {
+    throw new Error(
+      '`includeDefineCustomElements` and `includeImportCustomElements` cannot both be set to `false`!\n\n' +
+        'Enable one of the options depending whether you would like to lazy load the Stencil components (includeDefineCustomElements: true) or ' +
+        'include all component code within your application bundle and have the bundler lazy load the chunks (includeImportCustomElements: true).'
+    );
+  }
 
   if (outputTarget.includeImportCustomElements && outputTarget.includePolyfills) {
     throw new Error(

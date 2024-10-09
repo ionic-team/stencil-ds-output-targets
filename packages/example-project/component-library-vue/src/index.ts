@@ -3,10 +3,19 @@
 /* auto-generated vue proxies */
 import { defineContainer, defineStencilSSRComponent } from '@stencil/vue-output-target/runtime';
 
-import type { JSX } from 'component-library';
+import type { JSX } from 'component-library/components';
+
+import { defineCustomElement as defineMyButton } from 'component-library/components/my-button.js';
+import { defineCustomElement as defineMyCheckbox } from 'component-library/components/my-checkbox.js';
+import { defineCustomElement as defineMyComponent } from 'component-library/components/my-component.js';
+import { defineCustomElement as defineMyInput } from 'component-library/components/my-input.js';
+import { defineCustomElement as defineMyPopover } from 'component-library/components/my-popover.js';
+import { defineCustomElement as defineMyRadio } from 'component-library/components/my-radio.js';
+import { defineCustomElement as defineMyRadioGroup } from 'component-library/components/my-radio-group.js';
+import { defineCustomElement as defineMyRange } from 'component-library/components/my-range.js';
 
 export const MyButton = /*@__PURE__*/ globalThis.window
-  ? defineContainer<JSX.MyButton>('my-button', undefined, [
+  ? defineContainer<JSX.MyButton>('my-button', defineMyButton, [
       'color',
       'buttonType',
       'disabled',
@@ -48,7 +57,7 @@ export const MyButton = /*@__PURE__*/ globalThis.window
 export const MyCheckbox = /*@__PURE__*/ globalThis.window
   ? defineContainer<JSX.MyCheckbox, JSX.MyCheckbox['checked']>(
       'my-checkbox',
-      undefined,
+      defineMyCheckbox,
       ['color', 'name', 'checked', 'indeterminate', 'disabled', 'value', 'myChange', 'myFocus', 'myBlur', 'myStyle'],
       'checked',
       'myChange'
@@ -71,7 +80,7 @@ export const MyCheckbox = /*@__PURE__*/ globalThis.window
     });
 
 export const MyComponent = /*@__PURE__*/ globalThis.window
-  ? defineContainer<JSX.MyComponent>('my-component', undefined, [
+  ? defineContainer<JSX.MyComponent>('my-component', defineMyComponent, [
       'first',
       'middle',
       'last',
@@ -96,7 +105,7 @@ export const MyComponent = /*@__PURE__*/ globalThis.window
 export const MyInput = /*@__PURE__*/ globalThis.window
   ? defineContainer<JSX.MyInput, JSX.MyInput['value']>(
       'my-input',
-      undefined,
+      defineMyInput,
       [
         'color',
         'accept',
@@ -169,7 +178,7 @@ export const MyInput = /*@__PURE__*/ globalThis.window
     });
 
 export const MyPopover = /*@__PURE__*/ globalThis.window
-  ? defineContainer<JSX.MyPopover>('my-popover', undefined, [
+  ? defineContainer<JSX.MyPopover>('my-popover', defineMyPopover, [
       'component',
       'componentProps',
       'keyboardClose',
@@ -203,7 +212,7 @@ export const MyPopover = /*@__PURE__*/ globalThis.window
     });
 
 export const MyRadio = /*@__PURE__*/ globalThis.window
-  ? defineContainer<JSX.MyRadio>('my-radio', undefined, [
+  ? defineContainer<JSX.MyRadio>('my-radio', defineMyRadio, [
       'color',
       'name',
       'disabled',
@@ -230,7 +239,7 @@ export const MyRadio = /*@__PURE__*/ globalThis.window
 export const MyRadioGroup = /*@__PURE__*/ globalThis.window
   ? defineContainer<JSX.MyRadioGroup, JSX.MyRadioGroup['value']>(
       'my-radio-group',
-      undefined,
+      defineMyRadioGroup,
       ['allowEmptySelection', 'name', 'value', 'myChange'],
       'value',
       'myChange'
@@ -248,7 +257,7 @@ export const MyRadioGroup = /*@__PURE__*/ globalThis.window
 export const MyRange = /*@__PURE__*/ globalThis.window
   ? defineContainer<JSX.MyRange, JSX.MyRange['value']>(
       'my-range',
-      undefined,
+      defineMyRange,
       [
         'color',
         'debounce',
