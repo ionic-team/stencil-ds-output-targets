@@ -1,14 +1,9 @@
-import path from 'path';
-import { promisify } from 'util';
-import fs from 'fs';
+import path from 'node:path';
+import fs from 'node:fs/promises';
 import type { PackageJSON } from './types';
 
-const readFile = promisify(fs.readFile);
-
-export const toLowerCase = (str: string) => str.toLowerCase();
-
 export const dashToPascalCase = (str: string) =>
-  toLowerCase(str)
+  str.toLowerCase()
     .split('-')
     .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
     .join('');
@@ -69,7 +64,7 @@ export async function readPackageJson(rootDir: string) {
 
   let pkgJson: string;
   try {
-    pkgJson = await readFile(pkgJsonPath, 'utf8');
+    pkgJson = await fs.readFile(pkgJsonPath, 'utf8');
   } catch (e) {
     throw new Error(`Missing "package.json" file for distribution: ${pkgJsonPath}`);
   }
