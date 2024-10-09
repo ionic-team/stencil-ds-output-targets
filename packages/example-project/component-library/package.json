@@ -16,6 +16,36 @@
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "unpkg": "dist/component-library/component-library.js",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs.js",
+      "default": "./dist/index.mjs"
+    },
+    "./hydrate": {
+      "types": "./hydrate/index.d.ts",
+      "import": "./hydrate/index.js",
+      "require": "./hydrate/index.cjs.js",
+      "default": "./hydrate/index.js"
+    },
+    "./loader": {
+      "types": "./loader/index.d.ts",
+      "import": "./loader/index.js",
+      "require": "./loader/index.js",
+      "default": "./loader/index.js"
+    },
+    "./components/*.js": {
+      "types": "./dist/types/components/*.d.ts",
+      "import": "./components/*.js"
+    },
+    "./components": {
+      "types": "./dist/types/components.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs.js",
+      "default": "./dist/index.js"
+    }
+  },
   "files": [
     "dist/",
     "loader/"
@@ -31,7 +61,7 @@
   },
   "devDependencies": {
     "@stencil/angular-output-target": "workspace:*",
-    "@stencil/core": "^4.21.0",
+    "@stencil/core": "^4.22.1",
     "@stencil/react-output-target": "workspace:*",
     "@stencil/vue-output-target": "workspace:*",
     "@types/puppeteer": "2.0.1",
