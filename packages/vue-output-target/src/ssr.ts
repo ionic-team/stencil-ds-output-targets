@@ -26,7 +26,6 @@ export function defineStencilSSRComponent(options: StencilSSRComponentOptions) {
   return defineComponent({
     async setup(props, context) {
       let stringProps = '';
-
       const slots = useSlots();
       let renderedLightDom = '';
       if (typeof slots.default === 'function') {
@@ -63,11 +62,11 @@ export function defineStencilSSRComponent(options: StencilSSRComponentOptions) {
           ? JSON.stringify(value)
           : undefined;
 
-        if (!propValue) {
+        if (!propValue || (typeof propValue === 'string' && propValue.length === 0)) {
           continue;
         }
 
-        stringProps += ` ${key}=${propValue}`;
+        stringProps += ` ${propName}=${propValue}`;
       }
       const toSerialize = `<${options.tagName}${stringProps}>${renderedLightDom}</${options.tagName}>`;
       const { html } = await renderToString(toSerialize, {
@@ -92,7 +91,10 @@ export function defineStencilSSRComponent(options: StencilSSRComponentOptions) {
         }
       );
     },
-    props: options.props || {},
+    props: Object.entries(options.props || {}).reduce((acc, [key, value]) => {
+      acc[key] = value[0];
+      return acc;
+    }, {} as Record<string, Function | Object | Number | String>),
     template: '<div></div>',
   });
 }
