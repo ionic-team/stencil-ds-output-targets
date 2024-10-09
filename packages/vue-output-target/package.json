@@ -38,7 +38,8 @@
     "prettier": "pnpm run prettier.base --write",
     "prettier.base": "prettier \"./({vue-component-lib,src,test,__tests__}/**/*.{ts,tsx,js,jsx})|*.{ts,tsx,js,jsx}\"",
     "prettier.dry-run": "pnpm run prettier.base --list-different",
-    "release": "np"
+    "release": "np",
+    "test": "vitest --run"
   },
   "peerDependencies": {
     "vue": "^3.4.38",
