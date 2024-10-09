@@ -17,9 +17,7 @@ describe('generateProxies', () => {
     };
 
     const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
-    expect(
-      finalText.includes(`import { Components } from '../../angular-output-target/dist/types/components';`)
-    ).toBeFalsy();
+    expect(finalText.includes(`import { Components } from '../../angular/dist/types/components';`)).toBeFalsy();
     expect(finalText.includes(`import { Components } from 'component-library';`)).toBeTruthy();
   });
 
@@ -29,10 +27,8 @@ describe('generateProxies', () => {
     } as OutputTargetAngular;
 
     const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
-    expect(finalText.includes(`import { Components } from 'component-library';`)).toBeFalsy();
-    expect(
-      finalText.includes(`import { Components } from '../../angular-output-target/dist/types/components';`)
-    ).toBeTruthy();
+    expect(finalText).not.toContain(`import { Components } from 'component-library';`);
+    expect(finalText.includes(`import { Components } from '../../angular/dist/types/components';`)).toBeTruthy();
   });
 
   it('should include output related imports when there is component with not internal event', () => {
