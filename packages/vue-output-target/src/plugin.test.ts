@@ -21,6 +21,16 @@ describe('normalizeOutputTarget', () => {
     }).toThrow(new Error('proxiesFile is required'));
   });
 
+  it('should return fail if proxiesFile is not set', () => {
+    expect(() => {
+      normalizeOutputTarget(config, {
+        includeDefineCustomElements: false,
+        includeImportCustomElements: false,
+        proxiesFile: '../component-library-vue/src/components.ts',
+      });
+    }).toThrow(expect.objectContaining({ message: expect.stringContaining('cannot both be set to `false`') }));
+  });
+
   it('should return defaults for excludedComponents, includePolyfills, and includeDefineCustomElements', () => {
     const results: OutputTargetVue = normalizeOutputTarget(config, {
       proxiesFile: '../component-library-vue/src/components.ts',
