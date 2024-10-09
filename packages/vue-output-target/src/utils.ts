@@ -3,7 +3,8 @@ import fs from 'node:fs/promises';
 import type { PackageJSON } from './types';
 
 export const dashToPascalCase = (str: string) =>
-  str.toLowerCase()
+  str
+    .toLowerCase()
     .split('-')
     .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
     .join('');
