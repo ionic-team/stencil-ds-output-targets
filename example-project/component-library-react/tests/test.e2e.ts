@@ -1,3 +1,4 @@
+/// <reference types="webdriverio" />
 import { expect, $, $$, browser } from '@wdio/globals';
 
 describe('Stencil NextJS Integration', () => {
