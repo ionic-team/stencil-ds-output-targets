@@ -1,26 +1,4 @@
-import type { Options } from '@wdio/types';
-export const config: Options.Testrunner = {
-  //
-  // ====================
-  // Runner Configuration
-  // ====================
-  // WebdriverIO supports running e2e tests as well as unit and component tests.
-  runner: [
-    'browser',
-    {
-      preset: 'react',
-      // start browser window when `DEBUG` environment variable is set
-      headless: !process.env.DEBUG,
-    },
-  ],
-  autoCompileOpts: {
-    autoCompile: true,
-    tsNodeOpts: {
-      project: './tsconfig.json',
-      transpileOnly: true,
-    },
-  },
-
+export const config: WebdriverIO.Config = {
   //
   // ==================
   // Specify Test Files
@@ -36,7 +14,7 @@ export const config: Options.Testrunner = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs: ['./src/**/*.test.tsx'],
+  specs: ['./tests/**/*.e2e.ts'],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -67,6 +45,9 @@ export const config: Options.Testrunner = {
     {
       // capabilities for local browser web tests
       browserName: 'chrome', // or "firefox", "microsoftedge", "safari"
+      'goog:chromeOptions': {
+        // args: ['--headless'],
+      },
     },
   ],
 
@@ -117,7 +98,7 @@ export const config: Options.Testrunner = {
   // Services take over a specific job you don't want to take care of. They enhance
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
-  services: [],
+  services: ['vite'],
 
   // Framework you want to run your specs with.
   // The following are supported: Mocha, Jasmine, and Cucumber
