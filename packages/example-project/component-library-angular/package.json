@@ -23,7 +23,7 @@
     "tsc": "tsc -p .",
     "validate": "pnpm i && pnpm run lint && pnpm run test && pnpm run build"
   },
-  "module": "dist/fesm5.js",
+  "module": "dist/fesm2015.js",
   "main": "dist/fesm5.js",
   "types": "dist/core.d.ts",
   "files": [
