@@ -39,7 +39,7 @@ jobs:
           HUSKY_SKIP_HOOKS=1 lerna publish 0.0.1-dev.$(echo "${{ env.TIMESTAMP }}").$(echo "${{ env.HASH }}") --no-verify-access --yes --force-publish='*' --dist-tag dev --no-git-tag-version --no-push --exact
         shell: bash
       - id: dev-build
-        run: echo "::set-output name=version::0.0.1-dev.$(echo "${{ env.TIMESTAMP }}").$(echo "${{ env.HASH }}")"
+        run: echo "version=0.0.1-dev.$(echo "${{ env.TIMESTAMP }}").$(echo "${{ env.HASH }}")" >> $GITHUB_OUTPUT
   get-build:
     name: Get your dev build!
     runs-on: ubuntu-latest
