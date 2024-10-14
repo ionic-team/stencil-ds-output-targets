@@ -1,3 +1,4 @@
+import { ComponentCompilerProperty } from '@stencil/core/internal';
 import { createComponentTypeDefinition, createAngularComponentDefinition } from '../src/generate-angular-component';
 
 describe('createAngularComponentDefinition()', () => {
@@ -208,6 +209,42 @@ export class MyComponent {
 })
 export class MyComponent {
   protected el: HTMLElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}`);
+    });
+  });
+
+  describe('inline members', () => {
+    it('generates component with inlined member with jsDoc', () => {
+      const component = createAngularComponentDefinition('my-component', ['myMember'], [], [], false, false, [
+        {
+          docs: {
+            tags: [{ name: 'deprecated', text: 'use v2 of this API' }],
+            text: 'This is a jsDoc for myMember',
+          },
+          name: 'myMember',
+        } as ComponentCompilerProperty,
+      ]);
+
+      expect(component).toEqual(`@ProxyCmp({
+  inputs: ['myMember']
+})
+@Component({
+  selector: 'my-component',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+  inputs: ['myMember'],
+})
+export class MyComponent {
+  protected el: HTMLElement;
+    /**
+   * This is a jsDoc for myMember @deprecated use v2 of this API
+   */
+  myMember: Components.MyComponent['myMember'];
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
