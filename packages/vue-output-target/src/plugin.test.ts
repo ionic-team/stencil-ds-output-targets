@@ -1,6 +1,8 @@
-import { Config } from '@stencil/core/internal';
-import { OutputTargetVue } from '../src/types';
-import { normalizeOutputTarget } from '../src/plugin';
+import { describe, it, expect } from 'vitest';
+
+import { type Config } from '@stencil/core/internal';
+import { OutputTargetVue } from './types';
+import { normalizeOutputTarget } from './plugin';
 
 describe('normalizeOutputTarget', () => {
   const config: Config = {
@@ -17,6 +19,16 @@ describe('normalizeOutputTarget', () => {
     expect(() => {
       normalizeOutputTarget(config, {});
     }).toThrow(new Error('proxiesFile is required'));
+  });
+
+  it('should return fail if proxiesFile is not set', () => {
+    expect(() => {
+      normalizeOutputTarget(config, {
+        includeDefineCustomElements: false,
+        includeImportCustomElements: false,
+        proxiesFile: '../component-library-vue/src/components.ts',
+      });
+    }).toThrow(expect.objectContaining({ message: expect.stringContaining('cannot both be set to `false`') }));
   });
 
   it('should return defaults for excludedComponents, includePolyfills, and includeDefineCustomElements', () => {

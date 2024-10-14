@@ -90,6 +90,7 @@ function copyResources(config: Config, resourcesFilesToCopy: string[], directory
       dest: path.join(directory, rf),
       keepDirStructure: false,
       warn: false,
+      ignore: [],
     };
   });
   return config.sys.copy(copyTasks, path.join(directory));
