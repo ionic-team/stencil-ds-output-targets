@@ -1,5 +1,5 @@
 import path from 'path';
-import type { CompilerCtx, ComponentCompilerMeta, Config } from '@stencil/core/internal';
+import type { CompilerCtx, ComponentCompilerMeta, ComponentCompilerProperty, Config } from '@stencil/core/internal';
 import type { OutputTargetAngular, PackageJSON } from './types';
 import {
   relativeImport,
@@ -150,11 +150,13 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
   for (let cmpMeta of components) {
     const tagNameAsPascal = dashToPascalCase(cmpMeta.tagName);
 
-    const inputs: string[] = [];
+    const internalProps: ComponentCompilerProperty[] = [];
 
     if (cmpMeta.properties) {
-      inputs.push(...cmpMeta.properties.filter(filterInternalProps).map(mapPropName));
+      internalProps.push(...cmpMeta.properties.filter(filterInternalProps));
     }
+
+    const inputs = internalProps.map(mapPropName);
 
     if (cmpMeta.virtualProperties) {
       inputs.push(...cmpMeta.virtualProperties.map(mapPropName));
@@ -174,6 +176,8 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
       methods.push(...cmpMeta.methods.filter(filterInternalProps).map(mapPropName));
     }
 
+    const inlineComponentProps = outputTarget.inlineProperties ? internalProps : [];
+
     /**
      * For each component, we need to generate:
      * 1. The @Component decorated class
@@ -186,7 +190,8 @@ ${createImportStatement(componentLibImports, './angular-component-lib/utils')}\n
       outputs,
       methods,
       isCustomElementsBuild,
-      isStandaloneBuild
+      isStandaloneBuild,
+      inlineComponentProps
     );
     const moduleDefinition = generateAngularModuleForComponent(cmpMeta.tagName);
     const componentTypeDefinition = createComponentTypeDefinition(
