@@ -51,8 +51,6 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
     for (const [key, value] of Object.entries(props)) {
       const propValue = isPrimitive(value)
         ? `"${value}"`
-        : Array.isArray(value) && value.every(isPrimitive)
-        ? JSON.stringify(value)
         : undefined;
 
       if (!propValue) {
