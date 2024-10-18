@@ -30,6 +30,7 @@ export const MyButton: StencilReactComponent<MyButtonElement, MyButtonEvents> = 
     ? /*@__PURE__*/ createComponent<MyButtonElement, MyButtonEvents>({
         tagName: 'my-button',
         elementClass: MyButtonElement,
+        // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
         react: React,
         events: {
             onMyFocus: 'myFocus',
@@ -67,6 +68,7 @@ export const MyCheckbox: StencilReactComponent<MyCheckboxElement, MyCheckboxEven
     ? /*@__PURE__*/ createComponent<MyCheckboxElement, MyCheckboxEvents>({
         tagName: 'my-checkbox',
         elementClass: MyCheckboxElement,
+        // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
         react: React,
         events: {
             onMyChange: 'myChange',
@@ -94,6 +96,7 @@ export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentE
     ? /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents>({
         tagName: 'my-component',
         elementClass: MyComponentElement,
+        // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
         react: React,
         events: { onMyCustomEvent: 'myCustomEvent' } as MyComponentEvents,
         defineCustomElement: defineMyComponent
@@ -121,6 +124,7 @@ export const MyInput: StencilReactComponent<MyInputElement, MyInputEvents> = typ
     ? /*@__PURE__*/ createComponent<MyInputElement, MyInputEvents>({
         tagName: 'my-input',
         elementClass: MyInputElement,
+        // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
         react: React,
         events: {
             onMyInput: 'myInput',
@@ -174,6 +178,7 @@ export const MyPopover: StencilReactComponent<MyPopoverElement, MyPopoverEvents>
     ? /*@__PURE__*/ createComponent<MyPopoverElement, MyPopoverEvents>({
         tagName: 'my-popover',
         elementClass: MyPopoverElement,
+        // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
         react: React,
         events: {
             onMyPopoverDidPresent: 'myPopoverDidPresent',
@@ -208,6 +213,7 @@ export const MyRadio: StencilReactComponent<MyRadioElement, MyRadioEvents> = typ
     ? /*@__PURE__*/ createComponent<MyRadioElement, MyRadioEvents>({
         tagName: 'my-radio',
         elementClass: MyRadioElement,
+        // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
         react: React,
         events: {
             onMyFocus: 'myFocus',
@@ -233,6 +239,7 @@ export const MyRadioGroup: StencilReactComponent<MyRadioGroupElement, MyRadioGro
     ? /*@__PURE__*/ createComponent<MyRadioGroupElement, MyRadioGroupEvents>({
         tagName: 'my-radio-group',
         elementClass: MyRadioGroupElement,
+        // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
         react: React,
         events: { onMyChange: 'myChange' } as MyRadioGroupEvents,
         defineCustomElement: defineMyRadioGroup
@@ -257,6 +264,7 @@ export const MyRange: StencilReactComponent<MyRangeElement, MyRangeEvents> = typ
     ? /*@__PURE__*/ createComponent<MyRangeElement, MyRangeEvents>({
         tagName: 'my-range',
         elementClass: MyRangeElement,
+        // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
         react: React,
         events: {
             onMyChange: 'myChange',

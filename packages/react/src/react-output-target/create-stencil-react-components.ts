@@ -145,6 +145,7 @@ import type { EventName, StencilReactComponent } from '@stencil/react-output-tar
     const clientComponentCall = `/*@__PURE__*/ createComponent<${componentElement}, ${componentEventNamesType}>({
     tagName: '${tagName}',
     elementClass: ${componentElement},
+    // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
     react: React,
     events: {${events.map((e) => `${e.name}: '${e.originalName}'`).join(',\n')}} as ${componentEventNamesType},
     defineCustomElement: define${reactTagName}
