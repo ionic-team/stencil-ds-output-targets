@@ -46,10 +46,6 @@ export const createComponentDefinition =
 })`
       : '';
 
-    // tagName: string;
-    // hydrateModule: Promise<{ renderToString: RenderToString }>;
-    // props?: Record<string, any>;
-
     let templateString = `
 export const ${tagNameAsPascal} = /*@__PURE__*/${ssrTernary}defineContainer<${componentType}${modelType}>('${cmpMeta.tagName}', ${importAs}`;
 
