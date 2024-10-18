@@ -8,4 +8,5 @@ build/
 .npmrc
 *.tgz
 *.lerna_backup
-packages/example-project/component-library/hydrate
+example-project/component-library/hydrate
+example-project/component-library/components
