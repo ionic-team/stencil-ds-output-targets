@@ -72,5 +72,5 @@ jobs:
           # Look at package.json's name
           # Coupled to project structure. Update this when adding a new output target.
           # Examples: vue-output-target, angular-output-target, react-output-target
-          working-directory: './packages/${{ inputs.package }}-output-target' # Follow the repo structure
+          working-directory: './packages/${{ inputs.package }}' # Follow the repo structure
           token: ${{ secrets.NPM_TOKEN }} # Private, accessible by team leads
