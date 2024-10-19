@@ -1,0 +1,64 @@
+{
+  "name": "@stencil/vue-output-target",
+  "version": "0.8.9",
+  "description": "Vue output target for @stencil/core components.",
+  "author": "Ionic Team",
+  "homepage": "https://stenciljs.com/",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ionic-team/stencil-ds-output-targets.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ionic-team/stencil-ds-output-targets/issues"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs.js"
+    },
+    "./runtime": {
+      "types": "./dist/runtime.d.ts",
+      "import": "./dist/runtime.js",
+      "require": "./dist/runtime.cjs.js"
+    }
+  },
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepublishOnly": "pnpm run build",
+    "prebuild": "rimraf ./dist",
+    "build": "rollup -c ./rollup.config.mjs",
+    "dev": "pnpm run build --watch",
+    "prettier": "pnpm run prettier.base --write",
+    "prettier.base": "prettier \"./({vue-component-lib,src,test,__tests__}/**/*.{ts,tsx,js,jsx})|*.{ts,tsx,js,jsx}\"",
+    "prettier.dry-run": "pnpm run prettier.base --list-different",
+    "release": "np",
+    "test": "vitest --run"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.38",
+    "@stencil/core": ">=2.0.0 || >=3 || >= 4.0.0-beta.0 || >= 4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "vue": {
+      "optional": false
+    },
+    "@stencil/core": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@rollup/plugin-typescript": "^12.1.0",
+    "vitest": "^2.0.5",
+    "rimraf": "^5.0.0",
+    "rollup": "^4.14.3",
+    "typescript": "~5.0.0"
+  }
+}

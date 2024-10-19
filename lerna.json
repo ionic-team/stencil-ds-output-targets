@@ -2,7 +2,7 @@
   "version": "independent",
   "command": {
     "publish": {
-      "ignoreChanges": ["packages/example-project/*", "**/package.json", "**/package-lock.json"]
+      "ignoreChanges": ["example-project/*", "**/package.json", "**/package-lock.json"]
     }
   },
   "npmClient": "pnpm"

@@ -1,0 +1,37 @@
+{
+  "name": "component-library-vue",
+  "sideEffects": false,
+  "version": "0.0.1",
+  "private": true,
+  "description": "Vue specific wrapper for component-library",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ionic-team/ionic.git"
+  },
+  "scripts": {
+    "build": "run-s build.*",
+    "build.clean": "rimraf dist",
+    "build.compile": "tsc -p .",
+    "dev": "pnpm run build.compile --watch",
+    "prettier": "pnpm run prettier.base --write",
+    "prettier.base": "prettier \"./({src,__tests__}/**/*.{ts,tsx,js,jsx})|*.{ts,tsx,js,jsx}\"",
+    "prettier.dry-run": "pnpm run prettier.base --list-different"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "devDependencies": {
+    "rimraf": "^6.0.1",
+    "npm-run-all2": "^6.2.3",
+    "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "component-library": "workspace:*",
+    "@stencil/vue-output-target": "workspace:*"
+  }
+}
