@@ -1,4 +1,5 @@
-import { defineComponent, useSlots, compile, createSSRApp } from 'vue';
+import { defineComponent, useSlots, compile, createSSRApp, type SetupContext } from 'vue';
+import { type LooseRequired } from '@vue/shared';
 
 const LOG_PREFIX = '[vue-output-target]';
 
@@ -23,8 +24,8 @@ function isPrimitive(value: any) {
 }
 
 export function defineStencilSSRComponent(options: StencilSSRComponentOptions) {
-  return defineComponent({
-    async setup(props, context) {
+  return defineComponent<Record<string, any>, {}, string, {}>({
+    async setup(props: LooseRequired<Readonly<{}> & Readonly<{}> & {}>, context: SetupContext) {
       let stringProps = '';
       const slots = useSlots();
       let renderedLightDom = '';

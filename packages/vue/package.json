@@ -39,7 +39,8 @@
     "prettier.base": "prettier \"./({vue-component-lib,src,test,__tests__}/**/*.{ts,tsx,js,jsx})|*.{ts,tsx,js,jsx}\"",
     "prettier.dry-run": "pnpm run prettier.base --list-different",
     "release": "np",
-    "test": "vitest --run"
+    "test": "vitest --run",
+    "test.watch": "vitest --run --watch"
   },
   "peerDependencies": {
     "vue": "^3.4.38",
@@ -56,6 +57,7 @@
   "devDependencies": {
     "@types/node": "^18.0.0",
     "@rollup/plugin-typescript": "^12.1.0",
+    "@vue/shared": "^3.5.12",
     "vitest": "^2.0.5",
     "rimraf": "^5.0.0",
     "rollup": "^4.14.3",

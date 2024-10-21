@@ -20,6 +20,9 @@ importers:
       np:
         specifier: ^10.0.2
         version: 10.0.6(typescript@5.5.2)
+      npm-run-all2:
+        specifier: ^6.2.4
+        version: 6.2.4
       prettier:
         specifier: 2.7.1
         version: 2.7.1
@@ -390,6 +393,9 @@ importers:
       jest-environment-jsdom:
         specifier: ^27.0.0
         version: 27.5.1
+      npm-run-all2:
+        specifier: ^6.2.4
+        version: 6.2.4
       rimraf:
         specifier: ^5.0.0
         version: 5.0.7
@@ -427,6 +433,9 @@ importers:
       '@types/react-dom':
         specifier: ^18
         version: 18.3.0
+      npm-run-all2:
+        specifier: ^6.2.4
+        version: 6.2.4
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -461,6 +470,9 @@ importers:
       '@types/node':
         specifier: ^18.0.0
         version: 18.19.39
+      '@vue/shared':
+        specifier: ^3.5.12
+        version: 3.5.12
       rimraf:
         specifier: ^5.0.0
         version: 5.0.7
@@ -3705,6 +3717,9 @@ packages:
 
   '@vue/shared@3.5.10':
     resolution: {integrity: sha512-VkkBhU97Ki+XJ0xvl4C9YJsIZ2uIlQ7HqPpZOS3m9VCvmROPaChZU6DexdMJqvz9tbgG+4EtFVrSuailUq5KGQ==}
+
+  '@vue/shared@3.5.12':
+    resolution: {integrity: sha512-L2RPSAwUFbgZH20etwrXyVyCBu9OxRSi8T/38QsvnkJyvq2LufW2lDCOzm7t/U9C1mkhJGWYfCuFBCmIuNivrg==}
 
   '@wdio/cli@9.1.4':
     resolution: {integrity: sha512-bn8ghKajg+Df1hapcSraXHOUVCO9gFuSIofEALtq8LnLgLrA+81B+e/WqShPpml4sGLhx91Z9aFDSzMG7cHcNg==}
@@ -8469,6 +8484,11 @@ packages:
 
   npm-run-all2@6.2.3:
     resolution: {integrity: sha512-5RsxC7jEc/RjxOYBVdEfrJf5FsJ0pHA7jr2/OxrThXknajETCTYjigOCG3iaGjdYIKEQlDuCG0ir0T1HTva8pg==}
+    engines: {node: ^14.18.0 || ^16.13.0 || >=18.0.0, npm: '>= 8'}
+    hasBin: true
+
+  npm-run-all2@6.2.4:
+    resolution: {integrity: sha512-h/v0JWs0P12iR076jL0iTi4JzZVaJPnwse2+s4XzaIxwjtybQbQM2kg/Wd7Lxi0iEOXy3ZX2tLPNbm3MqzIFqw==}
     engines: {node: ^14.18.0 || ^16.13.0 || >=18.0.0, npm: '>= 8'}
     hasBin: true
 
@@ -15961,7 +15981,7 @@ snapshots:
       '@volar/language-core': 1.11.1
       '@volar/source-map': 1.11.1
       '@vue/compiler-dom': 3.5.10
-      '@vue/shared': 3.5.10
+      '@vue/shared': 3.5.12
       computeds: 0.0.1
       minimatch: 9.0.5
       muggle-string: 0.3.1
@@ -15975,7 +15995,7 @@ snapshots:
       '@volar/language-core': 2.4.6
       '@vue/compiler-dom': 3.5.10
       '@vue/compiler-vue2': 2.7.16
-      '@vue/shared': 3.5.10
+      '@vue/shared': 3.5.12
       computeds: 0.0.1
       minimatch: 9.0.5
       muggle-string: 0.4.1
@@ -16012,6 +16032,8 @@ snapshots:
       vue: 3.5.10(typescript@5.6.3)
 
   '@vue/shared@3.5.10': {}
+
+  '@vue/shared@3.5.12': {}
 
   '@wdio/cli@9.1.4':
     dependencies:
@@ -20508,7 +20530,7 @@ snapshots:
       jest-environment-jsdom: 26.6.2
       jest-environment-node: 26.6.2
       jest-get-type: 26.3.0
-      jest-jasmine2: 26.6.3
+      jest-jasmine2: 26.6.3(ts-node@10.9.2(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.5.2))
       jest-regex-util: 26.0.0
       jest-resolve: 26.6.2
       jest-util: 26.6.2
@@ -20838,7 +20860,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  jest-jasmine2@26.6.3:
+  jest-jasmine2@26.6.3(ts-node@10.9.2(@swc/core@1.7.26)(@types/node@22.7.5)(typescript@5.5.2)):
     dependencies:
       '@babel/traverse': 7.25.4
       '@jest/environment': 26.6.2
@@ -20859,7 +20881,11 @@ snapshots:
       pretty-format: 26.6.2
       throat: 5.0.0
     transitivePeerDependencies:
+      - bufferutil
+      - canvas
       - supports-color
+      - ts-node
+      - utf-8-validate
 
   jest-jasmine2@27.5.1:
     dependencies:
@@ -22762,6 +22788,17 @@ snapshots:
       pidtree: 0.6.0
       read-package-json-fast: 3.0.2
       shell-quote: 1.8.1
+
+  npm-run-all2@6.2.4:
+    dependencies:
+      ansi-styles: 6.2.1
+      cross-spawn: 7.0.3
+      memorystream: 0.3.1
+      minimatch: 9.0.5
+      pidtree: 0.6.0
+      read-package-json-fast: 3.0.2
+      shell-quote: 1.8.1
+      which: 3.0.1
 
   npm-run-path@2.0.2:
     dependencies:
