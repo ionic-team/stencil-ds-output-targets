@@ -17,6 +17,9 @@
     "prepublishOnly": "pnpm run build",
     "prebuild": "rimraf ./dist && pnpm run test",
     "build": "tsc && pnpm run rollup",
+    "dev": "run-p dev:*",
+    "dev:build": "tsc --watch --preserveWatchOutput",
+    "dev:rollup": "rollup -c --watch --preserveWatchOutput",
     "watch": "tsc --watch",
     "rollup": "rollup -c",
     "version": "pnpm run build",
@@ -43,6 +46,7 @@
     "@types/node": "^18.0.0",
     "jest": "^27.0.0",
     "jest-environment-jsdom": "^27.0.0",
+    "npm-run-all2": "^6.2.4",
     "rimraf": "^5.0.0",
     "rollup": "^2.23.1",
     "typescript": "~5.0.4"

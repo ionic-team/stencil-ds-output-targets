@@ -10,3 +10,4 @@ build/
 *.lerna_backup
 example-project/component-library/hydrate
 example-project/component-library/components
+*.tsbuildinfo

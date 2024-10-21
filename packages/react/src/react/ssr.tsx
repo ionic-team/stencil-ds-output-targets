@@ -31,10 +31,11 @@ function isPrimitive(value: any) {
 }
 
 /**
- * transform a React component into a Stencil component for server side rendering
+ * Transform a React component into a Stencil component for server side rendering.
  *
- * Note: this code should only be loaded on the server side, as it uses heavy Node.js dependencies
- * that when loaded on the client side would increase the bundle size.
+ * Note: this code should only be loaded on the server side, as it uses heavy Node.js dependencies,
+ * e.g. `react-dom/server`, `html-react-parser` as well as the hydrate module, that when loaded on
+ * the client side would increase the bundle size.
  */
 export const createComponentForServerSideRendering = <I extends HTMLElement, E extends EventNames = {}>(
   options: CreateComponentForServerSideRenderingOptions
@@ -47,6 +48,9 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
       throw new Error('`createComponentForServerSideRendering` can only be run on the server');
     }
 
+    /**
+     * compose element props into a string
+     */
     let stringProps = '';
     for (const [key, value] of Object.entries(props)) {
       const propValue = isPrimitive(value) ? `"${value}"` : undefined;
@@ -60,12 +64,20 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
       stringProps += ` ${propName}=${propValue}`;
     }
 
+    /**
+     * Attempt to serialize the components light DOM as it may have an impact on how the Stencil
+     * component is being serialized. For example a Stencil component may render certain elements
+     * if its light DOM contains other elements.
+     */
     let serializedChildren = '';
     const toSerialize = `<${options.tagName}${stringProps} suppressHydrationWarning="true">`;
     try {
       const awaitedChildren = await resolveComponentTypes(children);
       serializedChildren = ReactDOMServer.renderToString(awaitedChildren);
     } catch (err: unknown) {
+      /**
+       * if rendering the light DOM fails, we log a warning and continue to render the component
+       */
       const error = err instanceof Error ? err : new Error('Unknown error');
       console.warn(
         `${LOG_PREFIX} Failed to serialize light DOM for ${toSerialize.slice(0, -1)} />: ${
@@ -77,7 +89,8 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
     const toSerializeWithChildren = `${toSerialize}${serializedChildren}</${options.tagName}>`;
 
     /**
-     * first render the component with pretty HTML so it makes it easier to
+     * first render the component with `prettyHtml` flag so it makes it easier to
+     * access the inner content of the component.
      */
     const { html } = await options.renderToString(toSerializeWithChildren, {
       fullDocument: false,
@@ -105,16 +118,20 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
     }
 
     /**
-     * `html-react-parser` is a Node.js dependency so we should make sure to only import it when run on the server
+     * `html-react-parser` is a Node.js dependency so we should make sure to only import it when
+     * run on the server and when needed.
      */
     const { default: parse } = await import('html-react-parser');
 
     /**
-     * parse the string into a React component
+     * Parse the string back into a React component
      */
     const StencilElement = () =>
       parse(html, {
         transform(reactNode, domNode) {
+          /**
+           * only render the component we have been serializing before
+           */
           if ('name' in domNode && domNode.name === options.tagName) {
             const props = (reactNode as any).props;
             /**
@@ -141,6 +158,10 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
               );
             }
 
+            /**
+             * return original component with given props and `suppressHydrationWarning` flag and
+             * set the template content based on our serialized Stencil component.
+             */
             return (
               <CustomTag {...props} suppressHydrationWarning>
                 <template
@@ -163,7 +184,7 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
 };
 
 /**
- * resolve the component types for server side rendering
+ * Resolve the component types for server side rendering.
  *
  * @param children - the children to resolve
  * @returns the resolved children

@@ -5,6 +5,10 @@ export default {
 
   external: ['path', 'node-sass', 'fs', 'util', 'os'],
 
+  watch: {
+    clearScreen: false,
+  },
+
   output: [
     {
       format: 'cjs',

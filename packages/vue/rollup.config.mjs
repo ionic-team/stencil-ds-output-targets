@@ -7,6 +7,9 @@ const core = {
   input: './src/index.ts',
   external,
   plugins,
+  watch: {
+    clearScreen: false
+  },
   output: [
     {
       format: 'cjs',
@@ -22,6 +25,9 @@ const runtime = {
   input: './src/runtime.ts',
   external,
   plugins,
+  watch: {
+    clearScreen: false
+  },
   output: [
     {
       format: 'cjs',
