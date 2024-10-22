@@ -32,11 +32,6 @@ export function defineStencilSSRComponent(options: StencilSSRComponentOptions) {
   return defineComponent<Record<string, any>, {}, string, {}>({
     async setup(props: LooseRequired<Readonly<{}> & Readonly<{}> & {}>, context: SetupContext) {
       /**
-       * lazy import hydrate module
-       */
-      const { renderToString } = await options.hydrateModule;
-
-      /**
        * resolve light dom into a string
        */
       const slots = useSlots();
@@ -60,7 +55,18 @@ export function defineStencilSSRComponent(options: StencilSSRComponentOptions) {
          * Stencils metadata tells us which properties can be serialized
          */
         const propName = options.props?.[key][1];
-        const propValue = isPrimitive(value) ? `"${value}"` : undefined;
+        const propValue = isPrimitive(value)
+          ? typeof value === 'boolean'
+            ? /**
+               * omit boolean properties that are false all together
+               */
+              value
+              ? '"true"'
+              : undefined
+            : `"${value}"`
+          : Array.isArray(value) && value.every(isPrimitive)
+          ? JSON.stringify(value)
+          : undefined;
         if (!propName || !propValue) {
           console.warn(
             `${LOG_PREFIX} ignore component property "${key}" for ${options.tagName} ` +
@@ -73,9 +79,10 @@ export function defineStencilSSRComponent(options: StencilSSRComponentOptions) {
       }
 
       /**
-       * transform component into Declarative Shadow DOM
+       * transform component into Declarative Shadow DOM by lazy loading the hydrate module
        */
       const toSerialize = `<${options.tagName}${stringProps}>${renderedLightDom}</${options.tagName}>`;
+      const { renderToString } = await options.hydrateModule;
       const { html } = await renderToString(toSerialize, {
         fullDocument: false,
         serializeShadowRoot: true,

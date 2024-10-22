@@ -81,6 +81,12 @@ In order to run all tests including the end-to-end tests, run:
 
 ```sh
 pnpm run test
+
+# run end-to-end tests for specific frameworks
+pnpm run test.e2e.nuxt
+pnpm run test.e2e.next
+pnpm run test.e2e.vue
+pnpm run test.e2e.react
 ```
 
 ## Project Structure
