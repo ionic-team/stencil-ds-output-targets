@@ -19,6 +19,11 @@ interface StencilSSRComponentOptions {
   props?: Record<string, [any, string?]>;
 }
 
+/**
+ * returns true if the value is a primitive, e.g. string, number, boolean
+ * @param value - the value to check
+ * @returns true if the value is a primitive, false otherwise
+ */
 function isPrimitive(value: any) {
   return typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean';
 }
@@ -26,7 +31,14 @@ function isPrimitive(value: any) {
 export function defineStencilSSRComponent(options: StencilSSRComponentOptions) {
   return defineComponent<Record<string, any>, {}, string, {}>({
     async setup(props: LooseRequired<Readonly<{}> & Readonly<{}> & {}>, context: SetupContext) {
-      let stringProps = '';
+      /**
+       * lazy import hydrate module
+       */
+      const { renderToString } = await options.hydrateModule;
+
+      /**
+       * resolve light dom into a string
+       */
       const slots = useSlots();
       let renderedLightDom = '';
       if (typeof slots.default === 'function') {
@@ -35,14 +47,21 @@ export function defineStencilSSRComponent(options: StencilSSRComponentOptions) {
         renderedLightDom = await vueRenderToString(ssrLightDom, { context });
       }
 
-      const { renderToString } = await options.hydrateModule;
+      /**
+       * compose element props into a string
+       */
+      let stringProps = '';
       for (const [key, value] of Object.entries(props)) {
         if (typeof value === 'undefined') {
           continue;
         }
 
+        /**
+         * Stencils metadata tells us which properties can be serialized
+         */
         const propName = options.props?.[key][1];
-        if (!propName) {
+        const propValue = isPrimitive(value) ? `"${value}"` : undefined;
+        if (!propName || !propValue) {
           console.warn(
             `${LOG_PREFIX} ignore component property "${key}" for ${options.tagName} ` +
               "- property type is unknown or not a primitive and can't be serialized"
@@ -50,28 +69,16 @@ export function defineStencilSSRComponent(options: StencilSSRComponentOptions) {
           continue;
         }
 
-        const propValue = isPrimitive(value)
-          ? typeof value === 'boolean'
-            ? /**
-               * omit boolean properties that are false all together
-               */
-              value
-              ? '"true"'
-              : undefined
-            : `"${value}"`
-          : Array.isArray(value) && value.every(isPrimitive)
-          ? JSON.stringify(value)
-          : undefined;
-
-        if (!propValue || (typeof propValue === 'string' && propValue.length === 0)) {
-          continue;
-        }
-
         stringProps += ` ${propName}=${propValue}`;
       }
+
+      /**
+       * transform component into Declarative Shadow DOM
+       */
       const toSerialize = `<${options.tagName}${stringProps}>${renderedLightDom}</${options.tagName}>`;
       const { html } = await renderToString(toSerialize, {
         fullDocument: false,
+        serializeShadowRoot: true,
       });
 
       if (!html) {
@@ -96,6 +103,9 @@ export function defineStencilSSRComponent(options: StencilSSRComponentOptions) {
       acc[key] = value[0];
       return acc;
     }, {} as Record<string, Function | Object | Number | String>),
+    /**
+     * the template tags can be arbitrary as they will be replaced with above compiled template
+     */
     template: '<div></div>',
   });
 }

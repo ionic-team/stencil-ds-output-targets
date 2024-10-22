@@ -100,7 +100,7 @@ This project is structured as following:
     ├── packages                           # Stencil Output target packages
     │   ├── angular                        # package that publishes the `@stencil/angular-output-target`
     │   ├── react                          # package that publishes the `@stencil/react-output-target`
-    │   └── vue                            #  package that publishes the `@stencil/vue-output-target`
+    │   └── vue                            # package that publishes the `@stencil/vue-output-target`
     └── ...
 
 ## Deploying

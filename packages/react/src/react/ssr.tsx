@@ -26,12 +26,23 @@ interface CreateComponentForServerSideRenderingOptions {
 
 type StencilProps<I extends HTMLElement> = WebComponentProps<I>;
 
+/**
+ * returns true if the value is a primitive, e.g. string, number, boolean
+ * @param value - the value to check
+ * @returns true if the value is a primitive, false otherwise
+ */
 function isPrimitive(value: any) {
   return typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean';
 }
 
 /**
- * Transform a React component into a Stencil component for server side rendering.
+ * Transform a React component into a Stencil component for server side rendering. This logic is executed
+ * by a React framework e.g. Next.js in an Node.js environment. The function will:
+ *
+ *   - serialize the component (including the Light DOM) into a string (see `toSerializeWithChildren`)
+ *   - transform the string with the Stencil component into a Declarative Shadow DOM component
+ *   - parse the declarative shadow DOM component back into a React component
+ *   - return the React component
  *
  * Note: this code should only be loaded on the server side, as it uses heavy Node.js dependencies,
  * e.g. `react-dom/server`, `html-react-parser` as well as the hydrate module, that when loaded on
@@ -145,12 +156,18 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
             if (!isShadowComponent) {
               const { children, ...customProps } = props || {};
               const __html = serializedComponentByLine
-                // remove the components outer tags as we want to set the inner content only
+                /**
+                 * remove the components outer tags as we want to set the inner content only
+                 */
                 .slice(1, -1)
-                // bring the array back to a string
+                /**
+                 * bring the array back to a string
+                 */
                 .join('\n')
                 .trim()
-                // remove any whitespace between tags that may cause hydration errors
+                /**
+                 * remove any whitespace between tags that may cause hydration errors
+                 */
                 .replace(/(?<=>)\s+(?=<)/g, '');
 
               return (
@@ -185,6 +202,10 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
 
 /**
  * Resolve the component types for server side rendering.
+ *
+ * It walks through all component childs and resolves them, e.g. call `createComponentForServerSideRendering` to
+ * create a React component which we can pass into `ReactDOMServer.renderToString`. This enables us to include
+ * the Light DOM of a component as part of Stencils serialization process.
  *
  * @param children - the children to resolve
  * @returns the resolved children
