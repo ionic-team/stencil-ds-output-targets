@@ -9,6 +9,7 @@ This package includes an output target for code generation that allows developer
 - ♻️ Automate the generation of React component wrappers for Stencil components
 - 🌐 Generate React functional component wrappers with JSX bindings for custom events and properties
 - ⌨️ Typings and auto-completion for React components in your IDE
+- 🚀 Support for Server Side Rendering (SSR) when used with frameworks like [Next.js](https://nextjs.org/)
 
 ## Setup
 

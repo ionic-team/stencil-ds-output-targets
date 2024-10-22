@@ -11,20 +11,42 @@
     "build.react": "pnpm --filter component-library-react run build",
     "build.vue": "pnpm --filter component-library-vue run build",
     "changelog": "lerna-changelog",
+    "dev": "run-p dev:*",
+    "dev.angular": "pnpm --filter @stencil/angular-output-target run dev",
+    "dev.react": "pnpm --filter @stencil/react-output-target run dev",
+    "dev.vue": "pnpm --filter @stencil/vue-output-target run dev",
     "prettier": "lerna run prettier",
     "prettier.dry-run": "lerna run prettier.dry-run",
-    "start:next": "pnpm --filter next-app run start",
-    "start:nuxt": "pnpm --filter nuxt-app run start",
-    "test": "lerna run test"
+    "start.next": "pnpm --filter next-app run start",
+    "start.nuxt": "pnpm --filter nuxt-app run start",
+    "test": "lerna run test",
+    "test.unit": "run-p test.unit.*",
+    "test.unit.angular": "pnpm --filter @stencil/angular-output-target test",
+    "test.unit.react": "pnpm --filter @stencil/react-output-target test",
+    "test.unit.vue": "pnpm --filter @stencil/vue-output-target test",
+    "test.watch": "run-p test.watch.*",
+    "test.watch.angular": "pnpm --filter @stencil/angular-output-target test.watch",
+    "test.watch.react": "pnpm --filter @stencil/react-output-target test.watch",
+    "test.watch.vue": "pnpm --filter @stencil/vue-output-target test.watch",
+    "test.e2e": "run-s test.e2e.*",
+    "test.e2e.react": "pnpm --filter component-library-react test",
+    "test.e2e.vue": "pnpm --filter vue-app test",
+    "test.e2e.next": "pnpm --filter next-app test",
+    "test.e2e.nuxt": "pnpm --filter nuxt-app test"
   },
   "devDependencies": {
     "@ionic/prettier-config": "^2.0.0",
     "lerna": "^8.0.0",
     "lerna-changelog": "^2.0.0",
     "np": "^10.0.2",
+    "npm-run-all2": "^6.2.4",
     "prettier": "2.7.1",
     "semver": "^5.5.0",
     "ts-jest": "^26.2.0"
   },
-  "prettier": "@ionic/prettier-config"
+  "prettier": "@ionic/prettier-config",
+  "engines": {
+    "node": ">=20.10.0",
+    "pnpm": ">=9.4.0"
+  }
 }
