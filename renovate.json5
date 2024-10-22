@@ -9,11 +9,7 @@
    */
   dependencyDashboard: true,
   ignorePaths: [
-    'package.json',
-    'packages/angular-output-target/',
-    'packages/react-output-target/',
-    'packages/vue-output-target/',
-    'packages/example-project/',
+    'example-project/',
   ],
   /**
    * Apply these labels to every PR
@@ -43,5 +39,5 @@
    * By default, Angular-style semantic commits will have a type of 'chore' and a scope of 'deps':
    * `chore(deps): _your git commit title here_`
    */
-  semanticCommits: "enabled",
+  semanticCommits: 'enabled',
 }
