@@ -36,4 +36,8 @@ describe('Stencil NextJS Integration', () => {
   it('should transform camelCase into kebab-case', async () => {
     await expect($('my-component[favorite-kid-name="foobar"]')).toBePresent();
   });
+
+  it('should propagate custom element styles', async () => {
+    await expect($('my-component')).toHaveStyle({ backgroundColor: 'rgba(255,0,0,1)' });
+  })
 });
