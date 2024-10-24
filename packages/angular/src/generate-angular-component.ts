@@ -1,7 +1,26 @@
-import type { CompilerJsDoc, ComponentCompilerEvent } from '@stencil/core/internal';
+import type { CompilerJsDoc, ComponentCompilerEvent, ComponentCompilerProperty } from '@stencil/core/internal';
 
 import { createComponentEventTypeImports, dashToPascalCase, formatToQuotedList } from './utils';
 import type { OutputType } from './types';
+
+/**
+ * Creates a property declaration.
+ *
+ * @param prop A ComponentCompilerEvent or ComponentCompilerProperty to turn into a property declaration.
+ * @param type The name of the type (e.g. 'string')
+ * @returns The property declaration as a string.
+ */
+function createPropertyDeclaration(prop: ComponentCompilerEvent | ComponentCompilerProperty, type: string): string {
+  const comment = createDocComment(prop.docs);
+  let eventName = prop.name;
+  if (/[-/]/.test(prop.name)) {
+    // If a member name includes a dash or a forward slash, we need to wrap it in quotes.
+    // https://github.com/ionic-team/stencil-ds-output-targets/issues/212
+    eventName = `'${prop.name}'`;
+  }
+  return `${comment.length > 0 ? `  ${comment}` : ''}
+  ${eventName}: ${type};`;
+}
 
 /**
  * Creates an Angular component declaration from formatted Stencil compiler metadata.
@@ -12,6 +31,7 @@ import type { OutputType } from './types';
  * @param methods The methods of the Stencil component. (e.g. ['myMethod']).
  * @param includeImportCustomElements Whether to define the component as a custom element.
  * @param standalone Whether to define the component as a standalone component.
+ * @param inlineComponentProps List of properties that should be inlined into the component definition.
  * @returns The component declaration as a string.
  */
 export const createAngularComponentDefinition = (
@@ -20,7 +40,8 @@ export const createAngularComponentDefinition = (
   outputs: readonly string[],
   methods: readonly string[],
   includeImportCustomElements = false,
-  standalone = false
+  standalone = false,
+  inlineComponentProps: readonly ComponentCompilerProperty[] = []
 ) => {
   const tagNameAsPascal = dashToPascalCase(tagName);
 
@@ -57,6 +78,12 @@ export const createAngularComponentDefinition = (
     standaloneOption = `\n  standalone: true`;
   }
 
+  const propertyDeclarations = inlineComponentProps.map((m) =>
+    createPropertyDeclaration(m, `Components.${tagNameAsPascal}['${m.name}']`)
+  );
+
+  const propertiesDeclarationText = ['protected el: HTMLElement;', ...propertyDeclarations].join('\n  ');
+
   /**
    * Notes on the generated output:
    * - We disable @angular-eslint/no-inputs-metadata-property, so that
@@ -73,7 +100,7 @@ export const createAngularComponentDefinition = (
   inputs: [${formattedInputs}],${standaloneOption}
 })
 export class ${tagNameAsPascal} {
-  protected el: HTMLElement;
+  ${propertiesDeclarationText}
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;${
@@ -185,17 +212,9 @@ export const createComponentTypeDefinition = (
     customElementsDir,
     outputType,
   });
-  const eventTypes = publicEvents.map((event) => {
-    const comment = createDocComment(event.docs);
-    let eventName = event.name;
-    if (/[-/]/.test(event.name)) {
-      // If an event name includes a dash or a forward slash, we need to wrap it in quotes.
-      // https://github.com/ionic-team/stencil-ds-output-targets/issues/212
-      eventName = `'${event.name}'`;
-    }
-    return `${comment.length > 0 ? `  ${comment}` : ''}
-  ${eventName}: EventEmitter<CustomEvent<${formatOutputType(tagNameAsPascal, event)}>>;`;
-  });
+  const eventTypes = publicEvents.map((event) =>
+    createPropertyDeclaration(event, `EventEmitter<CustomEvent<${formatOutputType(tagNameAsPascal, event)}>>`)
+  );
   const interfaceDeclaration = `export declare interface ${tagNameAsPascal} extends Components.${tagNameAsPascal} {`;
 
   const typeDefinition =
