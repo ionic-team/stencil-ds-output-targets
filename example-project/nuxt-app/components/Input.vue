@@ -28,6 +28,12 @@ export default defineComponent({
       handleChange,
     };
   },
+  data() {
+    return {
+      activeColor: 'red',
+      fontSize: 30
+    }
+  }
 });
 </script>
 
@@ -44,7 +50,7 @@ export default defineComponent({
       @myChange="handleChange"
     >
     </MyInput>
-    <div class="inputResult">
+    <div class="inputResult" :style="{ color: activeColor, fontSize: fontSize + 'px' }">
       <p>Input Event: {{ inputEvent }}</p>
       <p>Change Event: {{ changeEvent }}</p>
     </div>

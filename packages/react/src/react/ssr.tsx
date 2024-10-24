@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+import styleToCss from 'style-object-to-css-string';
 import type { EventName, ReactWebComponent, WebComponentProps } from '@lit/react';
 
 import { possibleStandardNames } from './constants';
@@ -64,7 +65,14 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
      */
     let stringProps = '';
     for (const [key, value] of Object.entries(props)) {
-      const propValue = isPrimitive(value) ? `"${value}"` : undefined;
+      let propValue = isPrimitive(value) ? `"${value}"` : undefined;
+
+      /**
+       * parse the style object into a string
+       */
+      if (key === 'style' && typeof value === 'object') {
+        propValue = `"${styleToCss(value).replaceAll('\n', ' ')}"`;
+      }
 
       if (!propValue) {
         continue;

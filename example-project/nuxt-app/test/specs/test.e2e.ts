@@ -10,4 +10,11 @@ describe('Stencil NextJS Integration', () => {
       Change Event: test"
     `)
   });
+
+  it('propagates style objects into string', async () => {
+    await browser.url('/');
+    const inputResult = await $('.inputResult p');
+    await expect(inputResult).toHaveStyle({ color: 'rgba(255,0,0,1)' });
+    await expect(inputResult).toHaveStyle({ fontSize: '30px' });
+  });
 });
