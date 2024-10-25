@@ -10,7 +10,11 @@ function Button() {
     <>
       <MyButton href="#" onClick={() => setInputEvent(inputEvent + 1)}>
         Click me <b>now</b>!
-        <MyComponent first="Stencil" last="'Don't call me a framework' JS">
+        <MyComponent
+          first="Stencil"
+          last="'Don't call me a framework' JS"
+          style={{ backgroundColor: 'red' }}
+        >
           Hello
         </MyComponent>
       </MyButton>
