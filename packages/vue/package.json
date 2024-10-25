@@ -55,7 +55,7 @@
     }
   },
   "devDependencies": {
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.16.13",
     "@rollup/plugin-typescript": "^12.1.0",
     "@vue/shared": "^3.5.12",
     "vitest": "^2.0.5",
