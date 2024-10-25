@@ -28,6 +28,12 @@ export interface OutputTargetAngular {
    * - `standalone` - Generate a component with the `standalone` flag set to `true`.
    */
   outputType?: OutputType;
+  /**
+   * Experimental (!)
+   * When true, tries to inline the properties of components. This is required to enable Angular Language Service
+   * to type-check and show jsdocs when using the components in html-templates.
+   */
+  inlineProperties?: boolean;
 }
 
 export type ValueAccessorTypes = 'text' | 'radio' | 'select' | 'number' | 'boolean';
