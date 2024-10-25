@@ -40,4 +40,36 @@
    * `chore(deps): _your git commit title here_`
    */
   semanticCommits: 'enabled',
+  "packageRules": [
+    {
+      "groupName": "all major dependencies",
+      "groupSlug": "all-major",
+      "matchPackageNames": [
+        "*"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ]
+    },
+    {
+      "groupName": "all minor dependencies",
+      "groupSlug": "all-minor",
+      "matchPackageNames": [
+        "*"
+      ],
+      "matchUpdateTypes": [
+        "minor"
+      ]
+    },
+    {
+      "groupName": "all path dependencies",
+      "groupSlug": "all-path",
+      "matchPackageNames": [
+        "*"
+      ],
+      "matchUpdateTypes": [
+        "path"
+      ]
+    }
+  ]
 }
