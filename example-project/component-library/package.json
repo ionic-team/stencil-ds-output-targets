@@ -39,6 +39,42 @@
       "types": "./dist/types/components/*.d.ts",
       "import": "./components/*.js"
     },
+    "./components/my-button.js": {
+      "types": "./dist/types/components/my-button.d.ts",
+      "import": "./components/my-button.js"
+    },
+    "./components/my-checkbox.js": {
+      "types": "./dist/types/components/my-checkbox.d.ts",
+      "import": "./components/my-checkbox.js"
+    },
+    "./components/my-component.js": {
+      "types": "./dist/types/components/my-component.d.ts",
+      "import": "./components/my-component.js"
+    },
+    "./components/my-dialog.js": {
+      "types": "./dist/types/components/my-dialog.d.ts",
+      "import": "./components/my-dialog.js"
+    },
+    "./components/my-input.js": {
+      "types": "./dist/types/components/my-input.d.ts",
+      "import": "./components/my-input.js"
+    },
+    "./components/my-radio.js": {
+      "types": "./dist/types/components/my-radio.d.ts",
+      "import": "./components/my-radio.js"
+    },
+    "./components/my-radio-group.js": {
+      "types": "./dist/types/components/my-radio-group.d.ts",
+      "import": "./components/my-radio-group.js"
+    },
+    "./components/my-range.js": {
+      "types": "./dist/types/components/my-range.d.ts",
+      "import": "./components/my-range.js"
+    },
+    "./components/my-popover.js": {
+      "types": "./dist/types/components/my-popover.d.ts",
+      "import": "./components/my-popover.js"
+    },
     "./components": {
       "types": "./dist/types/components.d.ts",
       "import": "./dist/index.js",

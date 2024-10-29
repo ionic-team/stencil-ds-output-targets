@@ -65,6 +65,10 @@ export const config: Config = {
       outDir: '../next-app/src/app',
       hydrateModule: 'component-library/hydrate'
     }),
+    reactOutputTarget({
+      outDir: '../next.js-13-boilerplate/src/app',
+      hydrateModule: 'component-library/hydrate'
+    }),
     vueOutputTarget({
       includeImportCustomElements: true,
       includePolyfills: false,
