@@ -38,14 +38,14 @@
     "test.e2e.nuxt": "pnpm --filter nuxt-app test"
   },
   "devDependencies": {
-    "@ionic/prettier-config": "^2.0.0",
+    "@ionic/prettier-config": "^4.0.0",
     "lerna": "^8.0.0",
     "lerna-changelog": "^2.0.0",
     "np": "^10.0.2",
-    "npm-run-all2": "^6.2.4",
-    "prettier": "2.8.8",
-    "semver": "^5.5.0",
-    "ts-jest": "^26.2.0"
+    "npm-run-all2": "^7.0.0",
+    "prettier": "3.3.3",
+    "semver": "^7.0.0",
+    "ts-jest": "^29.0.0"
   },
   "prettier": "@ionic/prettier-config",
   "engines": {
