@@ -18,7 +18,7 @@ import { Components } from 'component-library';
   inputs: ['buttonType', 'color', 'disabled', 'download', 'expand', 'fill', 'href', 'mode', 'rel', 'shape', 'size', 'strong', 'target', 'type'],
 })
 export class MyButton {
-  protected el: HTMLElement;
+  protected el: HTMLMyButtonElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
@@ -50,7 +50,7 @@ export declare interface MyButton extends Components.MyButton {
   inputs: ['checked', 'color', 'disabled', 'indeterminate', 'mode', 'name', 'value'],
 })
 export class MyCheckbox {
-  protected el: HTMLElement;
+  protected el: HTMLMyCheckboxElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
@@ -88,7 +88,7 @@ export declare interface MyCheckbox extends Components.MyCheckbox {
   inputs: ['age', 'favoriteKidName', 'first', 'kidsNames', 'last', 'middle'],
 })
 export class MyComponent {
-  protected el: HTMLElement;
+  protected el: HTMLMyComponentElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
@@ -117,7 +117,7 @@ export declare interface MyComponent extends Components.MyComponent {
   inputs: ['accept', 'autocapitalize', 'autocomplete', 'autocorrect', 'autofocus', 'clearInput', 'clearOnEdit', 'color', 'disabled', 'enterkeyhint', 'inputmode', 'max', 'maxlength', 'min', 'minlength', 'mode', 'multiple', 'name', 'pattern', 'placeholder', 'readonly', 'required', 'size', 'spellcheck', 'step', 'type', 'value'],
 })
 export class MyInput {
-  protected el: HTMLElement;
+  protected el: HTMLMyInputElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
@@ -160,7 +160,7 @@ export declare interface MyInput extends Components.MyInput {
   inputs: ['animated', 'backdropDismiss', 'component', 'componentProps', 'cssClass', 'event', 'keyboardClose', 'mode', 'showBackdrop', 'translucent'],
 })
 export class MyPopover {
-  protected el: HTMLElement;
+  protected el: HTMLMyPopoverElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
@@ -202,7 +202,7 @@ export declare interface MyPopover extends Components.MyPopover {
   inputs: ['color', 'disabled', 'mode', 'name', 'value'],
 })
 export class MyRadio {
-  protected el: HTMLElement;
+  protected el: HTMLMyRadioElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
@@ -238,7 +238,7 @@ export declare interface MyRadio extends Components.MyRadio {
   inputs: ['allowEmptySelection', 'name', 'value'],
 })
 export class MyRadioGroup {
-  protected el: HTMLElement;
+  protected el: HTMLMyRadioGroupElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
@@ -268,7 +268,7 @@ export declare interface MyRadioGroup extends Components.MyRadioGroup {
   inputs: ['color', 'debounce', 'disabled', 'dualKnobs', 'max', 'min', 'mode', 'name', 'pin', 'snaps', 'step', 'ticks', 'value'],
 })
 export class MyRange {
-  protected el: HTMLElement;
+  protected el: HTMLMyRangeElement;
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
