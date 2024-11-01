@@ -43,7 +43,7 @@
   "devDependencies": {
     "@angular/core": "8.2.14",
     "@angular/forms": "8.2.14",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.17.1",
     "jest": "^27.0.0",
     "jest-environment-jsdom": "^27.0.0",
     "npm-run-all2": "^6.2.4",
