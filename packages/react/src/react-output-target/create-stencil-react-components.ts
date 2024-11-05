@@ -173,11 +173,12 @@ import type { EventName, StencilReactComponent } from '@stencil/react-output-tar
         {
           name: reactTagName,
           type: `StencilReactComponent<${componentElement}, ${componentEventNamesType}>`,
-          initializer: hydrateModule && !excludeSSRComponents.includes(tagName)
-            ? `typeof window !== 'undefined'
+          initializer:
+            hydrateModule && !excludeSSRComponents.includes(tagName)
+              ? `typeof window !== 'undefined'
               ? ${clientComponentCall}
               : ${serverComponentCall}`
-            : clientComponentCall,
+              : clientComponentCall,
         },
       ],
     });

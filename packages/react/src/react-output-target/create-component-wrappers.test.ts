@@ -262,8 +262,8 @@ export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentE
     const sourceFile = sourceFiles[0];
 
     const code = sourceFile.getFullText();
-    expect(code).toContain('createComponent<MyComponentElement, MyComponentEvents>({')
-    expect(code).toContain('createSSRComponent<MyComponentElement, MyComponentEvents>({')
+    expect(code).toContain('createComponent<MyComponentElement, MyComponentEvents>({');
+    expect(code).toContain('createSSRComponent<MyComponentElement, MyComponentEvents>({');
   });
 
   it('can exclude components for server side rendering', async () => {
@@ -323,9 +323,9 @@ export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentE
     const sourceFile = sourceFiles[0];
 
     const code = sourceFile.getFullText();
-    expect(code).toContain('createComponent<MyComponentAElement, MyComponentAEvents>({')
-    expect(code).not.toContain('createSSRComponent<MyComponentAElement, MyComponentAEvents>({')
-    expect(code).toContain('createComponent<MyComponentBElement, MyComponentBEvents>({')
-    expect(code).toContain('createSSRComponent<MyComponentBElement, MyComponentBEvents>({')
-  })
+    expect(code).toContain('createComponent<MyComponentAElement, MyComponentAEvents>({');
+    expect(code).not.toContain('createSSRComponent<MyComponentAElement, MyComponentAEvents>({');
+    expect(code).toContain('createComponent<MyComponentBElement, MyComponentBEvents>({');
+    expect(code).toContain('createSSRComponent<MyComponentBElement, MyComponentBEvents>({');
+  });
 });
