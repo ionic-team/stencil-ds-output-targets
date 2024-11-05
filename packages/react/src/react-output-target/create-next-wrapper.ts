@@ -28,7 +28,7 @@ export const createStencilNextComponents = ({
       const reactTagName = kebabToPascalCase(tagName);
       const fileName = kebabToPascalCase(component.tagName);
       sourceFile.addExportDeclaration({
-        moduleSpecifier: `./${fileName}`,
+        moduleSpecifier: `./${fileName}.js`,
         namedExports: esModules ? [`default as ${reactTagName}`] : components.map((c) => kebabToPascalCase(c.tagName)),
       });
     }
@@ -39,7 +39,7 @@ export const createStencilNextComponents = ({
      *   `Error: It's currently unsupported to use "export *" in a client boundary. Please use named exports instead.`
      */
     sourceFile.addExportDeclaration({
-      moduleSpecifier: `./components.server`,
+      moduleSpecifier: `./components.server.js`,
       namedExports: components.map((c) => kebabToPascalCase(c.tagName)),
     });
   }

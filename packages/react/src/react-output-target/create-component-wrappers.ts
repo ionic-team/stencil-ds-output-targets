@@ -14,6 +14,7 @@ export const createComponentWrappers = async ({
   excludeComponents,
   project,
   hydrateModule,
+  excludeServerSideRenderingFor,
 }: {
   stencilPackageName: string;
   components: ComponentCompilerMeta[];
@@ -23,6 +24,7 @@ export const createComponentWrappers = async ({
   excludeComponents?: string[];
   project: Project;
   hydrateModule?: string;
+  excludeServerSideRenderingFor?: string[];
 }) => {
   const sourceFiles: SourceFile[] = [];
 
@@ -62,6 +64,7 @@ export const createComponentWrappers = async ({
         customElementsDir,
         defaultExport: true,
         hydrateModule,
+        excludeServerSideRenderingFor,
       });
       fileContents[outputPath] = stencilReactComponent;
     }
@@ -84,6 +87,7 @@ export const createComponentWrappers = async ({
       customElementsDir,
       defaultExport: false,
       hydrateModule,
+      excludeServerSideRenderingFor,
     });
     fileContents[outputPath] = stencilReactComponent;
   }
