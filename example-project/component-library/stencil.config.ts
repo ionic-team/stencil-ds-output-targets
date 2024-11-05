@@ -62,6 +62,10 @@ export const config: Config = {
       outDir: '../component-library-react/src',
     }),
     reactOutputTarget({
+      outDir: '../component-library-react/src/ssr',
+      hydrateModule: 'component-library/hydrate'
+    }),
+    reactOutputTarget({
       outDir: '../next-app/src/app',
       hydrateModule: 'component-library/hydrate'
     }),

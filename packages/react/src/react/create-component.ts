@@ -42,7 +42,15 @@ export const createSSRComponent = <I extends HTMLElement, E extends EventNames =
    * bundling them in the runtime and serving them in the browser.
    */
   return (async (props: WebComponentProps<I>) => {
-    const { createComponentForServerSideRendering } = await import('./ssr');
+    if (process.argv.some((arg) => arg.includes('bin/docusaurus.'))) {
+      return (...args: any) => {
+        console.log('!!!', args);
+
+        return 'haha';
+      };
+    }
+
+    const { createComponentForServerSideRendering } = await import('./ssr.js');
     return createComponentForServerSideRendering<I, E>({
       tagName,
       properties,

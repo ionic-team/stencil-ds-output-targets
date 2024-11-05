@@ -3,6 +3,16 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./build/ssr/components.d.ts",
+      "import": "./build/ssr/components.js"
+    },
+    "./client": {
+      "types": "./build/components.d.ts",
+      "import": "./build/components.js"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
