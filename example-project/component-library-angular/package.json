@@ -14,6 +14,7 @@
     "build.ng": "pnpm run build.es2015 && pnpm run build.es5",
     "build.es2015": "ngc -p tsconfig.json && rollup --config ./scripts/rollup.config.mjs",
     "build.es5": "ngc -p tsconfig.legacy.json && rollup --config ./scripts/rollup.config.legacy.mjs",
+    "clean": "rimraf dist build src/directives",
     "lint": "echo \"lint not configured\" && exit 0",
     "prerelease": "pnpm run validate && np prerelease --yolo --any-branch --tag next",
     "prettier": "pnpm run prettier.base --write",
