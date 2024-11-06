@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { generateAngularModuleForComponent } from '../src/generate-angular-modules';
 
 describe('generateAngularModuleForComponent()', () => {

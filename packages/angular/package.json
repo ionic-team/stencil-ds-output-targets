@@ -27,8 +27,8 @@
     "prettier.base": "prettier \"./({angular-component-lib,src,test,__tests__}/**/*.{ts,tsx,js,jsx})|*.{ts,tsx,js,jsx}\"",
     "prettier.dry-run": "pnpm run prettier.base --list-different",
     "release": "np",
-    "test": "jest --passWithNoTests",
-    "test.watch": "jest --watch"
+    "test": "vitest --run",
+    "test.watch": "vitest"
   },
   "repository": {
     "type": "git",
@@ -44,12 +44,11 @@
     "@angular/core": "8.2.14",
     "@angular/forms": "8.2.14",
     "@types/node": "^18.0.0",
-    "jest": "^27.0.0",
-    "jest-environment-jsdom": "^27.0.0",
     "npm-run-all2": "^6.2.4",
     "rimraf": "^5.0.0",
     "rollup": "^2.23.1",
-    "typescript": "~5.6.0"
+    "typescript": "~5.6.0",
+    "vitest": "^2.1.4"
   },
   "peerDependencies": {
     "@stencil/core": ">=2.0.0 || >=3 || >= 4.0.0-beta.0 || >= 4.0.0"

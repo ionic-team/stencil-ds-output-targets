@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { createValueAccessor, ValueAccessor } from '../src/generate-value-accessors';
 import path from 'path';
 import fs from 'fs';

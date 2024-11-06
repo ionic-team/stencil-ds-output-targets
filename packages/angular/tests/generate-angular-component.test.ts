@@ -1,4 +1,5 @@
-import { ComponentCompilerProperty } from '@stencil/core/internal';
+import { describe, it, expect } from 'vitest';
+import type { ComponentCompilerProperty } from '@stencil/core/internal';
 import { createComponentTypeDefinition, createAngularComponentDefinition } from '../src/generate-angular-component';
 
 describe('createAngularComponentDefinition()', () => {
@@ -420,6 +421,7 @@ export declare interface MyComponent extends Components.MyComponent {
               resolved: '{ side: Side; }',
               references: {
                 Side: {
+                  id: '',
                   location: 'import',
                   path: '../../interfaces',
                 },
