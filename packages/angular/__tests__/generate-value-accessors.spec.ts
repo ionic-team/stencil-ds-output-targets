@@ -1,5 +1,4 @@
 import { createValueAccessor, ValueAccessor } from '../src/generate-value-accessors';
-import { EOL } from 'os';
 import path from 'path';
 import fs from 'fs';
 
@@ -41,7 +40,7 @@ export class TextValueAccessor extends ValueAccessor {
     super(el);
   }
 }`;
-    expect(finalText.trim()).toEqual(expectedOutput.trim().replace(/\n/g, EOL));
+    expect(finalText.trim()).toEqual(expectedOutput);
   });
   it('should create a valid {type}-value-accessor.ts file with the correct standalone option', () => {
     const valueAccessor: ValueAccessor = {
@@ -80,6 +79,6 @@ export class TextValueAccessor extends ValueAccessor {
     super(el);
   }
 }`;
-    expect(finalText.trim()).toEqual(expectedOutput.trim().replace(/\n/g, EOL));
+    expect(finalText.trim()).toEqual(expectedOutput);
   });
 });
