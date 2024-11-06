@@ -7,15 +7,15 @@ import { ValueAccessor } from './value-accessor';
   /* tslint:disable-next-line:directive-selector */
   selector: 'my-radio',
   host: {
-    '(mySelect)': 'handleChangeEvent($event.target.checked)',
+    '(mySelect)': 'handleChangeEvent($event.target.checked)'
   },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: RadioValueAccessor,
-      multi: true,
-    },
-  ],
+      multi: true
+    }
+  ]
 })
 export class RadioValueAccessor extends ValueAccessor {
   constructor(el: ElementRef) {

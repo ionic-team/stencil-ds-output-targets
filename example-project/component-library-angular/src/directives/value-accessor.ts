@@ -3,12 +3,9 @@ import { ControlValueAccessor } from '@angular/forms';
 
 @Directive({})
 export class ValueAccessor implements ControlValueAccessor {
-  private onChange: (value: any) => void = () => {
-    /**/
-  };
-  private onTouched: () => void = () => {
-    /**/
-  };
+
+  private onChange: (value: any) => void = () => {/**/};
+  private onTouched: () => void = () => {/**/};
   protected lastValue: any;
 
   constructor(protected el: ElementRef) {}
