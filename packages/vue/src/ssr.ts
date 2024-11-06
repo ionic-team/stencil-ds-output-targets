@@ -65,8 +65,8 @@ export function defineStencilSSRComponent(options: StencilSSRComponentOptions) {
               : undefined
             : `"${value}"`
           : Array.isArray(value) && value.every(isPrimitive)
-            ? JSON.stringify(value)
-            : undefined;
+          ? JSON.stringify(value)
+          : undefined;
         if (!propName || !propValue) {
           console.warn(
             `${LOG_PREFIX} ignore component property "${key}" for ${options.tagName} ` +
@@ -106,13 +106,10 @@ export function defineStencilSSRComponent(options: StencilSSRComponentOptions) {
         }
       );
     },
-    props: Object.entries(options.props || {}).reduce(
-      (acc, [key, value]) => {
-        acc[key] = value[0];
-        return acc;
-      },
-      {} as Record<string, Function | Object | Number | String>
-    ),
+    props: Object.entries(options.props || {}).reduce((acc, [key, value]) => {
+      acc[key] = value[0];
+      return acc;
+    }, {} as Record<string, Function | Object | Number | String>),
     /**
      * the template tags can be arbitrary as they will be replaced with above compiled template
      */
