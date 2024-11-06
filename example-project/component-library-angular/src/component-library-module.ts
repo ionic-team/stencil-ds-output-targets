@@ -3,6 +3,7 @@ import { defineCustomElements } from 'component-library/loader';
 
 import { BooleanValueAccessor } from './directives/boolean-value-accessor';
 import { NumericValueAccessor } from './directives/number-value-accessor';
+import { RadioValueAccessor } from './directives/radio-value-accessor';
 import { SelectValueAccessor } from './directives/select-value-accessor';
 import { TextValueAccessor } from './directives/text-value-accessor';
 import {
@@ -32,6 +33,7 @@ const DECLARATIONS = [
   // Value Accessors
   BooleanValueAccessor,
   NumericValueAccessor,
+  RadioValueAccessor,
   SelectValueAccessor,
   TextValueAccessor,
 ];
