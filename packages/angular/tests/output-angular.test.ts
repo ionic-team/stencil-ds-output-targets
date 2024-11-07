@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { ComponentCompilerEventComplexType, ComponentCompilerMeta } from '@stencil/core/internal';
 import { generateProxies } from '../src/output-angular';
 import { PackageJSON, OutputTargetAngular } from '../src/types';
@@ -51,7 +52,7 @@ describe('generateProxies', () => {
             complexType: {
               original: '',
               resolved: '',
-              references: { fakeReference: { location: 'local' } },
+              references: { fakeReference: { location: 'local', id: '' } },
             } as ComponentCompilerEventComplexType,
           },
         ],
@@ -92,7 +93,7 @@ describe('generateProxies', () => {
             complexType: {
               original: '',
               resolved: '',
-              references: { fakeReference: { location: 'local' } },
+              references: { fakeReference: { location: 'local', id: '' } },
             } as ComponentCompilerEventComplexType,
           },
         ],

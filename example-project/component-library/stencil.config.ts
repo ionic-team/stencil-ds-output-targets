@@ -29,6 +29,12 @@ const angularValueAccessorBindings: ValueAccessorConfig[] = [
     targetAttr: 'value',
     type: 'select',
   },
+  {
+    elementSelectors: ['my-radio'],
+    event: 'mySelect',
+    targetAttr: 'checked',
+    type: 'radio',
+  },
 ];
 
 const vueComponentModels: ComponentModelConfig[] = [

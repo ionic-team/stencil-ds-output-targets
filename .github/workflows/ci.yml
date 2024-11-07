@@ -38,6 +38,9 @@ jobs:
 
       - name: Test
         run: pnpm test
+
+      - name: Check Git Context
+        uses: ./.github/workflows/actions/check-git-context
   format:
     name: Format
     uses: ./.github/workflows/format.yml

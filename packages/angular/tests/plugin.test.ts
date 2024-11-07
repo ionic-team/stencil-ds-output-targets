@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { Config } from '@stencil/core/internal';
 import { OutputTargetAngular } from '../src/types';
 import { normalizeOutputTarget } from '../src/plugin';

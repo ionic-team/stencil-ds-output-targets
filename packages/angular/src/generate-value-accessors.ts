@@ -85,9 +85,10 @@ function copyResources(config: Config, resourcesFilesToCopy: string[], directory
     throw new Error('stencil is not properly initialized at this step. Notify the developer');
   }
   const copyTasks = resourcesFilesToCopy.map((rf) => {
+    const dest = path.resolve(directory, rf);
     return {
       src: path.join(__dirname, '../resources/control-value-accessors/', rf),
-      dest: path.join(directory, rf),
+      dest: path.extname(dest) ? path.dirname(dest) : dest,
       keepDirStructure: false,
       warn: false,
       ignore: [],
