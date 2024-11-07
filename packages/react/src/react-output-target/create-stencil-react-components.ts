@@ -14,14 +14,17 @@ export const createStencilReactComponents = ({
   customElementsDir,
   defaultExport = false,
   hydrateModule,
+  excludeServerSideRenderingFor,
 }: {
   components: ComponentCompilerMeta[];
   stencilPackageName: string;
   customElementsDir: string;
   defaultExport?: boolean;
   hydrateModule?: string;
+  excludeServerSideRenderingFor?: string[];
 }) => {
   const project = new Project({ useInMemoryFileSystem: true });
+  const excludeSSRComponents = excludeServerSideRenderingFor || [];
 
   /**
    * automatically attach the `use client` directive if we are not generating
@@ -170,11 +173,12 @@ import type { EventName, StencilReactComponent } from '@stencil/react-output-tar
         {
           name: reactTagName,
           type: `StencilReactComponent<${componentElement}, ${componentEventNamesType}>`,
-          initializer: hydrateModule
-            ? `typeof window !== 'undefined'
+          initializer:
+            hydrateModule && !excludeSSRComponents.includes(tagName)
+              ? `typeof window !== 'undefined'
               ? ${clientComponentCall}
               : ${serverComponentCall}`
-            : clientComponentCall,
+              : clientComponentCall,
         },
       ],
     });

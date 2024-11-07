@@ -35,6 +35,10 @@ export interface ReactOutputTargetOptions {
    * By default this value is undefined and server side rendering is disabled.
    */
   hydrateModule?: string;
+  /**
+   * Specify the components that should be excluded from server side rendering.
+   */
+  excludeServerSideRenderingFor?: string[];
 }
 
 const PLUGIN_NAME = 'react-output-target';
@@ -60,6 +64,7 @@ export const reactOutputTarget = ({
   excludeComponents,
   customElementsDir: customElementsDirOverride,
   hydrateModule,
+  excludeServerSideRenderingFor,
 }: ReactOutputTargetOptions): ReactOutputTarget => {
   let customElementsDir = DIST_CUSTOM_ELEMENTS_DEFAULT_DIR;
   return {
@@ -152,6 +157,7 @@ export const reactOutputTarget = ({
         excludeComponents,
         project,
         hydrateModule,
+        excludeServerSideRenderingFor,
       });
 
       await Promise.all(
