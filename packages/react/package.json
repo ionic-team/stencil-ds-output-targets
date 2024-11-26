@@ -77,6 +77,9 @@
       "browser": {
         "default": "./dist/react.js"
       },
+      "node": {
+        "default": "./dist/react.cjs"
+      },
       "default": "./dist/react.js"
     },
     "./ssr": {
