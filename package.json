@@ -54,5 +54,10 @@
   "engines": {
     "node": ">=20.10.0",
     "pnpm": ">=9.4.0"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "vue-tsc@2.1.10": "patches/vue-tsc@2.1.10.patch"
+    }
   }
 }

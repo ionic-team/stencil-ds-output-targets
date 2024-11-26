@@ -23,7 +23,7 @@
     "tsx": "^4.19.1",
     "typescript": "^5.5.3",
     "vite": "^5.4.8",
-    "vue-tsc": "^2.1.6",
+    "vue-tsc": "^2.1.10",
     "wdio-vite-service": "^1.0.9",
     "webdriverio": "^9.1.5"
   }
