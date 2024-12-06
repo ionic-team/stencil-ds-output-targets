@@ -8,9 +8,14 @@ import type { OutputType } from './types';
  *
  * @param prop A ComponentCompilerEvent or ComponentCompilerProperty to turn into a property declaration.
  * @param type The name of the type (e.g. 'string')
+ * @param inlinePropertyAsSetter Inlines the entire property as an empty Setter, to aid Angulars Compilerp
  * @returns The property declaration as a string.
  */
-function createPropertyDeclaration(prop: ComponentCompilerEvent | ComponentCompilerProperty, type: string): string {
+function createPropertyDeclaration(
+  prop: ComponentCompilerEvent | ComponentCompilerProperty,
+  type: string,
+  inlinePropertyAsSetter: boolean = false
+): string {
   const comment = createDocComment(prop.docs);
   let eventName = prop.name;
   if (/[-/]/.test(prop.name)) {
@@ -18,8 +23,14 @@ function createPropertyDeclaration(prop: ComponentCompilerEvent | ComponentCompi
     // https://github.com/ionic-team/stencil-ds-output-targets/issues/212
     eventName = `'${prop.name}'`;
   }
-  return `${comment.length > 0 ? `  ${comment}` : ''}
+
+  if (inlinePropertyAsSetter) {
+    return `${comment.length > 0 ? `  ${comment}` : ''}
+  set ${eventName}(_: ${type}) {};`;
+  } else {
+    return `${comment.length > 0 ? `  ${comment}` : ''}
   ${eventName}: ${type};`;
+  }
 }
 
 /**
@@ -79,10 +90,12 @@ export const createAngularComponentDefinition = (
   }
 
   const propertyDeclarations = inlineComponentProps.map((m) =>
-    createPropertyDeclaration(m, `Components.${tagNameAsPascal}['${m.name}']`)
+    createPropertyDeclaration(m, `Components.${tagNameAsPascal}['${m.name}']`, true)
   );
 
-  const propertiesDeclarationText = ['protected el: HTMLElement;', ...propertyDeclarations].join('\n  ');
+  const propertiesDeclarationText = [`protected el: HTML${tagNameAsPascal}Element;`, ...propertyDeclarations].join(
+    '\n  '
+  );
 
   /**
    * Notes on the generated output:
