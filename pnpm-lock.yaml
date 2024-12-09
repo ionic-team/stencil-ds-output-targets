@@ -15,7 +15,7 @@ importers:
     devDependencies:
       '@ionic/prettier-config':
         specifier: ^2.0.0
-        version: 2.1.2(prettier@3.4.1)
+        version: 2.1.2(prettier@3.4.2)
       lerna:
         specifier: ^8.0.0
         version: 8.1.9(encoding@0.1.13)
@@ -30,7 +30,7 @@ importers:
         version: 6.2.6
       prettier:
         specifier: ^3.3.3
-        version: 3.4.1
+        version: 3.4.2
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
@@ -8908,8 +8908,8 @@ packages:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
 
-  prettier@3.4.1:
-    resolution: {integrity: sha512-G+YdqtITVZmOJje6QkXQWzl3fSfMxFwm1tjTyo9exhkmWSqC4Yhd1+lug++IlR2mvRVAxEDDWYkQdeSztajqgg==}
+  prettier@3.4.2:
+    resolution: {integrity: sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -12984,9 +12984,9 @@ snapshots:
     dependencies:
       mute-stream: 1.0.0
 
-  '@ionic/prettier-config@2.1.2(prettier@3.4.1)':
+  '@ionic/prettier-config@2.1.2(prettier@3.4.2)':
     dependencies:
-      prettier: 3.4.1
+      prettier: 3.4.2
 
   '@ioredis/commands@1.2.0': {}
 
@@ -22028,7 +22028,7 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier@3.4.1: {}
+  prettier@3.4.2: {}
 
   pretty-bytes@6.1.1: {}
 
