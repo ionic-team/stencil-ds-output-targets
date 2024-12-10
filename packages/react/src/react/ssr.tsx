@@ -272,8 +272,7 @@ async function resolveComponentTypes<I extends HTMLElement>(children: React.Reac
       const newChild = {
         ...child,
         // Resolved type can have the type as a property
-        // type: typeof type === 'object' && 'type' in type ? type.type : type,
-        type,
+        type: typeof type === 'object' && 'type' in type ? type.type : type,
         props: newProps,
       };
 
