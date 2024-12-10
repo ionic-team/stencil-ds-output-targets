@@ -26,6 +26,8 @@ interface CreateComponentForServerSideRenderingOptions {
 
 type StencilProps<I extends HTMLElement> = WebComponentProps<I>;
 
+// Definition comes from React but is not exported or part of the types package
+// see https://github.com/facebook/react/blob/372ec00c0384cd2089651154ea7c67693ee3f2a5/packages/react/src/ReactLazy.js#L46
 type LazyComponent<T, P> = {
   $$typeof: symbol | number;
   _payload: P;
@@ -39,7 +41,7 @@ type ReactNodeExtended = ReactNode | Component<any, any, any> | LazyComponent<an
  * @param value - the value to check
  * @returns true if the value is a primitive, false otherwise
  */
-const isPrimitive = (value: any): value is string | number | boolean =>
+const isPrimitive = (value: unknown): value is string | number | boolean =>
   typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean';
 
 /**
@@ -47,21 +49,22 @@ const isPrimitive = (value: any): value is string | number | boolean =>
  * @param value - the value to check
  * @returns true if the value is empty, false otherwise
  */
-const isEmpty = (value: any): value is null | undefined => value === null || value === undefined;
+const isEmpty = (value: unknown): value is null | undefined => value === null || value === undefined;
 
 /**
  * returns true if the value is iterable, e.g. an array
  * @param value - the value to check
  * @returns true if the value is iterable, false otherwise
  */
-const isIterable = (value: any): value is Iterable<ReactNode> => Array.isArray(value);
+const isIterable = (value: unknown): value is Iterable<ReactNode> => Array.isArray(value);
 
 /**
  * returns true if the value is a promise
  * @param value - the value to check
  * @returns true if the value is a promise, false otherwise
  */
-const isPromise = (value: any): value is Promise<any> => value && typeof value.then === 'function';
+const isPromise = (value: unknown): value is Promise<any> =>
+  !!value && typeof value === 'object' && 'then' in value && typeof value.then === 'function';
 
 /**
  * returns true if the value is a JSX class element constructor
@@ -69,17 +72,17 @@ const isPromise = (value: any): value is Promise<any> => value && typeof value.t
  * @returns true if the value is a JSX class element constructor, false otherwise
  */
 const isJSXClassElementConstructor = (
-  value: any
+  value: unknown
 ): value is Exclude<JSXElementConstructor<any>, (props: any, legacyContext: any) => any> =>
-  /^\s*class\s+/.test(value.toString());
+  !!value && /^\s*class\s+/.test(value.toString());
 
 /**
  * returns true if the value is a lazy exotic component
  * @param value - the value to check
  * @returns true if the value is a lazy exotic component, false otherwise
  */
-const isLazyExoticComponent = (value: any): value is LazyComponent<any, any> =>
-  value && typeof value === 'object' && '_payload' in value;
+const isLazyExoticComponent = (value: unknown): value is LazyComponent<any, any> =>
+  !!value && typeof value === 'object' && '_payload' in value;
 
 /**
  * Transform a React component into a Stencil component for server side rendering. This logic is executed
