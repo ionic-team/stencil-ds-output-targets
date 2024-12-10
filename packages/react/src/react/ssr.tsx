@@ -1,8 +1,7 @@
-import React from 'react';
+import type { EventName, ReactWebComponent, WebComponentProps } from '@lit/react';
+import React, { Component, JSXElementConstructor, ReactNode } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import styleToCss from 'style-object-to-css-string';
-import type { EventName, ReactWebComponent, WebComponentProps } from '@lit/react';
-
 import { possibleStandardNames } from './constants';
 
 const LOG_PREFIX = '[react-output-target]';
@@ -27,14 +26,63 @@ interface CreateComponentForServerSideRenderingOptions {
 
 type StencilProps<I extends HTMLElement> = WebComponentProps<I>;
 
+// Definition comes from React but is not exported or part of the types package
+// see https://github.com/facebook/react/blob/372ec00c0384cd2089651154ea7c67693ee3f2a5/packages/react/src/ReactLazy.js#L46
+type LazyComponent<T, P> = {
+  $$typeof: symbol | number;
+  _payload: P;
+  _init: (payload: P) => T;
+};
+
+type ReactNodeExtended = ReactNode | Component<any, any, any> | LazyComponent<any, any>;
+
 /**
  * returns true if the value is a primitive, e.g. string, number, boolean
  * @param value - the value to check
  * @returns true if the value is a primitive, false otherwise
  */
-function isPrimitive(value: any) {
-  return typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean';
-}
+const isPrimitive = (value: unknown): value is string | number | boolean =>
+  typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean';
+
+/**
+ * returns true if the value is empty, e.g. null or undefined
+ * @param value - the value to check
+ * @returns true if the value is empty, false otherwise
+ */
+const isEmpty = (value: unknown): value is null | undefined => value === null || value === undefined;
+
+/**
+ * returns true if the value is iterable, e.g. an array
+ * @param value - the value to check
+ * @returns true if the value is iterable, false otherwise
+ */
+const isIterable = (value: unknown): value is Iterable<ReactNode> => Array.isArray(value);
+
+/**
+ * returns true if the value is a promise
+ * @param value - the value to check
+ * @returns true if the value is a promise, false otherwise
+ */
+const isPromise = (value: unknown): value is Promise<any> =>
+  !!value && typeof value === 'object' && 'then' in value && typeof value.then === 'function';
+
+/**
+ * returns true if the value is a JSX class element constructor
+ * @param value - the value to check
+ * @returns true if the value is a JSX class element constructor, false otherwise
+ */
+const isJSXClassElementConstructor = (
+  value: unknown
+): value is Exclude<JSXElementConstructor<any>, (props: any, legacyContext: any) => any> =>
+  !!value && /^\s*class\s+/.test(value.toString());
+
+/**
+ * returns true if the value is a lazy exotic component
+ * @param value - the value to check
+ * @returns true if the value is a lazy exotic component, false otherwise
+ */
+const isLazyExoticComponent = (value: unknown): value is LazyComponent<any, any> =>
+  !!value && typeof value === 'object' && '_payload' in value;
 
 /**
  * Transform a React component into a Stencil component for server side rendering. This logic is executed
@@ -218,64 +266,78 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
  * @param children - the children to resolve
  * @returns the resolved children
  */
-async function resolveComponentTypes<I extends HTMLElement>(children: React.ReactNode): Promise<React.ReactNode> {
-  if (typeof children === 'undefined') {
-    return;
-  }
-
+async function resolveComponentTypes(children: ReactNode): Promise<ReactNode> {
   /**
-   * if the children are a string we can return them as is, e.g.
-   * `<div>Hello World</div>`
+   * If the children are a empty or a primitive we can return them directly
+   * e.g. `Hello World` or `42` or `null`
    */
-  if (typeof children === 'string') {
+  if (isPrimitive(children) || isEmpty(children)) {
     return children;
   }
 
-  if (!children || !Array.isArray(children)) {
-    return [];
+  /**
+   * If the children are not iterable we make them an array, so we can map over them later
+   */
+  if (!isIterable(children)) {
+    children = [children];
   }
 
   return Promise.all(
-    children.map(async (child): Promise<string | StencilProps<I>> => {
-      if (typeof child === 'string') {
+    Array.from(children).map(async (child) => {
+      if (isPrimitive(child) || isEmpty(child)) {
         return child;
       }
 
-      const newProps = {
-        ...child.props,
-        children:
-          typeof child.props.children === 'string'
-            ? child.props.children
-            : await resolveComponentTypes(child.props.children),
-      };
-
-      let type = typeof child.type === 'function' ? await child.type(child.props) : child.type;
-      if (type._payload && 'then' in type._payload) {
-        type = {
-          ...type,
-          _payload: await type._payload,
-        };
+      if (isIterable(child)) {
+        return resolveComponentTypes(child);
       }
 
-      if (typeof type?._payload === 'function') {
-        type = {
-          ...type,
-          $$typeof: Symbol('react.element'),
-          _payload: await type._payload(child.props),
-        };
+      const { type, props } = child;
 
-        if (typeof type._payload.type === 'function') {
-          return type._payload.type(child.props);
+      let resolvedType: ReactNodeExtended = null;
+      if (typeof type === 'string') {
+        // Child is a primitive element like 'div'
+        resolvedType = type;
+      } else if (isJSXClassElementConstructor(type)) {
+        // Child is a Class Component
+        const instance = new type(props);
+        resolvedType = instance.render ? instance.render() : instance;
+      } else {
+        // Child is a Function Component because React Server
+        // Components can be a Promise we need to await it
+        resolvedType = await type(props);
+      }
+
+      // `resolvedType` can have a `type` property which is the actual component
+      if (!isEmpty(resolvedType) && !isPrimitive(resolvedType) && 'type' in resolvedType) {
+        resolvedType = resolvedType.type as any;
+      }
+
+      // If the resolved type is a lazy component we need to resolve it
+      if (isLazyExoticComponent(resolvedType)) {
+        if (isPromise(resolvedType._payload)) {
+          resolvedType = { ...resolvedType, _payload: await resolvedType._payload };
+        }
+        if (typeof resolvedType._payload === 'function') {
+          resolvedType = {
+            ...resolvedType,
+            $$typeof: Symbol('react.element'),
+            _payload: await resolvedType._payload(props),
+          };
+          if (typeof resolvedType._payload.type === 'function') {
+            return resolvedType._payload.type(props);
+          }
         }
       }
 
-      const newChild = {
+      return {
         ...child,
-        type,
-        props: newProps,
+        props: {
+          ...props,
+          children: await resolveComponentTypes(props.children),
+        },
+        type: resolvedType,
       };
-
-      return newChild;
     })
-  ) as Promise<React.ReactNode>;
+  );
 }
