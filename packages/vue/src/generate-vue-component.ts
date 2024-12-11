@@ -9,7 +9,9 @@ export const createComponentDefinition =
     const importAs = outputTarget.includeImportCustomElements ? 'define' + tagNameAsPascal : 'undefined';
 
     let props: string[] = [];
+    let emits: string[] = [];
     let propMap: Record<string, [string, string | undefined]> = {};
+
     if (Array.isArray(cmpMeta.properties) && cmpMeta.properties.length > 0) {
       props = cmpMeta.properties.map((prop) => `'${prop.name}'`);
 
@@ -21,7 +23,9 @@ export const createComponentDefinition =
     }
 
     if (Array.isArray(cmpMeta.events) && cmpMeta.events.length > 0) {
-      props = [...props, ...cmpMeta.events.map((event) => `'${event.name}'`)];
+      const events = (emits = cmpMeta.events.map((event) => `'${event.name}'`));
+      props = [...props, ...events];
+      emits = events;
 
       cmpMeta.events.forEach((event) => {
         const handlerName = `on${event.name[0].toUpperCase() + event.name.slice(1)}`;
@@ -55,6 +59,25 @@ export const ${tagNameAsPascal} = /*@__PURE__*/${ssrTernary}defineContainer<${co
 ]`;
       /**
        * If there are no props,
+       * but v-model is still used,
+       * make sure we pass in an empty array
+       * otherwise all of the defineContainer properties
+       * will be off by one space.
+       * Note: If you are using v-model then
+       * the props array should never be empty
+       * as there must be a prop for v-model to update,
+       * but this check is there so builds do not crash.
+       */
+    } else if (emits.length > 0) {
+      templateString += `, []`;
+    }
+
+    if (emits.length > 0) {
+      templateString += `, [
+  ${emits.length > 0 ? emits.join(',\n  ') : ''}
+]`;
+      /**
+       * If there are no Emits,
        * but v-model is still used,
        * make sure we pass in an empty array
        * otherwise all of the defineContainer properties

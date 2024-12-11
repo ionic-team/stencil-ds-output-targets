@@ -49,6 +49,9 @@ const getElementClasses = (
  * @prop componentProps - An array of properties on the
  * component. These usually match up with the @Prop definitions
  * in each component's TSX file.
+ * @prop emitProps - An array of for event listener on the Component.
+ * these usually match up with the @Event definitions
+ * in each compont's TSX file.
  * @prop customElement - An option custom element instance to pass
  * to customElements.define. Only set if `includeImportCustomElements: true` in your config.
  * @prop modelProp - The prop that v-model binds to (i.e. value)
@@ -58,6 +61,7 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
   name: string,
   defineCustomElement: any,
   componentProps: string[] = [],
+  emitProps: string[] = [],
   modelProp?: string,
   modelUpdateEvent?: string
 ) => {
@@ -102,6 +106,16 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
               modelPropValue = (e?.target as any)[modelProp];
               emit(UPDATE_VALUE_EVENT, modelPropValue);
             }
+          });
+        });
+
+        /**
+         * we register the event emmiter for @Event definitions
+         * so we can use @event
+         */
+        emitProps.forEach((eventName: string) => {
+          el.addEventListener(eventName, (e: Event) => {
+            emit(eventName, e);
           });
         });
       },
@@ -240,11 +254,34 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
       Container.props[componentProp] = DEFAULT_EMPTY_PROP;
     });
 
+    /**
+     * Add emit props to the component.
+     * This is necessary for Vue to know
+     * which events to listen to.
+     * @see https://v3.vuejs.org/guide/component-custom-events.html#event-names
+     */
+    emitProps.forEach((emitProp) => {
+      // @ts-expect-error
+      if (Array.isArray(Container.emits)) {
+        // @ts-expect-error
+        Container.emits.push(emitProp);
+      } else {
+        // @ts-expect-error
+        Container.emits = [emitProp];
+      }
+    });
+
     if (modelProp) {
       // @ts-expect-error
       Container.props[MODEL_VALUE] = DEFAULT_EMPTY_PROP;
       // @ts-expect-error
-      Container.emits = [UPDATE_VALUE_EVENT];
+      if (Array.isArray(Container.emits)) {
+        // @ts-expect-error
+        Container.emits.push(UPDATE_VALUE_EVENT);
+      } else {
+        // @ts-expect-error
+        Container.emits = [UPDATE_VALUE_EVENT];
+      }
     }
   }
 
