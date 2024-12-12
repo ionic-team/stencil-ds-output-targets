@@ -3,8 +3,6 @@ description: 'Releases a package'
 inputs:
   scope:
     description: 'The package to release. Must match a package specified in lerna.json.'
-  version:
-    description: 'The type of version to release.'
   tag:
     description: 'The tag to publish to on NPM (DRY RUN).'
   preid:
