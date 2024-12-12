@@ -44,17 +44,19 @@ describe('MyComponent', () => {
     expect(wrapper.props().kidsNames).toEqual(['billy', 'jane']);
   });
 
-  it('should get emits', async() => {
+  it('should get emits', async () => {
     const wrapper = mount(MyComponent);
     wrapper.vm.$emit('myCustomEvent');
     expect(wrapper.emitted()).toHaveProperty('myCustomEvent');
   });
 
-  it('should not emits on unknown event', async() => {
+  it('should not emits on unknown event', async () => {
     console.warn = vi.fn();
     const wrapper = mount(MyComponent);
     wrapper.vm.$emit('notMyCustomEvent');
     expect(wrapper.emitted()).toHaveProperty('notMyCustomEvent');
-    expect(console.warn).toHaveBeenCalledWith('[Vue warn]: Component emitted event "notMyCustomEvent" but it is neither declared in the emits option nor as an "onNotMyCustomEvent" prop.')
+    expect(console.warn).toHaveBeenCalledWith(
+      '[Vue warn]: Component emitted event "notMyCustomEvent" but it is neither declared in the emits option nor as an "onNotMyCustomEvent" prop.'
+    );
   });
 });

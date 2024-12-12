@@ -1,4 +1,4 @@
-import { defineComponent, DefineSetupFnComponent, getCurrentInstance, h, inject, ref, Ref, withDirectives } from 'vue';
+import { defineComponent, getCurrentInstance, h, inject, ref, Ref, withDirectives } from 'vue';
 
 export { defineStencilSSRComponent } from './ssr';
 export interface InputProps<T> {
@@ -243,12 +243,10 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
   if (typeof Container !== 'function') {
     let emits: string[] = [];
     let props: Record<string, unknown> = {};
-    // @ts-expect-error
-    Container.name = name;
 
     props.ROUTER_LINK_VALUE = DEFAULT_EMPTY_PROP;
 
-    componentProps.forEach((componentProp) => props[componentProp] = DEFAULT_EMPTY_PROP);
+    componentProps.forEach((componentProp) => (props[componentProp] = DEFAULT_EMPTY_PROP));
 
     emits = emitProps;
 
