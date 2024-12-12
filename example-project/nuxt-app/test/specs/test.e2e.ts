@@ -1,6 +1,6 @@
 import { expect, $, browser } from '@wdio/globals';
 
-describe('Stencil NextJS Integration', () => {
+describe('Stencil NuxtJS Integration', () => {
   it('should have hydrated the page', async () => {
     await browser.url('/');
     const input = await $('input[name="my-input-0"]');
