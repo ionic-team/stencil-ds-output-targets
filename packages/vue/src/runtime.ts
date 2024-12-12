@@ -1,8 +1,9 @@
-import { defineComponent, getCurrentInstance, h, inject, ref, Ref, withDirectives } from 'vue';
+import { defineComponent, DefineSetupFnComponent, getCurrentInstance, h, inject, ref, Ref, withDirectives } from 'vue';
 
 export { defineStencilSSRComponent } from './ssr';
 export interface InputProps<T> {
   modelValue?: T;
+  routerLink?: Symbol;
 }
 
 const UPDATE_VALUE_EVENT = 'update:modelValue';
@@ -59,7 +60,7 @@ const getElementClasses = (
  */
 export const defineContainer = <Props, VModelType = string | number | boolean>(
   name: string,
-  defineCustomElement: any,
+  defineCustomElement: () => void,
   componentProps: string[] = [],
   emitProps: string[] = [],
   modelProp?: string,
@@ -125,7 +126,6 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
     const hasRouter = currentInstance?.appContext?.provides[NAV_MANAGER];
     const navManager: NavManager | undefined = hasRouter ? inject(NAV_MANAGER) : undefined;
     const handleRouterLink = (ev: Event) => {
-      // @ts-expect-error
       const { routerLink } = props;
       if (routerLink === EMPTY_PROP) return;
 
@@ -241,18 +241,21 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
   });
 
   if (typeof Container !== 'function') {
+    let emits: string[] = [];
+    let props: Record<string, unknown> = {};
     // @ts-expect-error
     Container.name = name;
 
-    // @ts-expect-error
-    Container.props = {
-      [ROUTER_LINK_VALUE]: DEFAULT_EMPTY_PROP,
-    };
+    props.ROUTER_LINK_VALUE = DEFAULT_EMPTY_PROP;
 
-    componentProps.forEach((componentProp) => {
-      // @ts-expect-error
-      Container.props[componentProp] = DEFAULT_EMPTY_PROP;
-    });
+    componentProps.forEach((componentProp) => props[componentProp] = DEFAULT_EMPTY_PROP);
+
+    emits = emitProps;
+
+    if (modelProp) {
+      props.MODEL_VALUE = DEFAULT_EMPTY_PROP;
+      emits.push(UPDATE_VALUE_EVENT);
+    }
 
     /**
      * Add emit props to the component.
@@ -260,29 +263,12 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
      * which events to listen to.
      * @see https://v3.vuejs.org/guide/component-custom-events.html#event-names
      */
-    emitProps.forEach((emitProp) => {
-      // @ts-expect-error
-      if (Array.isArray(Container.emits)) {
-        // @ts-expect-error
-        Container.emits.push(emitProp);
-      } else {
-        // @ts-expect-error
-        Container.emits = [emitProp];
-      }
-    });
-
-    if (modelProp) {
-      // @ts-expect-error
-      Container.props[MODEL_VALUE] = DEFAULT_EMPTY_PROP;
-      // @ts-expect-error
-      if (Array.isArray(Container.emits)) {
-        // @ts-expect-error
-        Container.emits.push(UPDATE_VALUE_EVENT);
-      } else {
-        // @ts-expect-error
-        Container.emits = [UPDATE_VALUE_EVENT];
-      }
-    }
+    // @ts-expect-error
+    Container.name = name;
+    // @ts-expect-error
+    Container.emits = emits;
+    // @ts-expect-error
+    Container.props = props;
   }
 
   return Container;
