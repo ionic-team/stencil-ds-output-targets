@@ -28,10 +28,6 @@ runs:
       run: pnpm --filter ${{ inputs.scope }} install
       shell: bash
       working-directory: ${{ inputs.working-directory }}
-    - name: Update Version
-      run: npx lerna version ${{ inputs.version }} --yes --exact --no-changelog --no-git-tag-version --preid=${{ inputs.preid }} --force-publish
-      shell: bash
-      working-directory: ${{ inputs.working-directory }}
     - name: Run Build
       run: pnpm run build
       shell: bash
