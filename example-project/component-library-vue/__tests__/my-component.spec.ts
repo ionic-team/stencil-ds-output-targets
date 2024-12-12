@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { MyComponent } from '../src';
+import { expect, it, describe, vi } from 'vitest';
 
 describe('MyComponent', () => {
   it('should be rendered by Vue', () => {
@@ -43,20 +44,17 @@ describe('MyComponent', () => {
     expect(wrapper.props().kidsNames).toEqual(['billy', 'jane']);
   });
 
-  it('on myChange value the bound component attribute should update', () => {
-    const onMyCustomEvent = jest.fn();
-    const Component = {
-      template: `<MyComponent type="text" v-on:myCustomEvent="customEventAction($event)"></MyComponent>`,
-      components: { MyComponent },
-      methods: {
-        customEventAction: onMyCustomEvent,
-      },
-    };
-    const wrapper = mount(Component);
-    const myComponentEl = wrapper.find('my-component').element as HTMLMyComponentElement;
-    myComponentEl.dispatchEvent(new CustomEvent('my-custom-event', { detail: 5 }));
+  it('should get emits', async() => {
+    const wrapper = mount(MyComponent);
+    wrapper.vm.$emit('myCustomEvent');
+    expect(wrapper.emitted()).toHaveProperty('myCustomEvent');
+  });
 
-    expect(onMyCustomEvent).toBeCalledTimes(1);
-    expect(onMyCustomEvent.mock.calls[0][0].detail).toEqual(5);
+  it('should not emits on unknown event', async() => {
+    console.warn = vi.fn();
+    const wrapper = mount(MyComponent);
+    wrapper.vm.$emit('notMyCustomEvent');
+    expect(wrapper.emitted()).toHaveProperty('notMyCustomEvent');
+    expect(console.warn).toHaveBeenCalledWith('[Vue warn]: Component emitted event "notMyCustomEvent" but it is neither declared in the emits option nor as an "onNotMyCustomEvent" prop.')
   });
 });

@@ -15,7 +15,8 @@
     "dev": "pnpm run build.compile --watch",
     "prettier": "pnpm run prettier.base --write",
     "prettier.base": "prettier \"./({src,__tests__}/**/*.{ts,tsx,js,jsx})|*.{ts,tsx,js,jsx}\"",
-    "prettier.dry-run": "pnpm run prettier.base --list-different"
+    "prettier.dry-run": "pnpm run prettier.base --list-different",
+    "test": "vitest run"
   },
   "type": "module",
   "exports": {
@@ -26,12 +27,14 @@
   },
   "types": "./dist/index.d.ts",
   "devDependencies": {
-    "rimraf": "^6.0.1",
+    "@vue/test-utils": "^2.4.6",
     "npm-run-all2": "^6.2.3",
-    "typescript": "^5.6.2"
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.8"
   },
   "dependencies": {
-    "component-library": "workspace:*",
-    "@stencil/vue-output-target": "workspace:*"
+    "@stencil/vue-output-target": "workspace:*",
+    "component-library": "workspace:*"
   }
 }

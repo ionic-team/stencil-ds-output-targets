@@ -2,7 +2,7 @@
 /// <reference types="@wdio/mocha-framework" />
 import { expect, $, $$, browser } from '@wdio/globals';
 
-describe('Stencil NextJS Integration', () => {
+describe('Stencil Vue Integration', () => {
   before(() => browser.url('/'));
 
   it('should allow to interact with input element', async () => {
