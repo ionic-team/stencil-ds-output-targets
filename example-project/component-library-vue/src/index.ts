@@ -31,6 +31,9 @@ export const MyButton = /*@__PURE__*/ globalThis.window ? defineContainer<JSX.My
   'type',
   'myFocus',
   'myBlur'
+], [
+  'myFocus',
+  'myBlur'
 ]) : defineStencilSSRComponent({
   tagName: 'my-button',
   hydrateModule: import('component-library/hydrate'),
@@ -65,6 +68,11 @@ export const MyCheckbox = /*@__PURE__*/ globalThis.window ? defineContainer<JSX.
   'myFocus',
   'myBlur',
   'myStyle'
+], [
+  'myChange',
+  'myFocus',
+  'myBlur',
+  'myStyle'
 ],
 'checked', 'myChange') : defineStencilSSRComponent({
   tagName: 'my-checkbox',
@@ -91,6 +99,8 @@ export const MyComponent = /*@__PURE__*/ globalThis.window ? defineContainer<JSX
   'age',
   'kidsNames',
   'favoriteKidName',
+  'myCustomEvent'
+], [
   'myCustomEvent'
 ]) : defineStencilSSRComponent({
   tagName: 'my-component',
@@ -133,6 +143,11 @@ export const MyInput = /*@__PURE__*/ globalThis.window ? defineContainer<JSX.MyI
   'size',
   'type',
   'value',
+  'myInput',
+  'myChange',
+  'myBlur',
+  'myFocus'
+], [
   'myInput',
   'myChange',
   'myBlur',
@@ -189,6 +204,11 @@ export const MyPopover = /*@__PURE__*/ globalThis.window ? defineContainer<JSX.M
   'myPopoverWillPresent',
   'myPopoverWillDismiss',
   'myPopoverDidDismiss'
+], [
+  'myPopoverDidPresent',
+  'myPopoverWillPresent',
+  'myPopoverWillDismiss',
+  'myPopoverDidDismiss'
 ]) : defineStencilSSRComponent({
   tagName: 'my-popover',
   hydrateModule: import('component-library/hydrate'),
@@ -217,6 +237,11 @@ export const MyRadio = /*@__PURE__*/ globalThis.window ? defineContainer<JSX.MyR
   'myFocus',
   'myBlur',
   'mySelect'
+], [
+  'myStyle',
+  'myFocus',
+  'myBlur',
+  'mySelect'
 ]) : defineStencilSSRComponent({
   tagName: 'my-radio',
   hydrateModule: import('component-library/hydrate'),
@@ -236,6 +261,8 @@ export const MyRadioGroup = /*@__PURE__*/ globalThis.window ? defineContainer<JS
   'allowEmptySelection',
   'name',
   'value',
+  'myChange'
+], [
   'myChange'
 ],
 'value', 'myChange') : defineStencilSSRComponent({
@@ -262,6 +289,11 @@ export const MyRange = /*@__PURE__*/ globalThis.window ? defineContainer<JSX.MyR
   'ticks',
   'disabled',
   'value',
+  'myChange',
+  'myStyle',
+  'myFocus',
+  'myBlur'
+], [
   'myChange',
   'myStyle',
   'myFocus',
