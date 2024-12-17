@@ -47,8 +47,8 @@ import { ${importKeys.join(', ')} } from '@stencil/vue-output-target/runtime';\n
 
   const generateTypeImports = () => {
     if (outputTarget.componentCorePackage !== undefined) {
-      const dirPath = outputTarget.includeImportCustomElements
-        ? `/${outputTarget.customElementsDir || 'components'}`
+      const dirPath = outputTarget.includeImportCustomElements && outputTarget.customElementsDir
+        ? `/${outputTarget.customElementsDir}`
         : '';
       return `import type { ${IMPORT_TYPES} } from '${normalizePath(outputTarget.componentCorePackage)}${dirPath}';\n`;
     }

@@ -3,7 +3,7 @@
 /* auto-generated vue proxies */
 import { defineContainer, defineStencilSSRComponent } from '@stencil/vue-output-target/runtime';
 
-import type { JSX } from 'component-library/components';
+import type { JSX } from 'component-library';
 
 import { defineCustomElement as defineMyButton } from 'component-library/components/my-button.js';
 import { defineCustomElement as defineMyCheckbox } from 'component-library/components/my-checkbox.js';
