@@ -145,12 +145,14 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
       /**
        * if rendering the light DOM fails, we log a warning and continue to render the component
        */
-      const error = err instanceof Error ? err : new Error('Unknown error');
-      console.warn(
-        `${LOG_PREFIX} Failed to serialize light DOM for ${toSerialize.slice(0, -1)} />: ${
-          error.message
-        } - this may impact the hydration of the component`
-      );
+      if (process.env.STENCIL_SSR_DEBUG) {
+        const error = err instanceof Error ? err : new Error('Unknown error');
+        console.warn(
+          `${LOG_PREFIX} Failed to serialize light DOM for ${toSerialize.slice(0, -1)} />: ${
+            error.message
+          } - this may impact the hydration of the component`
+        );
+      }
     }
 
     const toSerializeWithChildren = `${toSerialize}${serializedChildren}</${options.tagName}>`;
