@@ -64,7 +64,6 @@
     "@stencil/core": "^4.22.3",
     "@stencil/react-output-target": "workspace:*",
     "@stencil/vue-output-target": "workspace:*",
-    "@types/puppeteer": "2.0.1",
-    "jest-cli": "26.0.1"
+    "@types/puppeteer": "2.0.1"
   }
 }

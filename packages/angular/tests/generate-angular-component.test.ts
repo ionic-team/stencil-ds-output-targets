@@ -338,6 +338,46 @@ describe('createComponentTypeDefinition()', () => {
         tags: [],
       },
     },
+    {
+      name: 'myCustomEvent',
+      method: 'myCustomEvent',
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+      docs: { tags: [], text: 'Testing an event type with a dot signature' },
+      complexType: {
+        original: 'IMyComponent.someVar',
+        resolved: 'number',
+        references: {
+          IMyComponent: {
+            location: 'import',
+            path: '../helpers',
+            id: 'src/components/helpers.ts::IMyComponent'
+          }
+        }
+      },
+      internal: false
+    },
+    {
+      name: 'myCustomNestedEvent',
+      method: 'myCustomNestedEvent',
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+      docs: { tags: [], text: 'Testing with nested namespaces' },
+      complexType: {
+        original: 'IMyComponent.SomeMoreComplexType.SubType',
+        resolved: 'string',
+        references: {
+          IMyComponent: {
+            location: 'import',
+            path: '../helpers',
+            id: 'src/components/helpers.ts::IMyComponent'
+          }
+        }
+      },
+      internal: false
+    }
   ];
 
   describe('www build', () => {
@@ -350,6 +390,7 @@ import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core';
 import type { MyDoclessEvent as IMyComponentMyDoclessEvent } from '@ionic/core';
 import type { MyKebabEvent as IMyComponentMyKebabEvent } from '@ionic/core';
 import type { MySlashEvent as IMyComponentMySlashEvent } from '@ionic/core';
+import type { IMyComponent as IMyComponentIMyComponent } from '@ionic/core';
 
 export declare interface MyComponent extends Components.MyComponent {
   /**
@@ -366,6 +407,14 @@ export declare interface MyComponent extends Components.MyComponent {
   'my-kebab-event': EventEmitter<CustomEvent<IMyComponentMyKebabEvent>>;
 
   'my/slash/event': EventEmitter<CustomEvent<IMyComponentMySlashEvent>>;
+  /**
+   * Testing an event type with a dot signature
+   */
+  myCustomEvent: EventEmitter<CustomEvent<IMyComponentIMyComponent.someVar>>;
+  /**
+   * Testing with nested namespaces
+   */
+  myCustomNestedEvent: EventEmitter<CustomEvent<IMyComponentIMyComponent.SomeMoreComplexType.SubType>>;
 }`
       );
     });
@@ -465,6 +514,7 @@ import type { MyOtherEvent as IMyComponentMyOtherEvent } from '@ionic/core/custo
 import type { MyDoclessEvent as IMyComponentMyDoclessEvent } from '@ionic/core/custom-elements';
 import type { MyKebabEvent as IMyComponentMyKebabEvent } from '@ionic/core/custom-elements';
 import type { MySlashEvent as IMyComponentMySlashEvent } from '@ionic/core/custom-elements';
+import type { IMyComponent as IMyComponentIMyComponent } from '@ionic/core/custom-elements';
 
 export declare interface MyComponent extends Components.MyComponent {
   /**
@@ -481,6 +531,14 @@ export declare interface MyComponent extends Components.MyComponent {
   'my-kebab-event': EventEmitter<CustomEvent<IMyComponentMyKebabEvent>>;
 
   'my/slash/event': EventEmitter<CustomEvent<IMyComponentMySlashEvent>>;
+  /**
+   * Testing an event type with a dot signature
+   */
+  myCustomEvent: EventEmitter<CustomEvent<IMyComponentIMyComponent.someVar>>;
+  /**
+   * Testing with nested namespaces
+   */
+  myCustomNestedEvent: EventEmitter<CustomEvent<IMyComponentIMyComponent.SomeMoreComplexType.SubType>>;
 }`
         );
       });

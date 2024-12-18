@@ -153,3 +153,11 @@ export const onceEvent = (element: HTMLElement, eventName: string, callback: (ev
   };
   element.addEventListener(eventName, handler);
 };
+
+export declare namespace IMyComponent {
+  /** Variables */
+  export type someVar = number;
+  export namespace SomeMoreComplexType {
+    export type SubType = string;
+  }
+}

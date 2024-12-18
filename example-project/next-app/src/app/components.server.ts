@@ -10,7 +10,7 @@
 
 import type { EventName, StencilReactComponent } from '@stencil/react-output-target/runtime';
 import { createComponent, createSSRComponent } from '@stencil/react-output-target/runtime';
-import { type CheckboxChangeEventDetail, type InputChangeEventDetail, type MyCheckboxCustomEvent, type MyInputCustomEvent, type MyPopoverCustomEvent, type MyRadioGroupCustomEvent, type MyRangeCustomEvent, type OverlayEventDetail, type RadioGroupChangeEventDetail, type RangeChangeEventDetail } from "component-library";
+import { type CheckboxChangeEventDetail, type IMyComponent, type InputChangeEventDetail, type MyCheckboxCustomEvent, type MyComponentCustomEvent, type MyInputCustomEvent, type MyPopoverCustomEvent, type MyRadioGroupCustomEvent, type MyRangeCustomEvent, type OverlayEventDetail, type RadioGroupChangeEventDetail, type RangeChangeEventDetail } from "component-library";
 import { MyButton as MyButtonElement, defineCustomElement as defineMyButton } from "component-library/components/my-button.js";
 import { MyCheckbox as MyCheckboxElement, defineCustomElement as defineMyCheckbox } from "component-library/components/my-checkbox.js";
 import { MyComponent as MyComponentElement, defineCustomElement as defineMyComponent } from "component-library/components/my-component.js";
@@ -90,7 +90,10 @@ export const MyCheckbox: StencilReactComponent<MyCheckboxElement, MyCheckboxEven
         hydrateModule: import('component-library/hydrate')
     });
 
-type MyComponentEvents = { onMyCustomEvent: EventName<CustomEvent<number>> };
+type MyComponentEvents = {
+    onMyCustomEvent: EventName<MyComponentCustomEvent<IMyComponent.someVar>>,
+    onMyCustomNestedEvent: EventName<MyComponentCustomEvent<IMyComponent.SomeMoreComplexType.SubType>>
+};
 
 export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentEvents> = typeof window !== 'undefined'
     ? /*@__PURE__*/ createComponent<MyComponentElement, MyComponentEvents>({
@@ -98,7 +101,10 @@ export const MyComponent: StencilReactComponent<MyComponentElement, MyComponentE
         elementClass: MyComponentElement,
         // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
         react: React,
-        events: { onMyCustomEvent: 'myCustomEvent' } as MyComponentEvents,
+        events: {
+            onMyCustomEvent: 'myCustomEvent',
+            onMyCustomNestedEvent: 'myCustomNestedEvent'
+        } as MyComponentEvents,
         defineCustomElement: defineMyComponent
     })
     : /*@__PURE__*/ createSSRComponent<MyComponentElement, MyComponentEvents>({

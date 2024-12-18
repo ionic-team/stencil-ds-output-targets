@@ -29,7 +29,7 @@ describe('generateProxies', () => {
 
     const finalText = generateProxies(components, pkgData, outputTarget, rootDir);
     expect(finalText).not.toContain(`import { Components } from 'component-library';`);
-    expect(finalText.includes(`import { Components } from '../../angular/dist/types/components';`)).toBeTruthy();
+    expect(finalText).toContain(`import { Components } from '../../angular/dist/types/components';`);
   });
 
   it('should include output related imports when there is component with not internal event', () => {

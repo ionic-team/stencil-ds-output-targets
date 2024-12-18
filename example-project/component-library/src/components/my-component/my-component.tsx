@@ -1,4 +1,5 @@
 import { Component, Prop, h, Event, EventEmitter } from '@stencil/core';
+import type { IMyComponent } from '../helpers';
 
 @Component({
   tag: 'my-component',
@@ -39,7 +40,12 @@ export class MyComponent {
   /**
    * Testing an event without value
    */
-  @Event() myCustomEvent: EventEmitter<number>;
+  @Event() myCustomEvent: EventEmitter<IMyComponent.someVar>;
+
+  /**
+   * Testing with nested namespaces
+   */
+  @Event() myCustomNestedEvent: EventEmitter<IMyComponent.SomeMoreComplexType.SubType>;
 
   emitCustomEvent() {
     this.myCustomEvent.emit(5);

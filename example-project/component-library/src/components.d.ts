@@ -7,11 +7,13 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { AutocompleteTypes, Color, ComponentProps, ComponentRef, OverlayEventDetail, TextFieldTypes } from "./interfaces";
 import { CheckboxChangeEventDetail, Color as Color1, StyleEventDetail } from "./components/element-interface";
+import { IMyComponent } from "./components/helpers";
 import { InputChangeEventDetail } from "./components/my-input/my-input";
 import { RadioGroupChangeEventDetail } from "./components/my-radio-group/my-radio-group";
 import { RangeChangeEventDetail, RangeValue } from "./components/my-range/my-range";
 export { AutocompleteTypes, Color, ComponentProps, ComponentRef, OverlayEventDetail, TextFieldTypes } from "./interfaces";
 export { CheckboxChangeEventDetail, Color as Color1, StyleEventDetail } from "./components/element-interface";
+export { IMyComponent } from "./components/helpers";
 export { InputChangeEventDetail } from "./components/my-input/my-input";
 export { RadioGroupChangeEventDetail } from "./components/my-radio-group/my-radio-group";
 export { RangeChangeEventDetail, RangeValue } from "./components/my-range/my-range";
@@ -471,7 +473,8 @@ declare global {
         new (): HTMLMyCheckboxElement;
     };
     interface HTMLMyComponentElementEventMap {
-        "myCustomEvent": number;
+        "myCustomEvent": IMyComponent.someVar;
+        "myCustomNestedEvent": IMyComponent.SomeMoreComplexType.SubType;
     }
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
         addEventListener<K extends keyof HTMLMyComponentElementEventMap>(type: K, listener: (this: HTMLMyComponentElement, ev: MyComponentCustomEvent<HTMLMyComponentElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -736,7 +739,11 @@ declare namespace LocalJSX {
         /**
           * Testing an event without value
          */
-        "onMyCustomEvent"?: (event: MyComponentCustomEvent<number>) => void;
+        "onMyCustomEvent"?: (event: MyComponentCustomEvent<IMyComponent.someVar>) => void;
+        /**
+          * Testing with nested namespaces
+         */
+        "onMyCustomNestedEvent"?: (event: MyComponentCustomEvent<IMyComponent.SomeMoreComplexType.SubType>) => void;
     }
     interface MyInput {
         /**
