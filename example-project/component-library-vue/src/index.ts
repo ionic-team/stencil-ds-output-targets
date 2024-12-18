@@ -99,9 +99,11 @@ export const MyComponent = /*@__PURE__*/ globalThis.window ? defineContainer<JSX
   'age',
   'kidsNames',
   'favoriteKidName',
-  'myCustomEvent'
+  'myCustomEvent',
+  'myCustomNestedEvent'
 ], [
-  'myCustomEvent'
+  'myCustomEvent',
+  'myCustomNestedEvent'
 ]) : defineStencilSSRComponent({
   tagName: 'my-component',
   hydrateModule: import('component-library/hydrate'),
@@ -111,7 +113,8 @@ export const MyComponent = /*@__PURE__*/ globalThis.window ? defineContainer<JSX
     'last': [String, "last"],
     'age': [Number, "age"],
     'favoriteKidName': [String, "favorite-kid-name"],
-    'onMyCustomEvent': [Function]
+    'onMyCustomEvent': [Function],
+    'onMyCustomNestedEvent': [Function]
   }
 });
 

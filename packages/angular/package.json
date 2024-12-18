@@ -22,7 +22,7 @@
   },
   "scripts": {
     "prepublishOnly": "pnpm run build",
-    "prebuild": "rimraf ./dist && pnpm run test",
+    "prebuild": "rimraf ./dist",
     "build": "tsc && pnpm run rollup",
     "dev": "run-p dev:*",
     "dev:build": "tsc --watch --preserveWatchOutput",

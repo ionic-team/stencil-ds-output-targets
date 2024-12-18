@@ -92,16 +92,22 @@ export class MyComponent {
   constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
     c.detach();
     this.el = r.nativeElement;
-    proxyOutputs(this, this.el, ['myCustomEvent']);
+    proxyOutputs(this, this.el, ['myCustomEvent', 'myCustomNestedEvent']);
   }
 }
 
+
+import type { IMyComponent as IMyComponentIMyComponent } from 'component-library';
 
 export declare interface MyComponent extends Components.MyComponent {
   /**
    * Testing an event without value
    */
-  myCustomEvent: EventEmitter<CustomEvent<number>>;
+  myCustomEvent: EventEmitter<CustomEvent<IMyComponentIMyComponent.someVar>>;
+  /**
+   * Testing with nested namespaces
+   */
+  myCustomNestedEvent: EventEmitter<CustomEvent<IMyComponentIMyComponent.SomeMoreComplexType.SubType>>;
 }
 
 

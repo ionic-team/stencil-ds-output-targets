@@ -19,9 +19,10 @@
 
 ## Events
 
-| Event           | Description                    | Type                  |
-| --------------- | ------------------------------ | --------------------- |
-| `myCustomEvent` | Testing an event without value | `CustomEvent<number>` |
+| Event                 | Description                    | Type                  |
+| --------------------- | ------------------------------ | --------------------- |
+| `myCustomEvent`       | Testing an event without value | `CustomEvent<number>` |
+| `myCustomNestedEvent` | Testing with nested namespaces | `CustomEvent<string>` |
 
 
 ----------------------------------------------
