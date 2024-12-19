@@ -20,7 +20,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@wdio/cli": "^9.1.5",
+    "@wdio/cli": "^9.4.5",
     "@wdio/globals": "^9.1.5",
     "@wdio/local-runner": "^9.1.5",
     "@wdio/mocha-framework": "^9.1.3",
