@@ -1,15 +1,10 @@
 /// <reference types="@wdio/mocha-framework" />
 /// <reference types="webdriverio" />
-import { expect, $, browser } from '@wdio/globals';
+import { $, browser, expect } from '@wdio/globals';
 
 describe('Stencil NextJS Integration', () => {
   before(() => browser.url('/'));
 
-  /**
-   * ToDo(Christian): enhance the test by fetching the body response instead of the page source
-   *                  which doesn't contain the template contents. This feature is currently not
-   *                  available in WebDriver.
-   */
   it('should have hydrated the page', async () => {
     const source = await browser.getPageSource();
     // serializes component children
@@ -39,5 +34,5 @@ describe('Stencil NextJS Integration', () => {
 
   it('should propagate custom element styles', async () => {
     await expect($('my-component')).toHaveStyle({ backgroundColor: 'rgba(255,0,0,1)' });
-  })
+  });
 });
