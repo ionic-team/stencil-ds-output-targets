@@ -155,6 +155,48 @@ export declare interface MyInput extends Components.MyInput {
 
 
 @ProxyCmp({
+})
+@Component({
+  selector: 'my-list',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+  inputs: [],
+})
+export class MyList {
+  protected el: HTMLMyListElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface MyList extends Components.MyList {}
+
+
+@ProxyCmp({
+})
+@Component({
+  selector: 'my-list-item',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+  inputs: [],
+})
+export class MyListItem {
+  protected el: HTMLMyListItemElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface MyListItem extends Components.MyListItem {}
+
+
+@ProxyCmp({
   inputs: ['animated', 'backdropDismiss', 'component', 'componentProps', 'cssClass', 'event', 'keyboardClose', 'mode', 'showBackdrop', 'translucent'],
   methods: ['present', 'dismiss', 'onDidDismiss', 'onWillDismiss']
 })
@@ -299,5 +341,48 @@ export declare interface MyRange extends Components.MyRange {
    */
   myBlur: EventEmitter<CustomEvent<void>>;
 }
+
+
+@ProxyCmp({
+})
+@Component({
+  selector: 'my-toggle',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+  inputs: [],
+})
+export class MyToggle {
+  protected el: HTMLMyToggleElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface MyToggle extends Components.MyToggle {}
+
+
+@ProxyCmp({
+  inputs: ['visible']
+})
+@Component({
+  selector: 'my-toggle-content',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '<ng-content></ng-content>',
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+  inputs: ['visible'],
+})
+export class MyToggleContent {
+  protected el: HTMLMyToggleContentElement;
+  constructor(c: ChangeDetectorRef, r: ElementRef, protected z: NgZone) {
+    c.detach();
+    this.el = r.nativeElement;
+  }
+}
+
+
+export declare interface MyToggleContent extends Components.MyToggleContent {}
 
 

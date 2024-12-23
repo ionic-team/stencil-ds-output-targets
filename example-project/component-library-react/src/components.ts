@@ -14,10 +14,14 @@ import { MyButton as MyButtonElement, defineCustomElement as defineMyButton } fr
 import { MyCheckbox as MyCheckboxElement, defineCustomElement as defineMyCheckbox } from "component-library/components/my-checkbox.js";
 import { MyComponent as MyComponentElement, defineCustomElement as defineMyComponent } from "component-library/components/my-component.js";
 import { MyInput as MyInputElement, defineCustomElement as defineMyInput } from "component-library/components/my-input.js";
+import { MyListItem as MyListItemElement, defineCustomElement as defineMyListItem } from "component-library/components/my-list-item.js";
+import { MyList as MyListElement, defineCustomElement as defineMyList } from "component-library/components/my-list.js";
 import { MyPopover as MyPopoverElement, defineCustomElement as defineMyPopover } from "component-library/components/my-popover.js";
 import { MyRadioGroup as MyRadioGroupElement, defineCustomElement as defineMyRadioGroup } from "component-library/components/my-radio-group.js";
 import { MyRadio as MyRadioElement, defineCustomElement as defineMyRadio } from "component-library/components/my-radio.js";
 import { MyRange as MyRangeElement, defineCustomElement as defineMyRange } from "component-library/components/my-range.js";
+import { MyToggleContent as MyToggleContentElement, defineCustomElement as defineMyToggleContent } from "component-library/components/my-toggle-content.js";
+import { MyToggle as MyToggleElement, defineCustomElement as defineMyToggle } from "component-library/components/my-toggle.js";
 import React from 'react';
 
 type MyButtonEvents = {
@@ -94,6 +98,28 @@ export const MyInput: StencilReactComponent<MyInputElement, MyInputEvents> = /*@
     defineCustomElement: defineMyInput
 });
 
+type MyListEvents = NonNullable<unknown>;
+
+export const MyList: StencilReactComponent<MyListElement, MyListEvents> = /*@__PURE__*/ createComponent<MyListElement, MyListEvents>({
+    tagName: 'my-list',
+    elementClass: MyListElement,
+    // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
+    react: React,
+    events: {} as MyListEvents,
+    defineCustomElement: defineMyList
+});
+
+type MyListItemEvents = NonNullable<unknown>;
+
+export const MyListItem: StencilReactComponent<MyListItemElement, MyListItemEvents> = /*@__PURE__*/ createComponent<MyListItemElement, MyListItemEvents>({
+    tagName: 'my-list-item',
+    elementClass: MyListItemElement,
+    // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
+    react: React,
+    events: {} as MyListItemEvents,
+    defineCustomElement: defineMyListItem
+});
+
 type MyPopoverEvents = {
     onMyPopoverDidPresent: EventName<CustomEvent<void>>,
     onMyPopoverWillPresent: EventName<CustomEvent<void>>,
@@ -162,4 +188,26 @@ export const MyRange: StencilReactComponent<MyRangeElement, MyRangeEvents> = /*@
         onMyBlur: 'myBlur'
     } as MyRangeEvents,
     defineCustomElement: defineMyRange
+});
+
+type MyToggleEvents = NonNullable<unknown>;
+
+export const MyToggle: StencilReactComponent<MyToggleElement, MyToggleEvents> = /*@__PURE__*/ createComponent<MyToggleElement, MyToggleEvents>({
+    tagName: 'my-toggle',
+    elementClass: MyToggleElement,
+    // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
+    react: React,
+    events: {} as MyToggleEvents,
+    defineCustomElement: defineMyToggle
+});
+
+type MyToggleContentEvents = NonNullable<unknown>;
+
+export const MyToggleContent: StencilReactComponent<MyToggleContentElement, MyToggleContentEvents> = /*@__PURE__*/ createComponent<MyToggleContentElement, MyToggleContentEvents>({
+    tagName: 'my-toggle-content',
+    elementClass: MyToggleContentElement,
+    // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
+    react: React,
+    events: {} as MyToggleContentEvents,
+    defineCustomElement: defineMyToggleContent
 });

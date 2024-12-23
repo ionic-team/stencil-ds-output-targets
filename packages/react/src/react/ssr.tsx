@@ -34,7 +34,11 @@ type LazyComponent<T, P> = {
   _init: (payload: P) => T;
 };
 
-type ReactNodeExtended = ReactNode | Component<any, any, any> | LazyComponent<any, any>;
+type ReactNodeExtended =
+  | ReactNode
+  | Component<any, any, any>
+  | LazyComponent<any, any>
+  | ((props: any, deprecatedLegacyContext?: any) => ReactNode);
 
 /**
  * returns true if the value is a primitive, e.g. string, number, boolean
@@ -57,14 +61,6 @@ const isEmpty = (value: unknown): value is null | undefined => value === null ||
  * @returns true if the value is iterable, false otherwise
  */
 const isIterable = (value: unknown): value is Iterable<ReactNode> => Array.isArray(value);
-
-/**
- * returns true if the value is a promise
- * @param value - the value to check
- * @returns true if the value is a promise, false otherwise
- */
-const isPromise = (value: unknown): value is Promise<any> =>
-  !!value && typeof value === 'object' && 'then' in value && typeof value.then === 'function';
 
 /**
  * returns true if the value is a JSX class element constructor
@@ -139,8 +135,15 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
     let serializedChildren = '';
     const toSerialize = `<${options.tagName}${stringProps} suppressHydrationWarning="true">`;
     try {
+      const originalConsoleError = console.error;
+      // Ignore potential console errors during serialization
+      // as they are not relevant for the user and may cause confusion
+      if (!process.env.STENCIL_SSR_DEBUG) {
+        console.error = () => {};
+      }
       const awaitedChildren = await resolveComponentTypes(children);
       serializedChildren = ReactDOMServer.renderToString(awaitedChildren);
+      console.error = originalConsoleError;
     } catch (err: unknown) {
       /**
        * if rendering the light DOM fails, we log a warning and continue to render the component
@@ -296,50 +299,49 @@ async function resolveComponentTypes(children: ReactNode): Promise<ReactNode> {
 
       const { type, props } = child;
 
-      let resolvedType: ReactNodeExtended = null;
-      if (typeof type === 'string') {
-        // Child is a primitive element like 'div'
-        resolvedType = type;
-      } else if (isJSXClassElementConstructor(type)) {
-        // Child is a Class Component
-        const instance = new type(props);
-        resolvedType = instance.render ? instance.render() : instance;
-      } else {
-        // Child is a Function Component because React Server
-        // Components can be a Promise we need to await it
-        resolvedType = await type(props);
-      }
-
-      // `resolvedType` can have a `type` property which is the actual component
-      if (!isEmpty(resolvedType) && !isPrimitive(resolvedType) && 'type' in resolvedType) {
-        resolvedType = resolvedType.type as any;
-      }
-
-      // If the resolved type is a lazy component we need to resolve it
-      if (isLazyExoticComponent(resolvedType)) {
-        if (isPromise(resolvedType._payload)) {
-          resolvedType = { ...resolvedType, _payload: await resolvedType._payload };
-        }
-        if (typeof resolvedType._payload === 'function') {
-          resolvedType = {
-            ...resolvedType,
-            $$typeof: Symbol('react.element'),
-            _payload: await resolvedType._payload(props),
-          };
-          if (typeof resolvedType._payload.type === 'function') {
-            return resolvedType._payload.type(props);
-          }
-        }
-      }
-
       return {
         ...child,
         props: {
           ...props,
           children: await resolveComponentTypes(props.children),
         },
-        type: resolvedType,
-      };
+        type: await resolveType(type, props),
+      } as ReactNode;
     })
   );
 }
+
+// Resolve the component type to a primitive element type
+const resolveType = async (type: string | React.JSXElementConstructor<any>, props: any): Promise<ReactNodeExtended> => {
+  let resolvedType: ReactNodeExtended = null;
+
+  if (typeof type === 'string') {
+    // Child is a primitive element like 'div'
+    return type;
+  } else if (isJSXClassElementConstructor(type)) {
+    // Child is a Class Component
+    const instance = new type(props);
+    resolvedType = instance.render ? instance.render() : instance;
+  } else if (isLazyExoticComponent(type)) {
+    // Handle React Lazy Component
+    // https://github.com/facebook/react/blob/main/packages/react/src/ReactLazy.js
+    const payload = type._payload;
+    const { deault: lazyComponet } =
+      payload._status === -1 // Uninitialized = -1 so we need resolve the promise
+        ? await payload._result()
+        : payload._result;
+    // Now resolve the actual component type of the lazy component
+    resolvedType = await resolveType(lazyComponet, props);
+  } else if (typeof type !== 'object') {
+    // Child is a Function Component because React Server
+    // Components can be a Promise we need to await it
+    resolvedType = await type(props);
+  }
+
+  // Recursively resolve the component type until we have a primitive element type
+  if (!isEmpty(resolvedType) && !isPrimitive(resolvedType) && 'type' in resolvedType) {
+    resolvedType = await resolveType(resolvedType.type, props);
+  }
+
+  return resolvedType;
+};

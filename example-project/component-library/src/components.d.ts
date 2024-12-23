@@ -250,6 +250,10 @@ export namespace Components {
          */
         "value"?: string | number | null;
     }
+    interface MyList {
+    }
+    interface MyListItem {
+    }
     interface MyPopover {
         /**
           * If `true`, the popover will animate.
@@ -400,6 +404,11 @@ export namespace Components {
          */
         "value": RangeValue;
     }
+    interface MyToggle {
+    }
+    interface MyToggleContent {
+        "visible": boolean;
+    }
 }
 export interface MyButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -510,6 +519,18 @@ declare global {
         prototype: HTMLMyInputElement;
         new (): HTMLMyInputElement;
     };
+    interface HTMLMyListElement extends Components.MyList, HTMLStencilElement {
+    }
+    var HTMLMyListElement: {
+        prototype: HTMLMyListElement;
+        new (): HTMLMyListElement;
+    };
+    interface HTMLMyListItemElement extends Components.MyListItem, HTMLStencilElement {
+    }
+    var HTMLMyListItemElement: {
+        prototype: HTMLMyListItemElement;
+        new (): HTMLMyListItemElement;
+    };
     interface HTMLMyPopoverElementEventMap {
         "myPopoverDidPresent": void;
         "myPopoverWillPresent": void;
@@ -587,15 +608,31 @@ declare global {
         prototype: HTMLMyRangeElement;
         new (): HTMLMyRangeElement;
     };
+    interface HTMLMyToggleElement extends Components.MyToggle, HTMLStencilElement {
+    }
+    var HTMLMyToggleElement: {
+        prototype: HTMLMyToggleElement;
+        new (): HTMLMyToggleElement;
+    };
+    interface HTMLMyToggleContentElement extends Components.MyToggleContent, HTMLStencilElement {
+    }
+    var HTMLMyToggleContentElement: {
+        prototype: HTMLMyToggleContentElement;
+        new (): HTMLMyToggleContentElement;
+    };
     interface HTMLElementTagNameMap {
         "my-button": HTMLMyButtonElement;
         "my-checkbox": HTMLMyCheckboxElement;
         "my-component": HTMLMyComponentElement;
         "my-input": HTMLMyInputElement;
+        "my-list": HTMLMyListElement;
+        "my-list-item": HTMLMyListItemElement;
         "my-popover": HTMLMyPopoverElement;
         "my-radio": HTMLMyRadioElement;
         "my-radio-group": HTMLMyRadioGroupElement;
         "my-range": HTMLMyRangeElement;
+        "my-toggle": HTMLMyToggleElement;
+        "my-toggle-content": HTMLMyToggleContentElement;
     }
 }
 declare namespace LocalJSX {
@@ -871,6 +908,10 @@ declare namespace LocalJSX {
          */
         "value"?: string | number | null;
     }
+    interface MyList {
+    }
+    interface MyListItem {
+    }
     interface MyPopover {
         /**
           * If `true`, the popover will animate.
@@ -1055,15 +1096,24 @@ declare namespace LocalJSX {
          */
         "value"?: RangeValue;
     }
+    interface MyToggle {
+    }
+    interface MyToggleContent {
+        "visible"?: boolean;
+    }
     interface IntrinsicElements {
         "my-button": MyButton;
         "my-checkbox": MyCheckbox;
         "my-component": MyComponent;
         "my-input": MyInput;
+        "my-list": MyList;
+        "my-list-item": MyListItem;
         "my-popover": MyPopover;
         "my-radio": MyRadio;
         "my-radio-group": MyRadioGroup;
         "my-range": MyRange;
+        "my-toggle": MyToggle;
+        "my-toggle-content": MyToggleContent;
     }
 }
 export { LocalJSX as JSX };
@@ -1074,10 +1124,14 @@ declare module "@stencil/core" {
             "my-checkbox": LocalJSX.MyCheckbox & JSXBase.HTMLAttributes<HTMLMyCheckboxElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
             "my-input": LocalJSX.MyInput & JSXBase.HTMLAttributes<HTMLMyInputElement>;
+            "my-list": LocalJSX.MyList & JSXBase.HTMLAttributes<HTMLMyListElement>;
+            "my-list-item": LocalJSX.MyListItem & JSXBase.HTMLAttributes<HTMLMyListItemElement>;
             "my-popover": LocalJSX.MyPopover & JSXBase.HTMLAttributes<HTMLMyPopoverElement>;
             "my-radio": LocalJSX.MyRadio & JSXBase.HTMLAttributes<HTMLMyRadioElement>;
             "my-radio-group": LocalJSX.MyRadioGroup & JSXBase.HTMLAttributes<HTMLMyRadioGroupElement>;
             "my-range": LocalJSX.MyRange & JSXBase.HTMLAttributes<HTMLMyRangeElement>;
+            "my-toggle": LocalJSX.MyToggle & JSXBase.HTMLAttributes<HTMLMyToggleElement>;
+            "my-toggle-content": LocalJSX.MyToggleContent & JSXBase.HTMLAttributes<HTMLMyToggleContentElement>;
         }
     }
 }

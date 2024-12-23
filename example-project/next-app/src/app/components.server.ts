@@ -15,10 +15,14 @@ import { MyButton as MyButtonElement, defineCustomElement as defineMyButton } fr
 import { MyCheckbox as MyCheckboxElement, defineCustomElement as defineMyCheckbox } from "component-library/components/my-checkbox.js";
 import { MyComponent as MyComponentElement, defineCustomElement as defineMyComponent } from "component-library/components/my-component.js";
 import { MyInput as MyInputElement, defineCustomElement as defineMyInput } from "component-library/components/my-input.js";
+import { MyListItem as MyListItemElement, defineCustomElement as defineMyListItem } from "component-library/components/my-list-item.js";
+import { MyList as MyListElement, defineCustomElement as defineMyList } from "component-library/components/my-list.js";
 import { MyPopover as MyPopoverElement, defineCustomElement as defineMyPopover } from "component-library/components/my-popover.js";
 import { MyRadioGroup as MyRadioGroupElement, defineCustomElement as defineMyRadioGroup } from "component-library/components/my-radio-group.js";
 import { MyRadio as MyRadioElement, defineCustomElement as defineMyRadio } from "component-library/components/my-radio.js";
 import { MyRange as MyRangeElement, defineCustomElement as defineMyRange } from "component-library/components/my-range.js";
+import { MyToggleContent as MyToggleContentElement, defineCustomElement as defineMyToggleContent } from "component-library/components/my-toggle-content.js";
+import { MyToggle as MyToggleElement, defineCustomElement as defineMyToggle } from "component-library/components/my-toggle.js";
 import React from 'react';
 
 type MyButtonEvents = {
@@ -173,6 +177,40 @@ export const MyInput: StencilReactComponent<MyInputElement, MyInputEvents> = typ
         hydrateModule: import('component-library/hydrate')
     });
 
+type MyListEvents = NonNullable<unknown>;
+
+export const MyList: StencilReactComponent<MyListElement, MyListEvents> = typeof window !== 'undefined'
+    ? /*@__PURE__*/ createComponent<MyListElement, MyListEvents>({
+        tagName: 'my-list',
+        elementClass: MyListElement,
+        // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
+        react: React,
+        events: {} as MyListEvents,
+        defineCustomElement: defineMyList
+    })
+    : /*@__PURE__*/ createSSRComponent<MyListElement, MyListEvents>({
+        tagName: 'my-list',
+        properties: {},
+        hydrateModule: import('component-library/hydrate')
+    });
+
+type MyListItemEvents = NonNullable<unknown>;
+
+export const MyListItem: StencilReactComponent<MyListItemElement, MyListItemEvents> = typeof window !== 'undefined'
+    ? /*@__PURE__*/ createComponent<MyListItemElement, MyListItemEvents>({
+        tagName: 'my-list-item',
+        elementClass: MyListItemElement,
+        // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
+        react: React,
+        events: {} as MyListItemEvents,
+        defineCustomElement: defineMyListItem
+    })
+    : /*@__PURE__*/ createSSRComponent<MyListItemElement, MyListItemEvents>({
+        tagName: 'my-list-item',
+        properties: {},
+        hydrateModule: import('component-library/hydrate')
+    });
+
 type MyPopoverEvents = {
     onMyPopoverDidPresent: EventName<CustomEvent<void>>,
     onMyPopoverWillPresent: EventName<CustomEvent<void>>,
@@ -295,5 +333,39 @@ export const MyRange: StencilReactComponent<MyRangeElement, MyRangeEvents> = typ
             disabled: 'disabled',
             value: 'value'
         },
+        hydrateModule: import('component-library/hydrate')
+    });
+
+type MyToggleEvents = NonNullable<unknown>;
+
+export const MyToggle: StencilReactComponent<MyToggleElement, MyToggleEvents> = typeof window !== 'undefined'
+    ? /*@__PURE__*/ createComponent<MyToggleElement, MyToggleEvents>({
+        tagName: 'my-toggle',
+        elementClass: MyToggleElement,
+        // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
+        react: React,
+        events: {} as MyToggleEvents,
+        defineCustomElement: defineMyToggle
+    })
+    : /*@__PURE__*/ createSSRComponent<MyToggleElement, MyToggleEvents>({
+        tagName: 'my-toggle',
+        properties: {},
+        hydrateModule: import('component-library/hydrate')
+    });
+
+type MyToggleContentEvents = NonNullable<unknown>;
+
+export const MyToggleContent: StencilReactComponent<MyToggleContentElement, MyToggleContentEvents> = typeof window !== 'undefined'
+    ? /*@__PURE__*/ createComponent<MyToggleContentElement, MyToggleContentEvents>({
+        tagName: 'my-toggle-content',
+        elementClass: MyToggleContentElement,
+        // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
+        react: React,
+        events: {} as MyToggleContentEvents,
+        defineCustomElement: defineMyToggleContent
+    })
+    : /*@__PURE__*/ createSSRComponent<MyToggleContentElement, MyToggleContentEvents>({
+        tagName: 'my-toggle-content',
+        properties: { visible: 'visible' },
         hydrateModule: import('component-library/hydrate')
     });
