@@ -134,16 +134,15 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
      */
     let serializedChildren = '';
     const toSerialize = `<${options.tagName}${stringProps} suppressHydrationWarning="true">`;
+    const originalConsoleError = console.error;
     try {
-      const originalConsoleError = console.error;
-      // Ignore potential console errors during serialization
-      // as they are not relevant for the user and may cause confusion
+      // Ignore potential console errors during serialization (for example if a hook is used, which
+      // is not allowed in SSR) as they are not relevant for the user and may cause confusion
       if (!process.env.STENCIL_SSR_DEBUG) {
         console.error = () => {};
       }
       const awaitedChildren = await resolveComponentTypes(children);
       serializedChildren = ReactDOMServer.renderToString(awaitedChildren);
-      console.error = originalConsoleError;
     } catch (err: unknown) {
       /**
        * if rendering the light DOM fails, we log a warning and continue to render the component
@@ -156,6 +155,8 @@ export const createComponentForServerSideRendering = <I extends HTMLElement, E e
           } - this may impact the hydration of the component`
         );
       }
+    } finally {
+      console.error = originalConsoleError;
     }
 
     const toSerializeWithChildren = `${toSerialize}${serializedChildren}</${options.tagName}>`;
