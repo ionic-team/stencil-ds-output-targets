@@ -143,10 +143,10 @@ importers:
         version: 10.0.10
       '@types/react':
         specifier: ^18
-        version: 18.3.17
+        version: 18.3.18
       '@types/react-dom':
         specifier: ^18
-        version: 18.3.5(@types/react@18.3.17)
+        version: 18.3.5(@types/react@18.3.18)
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.8.1
         version: 8.18.1(@typescript-eslint/parser@8.18.1(eslint@8.57.1)(typescript@5.7.2))(eslint@8.57.1)(typescript@5.7.2)
@@ -228,7 +228,7 @@ importers:
     dependencies:
       html-react-parser:
         specifier: ^5.1.18
-        version: 5.2.1(@types/react@18.3.17)(react@18.3.1)
+        version: 5.2.1(@types/react@18.3.18)(react@18.3.1)
       next:
         specifier: 14.2.15
         version: 14.2.15(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.71.1)
@@ -247,10 +247,10 @@ importers:
         version: 20.17.10
       '@types/react':
         specifier: ^18
-        version: 18.3.17
+        version: 18.3.18
       '@types/react-dom':
         specifier: ^18
-        version: 18.3.5(@types/react@18.3.17)
+        version: 18.3.5(@types/react@18.3.18)
       '@wdio/cli':
         specifier: ^9.4.5
         version: 9.4.5
@@ -406,7 +406,7 @@ importers:
         version: 5.0.10
       rollup:
         specifier: ^2.23.1
-        version: 4.29.0
+        version: 2.79.2
       typescript:
         specifier: ~5.7.0
         version: 5.7.2
@@ -418,13 +418,13 @@ importers:
     dependencies:
       '@lit/react':
         specifier: ^1.0.4
-        version: 1.0.6(@types/react@18.3.17)
+        version: 1.0.6(@types/react@18.3.18)
       '@stencil/core':
         specifier: '>=3 || >= 4.0.0-beta.0 || >= 4.0.0'
         version: 4.23.0
       html-react-parser:
         specifier: ^5.1.10
-        version: 5.2.1(@types/react@18.3.17)(react@18.3.1)
+        version: 5.2.1(@types/react@18.3.18)(react@18.3.1)
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
@@ -440,10 +440,10 @@ importers:
         version: 20.17.10
       '@types/react':
         specifier: ^18
-        version: 18.3.17
+        version: 18.3.18
       '@types/react-dom':
         specifier: ^18
-        version: 18.3.5(@types/react@18.3.17)
+        version: 18.3.5(@types/react@18.3.18)
       npm-run-all2:
         specifier: ^6.2.4
         version: 6.2.6
@@ -3225,8 +3225,8 @@ packages:
     peerDependencies:
       '@types/react': ^18.0.0
 
-  '@types/react@18.3.17':
-    resolution: {integrity: sha512-opAQ5no6LqJNo9TqnxBKsgnkIYHozW9KSTlFVoSUJYh1Fl/sswkEoqIugRSm7tbh6pABtYjGAjW+GOS23j8qbw==}
+  '@types/react@18.3.18':
+    resolution: {integrity: sha512-t4yC+vtgnkYjNSKlFx1jkAhH8LgTo2N/7Qvi83kdEaUtMDiwpbLAktKDaAMlRcJ5eSxZkH74eEGt1ky31d7kfQ==}
 
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
@@ -8780,6 +8780,11 @@ packages:
       rollup:
         optional: true
 
+  rollup@2.79.2:
+    resolution: {integrity: sha512-fS6iqSPZDs3dr/y7Od6y5nha8dW1YnbgtsyotCVvoFGKbERG++CVRFv1meyGDE1SNItQA8BrnCw7ScdAhRJ3XQ==}
+    engines: {node: '>=10.0.0'}
+    hasBin: true
+
   rollup@4.29.0:
     resolution: {integrity: sha512-pdftUn12oB9Qlka+Vpyc39R28D4NsP9Sz6neepSrekofJmWzPD1sxcSO9hEOxFF8+7Kz3sHvwSkkRREI28M1/w==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
@@ -12555,9 +12560,9 @@ snapshots:
       - supports-color
       - typescript
 
-  '@lit/react@1.0.6(@types/react@18.3.17)':
+  '@lit/react@1.0.6(@types/react@18.3.18)':
     dependencies:
-      '@types/react': 18.3.17
+      '@types/react': 18.3.18
 
   '@ljharb/through@2.3.13':
     dependencies:
@@ -13746,11 +13751,11 @@ snapshots:
 
   '@types/range-parser@1.2.7': {}
 
-  '@types/react-dom@18.3.5(@types/react@18.3.17)':
+  '@types/react-dom@18.3.5(@types/react@18.3.18)':
     dependencies:
-      '@types/react': 18.3.17
+      '@types/react': 18.3.18
 
-  '@types/react@18.3.17':
+  '@types/react@18.3.18':
     dependencies:
       '@types/prop-types': 15.7.14
       csstype: 3.1.3
@@ -17280,7 +17285,7 @@ snapshots:
 
   html-escaper@2.0.2: {}
 
-  html-react-parser@5.2.1(@types/react@18.3.17)(react@18.3.1):
+  html-react-parser@5.2.1(@types/react@18.3.18)(react@18.3.1):
     dependencies:
       domhandler: 5.0.3
       html-dom-parser: 5.0.12
@@ -17288,7 +17293,7 @@ snapshots:
       react-property: 2.0.2
       style-to-js: 1.1.16
     optionalDependencies:
-      '@types/react': 18.3.17
+      '@types/react': 18.3.18
 
   html-tags@3.3.1: {}
 
@@ -20830,6 +20835,10 @@ snapshots:
       yargs: 17.7.2
     optionalDependencies:
       rollup: 4.29.1
+
+  rollup@2.79.2:
+    optionalDependencies:
+      fsevents: 2.3.3
 
   rollup@4.29.0:
     dependencies:
