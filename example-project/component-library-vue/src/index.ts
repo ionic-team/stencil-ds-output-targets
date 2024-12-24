@@ -9,10 +9,14 @@ import { defineCustomElement as defineMyButton } from 'component-library/compone
 import { defineCustomElement as defineMyCheckbox } from 'component-library/components/my-checkbox.js';
 import { defineCustomElement as defineMyComponent } from 'component-library/components/my-component.js';
 import { defineCustomElement as defineMyInput } from 'component-library/components/my-input.js';
+import { defineCustomElement as defineMyList } from 'component-library/components/my-list.js';
+import { defineCustomElement as defineMyListItem } from 'component-library/components/my-list-item.js';
 import { defineCustomElement as defineMyPopover } from 'component-library/components/my-popover.js';
 import { defineCustomElement as defineMyRadio } from 'component-library/components/my-radio.js';
 import { defineCustomElement as defineMyRadioGroup } from 'component-library/components/my-radio-group.js';
 import { defineCustomElement as defineMyRange } from 'component-library/components/my-range.js';
+import { defineCustomElement as defineMyToggle } from 'component-library/components/my-toggle.js';
+import { defineCustomElement as defineMyToggleContent } from 'component-library/components/my-toggle-content.js';
 
 
 export const MyButton = /*@__PURE__*/ globalThis.window ? defineContainer<JSX.MyButton>('my-button', defineMyButton, [
@@ -193,6 +197,24 @@ export const MyInput = /*@__PURE__*/ globalThis.window ? defineContainer<JSX.MyI
 });
 
 
+export const MyList = /*@__PURE__*/ globalThis.window ? defineContainer<JSX.MyList>('my-list', defineMyList) : defineStencilSSRComponent({
+  tagName: 'my-list',
+  hydrateModule: import('component-library/hydrate'),
+  props: {
+    
+  }
+});
+
+
+export const MyListItem = /*@__PURE__*/ globalThis.window ? defineContainer<JSX.MyListItem>('my-list-item', defineMyListItem) : defineStencilSSRComponent({
+  tagName: 'my-list-item',
+  hydrateModule: import('component-library/hydrate'),
+  props: {
+    
+  }
+});
+
+
 export const MyPopover = /*@__PURE__*/ globalThis.window ? defineContainer<JSX.MyPopover>('my-popover', defineMyPopover, [
   'component',
   'componentProps',
@@ -322,6 +344,26 @@ export const MyRange = /*@__PURE__*/ globalThis.window ? defineContainer<JSX.MyR
     'onMyStyle': [Function],
     'onMyFocus': [Function],
     'onMyBlur': [Function]
+  }
+});
+
+
+export const MyToggle = /*@__PURE__*/ globalThis.window ? defineContainer<JSX.MyToggle>('my-toggle', defineMyToggle) : defineStencilSSRComponent({
+  tagName: 'my-toggle',
+  hydrateModule: import('component-library/hydrate'),
+  props: {
+    
+  }
+});
+
+
+export const MyToggleContent = /*@__PURE__*/ globalThis.window ? defineContainer<JSX.MyToggleContent>('my-toggle-content', defineMyToggleContent, [
+  'visible'
+]) : defineStencilSSRComponent({
+  tagName: 'my-toggle-content',
+  hydrateModule: import('component-library/hydrate'),
+  props: {
+    'visible': [Boolean, "visible"]
   }
 });
 
