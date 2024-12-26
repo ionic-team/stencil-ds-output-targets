@@ -1,10 +1,11 @@
-import Input from './Input/Input';
 import Button from './Button/Button';
-import { MyComponent, MyRange, MyRadioGroup } from './components';
+import { MyComponent, MyRadioGroup, MyRange } from './components';
+import Input from './Input/Input';
+import { ToggleableContent } from './ToggleableContent/ToggleableContent';
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <>
       <Input />
       <hr />
       <Button />
@@ -23,6 +24,7 @@ export default function Home() {
         <input type="radio" name="myRadioGroup" value="two" />
         <input type="radio" name="myRadioGroup" value="three" />
       </MyRadioGroup>
-    </main>
+      <ToggleableContent />
+    </>
   );
 }
