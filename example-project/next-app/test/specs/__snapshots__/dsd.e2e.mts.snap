@@ -1,6 +1,6 @@
 // Snapshot v1
 
-exports[`Declarative Shadow DOM > should render DSD of 'complex-use-client' correctly 1`] = `
+exports[`Static Declarative Shadow DOM (DSD) > should render DSD of 'complex-use-client' correctly 1`] = `
 "<my-toggle class="hydrated" s-id="47" suppresshydrationwarning="true"
   ><template shadowrootmode="open"
     ><!--r.X--><button c-id="X.0.0.0">
@@ -82,7 +82,7 @@ exports[`Declarative Shadow DOM > should render DSD of 'complex-use-client' corr
 "
 `;
 
-exports[`Declarative Shadow DOM > should render DSD of 'nested' correctly 1`] = `
+exports[`Static Declarative Shadow DOM (DSD) > should render DSD of 'nested' correctly 1`] = `
 "<my-list class="hydrated" s-id="27" suppresshydrationwarning="true"
   ><template shadowrootmode="open"
     ><!--r.X-->
@@ -111,7 +111,7 @@ exports[`Declarative Shadow DOM > should render DSD of 'nested' correctly 1`] = 
 "
 `;
 
-exports[`Declarative Shadow DOM > should render DSD of 'nested-with-react' correctly 1`] = `
+exports[`Static Declarative Shadow DOM (DSD) > should render DSD of 'nested-with-react' correctly 1`] = `
 "<my-list class="hydrated" s-id="33" suppresshydrationwarning="true"
   ><template shadowrootmode="open"
     ><!--r.X-->
@@ -144,7 +144,7 @@ exports[`Declarative Shadow DOM > should render DSD of 'nested-with-react' corre
 "
 `;
 
-exports[`Declarative Shadow DOM > should render DSD of 'simple' correctly 1`] = `
+exports[`Static Declarative Shadow DOM (DSD) > should render DSD of 'simple' correctly 1`] = `
 "<my-button
   class="button button-solid hydrated my-activatable my-focusable"
   href="#"
