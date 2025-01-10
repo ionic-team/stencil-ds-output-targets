@@ -2,7 +2,11 @@ import { MyButton, MyList, MyListItem } from '../../components';
 import { PureReactComponent } from '../../PureReactComponent/PureReactComponent';
 import { ToggleableContent } from '../../ToggleableContent/ToggleableContent';
 
-export default async function Page({ params }: { params: Promise<{ component: string }> }) {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ component: string }>;
+}) {
   const { component } = await params;
 
   switch (component) {
