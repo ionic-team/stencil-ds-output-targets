@@ -1,10 +1,13 @@
 {
   "name": "@stencil/vue-output-target",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "Vue output target for @stencil/core components.",
   "author": "Ionic Team",
   "homepage": "https://stenciljs.com/",
   "license": "MIT",
+  "files": [
+    "dist/"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ionic-team/stencil-ds-output-targets.git"
