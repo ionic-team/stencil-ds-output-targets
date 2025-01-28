@@ -244,14 +244,14 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
     let emits: string[] = [];
     let props: Record<string, unknown> = {};
 
-    props.ROUTER_LINK_VALUE = DEFAULT_EMPTY_PROP;
+    props[ROUTER_LINK_VALUE] = DEFAULT_EMPTY_PROP;
 
     componentProps.forEach((componentProp) => (props[componentProp] = DEFAULT_EMPTY_PROP));
 
     emits = emitProps;
 
     if (modelProp) {
-      props.MODEL_VALUE = DEFAULT_EMPTY_PROP;
+      props[MODEL_VALUE] = DEFAULT_EMPTY_PROP;
       emits.push(UPDATE_VALUE_EVENT);
     }
 
