@@ -251,7 +251,7 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
     emits = emitProps;
 
     if (modelProp) {
-      props.MODEL_VALUE = DEFAULT_EMPTY_PROP;
+      props[MODEL_VALUE] = DEFAULT_EMPTY_PROP;
       emits.push(UPDATE_VALUE_EVENT);
     }
 
