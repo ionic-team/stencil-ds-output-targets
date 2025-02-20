@@ -2,6 +2,13 @@
 import HelloWorld from './components/HelloWorld.vue'
 // @ts-ignore
 import Input from './components/Input.vue'
+import { MyComponent } from 'component-library-vue'
+import { ref } from 'vue'
+
+const isClicked = ref(false)
+const handleCustomEvent = () => {
+  isClicked.value = true
+}
 </script>
 
 <template>
@@ -14,6 +21,8 @@ import Input from './components/Input.vue'
     </a>
   </div>
   <HelloWorld msg="Vite + Vue" />
+  <MyComponent @myCustomEvent="handleCustomEvent" />
+  <p data-testid="mycomponent-click" v-show="isClicked">MyComponent was clicked</p>
   <Input />
 </template>
 

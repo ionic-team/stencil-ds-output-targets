@@ -8,24 +8,10 @@ export default defineComponent({
     MyInput,
   },
   setup() {
-    const inputEvent = ref('');
-    const changeEvent = ref('');
-
-    const handleInput = (ev) => {
-      console.log('handleInput', ev.target.value);
-      inputEvent.value = ev.target.value;
-    };
-
-    const handleChange = (ev) => {
-      console.log('handleChange', ev.target.value);
-      changeEvent.value = ev.detail.value;
-    };
+    const inputValue = ref('');
 
     return {
-      inputEvent,
-      changeEvent,
-      handleInput,
-      handleChange,
+      inputValue,
     };
   },
 });
@@ -40,13 +26,11 @@ export default defineComponent({
 <template>
   <div>
     <MyInput
-      @myInput="handleInput"
-      @myChange="handleChange"
+      v-model="inputValue"
     >
     </MyInput>
     <div class="inputResult">
-      <p>Input Event: {{ inputEvent }}</p>
-      <p>Change Event: {{ changeEvent }}</p>
+      <p>Input Value: {{ inputValue }}</p>
     </div>
   </div>
 </template>
