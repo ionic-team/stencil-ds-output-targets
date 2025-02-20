@@ -7,9 +7,10 @@ describe('Stencil Vue Integration', () => {
 
   it('should allow to interact with input element', async () => {
     await $('my-input').$('input').setValue('Hello World');
-    await expect(await $('.inputResult p').getText()).toEqual(
-      'Input Value: Hello World',
-    );
+    await expect(await $$('.inputResult p').map((p) => p.getText())).toEqual([
+      'Input v-model: Hello World',
+      'Change Event: Hello World'
+    ]);
   });
 
   it('should listen to custom events', async () => {

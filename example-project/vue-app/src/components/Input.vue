@@ -9,9 +9,17 @@ export default defineComponent({
   },
   setup() {
     const inputValue = ref('');
+    const changeEvent = ref('');
+
+    const handleChange = (ev) => {
+      console.log('handleChange', ev.target.value);
+      changeEvent.value = ev.detail.value;
+    };
 
     return {
       inputValue,
+      changeEvent,
+      handleChange
     };
   },
 });
@@ -27,10 +35,12 @@ export default defineComponent({
   <div>
     <MyInput
       v-model="inputValue"
+      @myChange="handleChange"
     >
     </MyInput>
     <div class="inputResult">
-      <p>Input Value: {{ inputValue }}</p>
+      <p>Input v-model: {{ inputValue }}</p>
+      <p>Change Event: {{ changeEvent }}</p>
     </div>
   </div>
 </template>
