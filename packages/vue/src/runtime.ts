@@ -1,4 +1,4 @@
-import { defineComponent, getCurrentInstance, h, inject, ref, Ref, withDirectives } from 'vue';
+import { defineComponent, getCurrentInstance, h, inject, onMounted, ref, Ref, withDirectives } from 'vue';
 
 export { defineStencilSSRComponent } from './ssr';
 export interface InputProps<T> {
@@ -81,6 +81,18 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
     const containerRef = ref<HTMLElement>();
     const classes = new Set(getComponentClasses(attrs.class));
 
+    onMounted(() => {
+      /**
+       * we register the event emmiter for @Event definitions
+       * so we can use @event
+       */
+      emitProps.forEach((eventName: string) => {
+        containerRef.value!.addEventListener(eventName, (e: Event) => {
+          emit(eventName, e);
+        });
+      });
+    });
+
     /**
      * This directive is responsible for updating any reactive
      * reference associated with v-model on the component.
@@ -95,7 +107,7 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
       created: (el: HTMLElement) => {
         const eventsNames = Array.isArray(modelUpdateEvent) ? modelUpdateEvent : [modelUpdateEvent];
         eventsNames.forEach((eventName: string) => {
-          el.addEventListener(eventName.toLowerCase(), (e: Event) => {
+          el.addEventListener(eventName, (e: Event) => {
             /**
              * Only update the v-model binding if the event's target is the element we are
              * listening on. For example, Component A could emit ionChange, but it could also
@@ -107,16 +119,6 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
               modelPropValue = (e?.target as any)[modelProp];
               emit(UPDATE_VALUE_EVENT, modelPropValue);
             }
-          });
-        });
-
-        /**
-         * we register the event emmiter for @Event definitions
-         * so we can use @event
-         */
-        emitProps.forEach((eventName: string) => {
-          el.addEventListener(eventName, (e: Event) => {
-            emit(eventName, e);
           });
         });
       },
