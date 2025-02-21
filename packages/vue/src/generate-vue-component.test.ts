@@ -52,6 +52,8 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
             resolved: '',
             references: {},
           },
+          getter: true,
+          setter: true,
           docs: {
             text: '',
             tags: [],
@@ -114,6 +116,8 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent,
           optional: false,
           required: false,
           type: 'string',
+          getter: true,
+          setter: true,
           complexType: {
             original: '',
             resolved: '',
@@ -204,6 +208,8 @@ export const MyComponent = /*@__PURE__*/ defineContainer<Components.MyComponent>
           optional: false,
           required: false,
           type: 'string',
+          getter: true,
+          setter: true,
           complexType: {
             original: '',
             resolved: '',
