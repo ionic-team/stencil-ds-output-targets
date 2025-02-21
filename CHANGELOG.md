@@ -1,3 +1,10 @@
+## @stencil/vue-output-target@0.9.5 (2025-02-20)
+
+#### :bug: Bug Fix
+
+- `vue-output-target`
+  - [#617](https://github.com/ionic-team/stencil-ds-output-targets/pull/617) Fix vue output target ([@andrewbeng89](https://github.com/andrewbeng89))
+
 ## @stencil/vue-output-target@0.0.1 (2020-06-26)
 
 #### :rocket: Enhancement
