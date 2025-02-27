@@ -11,7 +11,14 @@ To accommodate the various issues, the Stencil team has created new output targe
 
 The plugins add additional output targets for each framework binding that is included.
 
-Here is an example project using the plugins for reference: https://github.com/ionic-team/stencil-ds-output-targets/blob/main/packages/example-project/component-library
+Check out our [example project](https://github.com/stenciljs/output-targets/blob/main/example-project/component-library) which structures a reference implementation for a common design system that contains the following components:
+
+- [`component-library`](https://github.com/stenciljs/output-targets/blob/main/example-project/component-library) - A Stencil project that exports components
+- [`component-library-angular`](https://github.com/stenciljs/output-targets/blob/main/example-project/component-library-angular) - An Angular project that consumes Stencil components and exports them as an Angular module
+- [`component-library-react`](https://github.com/stenciljs/output-targets/blob/main/example-project/component-library-react) - A React + Vite project that uses Stencil components and exports them as a React component
+- [`next-app`](https://github.com/stenciljs/output-targets/blob/main/example-project/next-app) - A Next.js application that consumes the Stencil components from the `component-library-react` project
+- [`nuxt-app`](https://github.com/stenciljs/output-targets/blob/main/example-project/nuxt-app) - A Nuxt application that consumes the Stencil components from the `component-library-vue` project
+- [`vue-app`](https://github.com/stenciljs/output-targets/blob/main/example-project/vue-app) - A Vue + Vite example application that consumes the Stencil components from the `component-library-vue` project
 
 Detailed information for each output target can be found in each package's README.
 

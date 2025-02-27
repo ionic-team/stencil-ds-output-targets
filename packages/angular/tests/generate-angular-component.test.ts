@@ -420,7 +420,7 @@ export declare interface MyComponent extends Components.MyComponent {
     });
 
     it('rewrites complex nested generic types within custom events', () => {
-      // Issue: https://github.com/ionic-team/stencil-ds-output-targets/issues/369
+      // Issue: https://github.com/stenciljs/output-targets/issues/369
       const definition = createComponentTypeDefinition(
         'component',
         'MyComponent',

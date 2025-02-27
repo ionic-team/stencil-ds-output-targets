@@ -3,7 +3,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ionic-team/stencil-ds-output-targets.git"
+    "url": "git+https://github.com/stenciljs/output-targets.git"
   },
   "scripts": {
     "build": "lerna run clean && lerna run build",

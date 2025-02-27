@@ -20,7 +20,7 @@ function createPropertyDeclaration(
   let eventName = prop.name;
   if (/[-/]/.test(prop.name)) {
     // If a member name includes a dash or a forward slash, we need to wrap it in quotes.
-    // https://github.com/ionic-team/stencil-ds-output-targets/issues/212
+    // https://github.com/stenciljs/output-targets/issues/212
     eventName = `'${prop.name}'`;
   }
 

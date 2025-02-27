@@ -28,13 +28,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ionic-team/stencil-ds-output-targets.git"
+    "url": "git+https://github.com/stenciljs/output-targets.git"
   },
   "author": "Ionic Team",
   "homepage": "https://stenciljs.com/",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ionic-team/stencil-ds-output-targets/issues"
+    "url": "https://github.com/stenciljs/output-targets/issues"
   },
   "peerDependencies": {
     "@stencil/core": ">=3 || >= 4.0.0-beta.0 || >= 4.0.0",
