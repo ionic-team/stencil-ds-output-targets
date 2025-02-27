@@ -14,6 +14,7 @@ The plugins add additional output targets for each framework binding that is inc
 Check out our [example project](https://github.com/stenciljs/output-targets/blob/main/example-project/component-library) which structures a reference implementation for a common design system that contains the following components:
 
 - [`component-library`](https://github.com/stenciljs/output-targets/blob/main/example-project/component-library) - A Stencil project that exports components
+- [`component-library-vue`](https://github.com/stenciljs/output-targets/blob/main/example-project/component-library-vue) - A Vue project that consumes Stencil components and exports them as a Vue component
 - [`component-library-angular`](https://github.com/stenciljs/output-targets/blob/main/example-project/component-library-angular) - An Angular project that consumes Stencil components and exports them as an Angular module
 - [`component-library-react`](https://github.com/stenciljs/output-targets/blob/main/example-project/component-library-react) - A React + Vite project that uses Stencil components and exports them as a React component
 - [`next-app`](https://github.com/stenciljs/output-targets/blob/main/example-project/next-app) - A Next.js application that consumes the Stencil components from the `component-library-react` project
